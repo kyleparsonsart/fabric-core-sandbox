@@ -269,9 +269,10 @@
   .token-card.expanded .expand-btn { transform:rotate(180deg); color:var(--text-primary); border-color:var(--text-primary); }
 
   .card-panel { display:none; border-top:1px solid var(--border); }
-  .token-card.expanded .card-panel { display:grid; grid-template-columns:1fr 1fr; }
+  .token-card.expanded .card-panel { display:block; }
+  .panel-top { display:grid; grid-template-columns:1fr 1fr 1fr; }
 
-  .panel-preview { padding:24px; border-right:1px solid var(--border); background:var(--bg-surface); transition:background .2s; }
+  .panel-preview { padding:24px; border-right:1px solid var(--border); background:var(--c0); transition:background .2s; }
   .panel-preview.dark-surface { background:var(--c10); }
   .preview-label { font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:.6px; color:var(--text-tertiary); margin-bottom:16px; }
   .panel-preview.dark-surface .preview-label { color:var(--c6); }
@@ -282,7 +283,7 @@
   .wcag-live.pass { background:var(--pass-bg); color:var(--pass); border:1px solid var(--pass-border); }
   .wcag-live.fail { background:var(--fail-bg); color:var(--fail); border:1px solid var(--fail-border); }
 
-  .panel-info { padding:24px; display:flex; flex-direction:column; gap:18px; }
+  .panel-info { padding:24px; display:flex; flex-direction:column; gap:18px; background:var(--c0); }
   .info-section h4 { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.6px; color:var(--text-tertiary); margin-bottom:9px; }
 
   .props-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
@@ -291,6 +292,26 @@
   .prop-val { font-family:'ABCDiatype',sans-serif; font-weight:500; font-size:12.5px; color:var(--text-primary); }
 
   .notes-box { background:var(--bg-surface-2); border:1px solid var(--border); border-radius:var(--radius); padding:11px 13px; font-size:12px; color:var(--text-secondary); line-height:1.6; }
+
+  /* Usage guidelines */
+  .usage-section { padding:24px; border-left:1px solid var(--border); overflow-y:auto; background:var(--c0); }
+  .usage-header { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.6px; color:var(--text-tertiary); margin-bottom:12px; }
+  .usage-advisory-banner {
+    background: var(--advisory-bg); border:1px solid var(--advisory-border);
+    color: var(--advisory); border-radius:var(--radius);
+    font-size:11.5px; line-height:1.5; padding:8px 12px; margin-bottom:12px;
+  }
+  .usage-grid { display:flex; flex-direction:column; gap:8px; margin-bottom:12px; }
+  .usage-block { background:var(--c2); border:1px solid var(--border); border-radius:var(--radius); padding:10px 13px; }
+  .usage-block-avoid { }
+  .usage-block-label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:var(--text-secondary); margin-bottom:5px; }
+  .avoid-label { color:var(--text-secondary) !important; }
+  .usage-block-text { font-size:12px; color:var(--text-secondary); line-height:1.6; }
+  .usage-seen { font-size:11.5px; color:var(--text-tertiary); }
+  .usage-list { margin:0; padding-left:16px; }
+  .usage-list li { font-size:12px; color:var(--text-secondary); line-height:1.6; margin-bottom:3px; }
+  .usage-list li:last-child { margin-bottom:0; }
+  .usage-seen-label { font-weight:700; color:var(--text-secondary); text-transform:uppercase; font-size:10px; letter-spacing:.4px; margin-right:4px; }
   .notes-box.is-advisory { background:var(--advisory-bg); border-color:var(--advisory-border); color:var(--advisory); }
   .lh-note { display:block; margin-top:8px; font-size:11px; color:var(--c7); background:var(--c2); border:1px solid var(--c3); border-radius:3px; padding:4px 9px; line-height:1.5; }
 
@@ -478,6 +499,27 @@ const tokens = [
     lhNote:'Line height updated to 18px (1.5×) — meets WCAG minimum.' },
 ];
 
+const usageData = (function() {
+  const u = {};
+  u['display-lg'] = `<div class="usage-section"><div class="usage-header">Usage Guidelines</div><div class="usage-grid"><div class="usage-block"><div class="usage-block-label">✓ Use when</div><div class="usage-block-text"><ul class="usage-list"><li>Full-bleed hero headings, large empty state headlines, prominent onboarding headers.</li></ul></div></div><div class="usage-block usage-block-avoid"><div class="usage-block-label avoid-label">✕ Avoid</div><div class="usage-block-text"><ul class="usage-list"><li>Do not use for any heading that appears alongside other content — it should command its own visual space.</li><li>Do not stack two display tokens consecutively.</li><li>Do not use for navigational elements, sidebar labels, or card headings.</li></ul></div></div></div><div class="usage-seen"><span class="usage-seen-label">Seen in</span> "Suggested leads" section heading on Home (display-sm); large empty state headlines.</div></div>`;
+  u['display-sm'] = `<div class="usage-section"><div class="usage-header">Usage Guidelines</div><div class="usage-grid"><div class="usage-block"><div class="usage-block-label">✓ Use when</div><div class="usage-block-text"><ul class="usage-list"><li>Primary content area page titles and major section headings (e.g., "Suggested leads", "Saved people", "Email performance funnel").</li></ul></div></div><div class="usage-block usage-block-avoid"><div class="usage-block-label avoid-label">✕ Avoid</div><div class="usage-block-text"><ul class="usage-list"><li>Do not use for navigational elements, sidebar labels, or card headings.</li><li>Do not stack two display tokens consecutively.</li></ul></div></div></div><div class="usage-seen"><span class="usage-seen-label">Seen in</span> "Suggested leads" and "Saved people" page titles in the main content area.</div></div>`;
+  u['title-lg'] = `<div class="usage-section"><div class="usage-header">Usage Guidelines</div><div class="usage-grid"><div class="usage-block"><div class="usage-block-label">✓ Use when</div><div class="usage-block-text"><ul class="usage-list"><li>Subpage titles, modal headings, drawer-level titles where a heading is needed but display would be too heavy.</li></ul></div></div><div class="usage-block usage-block-avoid"><div class="usage-block-label avoid-label">✕ Avoid</div><div class="usage-block-text"><ul class="usage-list"><li>Do not use for table column headers, row content, or inline metadata.</li><li>Do not use as content area section headings — those belong to the display tier.</li></ul></div></div></div><div class="usage-seen"><span class="usage-seen-label">Seen in</span> Modal and drawer-level headings.</div></div>`;
+  u['title-md'] = `<div class="usage-section"><div class="usage-header">Usage Guidelines</div><div class="usage-grid"><div class="usage-block"><div class="usage-block-label">✓ Use when</div><div class="usage-block-text"><ul class="usage-list"><li>Personalized or contextual page greetings (e.g., "Welcome 👋").</li></ul></div></div><div class="usage-block usage-block-avoid"><div class="usage-block-label avoid-label">✕ Avoid</div><div class="usage-block-text"><ul class="usage-list"><li>Do not use for table column headers, row content, or inline metadata.</li><li>Do not skip levels — move through the scale sequentially.</li></ul></div></div></div><div class="usage-seen"><span class="usage-seen-label">Seen in</span> "Welcome 👋" greeting on Home.</div></div>`;
+  u['title-sm'] = `<div class="usage-section"><div class="usage-header">Usage Guidelines</div><div class="usage-grid"><div class="usage-block"><div class="usage-block-label">✓ Use when</div><div class="usage-block-text"><ul class="usage-list"><li>Sidebar navigation group labels (e.g., "Prospect & Enrich"), content tab bar labels and sub-navigation items.</li></ul></div></div><div class="usage-block usage-block-avoid"><div class="usage-block-label avoid-label">✕ Avoid</div><div class="usage-block-text"><ul class="usage-list"><li>Do not use as content area section headings — those belong to the display tier.</li><li>Do not apply weight overrides; title tokens are always weight 400.</li></ul></div></div></div><div class="usage-seen"><span class="usage-seen-label">Seen in</span> Sidebar nav group labels; content tab bar items.</div></div>`;
+  u['subtitle-lg'] = `<div class="usage-section"><div class="usage-header">Usage Guidelines</div><div class="usage-grid"><div class="usage-block"><div class="usage-block-label">✓ Use when</div><div class="usage-block-text"><ul class="usage-list"><li>Higher-prominence metadata labels, filter group names, section subheadings where slightly more visual weight is needed.</li></ul></div></div><div class="usage-block usage-block-avoid"><div class="usage-block-label avoid-label">✕ Avoid</div><div class="usage-block-text"><ul class="usage-list"><li>Do not use as primary section or page headings.</li><li>Do not use on low-contrast surfaces without contrast verification.</li></ul></div></div></div><div class="usage-seen"><span class="usage-seen-label">Seen in</span> Filter group names, section subheadings within content surfaces.</div></div>`;
+  u['subtitle-sm'] = `<div class="usage-section"><div class="usage-header">Usage Guidelines</div><div class=\"usage-advisory-banner\">⚠️ Advisory WCAG status — explicit contrast verification required before use. Never use on tinted, gray, or low-contrast surfaces.</div><div class="usage-grid"><div class="usage-block"><div class="usage-block-label">✓ Use when</div><div class="usage-block-text"><ul class="usage-list"><li>Data table column headers (e.g., "Name", "Recommendations", "Stage", "Last Activity Date").</li></ul></div></div><div class="usage-block usage-block-avoid"><div class="usage-block-label avoid-label">✕ Avoid</div><div class="usage-block-text"><ul class="usage-list"><li>Must never be used for critical or interactive standalone text.</li><li>Do not use on low-contrast surfaces without contrast verification.</li></ul></div></div></div><div class="usage-seen"><span class="usage-seen-label">Seen in</span> Saved people table column headers.</div></div>`;
+  u['body-lg-regular'] = `<div class="usage-section"><div class="usage-header">Usage Guidelines</div><div class="usage-grid"><div class="usage-block"><div class="usage-block-label">✓ Use when</div><div class="usage-block-text"><ul class="usage-list"><li>Primary sidebar navigation item labels (e.g., "Home", "Projects", "Apollo default"), workspace/account selectors, paragraph and description content.</li></ul></div></div><div class="usage-block usage-block-avoid"><div class="usage-block-label avoid-label">✕ Avoid</div><div class="usage-block-text"><ul class="usage-list"><li>Do not use for table cell content, compact list rows, or filter chips — use body-sm instead.</li></ul></div></div></div><div class="usage-seen"><span class="usage-seen-label">Seen in</span> Primary sidebar nav labels — "Home", "Projects", "Apollo default".</div></div>`;
+  u['body-lg-medium'] = `<div class="usage-section"><div class="usage-header">Usage Guidelines</div><div class="usage-grid"><div class="usage-block"><div class="usage-block-label">✓ Use when</div><div class="usage-block-text"><ul class="usage-list"><li>Emphasized navigation labels, form field values, interactive item labels that need slightly more weight.</li></ul></div></div><div class="usage-block usage-block-avoid"><div class="usage-block-label avoid-label">✕ Avoid</div><div class="usage-block-text"><ul class="usage-list"><li>Do not mix weight variants within a single sentence unless one is a deliberate inline emphasis.</li></ul></div></div></div><div class="usage-seen"><span class="usage-seen-label">Seen in</span> Emphasized nav labels and form field values.</div></div>`;
+  u['body-lg-bold'] = `<div class="usage-section"><div class="usage-header">Usage Guidelines</div><div class="usage-grid"><div class="usage-block"><div class="usage-block-label">✓ Use when</div><div class="usage-block-text"><ul class="usage-list"><li>Inline emphasis within body copy, key data points within prose.</li></ul></div></div><div class="usage-block usage-block-avoid"><div class="usage-block-label avoid-label">✕ Avoid</div><div class="usage-block-text"><ul class="usage-list"><li>Do not use for table cell content or compact list rows.</li><li>Do not mix weight variants without deliberate intent.</li></ul></div></div></div><div class="usage-seen"><span class="usage-seen-label">Seen in</span> Inline bold emphasis within descriptive prose.</div></div>`;
+  u['body-sm-regular'] = `<div class="usage-section"><div class="usage-header">Usage Guidelines</div><div class="usage-grid"><div class="usage-block"><div class="usage-block-label">✓ Use when</div><div class="usage-block-text"><ul class="usage-list"><li>Filter chips and toolbar controls (e.g., "Owner", "Company", "Sequences", "Add filter"), table action bar labels, tag text.</li></ul></div></div><div class="usage-block usage-block-avoid"><div class="usage-block-label avoid-label">✕ Avoid</div><div class="usage-block-text"><ul class="usage-list"><li>Do not use for multi-paragraph reading — switch to body-lg-regular for sustained prose.</li><li>Do not use as a heading substitute in tight spaces.</li></ul></div></div></div><div class="usage-seen"><span class="usage-seen-label">Seen in</span> Filter chips ("Owner", "Company", "Add filter"); table action bar labels.</div></div>`;
+  u['body-sm-medium'] = `<div class="usage-section"><div class="usage-header">Usage Guidelines</div><div class=\"usage-advisory-banner\">⚠️ Advisory WCAG status — explicit contrast verification required before use. Never use on tinted, gray, or low-contrast surfaces.</div><div class="usage-grid"><div class="usage-block"><div class="usage-block-label">✓ Use when</div><div class="usage-block-text"><ul class="usage-list"><li>Person names and primary identifiers in lead and contact rows (e.g., "James Shamoun" in the Suggested leads table).</li><li>Requires contrast verification.</li></ul></div></div><div class="usage-block usage-block-avoid"><div class="usage-block-label avoid-label">✕ Avoid</div><div class="usage-block-text"><ul class="usage-list"><li>Must not be used on backgrounds below 4.5:1 contrast without explicit verification.</li><li>Do not use for multi-paragraph reading.</li></ul></div></div></div><div class="usage-seen"><span class="usage-seen-label">Seen in</span> Person name in Suggested leads table rows.</div></div>`;
+  u['body-sm-bold'] = `<div class="usage-section"><div class="usage-header">Usage Guidelines</div><div class="usage-grid"><div class="usage-block"><div class="usage-block-label">✓ Use when</div><div class="usage-block-text"><ul class="usage-list"><li>Status indicators, score labels, key metrics in compact containers.</li></ul></div></div><div class="usage-block usage-block-avoid"><div class="usage-block-label avoid-label">✕ Avoid</div><div class="usage-block-text"><ul class="usage-list"><li>Do not use for primary navigational elements or multi-paragraph reading.</li></ul></div></div></div><div class="usage-seen"><span class="usage-seen-label">Seen in</span> Status indicators and score labels in compact list rows.</div></div>`;
+  u['caption-regular'] = `<div class="usage-section"><div class="usage-header">Usage Guidelines</div><div class=\"usage-advisory-banner\">⚠️ Advisory WCAG status — explicit contrast verification required before use. Never use on tinted, gray, or low-contrast surfaces.</div><div class="usage-grid"><div class="usage-block"><div class="usage-block-label">✓ Use when</div><div class="usage-block-text"><ul class="usage-list"><li>Secondary row content beneath primary identifiers (e.g., job title beneath a name), record counts (e.g., "45.5k records"), chart date ranges (e.g., "Last 30 days"), pagination indicators, form field helper text.</li></ul></div></div><div class="usage-block usage-block-avoid"><div class="usage-block-label avoid-label">✕ Avoid</div><div class="usage-block-text"><ul class="usage-list"><li>Do not use for interactive controls or primary navigational elements.</li><li>Do not use as the sole text in a UI element if the content is functionally important.</li><li>Never use on gray or tinted surfaces without explicit contrast testing.</li></ul></div></div></div><div class="usage-seen"><span class="usage-seen-label">Seen in</span> Job title beneath lead names; "45.5k records"; "Last 30 days"; pagination indicators.</div></div>`;
+  u['caption-medium'] = `<div class="usage-section"><div class="usage-header">Usage Guidelines</div><div class=\"usage-advisory-banner\">⚠️ Advisory WCAG status — explicit contrast verification required before use. Never use on tinted, gray, or low-contrast surfaces.</div><div class="usage-grid"><div class="usage-block"><div class="usage-block-label">✓ Use when</div><div class="usage-block-text"><ul class="usage-list"><li>Secondary metadata labels, compact filter indicators.</li></ul></div></div><div class="usage-block usage-block-avoid"><div class="usage-block-label avoid-label">✕ Avoid</div><div class="usage-block-text"><ul class="usage-list"><li>Do not use for error messages, required field indicators, or any accessibility-critical text.</li><li>Never use on tinted surfaces without contrast verification.</li></ul></div></div></div><div class="usage-seen"><span class="usage-seen-label">Seen in</span> Secondary metadata labels in compact data surfaces.</div></div>`;
+  u['caption-bold'] = `<div class="usage-section"><div class="usage-header">Usage Guidelines</div><div class=\"usage-advisory-banner\">⚠️ Advisory WCAG status — explicit contrast verification required before use. Never use on tinted, gray, or low-contrast surfaces.</div><div class="usage-grid"><div class="usage-block"><div class="usage-block-label">✓ Use when</div><div class="usage-block-text"><ul class="usage-list"><li>Badge counts, pill emphasis in extremely tight containers.</li></ul></div></div><div class="usage-block usage-block-avoid"><div class="usage-block-label avoid-label">✕ Avoid</div><div class="usage-block-text"><ul class="usage-list"><li>Do not use for interactive controls or primary navigational elements.</li><li>Do not use as the sole communicator of critical information.</li></ul></div></div></div><div class="usage-seen"><span class="usage-seen-label">Seen in</span> Badge counts and pill emphasis in tight UI containers.</div></div>`;
+  return u;
+})();
+
 function goHome() {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-home').classList.add('active');
@@ -547,6 +589,7 @@ function buildCards() {
       ? '<span class="original-chip is-new">Net New</span>'
       : `<span class="original-chip">${orig}</span>`;
     const fontFace = isABC ? 'ABCDiatype' : 'FoundersGrotesk';
+    const usageHtml = usageData[t.name] || '';
 
     card.innerHTML = `
       <div class="card-row" onclick="toggle(${i})">
@@ -562,6 +605,7 @@ function buildCards() {
         <div class="card-cell"><button class="expand-btn" onclick="event.stopPropagation();toggle(${i})" aria-label="Expand">▾</button></div>
       </div>
       <div class="card-panel">
+        <div class="panel-top">
         <div class="panel-preview" id="prev-${i}">
           <div class="preview-label">Live Preview</div>
           <div class="preview-text" id="pt-${i}" style="font-family:'${fontFace}',sans-serif;font-size:${t.size}px;line-height:${t.lh}px;letter-spacing:${t.ls}px;font-weight:${t.weight};">The quick brown fox jumps</div>
@@ -589,6 +633,8 @@ function buildCards() {
             </div>
           </div>
         </div>
+        ${usageHtml}
+        </div><!-- end panel-top -->
       </div>`;
     grid.appendChild(card);
   });
