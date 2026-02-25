@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tokens Northstar · Fabric</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- HOME -->
+<div class="page active" id="page-home">
+  <div class="home-wrap">
+    <div class="home-eyebrow">Fabric Foundations</div>
+    <h1 class="home-heading">Tokens Northstar</h1>
+    <p class="home-sub">A systematic overhaul of Apollo's visual foundation — typography, spacing, and color aligned toward a more human direction.</p>
+    <div class="phase-cards">
+      <div class="phase-card" onclick="goPage('typography')">
+        <div class="card-phase-num">Phase 01</div>
+        <div class="card-symbol-wrap wrap-type"><span class="symbol-type">Aa</span></div>
+        <div class="card-title">Typography</div>
+        <div class="card-desc">Semantic type tokens, font family assignments, WCAG compliance, and scale documentation.</div>
+        <span class="card-status status-defined">✏️ Defined</span>
+        <div class="card-arrow">↗</div>
+      </div>
+      <div class="phase-card" onclick="goPage('spacing')">
+        <div class="card-phase-num">Phase 02</div>
+        <div class="card-symbol-wrap wrap-spacing"><div class="symbol-spacing"></div></div>
+        <div class="card-title">Spacing</div>
+        <div class="card-desc">Spacing scale tokens, layout density standards, and interactive target size compliance.</div>
+        <span class="card-status status-defined">✏️ Concept</span>
+        <div class="card-arrow">↗</div>
+      </div>
+      <div class="phase-card disabled" onclick="goPage('color')">
+        <div class="card-phase-num">Phase 03</div>
+        <div class="card-symbol-wrap wrap-color"><div class="symbol-color"></div></div>
+        <div class="card-title">Color</div>
+        <div class="card-desc">Semantic color tokens, contrast pairing matrix, dark mode support, and brand alignment.</div>
+        <span class="card-status status-concept">🏗️ Concept</span>
+        <div class="card-arrow">↗</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TYPOGRAPHY -->
+<div class="page" id="page-typography">
+  <div class="typo-wrap">
+    <div class="floating-crumbs">
+      <span class="f-crumb" onclick="goHome()">Fabric</span>
+      <span class="f-crumb-sep">/</span>
+      <span class="f-crumb" onclick="goHome()">Tokens Northstar</span>
+      <span class="f-crumb-sep">/</span>
+      <span class="f-crumb-current">Typography</span>
+    </div>
+    <div class="typo-header">
+      <h1>Typography Tokens</h1>
+      <p>Preview tokens live, test contrast on any surface, and review WCAG 2.2 AA compliance status.</p>
+    </div>
+
+    <div class="controls-bar">
+      <div class="ctrl-group">
+        <span class="ctrl-label">Sample text</span>
+        <input class="text-input" id="sampleText" type="text" value="The quick brown fox jumps" placeholder="Type to preview…">
+      </div>
+      <div class="ctrl-div"></div>
+      <div class="ctrl-group">
+        <span class="ctrl-label">BG</span>
+        <div class="swatch-picker" id="bgSwatches"><div class="swatch" style="background:#FFFFFF" data-color="#FFFFFF" title="#FFFFFF" onclick="setBg(this)"></div>
+<div class="swatch" style="background:#F9F9F6" data-color="#F9F9F6" title="#F9F9F6" onclick="setBg(this)"></div>
+<div class="swatch" style="background:#F3F3F0" data-color="#F3F3F0" title="#F3F3F0" onclick="setBg(this)"></div>
+<div class="swatch" style="background:#E7E7E1" data-color="#E7E7E1" title="#E7E7E1" onclick="setBg(this)"></div>
+<div class="swatch" style="background:#D4D5CB" data-color="#D4D5CB" title="#D4D5CB" onclick="setBg(this)"></div>
+<div class="swatch" style="background:#C3C3B3" data-color="#C3C3B3" title="#C3C3B3" onclick="setBg(this)"></div>
+<div class="swatch" style="background:#878675" data-color="#878675" title="#878675" onclick="setBg(this)"></div>
+<div class="swatch" style="background:#6B6758" data-color="#6B6758" title="#6B6758" onclick="setBg(this)"></div>
+<div class="swatch" style="background:#504E41" data-color="#504E41" title="#504E41" onclick="setBg(this)"></div>
+<div class="swatch" style="background:#3E3E33" data-color="#3E3E33" title="#3E3E33" onclick="setBg(this)"></div>
+<div class="swatch" style="background:#1A1A1A" data-color="#1A1A1A" title="#1A1A1A" onclick="setBg(this)"></div>
+<div class="swatch" style="background:#FBF500" data-color="#FBF500" title="#FBF500" onclick="setBg(this)"></div></div>
+      </div>
+      <div class="ctrl-div"></div>
+      <div class="ctrl-group">
+        <span class="ctrl-label">Text</span>
+        <div class="swatch-picker" id="fgSwatches"><div class="swatch" style="background:#FFFFFF" data-color="#FFFFFF" title="#FFFFFF" onclick="setFg(this)"></div>
+<div class="swatch" style="background:#F9F9F6" data-color="#F9F9F6" title="#F9F9F6" onclick="setFg(this)"></div>
+<div class="swatch" style="background:#F3F3F0" data-color="#F3F3F0" title="#F3F3F0" onclick="setFg(this)"></div>
+<div class="swatch" style="background:#E7E7E1" data-color="#E7E7E1" title="#E7E7E1" onclick="setFg(this)"></div>
+<div class="swatch" style="background:#D4D5CB" data-color="#D4D5CB" title="#D4D5CB" onclick="setFg(this)"></div>
+<div class="swatch" style="background:#C3C3B3" data-color="#C3C3B3" title="#C3C3B3" onclick="setFg(this)"></div>
+<div class="swatch" style="background:#878675" data-color="#878675" title="#878675" onclick="setFg(this)"></div>
+<div class="swatch" style="background:#6B6758" data-color="#6B6758" title="#6B6758" onclick="setFg(this)"></div>
+<div class="swatch" style="background:#504E41" data-color="#504E41" title="#504E41" onclick="setFg(this)"></div>
+<div class="swatch" style="background:#3E3E33" data-color="#3E3E33" title="#3E3E33" onclick="setFg(this)"></div>
+<div class="swatch" style="background:#1A1A1A" data-color="#1A1A1A" title="#1A1A1A" onclick="setFg(this)"></div>
+<div class="swatch" style="background:#FBF500" data-color="#FBF500" title="#FBF500" onclick="setFg(this)"></div></div>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <div class="col-headers">
+        <div class="col-th">Token</div>
+        <div class="col-th">Original</div>
+        <div class="col-th">Font Family</div>
+        <div class="col-th">Size</div>
+        <div class="col-th">Line Ht.</div>
+        <div class="col-th">Tracking</div>
+        <div class="col-th">Weight</div>
+        <div class="col-th">WCAG 2.2 AA</div>
+        <div class="col-th">Status</div>
+        <div class="col-th"></div>
+      </div>
+      <div class="tokens-grid" id="tokensGrid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- SPACING -->
+<div class="page" id="page-spacing">
+  <div class="sp-wrap">
+    <div class="floating-crumbs">
+      <span class="f-crumb" onclick="goHome()">Fabric</span>
+      <span class="f-crumb-sep">/</span>
+      <span class="f-crumb" onclick="goHome()">Tokens Northstar</span>
+      <span class="f-crumb-sep">/</span>
+      <span class="f-crumb-current">Spacing</span>
+    </div>
+    <div class="typo-header">
+      <h1>Spacing System</h1>
+      <p>A four-step scale with semantic tokens for gap and padding roles — primitives, layout guidance, and corner radius.</p>
+    </div>
+
+    <!-- TAB BAR -->
+    <div class="sp-tab-bar">
+      <button class="sp-tab active" onclick="switchSpTab('tokens', this)">Tokens</button>
+      <button class="sp-tab" onclick="switchSpTab('guidance', this)">Guidance</button>
+      <button class="sp-tab" onclick="switchSpTab('radii', this)">Radii</button>
+    </div>
+
+    <!-- TAB: TOKENS -->
+    <div class="sp-panel" id="sptab-tokens">
+
+      <!-- Primitives -->
+      <div class="ed-section">
+        <div class="ed-eyebrow">Primitives · Spacing</div>
+        <h2 class="ed-h2">The raw scale</h2>
+        <p class="ed-body">The full primitive collection. Do not consume primitives directly in components — always reach for a semantic token. Values without a semantic mapping (<code>xxs</code>, <code>md</code>, <code>xl</code>, <code>xxxl</code>) are available for component-level optical adjustments only.</p>
+
+        <div class="sp-table" style="margin-top:24px;">
+          <div class="sp-thead">
+            <div class="sp-th">Token</div>
+            <div class="sp-th">Base</div>
+            <div class="sp-th">Mobile</div>
+          </div>
+          <div class="sp-tbody" id="prim-rows"></div>
+        </div>
+      </div>
+
+      <!-- Semantics: Gap -->
+      <div class="ed-section">
+        <div class="ed-eyebrow">Semantics · Gap</div>
+        <h2 class="ed-h2">Space between elements</h2>
+        <p class="ed-body">Gap tokens encode the structural relationship between elements. Reference these in <code>gap</code>, <code>margin</code>, or <code>column-gap</code> properties. Note that <code>gap/region</code> and <code>gap/section</code> intentionally resolve to the same primitive — the semantic layer keeps them independently updatable.</p>
+
+        <div class="sp-table" style="margin-top:24px;">
+          <div class="sp-thead gap-head">
+            <div class="sp-th">Token</div>
+            <div class="sp-th">References</div>
+            <div class="sp-th">Base</div>
+            <div class="sp-th">Description</div>
+          </div>
+          <div class="sp-tbody" id="gap-rows"></div>
+        </div>
+      </div>
+
+      <!-- Semantics: Padding -->
+      <div class="ed-section" style="border-bottom:none; padding-bottom:0;">
+        <div class="ed-eyebrow">Semantics · Padding</div>
+        <h2 class="ed-h2">Space inside a container</h2>
+        <p class="ed-body">Padding tokens encode container context. Reference these in <code>padding</code> properties. Directional padding — applying to one or two sides only — is specified at the component level in redlines, not tokenized at this layer.</p>
+
+        <div class="sp-table" style="margin-top:24px;">
+          <div class="sp-thead gap-head">
+            <div class="sp-th">Token</div>
+            <div class="sp-th">References</div>
+            <div class="sp-th">Base</div>
+            <div class="sp-th">Description</div>
+          </div>
+          <div class="sp-tbody" id="pad-rows"></div>
+        </div>
+      </div>
+
+    </div><!-- /sptab-tokens -->
+
+    <!-- TAB: GUIDANCE -->
+    <div class="sp-panel" id="sptab-guidance" style="display:none;">
+
+      <!-- ── OVERVIEW ── -->
+      <div class="ed-section">
+        <div class="ed-eyebrow">Overview</div>
+        <h2 class="ed-h2">Why spacing matters in Apollo</h2>
+        <p class="ed-body">Apollo is a data-dense sales platform — users are scanning hundreds of records, switching between workflows, and making time-sensitive decisions in a single session. Spacing is the primary signal that tells users where one thing ends and another begins. Each value in the four-step scale serves a distinct structural role — from separating major page regions down to binding sub-elements within a single component. Spacing decisions should be based on the <em>relationship</em> between elements, not visual preference.</p>
+
+        <div class="guid-principles-list">
+          <div class="guid-principle-row guid-plain-row">
+            <div class="guid-principle-row-body">
+              <div class="guid-principle-row-title">Scannability</div>
+              <div class="guid-principle-row-desc">Predictable rhythm lets users parse tables and lists faster.</div>
+            </div>
+          </div>
+          <div class="guid-principle-row guid-plain-row">
+            <div class="guid-principle-row-body">
+              <div class="guid-principle-row-title">Clarity</div>
+              <div class="guid-principle-row-desc">Consistent gaps communicate which elements belong together and which don't.</div>
+            </div>
+          </div>
+          <div class="guid-principle-row guid-plain-row">
+            <div class="guid-principle-row-body">
+              <div class="guid-principle-row-title">Reduced friction</div>
+              <div class="guid-principle-row-desc">Designers and engineers stop debating spacing case-by-case.</div>
+            </div>
+          </div>
+          <div class="guid-principle-row guid-plain-row">
+            <div class="guid-principle-row-body">
+              <div class="guid-principle-row-title">Maintainability</div>
+              <div class="guid-principle-row-desc">A token-based system means spacing can be updated globally from a single source.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SPACING SCALE ── -->
+      <div class="ed-section">
+        <div class="ed-eyebrow">Spacing Scale</div>
+        <h2 class="ed-h2">Four values, two roles</h2>
+        <p class="ed-body">Spacing values serve two distinct roles: <strong>gap</strong> (space between elements) and <strong>padding</strong> (space inside a container). The same value can serve both roles depending on context.</p>
+
+        <!-- Diagram Viewer: Spacing Scale -->
+        <div class="diag-viewer" id="diag-spacing">
+          <div class="diag-img-frame" id="diag-spacing-frame">
+            <img src="Frame%201618870577.png" alt="Gaps between regions" class="diag-active" data-diag="spacing" data-idx="0">
+            <img src="Frame%201618870578.png" alt="Padding within sections" data-diag="spacing" data-idx="1">
+            <img src="Frame%201618870579.png" alt="Gaps between zones" data-diag="spacing" data-idx="2">
+          </div>
+          <div class="diag-toggle-cards">
+            <div class="diag-toggle-card diag-card-purple diag-card-active" onclick="switchDiag('spacing',0,this)" onmouseenter="switchDiag('spacing',0,this)">
+              <div class="diag-card-name">Gaps between regions</div>
+              <div class="diag-card-token">gap/region · 24px</div>
+              <div class="diag-card-desc">The sidebar and main content are each a region. A 24px gap separates them — the widest break in the layout hierarchy.</div>
+            </div>
+            <div class="diag-toggle-card diag-card-blue" onclick="switchDiag('spacing',1,this)" onmouseenter="switchDiag('spacing',1,this)">
+              <div class="diag-card-name">Padding within sections</div>
+              <div class="diag-card-token">padding/section · 24px or 16px</div>
+              <div class="diag-card-desc">Standalone page-level cards use 24px padding. Nested or compact cards use 16px — padding follows context, not preference.</div>
+            </div>
+            <div class="diag-toggle-card diag-card-green" onclick="switchDiag('spacing',2,this)" onmouseenter="switchDiag('spacing',2,this)">
+              <div class="diag-card-name">Gaps between zones</div>
+              <div class="diag-card-token">gap/zone · 16px</div>
+              <div class="diag-card-desc">The tab bar, toolbar, and table are each zones within a section. A 16px gap separates them — tighter than section gaps but still clearly divisive.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sp-table" style="margin-top:24px;">
+          <div class="sp-thead scale-head">
+            <div class="sp-th">Value</div>
+            <div class="sp-th">As Gap</div>
+            <div class="sp-th">As Padding</div>
+          </div>
+          <div class="sp-tbody">
+            <div class="sp-tr scale-tr">
+              <div class="sp-td"><span class="sp-val-tag">24px</span></div>
+              <div class="sp-td-desc">Between top-level sections</div>
+              <div class="sp-td-desc">Default padding for standalone page-level cards</div>
+            </div>
+            <div class="sp-tr scale-tr">
+              <div class="sp-td"><span class="sp-val-tag">16px</span></div>
+              <div class="sp-td-desc">Between zones within a section</div>
+              <div class="sp-td-desc">Padding for compact or nested cards</div>
+            </div>
+            <div class="sp-tr scale-tr">
+              <div class="sp-td"><span class="sp-val-tag">8px</span></div>
+              <div class="sp-td-desc">Between elements within a component</div>
+              <div class="sp-td-desc">Padding inside small, dense components (chips, tags)</div>
+            </div>
+            <div class="sp-tr scale-tr">
+              <div class="sp-td"><span class="sp-val-tag">4px</span></div>
+              <div class="sp-td-desc">Between sub-elements within a component</div>
+              <div class="sp-td-desc">Padding inside the tightest components (icon buttons, inline labels)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── PAGE HIERARCHY ── -->
+      <div class="ed-section">
+        <div class="ed-eyebrow">Page Hierarchy</div>
+        <h2 class="ed-h2">Region, Section, Zone</h2>
+        <p class="ed-body">Apollo's layouts are composed of three levels. Understanding which level you're working at determines which spacing value to reach for. Below the zone level, you're working inside a <strong>component</strong> — a discrete UI element like a table row, a chip, or a form field.</p>
+
+        <!-- Diagram Viewer: Page Hierarchy -->
+        <div class="diag-viewer" id="diag-hierarchy">
+          <div class="diag-img-frame" id="diag-hierarchy-frame">
+            <img src="Frame%201618870580.png" alt="Region" class="diag-active" data-diag="hierarchy" data-idx="0">
+            <img src="Frame%201618870581.png" alt="Section" data-diag="hierarchy" data-idx="1">
+            <img src="Frame%201618870582.png" alt="Zone" data-diag="hierarchy" data-idx="2">
+          </div>
+          <div class="diag-toggle-cards">
+            <div class="diag-toggle-card diag-card-yellow diag-card-active" onclick="switchDiag('hierarchy',0,this)" onmouseenter="switchDiag('hierarchy',0,this)">
+              <div class="diag-card-kicker">01</div>
+              <div class="diag-card-name">Region</div>
+              <div class="diag-card-token">gap/region · 24px</div>
+              <div class="diag-card-desc">The highest-level division of a page. The app sidebar and the main content area are each a region. Regions are always separated by a 24px gap.</div>
+            </div>
+            <div class="diag-toggle-card diag-card-orange" onclick="switchDiag('hierarchy',1,this)" onmouseenter="switchDiag('hierarchy',1,this)">
+              <div class="diag-card-kicker">02</div>
+              <div class="diag-card-name">Section</div>
+              <div class="diag-card-token">gap/section · 24px</div>
+              <div class="diag-card-desc">A self-contained block of content within a region. "Suggested leads" and "Email performance funnel" are each a section, separated by a 24px gap.</div>
+            </div>
+            <div class="diag-toggle-card diag-card-red" onclick="switchDiag('hierarchy',2,this)" onmouseenter="switchDiag('hierarchy',2,this)">
+              <div class="diag-card-kicker">03</div>
+              <div class="diag-card-name">Zone</div>
+              <div class="diag-card-token">gap/zone · 16px</div>
+              <div class="diag-card-desc">A functional subdivision within a section. The tab bar, toolbar, and data table are each a zone within "Suggested leads," separated by a 16px gap.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sp-table" style="margin-top:24px;">
+          <div class="sp-thead hier-head">
+            <div class="sp-th">Level</div>
+            <div class="sp-th">Gap to same-level elements</div>
+            <div class="sp-th">Internal padding</div>
+          </div>
+          <div class="sp-tbody">
+            <div class="sp-tr hier-tr">
+              <div class="sp-td sp-td-label">Region</div>
+              <div class="sp-td"><span class="sp-token-name">24px</span></div>
+              <div class="sp-td" style="color:var(--text-tertiary);">—</div>
+            </div>
+            <div class="sp-tr hier-tr">
+              <div class="sp-td sp-td-label">Section</div>
+              <div class="sp-td"><span class="sp-token-name">24px</span></div>
+              <div class="sp-td"><span class="sp-token-name">24px</span> standalone · <span class="sp-token-name">16px</span> nested</div>
+            </div>
+            <div class="sp-tr hier-tr">
+              <div class="sp-td sp-td-label">Zone</div>
+              <div class="sp-td"><span class="sp-token-name">16px</span></div>
+              <div class="sp-td" style="color:var(--text-tertiary);">—</div>
+            </div>
+            <div class="sp-tr hier-tr">
+              <div class="sp-td sp-td-label">Component</div>
+              <div class="sp-td"><span class="sp-token-name">8px · 4px</span></div>
+              <div class="sp-td"><span class="sp-token-name">8px · 4px</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── PRINCIPLES ── -->
+      <div class="ed-section" style="border-bottom:none; padding-bottom:0;">
+        <div class="ed-eyebrow">Principles</div>
+        <h2 class="ed-h2">How to apply this system</h2>
+        <p class="ed-body">Six rules that should govern every spacing decision made in Apollo's UI.</p>
+
+        <div class="guid-principles-list">
+          <div class="guid-principle-row">
+            <div class="guid-principle-row-num">01</div>
+            <div class="guid-principle-row-body">
+              <div class="guid-principle-row-title">Gap and padding are different roles, not different values.</div>
+              <div class="guid-principle-row-desc">24px means something different as card padding than it does as section gap. Always consider which role a value is serving before applying it.</div>
+            </div>
+          </div>
+          <div class="guid-principle-row">
+            <div class="guid-principle-row-num">02</div>
+            <div class="guid-principle-row-body">
+              <div class="guid-principle-row-title">Card padding follows context, not preference.</div>
+              <div class="guid-principle-row-desc">A standalone page-level card gets 24px padding. A nested or compact card gets 16px. Don't apply 24px padding to a card that lives inside another surface — it will feel disconnected from its container.</div>
+            </div>
+          </div>
+          <div class="guid-principle-row">
+            <div class="guid-principle-row-num">03</div>
+            <div class="guid-principle-row-body">
+              <div class="guid-principle-row-title">Space communicates relationship.</div>
+              <div class="guid-principle-row-desc">The smaller the gap, the stronger the implied connection. Use 4px only when two elements are genuinely sub-parts of the same component. Use 24px only when you intend a hard visual break.</div>
+            </div>
+          </div>
+          <div class="guid-principle-row">
+            <div class="guid-principle-row-num">04</div>
+            <div class="guid-principle-row-body">
+              <div class="guid-principle-row-title">Padding doesn't have to be uniform.</div>
+              <div class="guid-principle-row-desc">Applying padding to one or two sides only is common throughout Apollo — use <code class="sp-code">padding-top</code>, <code class="sp-code">padding-left</code>, etc. to be explicit. When describing asymmetric padding in redlines, always name the sides: "16px padding-left" not "16px padding". Never describe padding as shorthand when only certain sides are intended.</div>
+            </div>
+          </div>
+          <div class="guid-principle-row">
+            <div class="guid-principle-row-num">05</div>
+            <div class="guid-principle-row-body">
+              <div class="guid-principle-row-title">Be consistent within a surface type.</div>
+              <div class="guid-principle-row-desc">All data table surfaces should share the same spacing rhythm. One-off values erode the system.</div>
+            </div>
+          </div>
+          <div class="guid-principle-row">
+            <div class="guid-principle-row-num">06</div>
+            <div class="guid-principle-row-body">
+              <div class="guid-principle-row-title">Don't use spacing to compensate for missing hierarchy.</div>
+              <div class="guid-principle-row-desc">Extra padding won't make something feel like a section heading. That's a typography problem.</div>
+            </div>
+          </div>
+          <div class="guid-principle-row guid-principle-row-oos">
+            <div class="guid-principle-row-num">07</div>
+            <div class="guid-principle-row-body">
+              <div class="guid-principle-row-title">Canvas surfaces are out of scope.</div>
+              <div class="guid-principle-row-desc">Don't apply these rules to the Workflow builder or other canvas layouts. Separate documentation will follow in Phase 02.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /sptab-guidance -->
+
+    <!-- TAB: RADII -->
+    <div class="sp-panel" id="sptab-radii" style="display:none;">
+
+      <!-- ── OVERVIEW ── -->
+      <div class="ed-section">
+        <div class="ed-eyebrow">Corner Radius</div>
+        <h2 class="ed-h2">Radius communicates hierarchy</h2>
+        <p class="ed-body">Corner radius is part of the same visual foundation as spacing and follows the same two-layer token architecture. Radius values communicate component hierarchy and surface elevation — smaller radii for nested or sub-level elements, larger radii for elevated floating surfaces.</p>
+        <p class="ed-body">Apollo's current usage — 8px for components and 12px for modals — aligns well with industry standards. Material Design 3 uses the same values for equivalent surface types. Fluent 2 is slightly more conservative at 4–8px, reflecting Microsoft's enterprise-formal aesthetic. Apollo's "more human" brand direction makes 8px and 12px the right call.</p>
+      </div>
+
+      <!-- ── PRIMITIVES ── -->
+      <div class="ed-section">
+        <div class="ed-eyebrow">Primitives · Radius</div>
+        <h2 class="ed-h2">The raw scale</h2>
+        <p class="ed-body">Five primitive values covering the full range from flush to fully pill-shaped. These define the available options — semantic tokens encode which primitive to use for a given context.</p>
+
+        <div class="sp-table" style="margin-top:24px;">
+          <div class="sp-thead radius-prim-head">
+            <div class="sp-th">Token</div>
+            <div class="sp-th">Value</div>
+            <div class="sp-th">Use</div>
+            <div class="sp-th">Preview</div>
+          </div>
+          <div class="sp-tbody" id="radius-prim-rows"></div>
+        </div>
+      </div>
+
+      <!-- ── SEMANTICS ── -->
+      <div class="ed-section">
+        <div class="ed-eyebrow">Semantics · Radius</div>
+        <h2 class="ed-h2">Intent-encoded tokens</h2>
+        <p class="ed-body">The semantic layer maps each primitive to a specific surface role. Always reach for a semantic token when building components — primitives exist as a reference layer only.</p>
+
+        <div class="sp-table" style="margin-top:24px;">
+          <div class="sp-thead radius-sem-head">
+            <div class="sp-th">Token</div>
+            <div class="sp-th">References</div>
+            <div class="sp-th">Description</div>
+            <div class="sp-th">Preview</div>
+          </div>
+          <div class="sp-tbody" id="radius-sem-rows"></div>
+        </div>
+      </div>
+
+      <!-- ── NESTING RULE ── -->
+      <div class="ed-section">
+        <div class="ed-eyebrow">The Nesting Rule</div>
+        <h2 class="ed-h2">Always step down for nested elements</h2>
+        <p class="ed-body">When a component sits inside a container, the inner element's radius must always be smaller than the outer container's radius. If they're equal, the inner corners appear visually flat against the outer curve — a subtle but noticeable inconsistency.</p>
+        <p class="ed-body">Apollo's current values already respect this: an 8px button inside a 12px modal has appropriately nested radii. As a general rule, step down one level in the scale for each level of nesting.</p>
+
+        <div class="nesting-diagram" style="margin-top:28px;">
+          <div class="nest-layer nest-l1">
+            <div class="nest-label">radius/surface<span>12px</span></div>
+            <div class="nest-layer nest-l2">
+              <div class="nest-label">radius/component<span>8px</span></div>
+              <div class="nest-layer nest-l3">
+                <div class="nest-label">radius/element<span>4px</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── PRINCIPLES ── -->
+      <div class="ed-section" style="border-bottom:none; padding-bottom:0;">
+        <div class="ed-eyebrow">Principles</div>
+        <h2 class="ed-h2">Four rules for corner radius</h2>
+
+        <div class="guid-principles-list">
+          <div class="guid-principle-row">
+            <div class="guid-principle-row-num">01</div>
+            <div class="guid-principle-row-body">
+              <div class="guid-principle-row-title">Always step down for nested elements.</div>
+              <div class="guid-principle-row-desc">An inner element's radius should always be smaller than its container's. Use the nesting diagram above as the default reference — only deviate with explicit justification.</div>
+            </div>
+          </div>
+          <div class="guid-principle-row">
+            <div class="guid-principle-row-num">02</div>
+            <div class="guid-principle-row-body">
+              <div class="guid-principle-row-title">radius/none is intentional, not a default.</div>
+              <div class="guid-principle-row-desc">A flush element inside a rounded container is a deliberate signal that it's structural rather than interactive. Don't use 0px just because a component looks fine without rounding.</div>
+            </div>
+          </div>
+          <div class="guid-principle-row">
+            <div class="guid-principle-row-num">03</div>
+            <div class="guid-principle-row-body">
+              <div class="guid-principle-row-title">Don't introduce intermediate values.</div>
+              <div class="guid-principle-row-desc">Values like 6px or 10px break the nesting rule and create visual inconsistency. If a component looks too round or too sharp, reconsider its surface level rather than adding a new token.</div>
+            </div>
+          </div>
+          <div class="guid-principle-row">
+            <div class="guid-principle-row-num">04</div>
+            <div class="guid-principle-row-body">
+              <div class="guid-principle-row-title">radius/pill uses 9999px, not 50%.</div>
+              <div class="guid-principle-row-desc">This ensures correct rendering across browsers and platforms at any component height. 50% creates an oval at non-square dimensions — 9999px always produces a true pill.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /sptab-radii -->
+
+  </div>
+</div><!-- /page-spacing -->
+
+<!-- COLOR -->
+<div class="page" id="page-color">
+  <div class="placeholder-wrap">
+    <div class="placeholder-symbol"><div style="width:34px;height:34px;background:var(--c10);border-radius:50%;opacity:0.5;"></div></div>
+    <h2>Color Tokens</h2>
+    <p>The color token system is currently in concept. This section will cover semantic color tokens, a full contrast pairing matrix, dark mode support, and brand alignment validation.</p>
+    <span class="placeholder-status status-concept">🏗️ Concept in progress</span><br>
+    <button class="back-btn" onclick="goHome()">← Tokens Northstar</button>
+  </div>
+</div>
+
+<script src="scripts.js"></script>
+</body>
+</html>
