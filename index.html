@@ -31,12 +31,12 @@
         <span class="card-status status-defined">✏️ Concept</span>
         <div class="card-arrow">↗</div>
       </div>
-      <div class="phase-card disabled" onclick="goPage('color')">
+      <div class="phase-card" onclick="goPage('color')">
         <div class="card-phase-num">Phase 03</div>
         <div class="card-symbol-wrap wrap-color"><div class="symbol-color"></div></div>
         <div class="card-title">Color</div>
         <div class="card-desc">Semantic color tokens, contrast pairing matrix, dark mode support, and brand alignment.</div>
-        <span class="card-status status-concept">🏗️ Concept</span>
+        <span class="card-status status-defined">✏️ Concept</span>
         <div class="card-arrow">↗</div>
       </div>
     </div>
@@ -528,14 +528,156 @@
 
 <!-- COLOR -->
 <div class="page" id="page-color">
-  <div class="placeholder-wrap">
-    <div class="placeholder-symbol"><div style="width:34px;height:34px;background:var(--c10);border-radius:50%;opacity:0.5;"></div></div>
-    <h2>Color Tokens</h2>
-    <p>The color token system is currently in concept. This section will cover semantic color tokens, a full contrast pairing matrix, dark mode support, and brand alignment validation.</p>
-    <span class="placeholder-status status-concept">🏗️ Concept in progress</span><br>
-    <button class="back-btn" onclick="goHome()">← Tokens Northstar</button>
-  </div>
-</div>
+  <div class="col-wrap">
+    <div class="floating-crumbs">
+      <span class="f-crumb" onclick="goHome()">Fabric</span>
+      <span class="f-crumb-sep">/</span>
+      <span class="f-crumb" onclick="goHome()">Tokens Northstar</span>
+      <span class="f-crumb-sep">/</span>
+      <span class="f-crumb-current">Color</span>
+    </div>
+    <div class="typo-header">
+      <h1>Color System</h1>
+      <p>Primitive palette, semantic token assignments, and WCAG contrast pairings — Apollo's warm neutral foundation with a single brand accent.</p>
+    </div>
+
+    <!-- TAB BAR -->
+    <div class="sp-tab-bar">
+      <button class="sp-tab active" onclick="switchColTab('tokens', this)">Tokens</button>
+      <button class="sp-tab" onclick="switchColTab('contrast', this)">Contrast</button>
+      <button class="sp-tab" onclick="switchColTab('guidance', this)">Guidance</button>
+    </div>
+
+    <!-- TAB: TOKENS -->
+    <div class="col-panel" id="coltab-tokens">
+
+      <div class="ed-section">
+        <div class="ed-eyebrow">Primitives · Color</div>
+        <h2 class="ed-h2">The full palette</h2>
+        <p class="ed-body">Twelve raw values spanning white to near-black across a warm neutral spectrum, anchored by Apollo Yellow. Do not consume primitive tokens directly in components — always reach for a semantic token.</p>
+        <div class="color-prim-grid" id="color-prim-grid"></div>
+      </div>
+
+      <div class="ed-section" style="border-bottom:none; padding-bottom:0;">
+        <div class="ed-eyebrow">Semantics · Color</div>
+        <h2 class="ed-h2">Intent-encoded tokens</h2>
+        <p class="ed-body">Semantic tokens give each primitive a named role. Consuming semantics instead of primitives decouples components from the raw palette and enables global theming. Status colors (pass, advisory, fail) are intentionally out of palette — they carry a universal signal that must remain distinct from neutral surfaces.</p>
+        <div id="color-sem-table"></div>
+      </div>
+
+    </div><!-- /coltab-tokens -->
+
+    <!-- TAB: CONTRAST -->
+    <div class="col-panel" id="coltab-contrast" style="display:none;">
+
+      <div class="ed-section" style="border-bottom:none; padding-bottom:0;">
+        <div class="ed-eyebrow">Contrast Pairing Matrix</div>
+        <h2 class="ed-h2">Which text/background pairs pass WCAG AA</h2>
+        <p class="ed-body">Evaluated against WCAG 2.2 AA thresholds. Standard text requires <strong>4.5:1</strong>; large text (≥18pt regular or ≥14pt bold) requires <strong>3:1</strong>. Note that <code class="sp-code">text/tertiary</code> and <code class="sp-code">text/muted-dark</code> resolve to the same primitive (color/6 · #878675) — their contrast values are identical.</p>
+        <div id="contrast-matrix"></div>
+      </div>
+
+    </div><!-- /coltab-contrast -->
+
+    <!-- TAB: GUIDANCE -->
+    <div class="col-panel" id="coltab-guidance" style="display:none;">
+
+      <div class="ed-section">
+        <div class="ed-eyebrow">Overview</div>
+        <h2 class="ed-h2">A deliberate palette</h2>
+        <p class="ed-body">Apollo's color system is built around a single warm neutral scale — not a traditional multi-hue design system palette. This is intentional. Apollo is a data-dense platform where color competes with user-generated content: names, company logos, status chips, email threads. A neutral foundation ensures the interface recedes when it should, and the user's data takes center stage.</p>
+        <p class="ed-body">Apollo Yellow (#FBF500) is the sole expressive accent. It carries brand identity without competing with content. Its use is reserved for brand-anchored moments — not status colors, not interactive states.</p>
+        <div class="guid-principles-list">
+          <div class="guid-principle-row guid-plain-row">
+            <div class="guid-principle-row-body">
+              <div class="guid-principle-row-title">Scannability</div>
+              <div class="guid-principle-row-desc">Neutral backgrounds and high-contrast text let users scan dense tables and lead lists without visual fatigue.</div>
+            </div>
+          </div>
+          <div class="guid-principle-row guid-plain-row">
+            <div class="guid-principle-row-body">
+              <div class="guid-principle-row-title">Content first</div>
+              <div class="guid-principle-row-desc">The interface shouldn't compete with user data. Warm neutrals subordinate the chrome so leads, contacts, and metrics stand out.</div>
+            </div>
+          </div>
+          <div class="guid-principle-row guid-plain-row">
+            <div class="guid-principle-row-body">
+              <div class="guid-principle-row-title">Brand restraint</div>
+              <div class="guid-principle-row-desc">Apollo Yellow is expressive — use it for brand moments, not functional UI. Overuse dilutes its signal.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ed-section">
+        <div class="ed-eyebrow">Surface Hierarchy</div>
+        <h2 class="ed-h2">Three backgrounds, one layering order</h2>
+        <p class="ed-body">Three background values create a subtle elevation system. The layering must be consistent — bg/surface always sits above bg/page, and bg/surface-2 is used for nested contexts within a surface.</p>
+        <div class="sp-table" style="margin-top:24px;">
+          <div class="sp-thead col-surface-head">
+            <div class="sp-th">Token</div>
+            <div class="sp-th">Value</div>
+            <div class="sp-th">Use</div>
+          </div>
+          <div class="sp-tbody">
+            <div class="sp-tr col-surface-tr">
+              <div class="sp-td"><span class="sp-token-name">bg/page</span></div>
+              <div class="sp-td col-val-with-swatch"><span class="col-swatch-inline" style="background:#F3F3F0;"></span><span class="sp-val-tag">#F3F3F0</span></div>
+              <div class="sp-td-desc">Base layer — the page background behind all cards and panels</div>
+            </div>
+            <div class="sp-tr col-surface-tr">
+              <div class="sp-td"><span class="sp-token-name">bg/surface</span></div>
+              <div class="sp-td col-val-with-swatch"><span class="col-swatch-inline" style="background:#F9F9F6;"></span><span class="sp-val-tag">#F9F9F6</span></div>
+              <div class="sp-td-desc">Primary surface — cards and panels that sit above the page</div>
+            </div>
+            <div class="sp-tr col-surface-tr">
+              <div class="sp-td"><span class="sp-token-name">bg/surface-2</span></div>
+              <div class="sp-td col-val-with-swatch"><span class="col-swatch-inline" style="background:#F3F3F0;"></span><span class="sp-val-tag">#F3F3F0</span></div>
+              <div class="sp-td-desc">Nested surface — used inside a bg/surface container for visual separation</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ed-section" style="border-bottom:none; padding-bottom:0;">
+        <div class="ed-eyebrow">Principles</div>
+        <h2 class="ed-h2">Four rules for color use</h2>
+        <div class="guid-principles-list">
+          <div class="guid-principle-row">
+            <div class="guid-principle-row-num">01</div>
+            <div class="guid-principle-row-body">
+              <div class="guid-principle-row-title">Always use semantic tokens in components.</div>
+              <div class="guid-principle-row-desc">Referencing <code class="sp-code">text/primary</code> instead of <code class="sp-code">color/10</code> means the entire UI can adapt to new palette values from a single source. Never hardcode hex values in components.</div>
+            </div>
+          </div>
+          <div class="guid-principle-row">
+            <div class="guid-principle-row-num">02</div>
+            <div class="guid-principle-row-body">
+              <div class="guid-principle-row-title">Verify contrast before using secondary or tertiary text.</div>
+              <div class="guid-principle-row-desc"><code class="sp-code">text/secondary</code> and <code class="sp-code">text/tertiary</code> may not pass 4.5:1 on all surfaces. Always check the pairing before using them for content that requires WCAG AA.</div>
+            </div>
+          </div>
+          <div class="guid-principle-row">
+            <div class="guid-principle-row-num">03</div>
+            <div class="guid-principle-row-body">
+              <div class="guid-principle-row-title">Reserve Apollo Yellow for brand moments.</div>
+              <div class="guid-principle-row-desc">Apollo Yellow is not a general-purpose highlight color. Do not use it as a status color, hover state, or interactive affordance. Its primary role is to anchor brand identity in hero and marketing contexts.</div>
+            </div>
+          </div>
+          <div class="guid-principle-row">
+            <div class="guid-principle-row-num">04</div>
+            <div class="guid-principle-row-body">
+              <div class="guid-principle-row-title">Status colors are intentionally out of palette.</div>
+              <div class="guid-principle-row-desc">Pass green, advisory amber, and fail red carry a universal signal that must stay distinct from neutral surfaces. Do not use them decoratively, and do not introduce new status colors without a documented semantic role.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /coltab-guidance -->
+
+  </div><!-- /col-wrap -->
+</div><!-- /page-color -->
 
 <script src="scripts.js"></script>
 </body>

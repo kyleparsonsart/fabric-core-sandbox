@@ -65,6 +65,7 @@ function showPage(name) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-' + (name || 'home')).classList.add('active');
   if (name === 'typography' && document.getElementById('tokensGrid').children.length === 0) buildCards();
+  if (name === 'color' && document.getElementById('color-prim-grid') && document.getElementById('color-prim-grid').children.length === 0) buildColorTables();
 }
 function goHome() {
   history.pushState({ page: null }, '', './');
@@ -432,4 +433,174 @@ function switchDiag(groupId, idx, cardEl) {
   const parent = cardEl.parentElement;
   parent.querySelectorAll('.diag-toggle-card').forEach(c => c.classList.remove('diag-card-active'));
   cardEl.classList.add('diag-card-active');
+}
+// ── COLOR DATA ──
+const colorPrims = [
+  { token:'color/0',  hex:'#FFFFFF', name:'White' },
+  { token:'color/1',  hex:'#F9F9F6', name:'Near White' },
+  { token:'color/2',  hex:'#F3F3F0', name:'Warm White' },
+  { token:'color/3',  hex:'#E7E7E1', name:'Light Gray' },
+  { token:'color/4',  hex:'#D4D5CB', name:'Warm Gray' },
+  { token:'color/5',  hex:'#C3C3B3', name:'Stone' },
+  { token:'color/6',  hex:'#878675', name:'Muted' },
+  { token:'color/7',  hex:'#6B6758', name:'Warm Brown' },
+  { token:'color/8',  hex:'#504E41', name:'Deep Brown' },
+  { token:'color/9',  hex:'#3E3E33', name:'Dark Earth' },
+  { token:'color/10', hex:'#1A1A1A', name:'Near Black' },
+  { token:'color/11', hex:'#FBF500', name:'Apollo Yellow', accent:true },
+];
+
+const colorSemantics = [
+  { group:'Text',       token:'text/primary',    ref:'color/10', hex:'#1A1A1A', desc:'Primary content — headings, body, interactive labels' },
+  { group:'Text',       token:'text/secondary',  ref:'color/7',  hex:'#6B6758', desc:'Supporting content — metadata, secondary labels, captions' },
+  { group:'Text',       token:'text/tertiary',   ref:'color/6',  hex:'#878675', desc:'Quietest text — inactive states, system labels, placeholders' },
+  { group:'Text',       token:'text/on-dark',    ref:'color/2',  hex:'#F3F3F0', desc:'Text on dark (color/8+) surfaces' },
+  { group:'Text',       token:'text/muted-dark', ref:'color/6',  hex:'#878675', desc:'Subdued text on dark surfaces' },
+  { group:'Background', token:'bg/page',         ref:'color/2',  hex:'#F3F3F0', desc:'Base page background' },
+  { group:'Background', token:'bg/surface',      ref:'color/1',  hex:'#F9F9F6', desc:'Card and panel surfaces above the page' },
+  { group:'Background', token:'bg/surface-2',    ref:'color/2',  hex:'#F3F3F0', desc:'Nested surface — sits below bg/surface' },
+  { group:'Border',     token:'border/default',  ref:'color/3',  hex:'#E7E7E1', desc:'Standard dividers and container borders' },
+  { group:'Border',     token:'border/mid',      ref:'color/4',  hex:'#D4D5CB', desc:'Emphasized borders — active states, focused inputs' },
+  { group:'Accent',     token:'accent/text',     ref:'color/8',  hex:'#504E41', desc:'Accent label — eyebrows, section markers, metadata emphasis' },
+  { group:'Status',     token:'status/pass',     ref:'—',        hex:'#1A6640', desc:'WCAG pass / success foreground (out of palette by design)' },
+  { group:'Status',     token:'status/advisory', ref:'—',        hex:'#7A5C00', desc:'Advisory / warning foreground (out of palette by design)' },
+  { group:'Status',     token:'status/fail',     ref:'—',        hex:'#B91C1C', desc:'WCAG fail / error foreground (out of palette by design)' },
+];
+
+const matrixTexts = [
+  { label:'text/primary',    hex:'#1A1A1A' },
+  { label:'text/secondary',  hex:'#6B6758' },
+  { label:'text/tertiary',   hex:'#878675' },
+  { label:'text/on-dark',    hex:'#F3F3F0' },
+];
+
+const matrixBgs = [
+  { label:'bg/page',       hex:'#F3F3F0' },
+  { label:'bg/surface',    hex:'#F9F9F6' },
+  { label:'White',         hex:'#FFFFFF' },
+  { label:'Near Black',    hex:'#1A1A1A' },
+  { label:'Deep Brown',    hex:'#504E41' },
+];
+
+// ── COLOR TAB SWITCHING ──
+function switchColTab(tab, btn) {
+  btn.closest('.sp-tab-bar').querySelectorAll('.sp-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.col-panel').forEach(p => { p.style.display = 'none'; });
+  btn.classList.add('active');
+  const panel = document.getElementById('coltab-' + tab);
+  panel.style.display = 'block';
+  panel.querySelectorAll('.ed-section').forEach((s, i) => {
+    s.style.animation = 'none';
+    s.style.opacity = '0';
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        s.style.animation = '';
+        s.style.animationDelay = (0.08 + i * 0.08) + 's';
+      });
+    });
+  });
+}
+
+// ── COLOR TABLE BUILDERS ──
+function buildColorTables() {
+  buildColorPrims();
+  buildColorSemantics();
+  buildContrastMatrix();
+}
+
+function buildColorPrims() {
+  const grid = document.getElementById('color-prim-grid');
+  if (!grid) return;
+  colorPrims.forEach(p => {
+    const card = document.createElement('div');
+    card.className = 'color-prim-card' + (p.accent ? ' is-accent' : '');
+    card.innerHTML = `
+      <div class="color-prim-swatch" style="background:${p.hex};"></div>
+      <div class="color-prim-meta">
+        <div class="color-prim-name">${p.name}</div>
+        <span class="color-prim-token">${p.token}</span>
+        <div class="color-prim-hex">${p.hex}</div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+function buildColorSemantics() {
+  const container = document.getElementById('color-sem-table');
+  if (!container) return;
+  const groups = [...new Set(colorSemantics.map(s => s.group))];
+  groups.forEach(group => {
+    const tokens = colorSemantics.filter(s => s.group === group);
+    const groupDiv = document.createElement('div');
+    groupDiv.className = 'col-sem-group';
+    let html = `
+      <div class="col-sem-group-label">${group}</div>
+      <div class="col-sem-table-inner">
+        <div class="col-sem-thead">
+          <div class="col-sem-th">Token</div>
+          <div class="col-sem-th">References</div>
+          <div class="col-sem-th">Value</div>
+          <div class="col-sem-th"></div>
+          <div class="col-sem-th">Description</div>
+        </div>`;
+    tokens.forEach(s => {
+      html += `
+        <div class="col-sem-tr">
+          <div class="col-sem-td"><span class="sp-token-name">${s.token}</span></div>
+          <div class="col-sem-td"><span class="sp-ref-tag">${s.ref}</span></div>
+          <div class="col-sem-td"><span class="col-sem-hex">${s.hex}</span></div>
+          <div class="col-sem-td-swatch"><div class="col-sem-swatch" style="background:${s.hex};"></div></div>
+          <div class="col-sem-td-desc">${s.desc}</div>
+        </div>`;
+    });
+    html += '</div>';
+    groupDiv.innerHTML = html;
+    container.appendChild(groupDiv);
+  });
+}
+
+function buildContrastMatrix() {
+  const container = document.getElementById('contrast-matrix');
+  if (!container) return;
+  let html = '<div class="contrast-wrap"><table class="contrast-table"><thead><tr>';
+  html += '<th class="contrast-corner"><div class="contrast-corner-label">Text ↓ / BG →</div></th>';
+  matrixBgs.forEach(bg => {
+    html += `<th class="contrast-th-bg">
+      <span class="contrast-th-swatch" style="background:${bg.hex};"></span>
+      <div class="contrast-th-token">${bg.label}</div>
+      <div class="contrast-th-hex">${bg.hex}</div>
+    </th>`;
+  });
+  html += '</tr></thead><tbody>';
+  matrixTexts.forEach(text => {
+    html += `<tr class="contrast-row"><th class="contrast-th-text">
+      <div class="contrast-th-text-token"><span class="contrast-row-swatch" style="background:${text.hex};"></span>${text.label}</div>
+      <div class="contrast-th-text-hex">${text.hex}</div>
+    </th>`;
+    matrixBgs.forEach(bg => {
+      if (text.hex === bg.hex) {
+        html += `<td class="contrast-cell cell-same"><span class="contrast-same-dash">—</span></td>`;
+        return;
+      }
+      const ratio = cr(text.hex, bg.hex);
+      const passStd = ratio >= 4.5;
+      const passLg  = ratio >= 3;
+      let cellClass = 'contrast-cell';
+      let badge = '';
+      if (passStd) {
+        cellClass += ' cell-pass-std';
+        badge = `<span class="contrast-badge pass-std">✓ AA</span>`;
+      } else if (passLg) {
+        cellClass += ' cell-pass-lg';
+        badge = `<span class="contrast-badge pass-lg">✓ Large only</span>`;
+      } else {
+        cellClass += ' cell-fail';
+        badge = `<span class="contrast-badge fail">✗ Fails</span>`;
+      }
+      html += `<td class="${cellClass}"><div class="contrast-ratio">${ratio.toFixed(2)}:1</div>${badge}</td>`;
+    });
+    html += '</tr>';
+  });
+  html += '</tbody></table></div>';
+  container.innerHTML = html;
 }
