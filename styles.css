@@ -906,3 +906,207 @@
     font-family: var(--font-ui); font-size: 12px; color: var(--text-secondary);
     line-height: 1.6;
   }
+  /* ══ COLOR PAGE ══ */
+  .col-wrap { max-width: 900px; margin: 0 auto; padding: 48px 28px 80px; }
+
+  /* Fade-in animation — mirrors sp-wrap pattern */
+  .col-wrap .floating-crumbs,
+  .col-wrap .typo-header,
+  .col-wrap .sp-tab-bar,
+  .col-wrap .col-panel > .ed-section {
+    opacity: 0;
+    animation: fadeUp 0.45s cubic-bezier(0.22,1,0.36,1) forwards;
+  }
+  .col-wrap .floating-crumbs { animation-delay: 0.03s; }
+  .col-wrap .typo-header      { animation-delay: 0.08s; }
+  .col-wrap .sp-tab-bar       { animation-delay: 0.13s; }
+  .col-wrap .col-panel > .ed-section:nth-child(1) { animation-delay: 0.18s; }
+  .col-wrap .col-panel > .ed-section:nth-child(2) { animation-delay: 0.26s; }
+  .col-wrap .col-panel > .ed-section:nth-child(3) { animation-delay: 0.34s; }
+
+  /* ── Color Primitive Ramp Rows ── */
+  .color-prim-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 28px;
+  }
+  .color-ramp-row {
+    display: flex;
+    align-items: stretch;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    height: 60px;
+  }
+  .color-ramp-meta {
+    width: 136px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 14px;
+    background: var(--c1);
+    border-right: 1px solid var(--border);
+  }
+  .color-ramp-name {
+    font-size: 13px; font-weight: 600; color: var(--text-primary);
+    margin-bottom: 5px; letter-spacing: 0;
+  }
+  .color-ramp-tag {
+    font-family: monospace; font-size: 10px; color: var(--text-tertiary);
+    background: var(--c2); padding: 1px 6px; border-radius: 3px; display: inline-block;
+  }
+  .color-ramp-swatches { display: flex; flex: 1; }
+  .color-ramp-swatch {
+    flex: 1; display: flex; align-items: flex-end; justify-content: center;
+    padding-bottom: 6px; transition: flex .2s ease;
+  }
+  .color-ramp-swatch:hover { flex: 2; }
+  .ramp-step {
+    font-size: 9px; font-weight: 700; letter-spacing: 0; pointer-events: none;
+  }
+
+  /* ── Color Semantics Table ── */
+  .col-sem-section { margin-top: 40px; }
+  .col-sem-section:first-child { margin-top: 28px; }
+  .col-sem-section-header {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 16px; padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .col-sem-section-name {
+    font-family: var(--font-display); font-size: 18px; font-weight: 400;
+    color: var(--text-primary); letter-spacing: 0;
+  }
+  .col-sem-section-prefix {
+    font-family: monospace; font-size: 11px; color: var(--text-tertiary);
+    background: var(--c2); padding: 2px 7px; border-radius: 4px;
+  }
+  .col-sem-group { margin-top: 20px; }
+  .col-sem-group-label {
+    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px;
+    color: var(--text-tertiary); margin-bottom: 8px;
+  }
+  .col-sem-table-inner {
+    border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden;
+  }
+  .col-sem-thead {
+    display: grid;
+    grid-template-columns: 290px 120px 90px 36px 1fr;
+    background: var(--c1); border-bottom: 1px solid var(--border);
+  }
+  .col-sem-th {
+    padding: 10px 14px; font-size: 10px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .5px; color: var(--text-tertiary);
+    white-space: nowrap; overflow: hidden;
+  }
+  .col-sem-tr {
+    display: grid;
+    grid-template-columns: 290px 120px 90px 36px 1fr;
+    border-bottom: 1px solid var(--border); background: #fff; align-items: center;
+  }
+  .col-sem-tr:last-child { border-bottom: none; }
+  .col-sem-td {
+    padding: 11px 14px; font-size: 13px; color: var(--text-secondary);
+    overflow: hidden; white-space: nowrap;
+  }
+  .col-sem-tr > .col-sem-td:first-child { white-space: normal; overflow: visible; }
+  .col-sem-hex { font-family: monospace; font-size: 12px; color: var(--text-secondary); }
+  .col-sem-td-swatch {
+    padding: 11px 8px 11px 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .col-sem-swatch {
+    width: 22px; height: 22px; border-radius: 4px;
+    border: 1px solid rgba(0,0,0,0.10); flex-shrink: 0;
+  }
+  .col-sem-td-desc {
+    padding: 11px 14px; font-size: 13px; color: var(--text-secondary);
+    line-height: 1.55; white-space: normal;
+  }
+
+  /* ── Surface table (Guidance tab) ── */
+  .col-swatch-inline {
+    display: inline-block; width: 14px; height: 14px;
+    border-radius: 3px; border: 1px solid rgba(0,0,0,0.10);
+    margin-right: 7px; vertical-align: middle; flex-shrink: 0;
+  }
+  .sp-thead.col-surface-head { grid-template-columns: 180px 130px 1fr; }
+  .sp-tr.col-surface-tr      { grid-template-columns: 180px 130px 1fr; }
+  .sp-td.col-val-with-swatch { display: flex; align-items: center; }
+
+  /* ── Contrast Matrix ── */
+  #contrast-matrix { margin-top: 28px; }
+  .contrast-wrap {
+    border: 1px solid var(--border); border-radius: var(--radius-lg);
+    overflow: hidden; overflow-x: auto;
+  }
+  .contrast-table { border-collapse: collapse; width: 100%; min-width: 560px; }
+  .contrast-table th,
+  .contrast-table td { border: 1px solid var(--border); }
+  /* Remove outer edges — wrapper provides the visible border */
+  .contrast-table thead tr:first-child th { border-top: none; }
+  .contrast-table tbody tr:last-child th,
+  .contrast-table tbody tr:last-child td { border-bottom: none; }
+  .contrast-table tr th:first-child,
+  .contrast-table tr td:first-child { border-left: none; }
+  .contrast-table tr th:last-child,
+  .contrast-table tr td:last-child   { border-right: none; }
+
+  .contrast-corner {
+    background: var(--c1); padding: 12px 14px; min-width: 156px; vertical-align: middle;
+  }
+  .contrast-corner-label {
+    font-size: 9px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .5px; color: var(--text-tertiary);
+  }
+  .contrast-th-bg {
+    background: var(--c1); padding: 10px 12px; text-align: left; vertical-align: top; min-width: 100px;
+  }
+  .contrast-th-swatch {
+    display: block; width: 100%; height: 14px;
+    border-radius: 3px; border: 1px solid rgba(0,0,0,0.08); margin-bottom: 5px;
+  }
+  .contrast-th-token {
+    font-family: monospace; font-size: 10px; font-weight: 600;
+    color: var(--text-primary); white-space: nowrap; margin-bottom: 2px;
+  }
+  .contrast-th-hex {
+    font-family: monospace; font-size: 10px; color: var(--text-secondary);
+  }
+  .contrast-th-text {
+    background: var(--c1); padding: 12px 14px;
+    text-align: left; vertical-align: middle; min-width: 156px;
+  }
+  .contrast-th-text-token {
+    font-family: monospace; font-size: 11px; font-weight: 600;
+    color: var(--text-primary); display: flex; align-items: center;
+    gap: 6px; margin-bottom: 2px; white-space: nowrap;
+  }
+  .contrast-row-swatch {
+    display: inline-block; width: 14px; height: 14px;
+    border-radius: 3px; border: 1px solid rgba(0,0,0,0.10); flex-shrink: 0;
+  }
+  .contrast-th-text-hex {
+    font-family: monospace; font-size: 10px; color: var(--text-secondary); padding-left: 20px;
+  }
+  .contrast-cell {
+    padding: 10px 12px; text-align: center; vertical-align: middle; background: #fff;
+  }
+  .contrast-cell.cell-pass-std { background: var(--pass-bg); }
+  .contrast-cell.cell-pass-lg  { background: var(--advisory-bg); }
+  .contrast-cell.cell-fail     { background: var(--fail-bg); }
+  .contrast-cell.cell-same     { background: var(--c2); }
+  .contrast-ratio {
+    font-family: monospace; font-size: 12px; font-weight: 600;
+    color: var(--text-primary); margin-bottom: 4px;
+  }
+  .contrast-badge {
+    display: inline-flex; align-items: center; padding: 2px 6px;
+    border-radius: 3px; font-size: 9px; font-weight: 600; white-space: nowrap;
+  }
+  .contrast-badge.pass-std { background: var(--pass-bg);     color: var(--pass);     border: 1px solid var(--pass-border); }
+  .contrast-badge.pass-lg  { background: var(--advisory-bg); color: var(--advisory); border: 1px solid var(--advisory-border); }
+  .contrast-badge.fail     { background: var(--fail-bg);     color: var(--fail);     border: 1px solid var(--fail-border); }
+  .contrast-same-dash { color: var(--text-tertiary); font-size: 20px; line-height: 1; }
