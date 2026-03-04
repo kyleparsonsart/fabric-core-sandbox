@@ -435,51 +435,201 @@ function switchDiag(groupId, idx, cardEl) {
   cardEl.classList.add('diag-card-active');
 }
 // ── COLOR DATA ──
-const colorPrims = [
-  { token:'color/0',  hex:'#FFFFFF', name:'White' },
-  { token:'color/1',  hex:'#F9F9F6', name:'Near White' },
-  { token:'color/2',  hex:'#F3F3F0', name:'Warm White' },
-  { token:'color/3',  hex:'#E7E7E1', name:'Light Gray' },
-  { token:'color/4',  hex:'#D4D5CB', name:'Warm Gray' },
-  { token:'color/5',  hex:'#C3C3B3', name:'Stone' },
-  { token:'color/6',  hex:'#878675', name:'Muted' },
-  { token:'color/7',  hex:'#6B6758', name:'Warm Brown' },
-  { token:'color/8',  hex:'#504E41', name:'Deep Brown' },
-  { token:'color/9',  hex:'#3E3E33', name:'Dark Earth' },
-  { token:'color/10', hex:'#1A1A1A', name:'Near Black' },
-  { token:'color/11', hex:'#FBF500', name:'Apollo Yellow', accent:true },
+
+const colorRamps = [
+  { name:'Human',     tag:'human',     steps:[
+    {s:0,  l:'#FFFFFF'}, {s:10, l:'#F9F9F6'}, {s:20, l:'#F3F3F0'}, {s:30, l:'#E7E7E1'},
+    {s:40, l:'#D4D5CB'}, {s:50, l:'#AFAFA5'}, {s:60, l:'#898A7F'}, {s:70, l:'#646459'},
+    {s:80, l:'#3E3E33'}, {s:90, l:'#1A1A1A'},
+  ]},
+  { name:'Pebble',    tag:'pebble',    steps:[
+    {s:10, l:'#F6F2EF'}, {s:20, l:'#E8E2D8'}, {s:30, l:'#CDBEA8'}, {s:40, l:'#A7906C'},
+    {s:50, l:'#867250'}, {s:60, l:'#66583D'}, {s:70, l:'#493B2C'}, {s:80, l:'#2F271C'},
+  ]},
+  { name:'Ocean',     tag:'ocean',     steps:[
+    {s:10, l:'#ECF3FE'}, {s:20, l:'#DAE5FC'}, {s:30, l:'#A8C3EB'}, {s:40, l:'#6697C9'},
+    {s:50, l:'#447AAF'}, {s:60, l:'#2B5782'}, {s:70, l:'#1D3D58'}, {s:80, l:'#122536'},
+  ]},
+  { name:'Evergreen', tag:'evergreen', steps:[
+    {s:10, l:'#EBF4EB'}, {s:20, l:'#D8E8DA'}, {s:30, l:'#A5CAA9'}, {s:40, l:'#62A265'},
+    {s:50, l:'#4B814F'}, {s:60, l:'#396039'}, {s:70, l:'#274427'}, {s:80, l:'#1B2D1B'},
+  ]},
+  { name:'Ember',     tag:'ember',     steps:[
+    {s:10, l:'#F9F1ED'}, {s:20, l:'#F3E2D3'}, {s:30, l:'#E4BC9B'}, {s:40, l:'#CE8345'},
+    {s:50, l:'#B16120'}, {s:60, l:'#884411'}, {s:70, l:'#602F0C'}, {s:80, l:'#402007'},
+  ]},
+  { name:'Rust',      tag:'rust',      steps:[
+    {s:10, l:'#FFF1EE'}, {s:20, l:'#FEDBD7'}, {s:30, l:'#FEA99F'}, {s:40, l:'#E86F5F'},
+    {s:50, l:'#D14532'}, {s:60, l:'#9E3225'}, {s:70, l:'#6A2419'}, {s:80, l:'#451610'},
+  ]},
+  { name:'Sakura',    tag:'sakura',    steps:[
+    {s:10, l:'#FBF0FB'}, {s:20, l:'#F6DAF5'}, {s:30, l:'#EAA9E5'}, {s:40, l:'#DA67CF'},
+    {s:50, l:'#BC44B1'}, {s:60, l:'#8C3485'}, {s:70, l:'#5F235B'}, {s:80, l:'#3E1739'},
+  ]},
+  { name:'Iris',      tag:'iris',      steps:[
+    {s:10, l:'#F5F1FD'}, {s:20, l:'#E4DCF9'}, {s:30, l:'#C3B8F4'}, {s:40, l:'#9D84DC'},
+    {s:50, l:'#7F63C5'}, {s:60, l:'#603FAB'}, {s:70, l:'#3F2B73'}, {s:80, l:'#291C4A'},
+  ]},
+  { name:'Tropic',    tag:'tropic',    steps:[
+    {s:10, l:'#EBF4F4'}, {s:20, l:'#D3E7E9'}, {s:30, l:'#99CBCC'}, {s:40, l:'#5A9EA0'},
+    {s:50, l:'#487E7F'}, {s:60, l:'#355D5F'}, {s:70, l:'#294343'}, {s:80, l:'#192929'},
+  ]},
+  { name:'Moss',      tag:'moss',      steps:[
+    {s:10, l:'#F1F3EC'}, {s:20, l:'#DEE5D1'}, {s:30, l:'#B8C69A'}, {s:40, l:'#839B55'},
+    {s:50, l:'#6A7D45'}, {s:60, l:'#4E5C33'}, {s:70, l:'#384224'}, {s:80, l:'#1E2B18'},
+  ]},
+  { name:'Helios',    tag:'helios',    steps:[
+    {s:10, l:'#FBFDAA'}, {s:30, l:'#FAFD62'}, {s:50, l:'#FBF500'}, {s:70, l:'#F5E902'}, {s:90, l:'#E8DB00'},
+  ]},
 ];
 
-const colorSemantics = [
-  { group:'Text',       token:'text/primary',    ref:'color/10', hex:'#1A1A1A', desc:'Primary content — headings, body, interactive labels' },
-  { group:'Text',       token:'text/secondary',  ref:'color/7',  hex:'#6B6758', desc:'Supporting content — metadata, secondary labels, captions' },
-  { group:'Text',       token:'text/tertiary',   ref:'color/6',  hex:'#878675', desc:'Quietest text — inactive states, system labels, placeholders' },
-  { group:'Text',       token:'text/on-dark',    ref:'color/2',  hex:'#F3F3F0', desc:'Text on dark (color/8+) surfaces' },
-  { group:'Text',       token:'text/muted-dark', ref:'color/6',  hex:'#878675', desc:'Subdued text on dark surfaces' },
-  { group:'Background', token:'bg/page',         ref:'color/2',  hex:'#F3F3F0', desc:'Base page background' },
-  { group:'Background', token:'bg/surface',      ref:'color/1',  hex:'#F9F9F6', desc:'Card and panel surfaces above the page' },
-  { group:'Background', token:'bg/surface-2',    ref:'color/2',  hex:'#F3F3F0', desc:'Nested surface — sits below bg/surface' },
-  { group:'Border',     token:'border/default',  ref:'color/3',  hex:'#E7E7E1', desc:'Standard dividers and container borders' },
-  { group:'Border',     token:'border/mid',      ref:'color/4',  hex:'#D4D5CB', desc:'Emphasized borders — active states, focused inputs' },
-  { group:'Accent',     token:'accent/text',     ref:'color/8',  hex:'#504E41', desc:'Accent label — eyebrows, section markers, metadata emphasis' },
-  { group:'Status',     token:'status/pass',     ref:'—',        hex:'#1A6640', desc:'WCAG pass / success foreground (out of palette by design)' },
-  { group:'Status',     token:'status/advisory', ref:'—',        hex:'#7A5C00', desc:'Advisory / warning foreground (out of palette by design)' },
-  { group:'Status',     token:'status/fail',     ref:'—',        hex:'#B91C1C', desc:'WCAG fail / error foreground (out of palette by design)' },
+const fgTokens = [
+  { sub:'Neutral',     token:'fg/neutral/strong',              alias:'human-80',      hex:'#3E3E33', desc:'Primary headings and strong labels' },
+  { sub:'Neutral',     token:'fg/neutral/base/default',        alias:'human-70',      hex:'#646459', desc:'Default body text and interactive labels' },
+  { sub:'Neutral',     token:'fg/neutral/base/disabled',       alias:'human-40',      hex:'#D4D5CB', desc:'Disabled text — non-interactive state' },
+  { sub:'Neutral',     token:'fg/neutral/subtle',              alias:'human-60',      hex:'#898A7F', desc:'Secondary labels, captions, metadata' },
+  { sub:'Neutral',     token:'fg/neutral/muted',               alias:'human-50',      hex:'#AFAFA5', desc:'Tertiary text — placeholders, ghost labels' },
+  { sub:'Info',        token:'fg/info/base',                   alias:'human-70',      hex:'#646459', desc:'Informational foreground text' },
+  { sub:'Success',     token:'fg/success/base',                alias:'evergreen-70',  hex:'#274427', desc:'Success foreground — high contrast' },
+  { sub:'Success',     token:'fg/success/subtle',              alias:'evergreen-60',  hex:'#396039', desc:'Success foreground — medium emphasis' },
+  { sub:'Success',     token:'fg/success/muted',               alias:'evergreen-50',  hex:'#4B814F', desc:'Success foreground — low emphasis' },
+  { sub:'Warning',     token:'fg/warning/base',                alias:'ember-70',      hex:'#602F0C', desc:'Warning foreground — high contrast' },
+  { sub:'Warning',     token:'fg/warning/subtle',              alias:'ember-60',      hex:'#884411', desc:'Warning foreground — medium emphasis' },
+  { sub:'Warning',     token:'fg/warning/muted',               alias:'ember-50',      hex:'#B16120', desc:'Warning foreground — low emphasis' },
+  { sub:'Destructive', token:'fg/destructive/base',            alias:'rust-70',       hex:'#6A2419', desc:'Destructive foreground — high contrast' },
+  { sub:'Destructive', token:'fg/destructive/subtle',          alias:'rust-60',       hex:'#9E3225', desc:'Destructive foreground — medium emphasis' },
+  { sub:'Destructive', token:'fg/destructive/muted',           alias:'rust-50',       hex:'#D14532', desc:'Destructive foreground — low emphasis' },
+  { sub:'Link',        token:'fg/link/base',                   alias:'ocean-70',      hex:'#1D3D58', desc:'Link text — high contrast' },
+  { sub:'Link',        token:'fg/link/subtle',                 alias:'ocean-60',      hex:'#2B5782', desc:'Link text — medium emphasis' },
+  { sub:'Link',        token:'fg/link/muted/default',          alias:'ocean-50',      hex:'#447AAF', desc:'Link text — muted, active state' },
+  { sub:'Link',        token:'fg/link/muted/disabled',         alias:'ocean-20',      hex:'#DAE5FC', desc:'Link text — muted, disabled state' },
+  { sub:'Inverse',     token:'fg/inverse/base/default',        alias:'human-0',       hex:'#FFFFFF', desc:'Text on dark surfaces — default' },
+  { sub:'Inverse',     token:'fg/inverse/base/disabled',       alias:'human-60',      hex:'#898A7F', desc:'Text on dark surfaces — disabled' },
+  { sub:'AI',          token:'fg/ai/sakura',                   alias:'sakura-40',     hex:'#DA67CF', desc:'AI accent text — Sakura pink' },
+  { sub:'AI',          token:'fg/ai/ocean',                    alias:'ocean-40',      hex:'#6697C9', desc:'AI accent text — Ocean blue' },
+  { sub:'Color',       token:'fg/color/pebble/base',           alias:'pebble-70',     hex:'#493B2C', desc:'Color label — Pebble, base' },
+  { sub:'Color',       token:'fg/color/pebble/subtle',         alias:'pebble-60',     hex:'#66583D', desc:'Color label — Pebble, subtle' },
+  { sub:'Color',       token:'fg/color/sakura/base',           alias:'sakura-70',     hex:'#5F235B', desc:'Color label — Sakura, base' },
+  { sub:'Color',       token:'fg/color/sakura/muted',          alias:'sakura-50',     hex:'#BC44B1', desc:'Color label — Sakura, muted' },
+  { sub:'Color',       token:'fg/color/iris/base',             alias:'iris-70',       hex:'#3F2B73', desc:'Color label — Iris, base' },
+  { sub:'Color',       token:'fg/color/iris/muted',            alias:'iris-50',       hex:'#7F63C5', desc:'Color label — Iris, muted' },
+  { sub:'Color',       token:'fg/color/tropic/base',           alias:'tropic-70',     hex:'#294343', desc:'Color label — Tropic, base' },
+  { sub:'Color',       token:'fg/color/tropic/muted',          alias:'tropic-50',     hex:'#487E7F', desc:'Color label — Tropic, muted' },
+  { sub:'Color',       token:'fg/color/moss/base',             alias:'moss-70',       hex:'#384224', desc:'Color label — Moss, base' },
+  { sub:'Color',       token:'fg/color/moss/subtle',           alias:'moss-60',       hex:'#4E5C33', desc:'Color label — Moss, subtle' },
+];
+
+const bgTokens = [
+  { sub:'Brand',       token:'bg/brand/base',                          alias:'ocean-50',      hex:'#447AAF', desc:'Brand background — ocean base' },
+  { sub:'Brand',       token:'bg/brand/subtle',                        alias:'pebble-50',     hex:'#867250', desc:'Brand background — pebble subtle' },
+  { sub:'Brand',       token:'bg/brand/strong/default',                alias:'helios-50',     hex:'#FBF500', desc:'Apollo Yellow — primary CTA surface' },
+  { sub:'Brand',       token:'bg/brand/strong/disabled',               alias:'human-10',      hex:'#F9F9F6', desc:'Apollo Yellow — disabled state' },
+  { sub:'Neutral',     token:'bg/neutral/base/default',                alias:'human-0',       hex:'#FFFFFF', desc:'Base white surface — cards, modals' },
+  { sub:'Neutral',     token:'bg/neutral/base/active',                 alias:'pebble-10',     hex:'#F6F2EF', desc:'White surface — active/selected state' },
+  { sub:'Neutral',     token:'bg/neutral/base/disabled',               alias:'human-0',       hex:'#FFFFFF', desc:'White surface — disabled state' },
+  { sub:'Neutral',     token:'bg/neutral/subtle/default',              alias:'human-10',      hex:'#F9F9F6', desc:'Subtle elevated surface — sidebars, panels' },
+  { sub:'Neutral',     token:'bg/neutral/subtle/active',               alias:'pebble-20',     hex:'#E8E2D8', desc:'Subtle surface — active/selected state' },
+  { sub:'Neutral',     token:'bg/neutral/subtle/active-disabled',      alias:'pebble-10',     hex:'#F6F2EF', desc:'Subtle surface — active-disabled state' },
+  { sub:'Neutral',     token:'bg/neutral/subtle/disabled',             alias:'human-10',      hex:'#F9F9F6', desc:'Subtle surface — disabled state' },
+  { sub:'Neutral',     token:'bg/neutral/muted/default',               alias:'human-20',      hex:'#F3F3F0', desc:'Muted surface — page background' },
+  { sub:'Neutral',     token:'bg/neutral/muted/disabled',              alias:'human-20',      hex:'#F3F3F0', desc:'Muted surface — disabled state' },
+  { sub:'Neutral',     token:'bg/neutral/reversed/strong/default',     alias:'human-80',      hex:'#3E3E33', desc:'Dark surface — strong reversed' },
+  { sub:'Neutral',     token:'bg/neutral/reversed/strong/disabled',    alias:'human-30',      hex:'#E7E7E1', desc:'Dark surface — strong, disabled' },
+  { sub:'Neutral',     token:'bg/neutral/reversed/base/default',       alias:'human-70',      hex:'#646459', desc:'Dark surface — base reversed' },
+  { sub:'Neutral',     token:'bg/neutral/reversed/base/disabled',      alias:'human-70',      hex:'#646459', desc:'Dark surface — base, disabled' },
+  { sub:'Neutral',     token:'bg/neutral/reversed/muted/default',      alias:'human-30',      hex:'#E7E7E1', desc:'Dark surface — muted reversed' },
+  { sub:'Neutral',     token:'bg/neutral/reversed/muted/disabled',     alias:'human-20',      hex:'#F3F3F0', desc:'Dark surface — muted, disabled' },
+  { sub:'Selection',   token:'bg/selection/on/base/default',           alias:'human-80',      hex:'#3E3E33', desc:'Toggle/checkbox — on, active' },
+  { sub:'Selection',   token:'bg/selection/on/base/disabled',          alias:'human-60',      hex:'#898A7F', desc:'Toggle — on, disabled' },
+  { sub:'Selection',   token:'bg/selection/on/subtle/disabled',        alias:'human-40',      hex:'#D4D5CB', desc:'Toggle — on, subtle disabled' },
+  { sub:'Selection',   token:'bg/selection/off/base/default',          alias:'human-40',      hex:'#D4D5CB', desc:'Toggle/checkbox — off, active' },
+  { sub:'Selection',   token:'bg/selection/off/base/disabled',         alias:'human-30',      hex:'#E7E7E1', desc:'Toggle — off, disabled' },
+  { sub:'Info',        token:'bg/info/base/default',                   alias:'human-50',      hex:'#AFAFA5', desc:'Info badge/icon background — active' },
+  { sub:'Info',        token:'bg/info/base/disabled',                  alias:'human-10',      hex:'#F9F9F6', desc:'Info background — disabled' },
+  { sub:'Info',        token:'bg/info/subtle/default',                 alias:'human-20',      hex:'#F3F3F0', desc:'Info subtle background — active' },
+  { sub:'Info',        token:'bg/info/subtle/disabled',                alias:'human-10',      hex:'#F9F9F6', desc:'Info subtle — disabled' },
+  { sub:'Info',        token:'bg/info/muted/default',                  alias:'human-10',      hex:'#F9F9F6', desc:'Info muted background — active' },
+  { sub:'Info',        token:'bg/info/muted/disabled',                 alias:'human-0',       hex:'#FFFFFF', desc:'Info muted — disabled' },
+  { sub:'Success',     token:'bg/success/base/default',                alias:'evergreen-50',  hex:'#4B814F', desc:'Success badge/icon background — active' },
+  { sub:'Success',     token:'bg/success/base/disabled',               alias:'human-10',      hex:'#F9F9F6', desc:'Success background — disabled' },
+  { sub:'Success',     token:'bg/success/subtle/default',              alias:'evergreen-20',  hex:'#D8E8DA', desc:'Success subtle background — active' },
+  { sub:'Success',     token:'bg/success/subtle/disabled',             alias:'human-10',      hex:'#F9F9F6', desc:'Success subtle — disabled' },
+  { sub:'Success',     token:'bg/success/muted/default',               alias:'evergreen-10',  hex:'#EBF4EB', desc:'Success muted background — active' },
+  { sub:'Success',     token:'bg/success/muted/disabled',              alias:'human-0',       hex:'#FFFFFF', desc:'Success muted — disabled' },
+  { sub:'Warning',     token:'bg/warning/base/default',                alias:'ember-50',      hex:'#B16120', desc:'Warning badge/icon background — active' },
+  { sub:'Warning',     token:'bg/warning/base/disabled',               alias:'human-10',      hex:'#F9F9F6', desc:'Warning background — disabled' },
+  { sub:'Warning',     token:'bg/warning/subtle/default',              alias:'ember-20',      hex:'#F3E2D3', desc:'Warning subtle background — active' },
+  { sub:'Warning',     token:'bg/warning/subtle/disabled',             alias:'human-10',      hex:'#F9F9F6', desc:'Warning subtle — disabled' },
+  { sub:'Warning',     token:'bg/warning/muted/default',               alias:'ember-10',      hex:'#F9F1ED', desc:'Warning muted background — active' },
+  { sub:'Warning',     token:'bg/warning/muted/disabled',              alias:'human-0',       hex:'#FFFFFF', desc:'Warning muted — disabled' },
+  { sub:'Destructive', token:'bg/destructive/base/default',            alias:'rust-50',       hex:'#D14532', desc:'Destructive badge/icon background — active' },
+  { sub:'Destructive', token:'bg/destructive/base/disabled',           alias:'human-10',      hex:'#F9F9F6', desc:'Destructive background — disabled' },
+  { sub:'Destructive', token:'bg/destructive/subtle/default',          alias:'rust-20',       hex:'#FEDBD7', desc:'Destructive subtle background — active' },
+  { sub:'Destructive', token:'bg/destructive/subtle/disabled',         alias:'human-10',      hex:'#F9F9F6', desc:'Destructive subtle — disabled' },
+  { sub:'Destructive', token:'bg/destructive/muted/default',           alias:'rust-10',       hex:'#FFF1EE', desc:'Destructive muted background — active' },
+  { sub:'Destructive', token:'bg/destructive/muted/disabled',          alias:'human-0',       hex:'#FFFFFF', desc:'Destructive muted — disabled' },
+  { sub:'Status',      token:'bg/status/in-progress/base/default',     alias:'ocean-60',      hex:'#2B5782', desc:'Status — In Progress badge' },
+  { sub:'Status',      token:'bg/status/in-progress/subtle/default',   alias:'ocean-20',      hex:'#DAE5FC', desc:'Status — In Progress subtle' },
+  { sub:'Status',      token:'bg/status/incomplete/base/default',      alias:'human-60',      hex:'#898A7F', desc:'Status — Incomplete badge' },
+  { sub:'Status',      token:'bg/status/incomplete/subtle/default',    alias:'human-20',      hex:'#F3F3F0', desc:'Status — Incomplete subtle' },
+  { sub:'Status',      token:'bg/status/error/base/default',           alias:'rust-60',       hex:'#9E3225', desc:'Status — Error badge' },
+  { sub:'Status',      token:'bg/status/error/subtle/default',         alias:'rust-20',       hex:'#FEDBD7', desc:'Status — Error subtle' },
+  { sub:'Status',      token:'bg/status/completed/base/default',       alias:'evergreen-40',  hex:'#62A265', desc:'Status — Completed badge' },
+  { sub:'AI',          token:'bg/ai/sakura/base/default',              alias:'sakura-40',     hex:'#DA67CF', desc:'AI surface — Sakura pink, active' },
+  { sub:'AI',          token:'bg/ai/sakura/base/disabled',             alias:'human-10',      hex:'#F9F9F6', desc:'AI surface — Sakura, disabled' },
+  { sub:'AI',          token:'bg/ai/ocean/base/default',               alias:'ocean-40',      hex:'#6697C9', desc:'AI surface — Ocean blue, active' },
+  { sub:'AI',          token:'bg/ai/ocean/base/disabled',              alias:'human-10',      hex:'#F9F9F6', desc:'AI surface — Ocean, disabled' },
+  { sub:'Color',       token:'bg/color/human',                         alias:'human-80',      hex:'#3E3E33', desc:'Color tag — Human (warm neutral)' },
+  { sub:'Color',       token:'bg/color/evergreen',                     alias:'evergreen-70',  hex:'#274427', desc:'Color tag — Evergreen' },
+  { sub:'Color',       token:'bg/color/pebble',                        alias:'pebble-70',     hex:'#493B2C', desc:'Color tag — Pebble' },
+  { sub:'Color',       token:'bg/color/pebble/subtle/default',         alias:'pebble-20',     hex:'#E8E2D8', desc:'Color tag — Pebble subtle' },
+  { sub:'Color',       token:'bg/color/ocean',                         alias:'ocean-70',      hex:'#1D3D58', desc:'Color tag — Ocean' },
+  { sub:'Color',       token:'bg/color/ocean/subtle/default',          alias:'ocean-20',      hex:'#DAE5FC', desc:'Color tag — Ocean subtle' },
+  { sub:'Color',       token:'bg/color/tropic/subtle/default',         alias:'tropic-20',     hex:'#D3E7E9', desc:'Color tag — Tropic subtle' },
+  { sub:'Color',       token:'bg/color/sakura',                        alias:'sakura-70',     hex:'#5F235B', desc:'Color tag — Sakura' },
+  { sub:'Color',       token:'bg/color/sakura/subtle/default',         alias:'sakura-20',     hex:'#F6DAF5', desc:'Color tag — Sakura subtle' },
+  { sub:'Color',       token:'bg/color/iris',                          alias:'iris-70',       hex:'#3F2B73', desc:'Color tag — Iris' },
+  { sub:'Color',       token:'bg/color/iris/subtle/default',           alias:'iris-20',       hex:'#E4DCF9', desc:'Color tag — Iris subtle' },
+  { sub:'Color',       token:'bg/color/iris/muted/default',            alias:'iris-10',       hex:'#F5F1FD', desc:'Color tag — Iris muted' },
+  { sub:'Color',       token:'bg/color/moss/subtle/default',           alias:'moss-20',       hex:'#DEE5D1', desc:'Color tag — Moss subtle' },
+];
+
+const borderTokens = [
+  { sub:'Neutral',     token:'border/neutral/muted',              alias:'human-10',      hex:'#F9F9F6', desc:'Muted divider — minimal separation' },
+  { sub:'Neutral',     token:'border/neutral/subtle/default',     alias:'human-20',      hex:'#F3F3F0', desc:'Subtle border — section dividers' },
+  { sub:'Neutral',     token:'border/neutral/base/default',       alias:'human-30',      hex:'#E7E7E1', desc:'Default border — component edges' },
+  { sub:'Neutral',     token:'border/neutral/base/active',        alias:'pebble-30',     hex:'#CDBEA8', desc:'Default border — active/focused state' },
+  { sub:'Neutral',     token:'border/neutral/base/disabled',      alias:'human-20',      hex:'#F3F3F0', desc:'Default border — disabled state' },
+  { sub:'Neutral',     token:'border/neutral/strong/default',     alias:'human-80',      hex:'#3E3E33', desc:'Strong border — high-contrast edges' },
+  { sub:'Neutral',     token:'border/neutral/strong/disabled',    alias:'human-60',      hex:'#898A7F', desc:'Strong border — disabled state' },
+  { sub:'Semantic',    token:'border/destructive/base',           alias:'rust-50',       hex:'#D14532', desc:'Destructive border — error inputs, alerts' },
+  { sub:'Semantic',    token:'border/destructive/subtle',         alias:'rust-40',       hex:'#E86F5F', desc:'Destructive border — subtle' },
+  { sub:'Semantic',    token:'border/inverse/base',               alias:'human-0',       hex:'#FFFFFF', desc:'Border on dark surfaces' },
+  { sub:'Semantic',    token:'border/focus/base',                 alias:'iris-50',       hex:'#7F63C5', desc:'Focus ring — keyboard navigation' },
+  { sub:'Semantic',    token:'border/brand/strong',               alias:'helios-70',     hex:'#F5E902', desc:'Brand border — CTA emphasis' },
+  { sub:'Semantic',    token:'border/brand/base',                 alias:'pebble-30',     hex:'#CDBEA8', desc:'Brand border — secondary' },
+  { sub:'Semantic',    token:'border/link/base/default',          alias:'ocean-30',      hex:'#A8C3EB', desc:'Link underline/border — active' },
+  { sub:'Semantic',    token:'border/link/base/disabled',         alias:'ocean-10',      hex:'#ECF3FE', desc:'Link border — disabled state' },
+  { sub:'AI',          token:'border/ai/sakura/base',             alias:'sakura-30',     hex:'#EAA9E5', desc:'AI border — Sakura pink' },
+  { sub:'AI',          token:'border/ai/sakura/subtle',           alias:'sakura-20',     hex:'#F6DAF5', desc:'AI border — Sakura subtle' },
+  { sub:'AI',          token:'border/ai/ocean/base',              alias:'ocean-30',      hex:'#A8C3EB', desc:'AI border — Ocean blue' },
+  { sub:'AI',          token:'border/ai/iris/subtle',             alias:'iris-20',       hex:'#E4DCF9', desc:'AI border — Iris subtle' },
 ];
 
 const matrixTexts = [
-  { label:'text/primary',    hex:'#1A1A1A' },
-  { label:'text/secondary',  hex:'#6B6758' },
-  { label:'text/tertiary',   hex:'#878675' },
-  { label:'text/on-dark',    hex:'#F3F3F0' },
+  { label:'fg/neutral/strong',           hex:'#3E3E33' },
+  { label:'fg/neutral/base/default',     hex:'#646459' },
+  { label:'fg/neutral/subtle',           hex:'#898A7F' },
+  { label:'fg/neutral/muted',            hex:'#AFAFA5' },
+  { label:'fg/inverse/base/default',     hex:'#FFFFFF' },
 ];
 
 const matrixBgs = [
-  { label:'bg/page',       hex:'#F3F3F0' },
-  { label:'bg/surface',    hex:'#F9F9F6' },
-  { label:'White',         hex:'#FFFFFF' },
-  { label:'Near Black',    hex:'#1A1A1A' },
-  { label:'Deep Brown',    hex:'#504E41' },
+  { label:'bg/neutral/base/default',            hex:'#FFFFFF' },
+  { label:'bg/neutral/subtle/default',          hex:'#F9F9F6' },
+  { label:'bg/neutral/muted/default',           hex:'#F3F3F0' },
+  { label:'bg/neutral/reversed/strong/default', hex:'#3E3E33' },
+  { label:'bg/brand/strong/default',            hex:'#FBF500' },
 ];
 
 // ── COLOR TAB SWITCHING ──
@@ -511,51 +661,68 @@ function buildColorTables() {
 function buildColorPrims() {
   const grid = document.getElementById('color-prim-grid');
   if (!grid) return;
-  colorPrims.forEach(p => {
-    const card = document.createElement('div');
-    card.className = 'color-prim-card' + (p.accent ? ' is-accent' : '');
-    card.innerHTML = `
-      <div class="color-prim-swatch" style="background:${p.hex};"></div>
-      <div class="color-prim-meta">
-        <div class="color-prim-name">${p.name}</div>
-        <span class="color-prim-token">${p.token}</span>
-        <div class="color-prim-hex">${p.hex}</div>
-      </div>`;
-    grid.appendChild(card);
+  colorRamps.forEach(ramp => {
+    const row = document.createElement('div');
+    row.className = 'color-ramp-row';
+    const swatchesHtml = ramp.steps.map(step => {
+      const labelColor = lum(step.l) > 0.4 ? 'rgba(0,0,0,0.4)' : 'rgba(255,255,255,0.75)';
+      return `<div class="color-ramp-swatch" style="background:${step.l};" title="${ramp.tag}-${step.s} · ${step.l}"><span class="ramp-step" style="color:${labelColor};">${step.s}</span></div>`;
+    }).join('');
+    row.innerHTML = `
+      <div class="color-ramp-meta">
+        <div class="color-ramp-name">${ramp.name}</div>
+        <span class="color-ramp-tag">${ramp.tag}</span>
+      </div>
+      <div class="color-ramp-swatches">${swatchesHtml}</div>`;
+    grid.appendChild(row);
   });
 }
 
 function buildColorSemantics() {
   const container = document.getElementById('color-sem-table');
   if (!container) return;
-  const groups = [...new Set(colorSemantics.map(s => s.group))];
-  groups.forEach(group => {
-    const tokens = colorSemantics.filter(s => s.group === group);
-    const groupDiv = document.createElement('div');
-    groupDiv.className = 'col-sem-group';
-    let html = `
-      <div class="col-sem-group-label">${group}</div>
-      <div class="col-sem-table-inner">
-        <div class="col-sem-thead">
-          <div class="col-sem-th">Token</div>
-          <div class="col-sem-th">References</div>
-          <div class="col-sem-th">Value</div>
-          <div class="col-sem-th"></div>
-          <div class="col-sem-th">Description</div>
-        </div>`;
-    tokens.forEach(s => {
-      html += `
-        <div class="col-sem-tr">
-          <div class="col-sem-td"><span class="sp-token-name">${s.token}</span></div>
-          <div class="col-sem-td"><span class="sp-ref-tag">${s.ref}</span></div>
-          <div class="col-sem-td"><span class="col-sem-hex">${s.hex}</span></div>
-          <div class="col-sem-td-swatch"><div class="col-sem-swatch" style="background:${s.hex};"></div></div>
-          <div class="col-sem-td-desc">${s.desc}</div>
-        </div>`;
+  const sections = [
+    { label:'Foreground', prefix:'fg',     data:fgTokens },
+    { label:'Background', prefix:'bg',     data:bgTokens },
+    { label:'Border',     prefix:'border', data:borderTokens },
+  ];
+  sections.forEach(section => {
+    const sectionDiv = document.createElement('div');
+    sectionDiv.className = 'col-sem-section';
+    const headerDiv = document.createElement('div');
+    headerDiv.className = 'col-sem-section-header';
+    headerDiv.innerHTML = `<span class="col-sem-section-name">${section.label}</span><span class="col-sem-section-prefix">${section.prefix}</span>`;
+    sectionDiv.appendChild(headerDiv);
+    const subs = [...new Set(section.data.map(t => t.sub))];
+    subs.forEach(sub => {
+      const tokens = section.data.filter(t => t.sub === sub);
+      const groupDiv = document.createElement('div');
+      groupDiv.className = 'col-sem-group';
+      let html = `
+        <div class="col-sem-group-label">${sub}</div>
+        <div class="col-sem-table-inner">
+          <div class="col-sem-thead">
+            <div class="col-sem-th">Token</div>
+            <div class="col-sem-th">Alias</div>
+            <div class="col-sem-th">Value</div>
+            <div class="col-sem-th"></div>
+            <div class="col-sem-th">Description</div>
+          </div>`;
+      tokens.forEach(t => {
+        html += `
+          <div class="col-sem-tr">
+            <div class="col-sem-td"><span class="sp-token-name">${t.token}</span></div>
+            <div class="col-sem-td"><span class="sp-ref-tag">${t.alias}</span></div>
+            <div class="col-sem-td"><span class="col-sem-hex">${t.hex}</span></div>
+            <div class="col-sem-td-swatch"><div class="col-sem-swatch" style="background:${t.hex};"></div></div>
+            <div class="col-sem-td-desc">${t.desc}</div>
+          </div>`;
+      });
+      html += '</div>';
+      groupDiv.innerHTML = html;
+      sectionDiv.appendChild(groupDiv);
     });
-    html += '</div>';
-    groupDiv.innerHTML = html;
-    container.appendChild(groupDiv);
+    container.appendChild(sectionDiv);
   });
 }
 

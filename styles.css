@@ -924,45 +924,66 @@
   .col-wrap .col-panel > .ed-section:nth-child(2) { animation-delay: 0.26s; }
   .col-wrap .col-panel > .ed-section:nth-child(3) { animation-delay: 0.34s; }
 
-  /* ── Color Primitive Grid ── */
+  /* ── Color Primitive Ramp Rows ── */
   .color-prim-grid {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
     margin-top: 28px;
   }
-  .color-prim-card {
-    display: flex; flex-direction: column;
-    border-radius: var(--radius-lg);
+  .color-ramp-row {
+    display: flex;
+    align-items: stretch;
+    border-radius: 8px;
     overflow: hidden;
     border: 1px solid var(--border);
-    background: var(--bg-surface);
-    transition: box-shadow .15s;
+    height: 60px;
   }
-  .color-prim-card:hover { box-shadow: var(--shadow-md); }
-  .color-prim-swatch { height: 72px; width: 100%; }
-  .color-prim-meta { padding: 10px 12px; }
-  .color-prim-name {
-    font-size: 11px; font-weight: 600; color: var(--text-primary);
-    margin-bottom: 4px;
+  .color-ramp-meta {
+    width: 136px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 14px;
+    background: var(--c1);
+    border-right: 1px solid var(--border);
   }
-  .color-prim-token {
-    font-family: monospace; font-size: 10px; color: var(--text-secondary);
-    background: var(--c2); padding: 1px 5px; border-radius: 3px;
-    display: inline-block; margin-bottom: 5px;
+  .color-ramp-name {
+    font-size: 13px; font-weight: 600; color: var(--text-primary);
+    margin-bottom: 5px; letter-spacing: 0;
   }
-  .color-prim-hex {
-    font-family: monospace; font-size: 11px; color: var(--text-tertiary);
+  .color-ramp-tag {
+    font-family: monospace; font-size: 10px; color: var(--text-tertiary);
+    background: var(--c2); padding: 1px 6px; border-radius: 3px; display: inline-block;
   }
-  /* Apollo Yellow card — needs dark text on bright background */
-  .color-prim-card.is-accent .color-prim-meta { background: #FBF500; }
-  .color-prim-card.is-accent .color-prim-name { color: var(--c10); }
-  .color-prim-card.is-accent .color-prim-token { background: rgba(26,26,26,0.10); color: var(--c9); }
-  .color-prim-card.is-accent .color-prim-hex   { color: var(--c8); }
+  .color-ramp-swatches { display: flex; flex: 1; }
+  .color-ramp-swatch {
+    flex: 1; display: flex; align-items: flex-end; justify-content: center;
+    padding-bottom: 6px; transition: flex .2s ease;
+  }
+  .color-ramp-swatch:hover { flex: 2; }
+  .ramp-step {
+    font-size: 9px; font-weight: 700; letter-spacing: 0; pointer-events: none;
+  }
 
   /* ── Color Semantics Table ── */
-  .col-sem-group { margin-top: 24px; }
-  .col-sem-group:first-child { margin-top: 28px; }
+  .col-sem-section { margin-top: 40px; }
+  .col-sem-section:first-child { margin-top: 28px; }
+  .col-sem-section-header {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 16px; padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .col-sem-section-name {
+    font-family: var(--font-display); font-size: 18px; font-weight: 400;
+    color: var(--text-primary); letter-spacing: 0;
+  }
+  .col-sem-section-prefix {
+    font-family: monospace; font-size: 11px; color: var(--text-tertiary);
+    background: var(--c2); padding: 2px 7px; border-radius: 4px;
+  }
+  .col-sem-group { margin-top: 20px; }
   .col-sem-group-label {
     font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px;
     color: var(--text-tertiary); margin-bottom: 8px;
@@ -972,7 +993,7 @@
   }
   .col-sem-thead {
     display: grid;
-    grid-template-columns: 200px 130px 90px 36px 1fr;
+    grid-template-columns: 290px 120px 90px 36px 1fr;
     background: var(--c1); border-bottom: 1px solid var(--border);
   }
   .col-sem-th {
@@ -982,14 +1003,15 @@
   }
   .col-sem-tr {
     display: grid;
-    grid-template-columns: 200px 130px 90px 36px 1fr;
+    grid-template-columns: 290px 120px 90px 36px 1fr;
     border-bottom: 1px solid var(--border); background: #fff; align-items: center;
   }
   .col-sem-tr:last-child { border-bottom: none; }
   .col-sem-td {
     padding: 11px 14px; font-size: 13px; color: var(--text-secondary);
-    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    overflow: hidden; white-space: nowrap;
   }
+  .col-sem-tr > .col-sem-td:first-child { white-space: normal; overflow: visible; }
   .col-sem-hex { font-family: monospace; font-size: 12px; color: var(--text-secondary); }
   .col-sem-td-swatch {
     padding: 11px 8px 11px 0;

@@ -553,15 +553,15 @@
 
       <div class="ed-section">
         <div class="ed-eyebrow">Primitives · Color</div>
-        <h2 class="ed-h2">The full palette</h2>
-        <p class="ed-body">Twelve raw values spanning white to near-black across a warm neutral spectrum, anchored by Apollo Yellow. Do not consume primitive tokens directly in components — always reach for a semantic token.</p>
+        <h2 class="ed-h2">11 named ramps</h2>
+        <p class="ed-body">Apollo v3 organizes its palette into 11 named color ramps — Human, Pebble, Ocean, Evergreen, Ember, Rust, Sakura, Iris, Tropic, Moss, and Helios. Each ramp runs from light (10) to dark (80–90), giving semantic tokens a consistent dimensional reference. Do not consume primitive tokens directly in components — always reach for a semantic token.</p>
         <div class="color-prim-grid" id="color-prim-grid"></div>
       </div>
 
       <div class="ed-section" style="border-bottom:none; padding-bottom:0;">
         <div class="ed-eyebrow">Semantics · Color</div>
         <h2 class="ed-h2">Intent-encoded tokens</h2>
-        <p class="ed-body">Semantic tokens give each primitive a named role. Consuming semantics instead of primitives decouples components from the raw palette and enables global theming. Status colors (pass, advisory, fail) are intentionally out of palette — they carry a universal signal that must remain distinct from neutral surfaces.</p>
+        <p class="ed-body">Semantic tokens map ramp steps to named roles across three categories: <strong>Foreground</strong> (text and icon colors), <strong>Background</strong> (surface fills), and <strong>Border</strong> (strokes and dividers). Each token encodes role, variant, and state — consuming semantics instead of primitives decouples components from the raw palette and enables global theming.</p>
         <div id="color-sem-table"></div>
       </div>
 
@@ -573,7 +573,7 @@
       <div class="ed-section" style="border-bottom:none; padding-bottom:0;">
         <div class="ed-eyebrow">Contrast Pairing Matrix</div>
         <h2 class="ed-h2">Which text/background pairs pass WCAG AA</h2>
-        <p class="ed-body">Evaluated against WCAG 2.2 AA thresholds. Standard text requires <strong>4.5:1</strong>; large text (≥18pt regular or ≥14pt bold) requires <strong>3:1</strong>. Note that <code class="sp-code">text/tertiary</code> and <code class="sp-code">text/muted-dark</code> resolve to the same primitive (color/6 · #878675) — their contrast values are identical.</p>
+        <p class="ed-body">Evaluated against WCAG 2.2 AA thresholds. Standard text requires <strong>4.5:1</strong>; large text (≥18pt regular or ≥14pt bold) requires <strong>3:1</strong>. Matrix shows key foreground tokens (<code class="sp-code">fg/neutral/*</code> and <code class="sp-code">fg/inverse/base/default</code>) against representative background surfaces.</p>
         <div id="contrast-matrix"></div>
       </div>
 
