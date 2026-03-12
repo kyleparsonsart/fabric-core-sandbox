@@ -1316,6 +1316,24 @@ function showPage(name) {
 function goHome() { history.pushState({ page: null }, '', './'); showPage(null); }
 function goPage(name) { history.pushState({ page: name }, '', './' + name); showPage(name); }
 
+window.addEventListener('popstate', function(e) {
+  showPage(e.state && e.state.page ? e.state.page : null);
+});
+
+// On direct load, check URL for a page slug
+(function() {
+  const valid = ['typography', 'spacing', 'color', 'sandbox'];
+  const params = new URLSearchParams(window.location.search);
+  const fromParam = params.get('p');
+  if (fromParam && valid.includes(fromParam)) {
+    history.replaceState({ page: fromParam }, '', './' + fromParam);
+    showPage(fromParam);
+  } else {
+    const seg = window.location.pathname.replace(/\/$/, '').split('/').pop();
+    if (valid.includes(seg)) { history.replaceState({ page: seg }, '', window.location.pathname); showPage(seg); }
+  }
+})();
+
 let customBg = '#FFFFFF', customFg = '#1A1A1A';
 
 function lum(hex) {
