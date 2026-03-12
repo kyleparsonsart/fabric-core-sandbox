@@ -102,13 +102,18 @@
     max-width: 900px;
   }
 
-  .toolbar-title {
+  .floating-crumbs {
+    display: flex;
+    align-items: center;
+    gap: 5px;
     font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: #888880;
+    color: var(--Human-60);
+    margin-bottom: 18px;
   }
+  .f-crumb { cursor: pointer; transition: color 0.1s; }
+  .f-crumb:hover { color: var(--Human-90); }
+  .f-crumb-sep { color: var(--Human-40); }
+  .f-crumb-current { color: var(--Human-90); font-weight: 500; }
 
   .swatch-picker {
     display: flex;
@@ -171,9 +176,9 @@
 
   .page-title {
     font-family: 'Founders Grotesk', 'ABC Diatype', sans-serif;
-    font-size: 36px;
-    font-weight: 500;
-    letter-spacing: -0.01em;
+    font-size: 28px;
+    font-weight: 400;
+    letter-spacing: -0.6px;
     color: var(--Human-90);
     line-height: 1.1;
   }
@@ -689,7 +694,6 @@
 <body>
 
 <div class="toolbar">
-  <div class="toolbar-title">Fabric Foundations</div>
   <div class="swatch-picker">
     <span class="swatch-label">Canvas</span>
     <div style="position:relative; margin-bottom: 0;">
@@ -709,7 +713,13 @@
 </div>
 
 <div class="page-header">
-  <div class="page-eyebrow">Fabric Foundations</div>
+  <div class="floating-crumbs">
+    <span class="f-crumb" onclick="window.location.href='./'">Fabric</span>
+    <span class="f-crumb-sep">/</span>
+    <span class="f-crumb" onclick="window.location.href='./'">Tokens Northstar</span>
+    <span class="f-crumb-sep">/</span>
+    <span class="f-crumb-current">Component Sandbox</span>
+  </div>
   <h1 class="page-title">Component Sandbox</h1>
 </div>
 
