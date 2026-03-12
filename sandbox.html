@@ -685,6 +685,139 @@
     opacity: 0.5;
   }
 
+  /* ── RADIOS ── */
+  .radio-section-layout {
+    display: flex;
+    gap: 64px;
+    align-items: flex-start;
+  }
+
+  .radio-basic-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 48px;
+    row-gap: 28px;
+    align-items: center;
+  }
+
+  .radio-col-header {
+    text-align: center;
+  }
+
+  .radio-cell {
+    display: flex;
+    justify-content: center;
+  }
+
+  .radio-input {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1.5px solid var(--Human-40);
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+  }
+
+  .radio-checked {
+    border: 2px solid var(--Human-100);
+    background: var(--Human-100);
+  }
+
+  .radio-checked::after {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: white;
+    display: block;
+  }
+
+  .radio-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+  }
+
+  .radio-label-sub {
+    align-items: flex-start;
+  }
+
+  .radio-label-sub .radio-input {
+    margin-top: 2px;
+  }
+
+  .radio-text {
+    font-size: 14px;
+    color: var(--Human-90);
+    font-weight: 400;
+    display: block;
+  }
+
+  .radio-subtext {
+    font-size: 12px;
+    color: var(--Human-60);
+    display: block;
+    margin-top: 2px;
+  }
+
+  .radio-cards-col {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+  }
+
+  .radio-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 20px;
+    border-radius: 12px;
+    border: 1.5px solid var(--Human-40);
+    background: var(--Human-0);
+    cursor: pointer;
+    transition: border-color 0.15s;
+  }
+
+  .radio-card-selected {
+    border: 2px solid var(--Human-100);
+  }
+
+  .radio-card .radio-input {
+    align-self: flex-start;
+    margin-top: 2px;
+  }
+
+  .radio-card-text {
+    flex: 1;
+  }
+
+  .radio-card-slot {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: flex-end;
+  }
+
+  .radio-card-slot-item {
+    height: 20px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0 8px;
+    font-size: 10px;
+    color: var(--Human-80);
+  }
+
+  .slot-item-tan  { background: #EDE8D5; width: 72px; }
+  .slot-item-pink { background: #F5D5CF; width: 88px; }
+  .slot-item-blue { background: #D5DFF5; width: 72px; }
+
 </style>
 </head>
 <body>
@@ -957,12 +1090,85 @@
 
     </div>
   </div>
+
+  <!-- RADIOS -->
+  <div class="section" style="margin-top: 72px;">
+    <div class="section-header">
+      <span class="section-title">Radios</span>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="radio-section-layout">
+
+      <!-- Basic variants -->
+      <div class="radio-basic-grid">
+        <div class="radio-col-header variant-name">Unselected</div>
+        <div class="radio-col-header variant-name">Selected</div>
+
+        <!-- Bare -->
+        <div class="radio-cell"><span class="radio-input"></span></div>
+        <div class="radio-cell"><span class="radio-input radio-checked"></span></div>
+
+        <!-- Label -->
+        <div class="radio-cell">
+          <label class="radio-label">
+            <span class="radio-input"></span>
+            <span class="radio-text">Label</span>
+          </label>
+        </div>
+        <div class="radio-cell">
+          <label class="radio-label">
+            <span class="radio-input radio-checked"></span>
+            <span class="radio-text">Label</span>
+          </label>
+        </div>
+
+        <!-- Label + Subtext -->
+        <div class="radio-cell">
+          <label class="radio-label radio-label-sub">
+            <span class="radio-input"></span>
+            <div><span class="radio-text">Label</span><span class="radio-subtext">Subtext</span></div>
+          </label>
+        </div>
+        <div class="radio-cell">
+          <label class="radio-label radio-label-sub">
+            <span class="radio-input radio-checked"></span>
+            <div><span class="radio-text">Label</span><span class="radio-subtext">Subtext</span></div>
+          </label>
+        </div>
       </div>
+
+      <!-- Card variants -->
+      <div class="radio-cards-col">
+        <div class="radio-card">
+          <span class="radio-input"></span>
+          <div class="radio-card-text">
+            <span class="radio-text">Label</span>
+            <span class="radio-subtext">Subtext</span>
+          </div>
+          <div class="radio-card-slot">
+            <div class="radio-card-slot-item slot-item-tan"></div>
+            <div class="radio-card-slot-item slot-item-pink"></div>
+            <div class="radio-card-slot-item slot-item-blue"></div>
+          </div>
+        </div>
+
+        <div class="radio-card radio-card-selected">
+          <span class="radio-input radio-checked"></span>
+          <div class="radio-card-text">
+            <span class="radio-text">Label</span>
+            <span class="radio-subtext">Subtext</span>
+          </div>
+          <div class="radio-card-slot">
+            <div class="radio-card-slot-item slot-item-tan"></div>
+            <div class="radio-card-slot-item slot-item-pink"></div>
+            <div class="radio-card-slot-item slot-item-blue"></div>
+          </div>
+        </div>
       </div>
 
     </div>
   </div>
-
 
 </div>
 
