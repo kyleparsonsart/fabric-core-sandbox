@@ -535,10 +535,10 @@
   }
 
 
-  /* Chip groups layout */
+  /* Chip groups layout — single flat grid, display:contents flattens wrappers */
   .chip-groups {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 88px repeat(4, 1fr);
     gap: 1px;
     background: var(--Human-40);
     border: 1px solid var(--Human-40);
@@ -546,20 +546,13 @@
     overflow: hidden;
   }
 
-  .chip-group {
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
-    gap: 1px;
-    background: var(--Human-40);
-  }
+  .chip-group { display: contents; }
+  .chip-row   { display: contents; }
 
   .chip-group-label {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 88px;
-    min-width: 88px;
     padding: 0 12px;
     font-size: 10px;
     font-weight: 500;
@@ -569,15 +562,7 @@
     background: var(--canvas-bg, #ffffff);
   }
 
-  .chip-row {
-    flex: 1;
-    display: flex;
-    gap: 1px;
-    background: var(--Human-40);
-  }
-
   .chip-row .variant-col {
-    flex: 1;
     padding: 32px 16px 24px;
     justify-content: center;
     background: var(--canvas-bg, #ffffff);
