@@ -88,14 +88,6 @@
   }
 
   /* ── TOOLBAR ── */
-  .toolbar {
-    width: 100%;
-    max-width: 900px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 32px;
-  }
 
   .content {
     width: 100%;
@@ -109,6 +101,10 @@
     font-size: 12px;
     color: var(--Human-60);
     margin-bottom: 18px;
+    justify-content: space-between;
+  }
+  .floating-crumbs .swatch-picker {
+    margin-left: auto;
   }
   .f-crumb { cursor: pointer; transition: color 0.1s; }
   .f-crumb:hover { color: var(--Human-90); }
@@ -693,25 +689,6 @@
 </head>
 <body>
 
-<div class="toolbar">
-  <div class="swatch-picker">
-    <span class="swatch-label">Canvas</span>
-    <div style="position:relative; margin-bottom: 0;">
-      <div class="swatch" data-bg="#ffffff" onclick="setBg(this)" title="Human-0 · #ffffff"></div>
-    </div>
-    <div style="position:relative;">
-      <div class="swatch" data-bg="#F9F9F6" onclick="setBg(this)" title="Human-10 · #F9F9F6"></div>
-    </div>
-    <div style="position:relative;">
-      <div class="swatch" data-bg="#F3F3F0" onclick="setBg(this)" title="Human-20 · #F3F3F0"></div>
-    </div>
-    <button class="grid-toggle" onclick="toggleGrid(this)" title="Toggle dot grid">
-      <span class="grid-toggle-dot"></span>
-      Grid
-    </button>
-  </div>
-</div>
-
 <div class="page-header">
   <div class="floating-crumbs">
     <span class="f-crumb" onclick="window.location.href='./'">Fabric</span>
@@ -719,6 +696,22 @@
     <span class="f-crumb" onclick="window.location.href='./'">Tokens Northstar</span>
     <span class="f-crumb-sep">/</span>
     <span class="f-crumb-current">Component Sandbox</span>
+    <div class="swatch-picker">
+      <span class="swatch-label">Canvas</span>
+      <div style="position:relative; margin-bottom: 0;">
+        <div class="swatch" data-bg="#ffffff" onclick="setBg(this)" title="Human-0 · #ffffff"></div>
+      </div>
+      <div style="position:relative;">
+        <div class="swatch" data-bg="#F9F9F6" onclick="setBg(this)" title="Human-10 · #F9F9F6"></div>
+      </div>
+      <div style="position:relative;">
+        <div class="swatch" data-bg="#F3F3F0" onclick="setBg(this)" title="Human-20 · #F3F3F0"></div>
+      </div>
+      <button class="grid-toggle" onclick="toggleGrid(this)" title="Toggle dot grid">
+        <span class="grid-toggle-dot"></span>
+        Grid
+      </button>
+    </div>
   </div>
   <h1 class="page-title">Component Sandbox</h1>
 </div>
