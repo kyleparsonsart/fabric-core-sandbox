@@ -1313,8 +1313,8 @@ function showPage(name) {
   if (name === 'color' && document.getElementById('color-prim-grid') && document.getElementById('color-prim-grid').children.length === 0) buildColorTables();
   if (name === 'sandbox' && !document.getElementById('sb-buttons').children.length) buildSandbox();
 }
-function goHome() { showPage(null); }
-function goPage(name) { showPage(name); }
+function goHome() { history.pushState({ page: null }, '', './'); showPage(null); }
+function goPage(name) { history.pushState({ page: name }, '', './' + name); showPage(name); }
 
 let customBg = '#FFFFFF', customFg = '#1A1A1A';
 
