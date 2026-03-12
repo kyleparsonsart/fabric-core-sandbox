@@ -550,8 +550,8 @@
     display: flex;
     flex-direction: row;
     align-items: stretch;
-    margin-bottom: 0;
-    gap: 0;
+    gap: 1px;
+    background: var(--Human-40);
   }
 
   .chip-group-label {
@@ -567,12 +567,13 @@
     text-transform: uppercase;
     color: var(--Human-60);
     background: var(--canvas-bg, #ffffff);
-    border-right: 1px solid var(--Human-40);
   }
 
   .chip-row {
     flex: 1;
     display: flex;
+    gap: 1px;
+    background: var(--Human-40);
   }
 
   .chip-row .variant-col {
@@ -580,11 +581,6 @@
     padding: 32px 16px 24px;
     justify-content: center;
     background: var(--canvas-bg, #ffffff);
-    border-right: 1px solid var(--Human-40);
-  }
-
-  .chip-row .variant-col:last-child {
-    border-right: none;
   }
 
 
