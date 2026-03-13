@@ -1310,7 +1310,7 @@ function showPage(name) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-' + (name || 'home')).classList.add('active');
   if (name === 'typography' && document.getElementById('tokensGrid').children.length === 0) buildCards();
-  if (name === 'color' && document.getElementById('color-prim-grid') && document.getElementById('color-prim-grid').children.length === 0) buildColorTables();
+  if (name === 'color' && document.getElementById('color-prim-grid') && !document.querySelector('#color-prim-grid .color-ramp-row')) { document.getElementById('color-prim-grid').innerHTML = ''; buildColorTables(); }
   if (name === 'sandbox' && !document.getElementById('sb-buttons').children.length) buildSandbox();
 }
 function goHome() { history.pushState({ page: null }, '', './'); showPage(null); }
@@ -1319,20 +1319,6 @@ function goPage(name) { history.pushState({ page: name }, '', './' + name); show
 window.addEventListener('popstate', function(e) {
   showPage(e.state && e.state.page ? e.state.page : null);
 });
-
-// On direct load, check URL for a page slug
-(function() {
-  const valid = ['typography', 'spacing', 'color', 'sandbox'];
-  const params = new URLSearchParams(window.location.search);
-  const fromParam = params.get('p');
-  if (fromParam && valid.includes(fromParam)) {
-    history.replaceState({ page: fromParam }, '', './' + fromParam);
-    showPage(fromParam);
-  } else {
-    const seg = window.location.pathname.replace(/\/$/, '').split('/').pop();
-    if (valid.includes(seg)) { history.replaceState({ page: seg }, '', window.location.pathname); showPage(seg); }
-  }
-})();
 
 let customBg = '#FFFFFF', customFg = '#1A1A1A';
 
@@ -1976,6 +1962,20 @@ function buildSandbox() {
     </span>`
   ).join('');
 }
+
+// On direct load, check URL for a page slug (must run after all data consts are initialized)
+(function() {
+  const valid = ['typography', 'spacing', 'color', 'sandbox'];
+  const params = new URLSearchParams(window.location.search);
+  const fromParam = params.get('p');
+  if (fromParam && valid.includes(fromParam)) {
+    history.replaceState({ page: fromParam }, '', './' + fromParam);
+    showPage(fromParam);
+  } else {
+    const seg = window.location.pathname.replace(/\/$/, '').split('/').pop();
+    if (valid.includes(seg)) { history.replaceState({ page: seg }, '', window.location.pathname); showPage(seg); }
+  }
+})();
 </script>
 </body>
 </html>
