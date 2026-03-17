@@ -265,6 +265,47 @@
   .btn-brand:hover  { background: #D8E003; border-color: #C4CC00; }
   .btn-brand:active { background: #C4CC00; border-color: #B0B800; }
 
+  /* Option 3 — Primary bg one shade lighter (human/70) */
+  .btn-option3 {
+    padding: 12px var(--spacing-md);
+    background: #646459;
+    box-shadow: 0 3px 3px 0 rgba(62, 62, 51, 0.10);
+    color: #fff;
+  }
+  .btn-option3:hover  { background: #3E3E33; }
+  .btn-option3:active { background: #1A1A1A; }
+
+  /* Option 4 — ocean */
+  .btn-option4 {
+    padding: 12px var(--spacing-md);
+    background: #447AAF;
+    box-shadow: 0 3px 3px 0 rgba(29, 61, 88, 0.15);
+    color: #fff;
+  }
+  .btn-option4:hover  { background: #2B5782; }
+  .btn-option4:active { background: #1D3D58; }
+
+  /* Control — brand colors, no border/shadow/scale */
+  .btn-control {
+    padding: 12px var(--spacing-md);
+    border: none;
+    background: #EBF212;
+    box-shadow: none;
+    color: var(--Human-100);
+  }
+  .btn-control:hover  { background: #D8E003; }
+  .btn-control:active { background: #C4CC00; transform: none; }
+
+  /* Black */
+  .btn-black {
+    padding: 12px var(--spacing-md);
+    background: #000000;
+    box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.15);
+    color: #fff;
+  }
+  .btn-black:hover  { background: #1A1A1A; }
+  .btn-black:active { background: #3E3E33; }
+
   /* Primary — Human-80 → Human-90 → ~#0D0D0D */
   .btn-primary {
     padding: 12px var(--spacing-md);
@@ -275,16 +316,16 @@
   .btn-primary:hover  { background: #1A1A1A; }
   .btn-primary:active { background: #0D0D0D; }
 
-  /* Secondary — Human-10 → Human-20 → Human-30 */
+  /* Secondary — Human-20 → Human-30 → Human-40 */
   .btn-secondary {
     padding: 12px var(--spacing-md);
     border: 1px solid var(--Human-40);
-    background: #F9F9F6;
+    background: #F3F3F0;
     box-shadow: 0 3px 3px 0 rgba(62, 62, 51, 0.10);
     color: var(--Human-80);
   }
-  .btn-secondary:hover  { background: #F3F3F0; }
-  .btn-secondary:active { background: #E7E7E1; }
+  .btn-secondary:hover  { background: #E7E7E1; border-color: #AFAFA5; }
+  .btn-secondary:active { background: #D4D5CB; border-color: #898A7F; }
 
   /* Tertiary — transparent → Human-20 → Human-30 */
   .btn-tertiary {
@@ -296,48 +337,49 @@
   .btn-tertiary:hover  { background: #F3F3F0; border: 1px solid #E7E7E1; }
   .btn-tertiary:active { background: #E7E7E1; border: 1px solid #D4D5CB; }
 
-  /* Destructive Primary — rust-50 → rust-60 → rust-70 */
+  /* Destructive Primary — rust-10 → rust-20 → rust-30 */
   .btn-destructive-primary {
     padding: 12px var(--spacing-md);
-    background: #D14532;
-    box-shadow: 0 3px 3px 0 rgba(106, 36, 25, 0.15);
-    color: #fff;
-  }
-  .btn-destructive-primary:hover  { background: #9E3225; }
-  .btn-destructive-primary:active { background: #6A2419; }
-
-  /* Destructive Secondary — rust-10 → rust-20 → rust-30 */
-  .btn-destructive-secondary {
-    padding: 12px var(--spacing-md);
-    border: 1px solid var(--color-base-rust-30);
+    border: 1px solid #FEA99F;
     background: #FFF1EE;
     box-shadow: 0 3px 3px 0 rgba(106, 36, 25, 0.15);
-    color: var(--color-base-rust-50);
+    color: #D14532;
   }
-  .btn-destructive-secondary:hover  { background: #FEDBD7; }
-  .btn-destructive-secondary:active { background: #FEA99F; }
+  .btn-destructive-primary:hover  { background: #FEDBD7; border-color: #E86F5F; }
+  .btn-destructive-primary:active { background: #FEA99F; border-color: #D14532; }
 
-  /* AI Primary — iris-60 → iris-70 → iris-80 */
+  /* Destructive Secondary — tertiary style with rust colors */
+  .btn-destructive-secondary {
+    padding: 12px var(--spacing-md);
+    background: transparent;
+    color: #D14532;
+    border: 1px solid transparent;
+  }
+  .btn-destructive-secondary:hover  { background: #FFF1EE; border-color: #FEDBD7; }
+  .btn-destructive-secondary:active { background: #FEDBD7; border-color: #FEA99F; }
+
+  /* AI Primary — iris-10 → iris-20 → iris-30 */
   .btn-ai-primary {
     padding: 12px var(--spacing-md);
-    background: #603FAB;
-    box-shadow: 0 3px 3px 0 rgba(63, 43, 115, 0.15);
-    color: #fff;
-    gap: 6px;
-  }
-  .btn-ai-primary:hover  { background: #3F2B73; }
-  .btn-ai-primary:active { background: #291C4A; }
-
-  /* AI Secondary — iris-10 → iris-20 → iris-30 */
-  .btn-ai-secondary {
-    padding: 12px var(--spacing-md);
-    border: 1px solid var(--color-base-iris-30);
+    border: 1px solid #C3B8F4;
     background: #F5F1FD;
     box-shadow: 0 3px 3px 0 rgba(63, 43, 115, 0.15);
-    color: var(--color-base-iris-60);
+    color: #603FAB;
+    gap: 6px;
   }
-  .btn-ai-secondary:hover  { background: #E4DCF9; }
-  .btn-ai-secondary:active { background: #C3B8F4; }
+  .btn-ai-primary:hover  { background: #E4DCF9; border-color: #9D84DC; }
+  .btn-ai-primary:active { background: #C3B8F4; border-color: #7F63C5; }
+
+  /* AI Secondary — tertiary style with iris colors */
+  .btn-ai-secondary {
+    padding: 12px var(--spacing-md);
+    background: transparent;
+    color: #603FAB;
+    border: 1px solid transparent;
+    gap: 6px;
+  }
+  .btn-ai-secondary:hover  { background: #F5F1FD; border-color: #E4DCF9; }
+  .btn-ai-secondary:active { background: #E4DCF9; border-color: #C3B8F4; }
 
   /* ── VARIANT LABEL ── */
   .variant-label {
@@ -356,6 +398,14 @@
     flex-direction: column;
     align-items: center;
     gap: 8px;
+  }
+
+  .sb-experiment-title {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--Human-60);
   }
 
   .variant-name {
@@ -414,14 +464,14 @@
   .chip-selection:hover  { background: #F3F3F0; border-color: var(--Human-40); }
   .chip-selection:active { background: #E7E7E1; }
 
-  /* Selected: human/70 fill, white text */
+  /* Selected: 2px human/70 border, no fill */
   .chip-selection.is-selected {
-    background: #646459;
-    border-color: #646459;
-    color: #fff;
+    background: transparent;
+    border: 2px solid #646459;
+    color: #1A1A1A;
   }
-  .chip-selection.is-selected:hover  { background: #3E3E33; border-color: #3E3E33; }
-  .chip-selection.is-selected:active { background: #1A1A1A; border-color: #1A1A1A; }
+  .chip-selection.is-selected:hover  { background: #F3F3F0; border-color: #3E3E33; color: #1A1A1A; }
+  .chip-selection.is-selected:active { background: #E7E7E1; border-color: #3E3E33; color: #1A1A1A; }
 
   /* ── FILTER CHIP ── */
   .chip-filter:hover  { background: #F3F3F0; }
@@ -433,8 +483,8 @@
     border-color: #CDBEA8;
     color: var(--Human-90);
   }
-  .chip-filter.is-active:hover  { background: #CDBEA8; border-color: #CDBEA8; }
-  .chip-filter.is-active:active { background: #A7906C; border-color: #A7906C; }
+  .chip-filter.is-active:hover  { background: #CDBEA8; border-color: #A7906C; }
+  .chip-filter.is-active:active { background: #A7906C; border-color: #867250; }
 
   /* Dismiss button — tertiary-style, inherits chip color context */
   .chip-dismiss {
@@ -770,7 +820,7 @@
 
   .radio-cell {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
   }
 
   .radio-input {
@@ -788,17 +838,17 @@
   }
 
   .radio-checked {
-    border: 2px solid #646459;
-    background: #646459;
+    border: 2px solid #3E3E33;
+    background: #3E3E33;
   }
-  .radio-input:not(.radio-checked):hover { border-color: #646459; }
-  .radio-checked:hover  { border-color: #3E3E33; background: #3E3E33; }
-  .radio-checked:active { border-color: #1A1A1A; background: #1A1A1A; }
+  .radio-input:not(.radio-checked):hover { border-color: #3E3E33; }
+  .radio-checked:hover  { border-color: #1A1A1A; background: #1A1A1A; }
+  .radio-checked:active { border-color: #0D0D0D; background: #0D0D0D; }
 
   .radio-checked::after {
     content: '';
-    width: 7px;
-    height: 7px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     background: white;
     display: block;
@@ -821,6 +871,8 @@
 
   .radio-text {
     font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0;
     color: var(--Human-90);
     font-weight: 400;
     display: block;
@@ -828,15 +880,18 @@
 
   .radio-subtext {
     font-size: 12px;
+    line-height: 18px;
+    letter-spacing: 0;
     color: var(--Human-60);
     display: block;
-    margin-top: 2px;
   }
 
-  .radio-cards-col {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+  .radio-cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 16px;
+    row-gap: 12px;
+    align-items: center;
     flex: 1;
   }
 
@@ -844,25 +899,30 @@
     display: flex;
     align-items: center;
     gap: 14px;
-    padding: 16px 20px;
+    padding: 0 20px;
+    height: 66px;
     border-radius: 12px;
-    border: 1.5px solid var(--Human-40);
+    border: 1px solid #D4D5CB;
     background: var(--Human-0);
     cursor: pointer;
     transition: border-color 0.15s;
   }
+  .radio-card:hover { border-color: #AFAFA5; }
+  .radio-card-selected:hover { border-color: #3E3E33; }
 
   .radio-card-selected {
-    border: 2px solid #646459;
+    border: 2px solid #3E3E33;
   }
 
   .radio-card .radio-input {
-    align-self: flex-start;
-    margin-top: 2px;
+    align-self: center;
   }
 
   .radio-card-text {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
   .radio-card-slot {
@@ -873,19 +933,45 @@
   }
 
   .radio-card-slot-item {
-    height: 20px;
+    height: 8px;
     border-radius: 4px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    padding: 0 8px;
-    font-size: 10px;
-    color: var(--Human-80);
   }
 
-  .slot-item-tan  { background: #EDE8D5; width: 72px; }
-  .slot-item-pink { background: #F5D5CF; width: 88px; }
-  .slot-item-blue { background: #D5DFF5; width: 72px; }
+  .slot-item-tan  { background: #EDE8D5; width: 40px; }
+  .slot-item-pink { background: #F5D5CF; width: 52px; }
+  .slot-item-blue { background: #D5DFF5; width: 40px; }
+
+  /* ── CHECKBOXES ── */
+  .checkbox-input {
+    width: 22px;
+    height: 22px;
+    border-radius: 7px;
+    border: 1.5px solid var(--Human-40);
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: border-color 0.15s;
+    background: transparent;
+  }
+  .checkbox-checked {
+    border: 2px solid #3E3E33;
+    background: #3E3E33;
+  }
+  .checkbox-input:not(.checkbox-checked):hover { border-color: #3E3E33; }
+  .checkbox-checked:hover  { border-color: #1A1A1A; background: #1A1A1A; }
+  .checkbox-checked:active { border-color: #0D0D0D; background: #0D0D0D; }
+
+  .checkbox-checked::after {
+    content: '';
+    width: 9px;
+    height: 5px;
+    border-left: 2px solid white;
+    border-bottom: 2px solid white;
+    transform: rotate(-45deg) translate(1px, -1px);
+    display: block;
+  }
 
 </style>
 </head>
@@ -922,6 +1008,7 @@
   <button class="sb-tab active" onclick="switchSbTab('buttons', this)">Buttons</button>
   <button class="sb-tab" onclick="switchSbTab('chips', this)">Chips</button>
   <button class="sb-tab" onclick="switchSbTab('badges', this)">Badges</button>
+  <button class="sb-tab" onclick="switchSbTab('checkboxes', this)">Checkboxes</button>
   <button class="sb-tab" onclick="switchSbTab('radios', this)">Radios</button>
 </div>
 
@@ -956,16 +1043,26 @@
         <span class="variant-name">Destr. Secondary</span>
       </div>
       <div class="variant-col">
-        <button class="btn btn-ai-primary"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M8.40658 2.36475C8.75175 2.36475 9.03158 2.64457 9.03158 2.98975C9.03158 5.86623 11.3634 8.19808 14.2399 8.19808C14.5851 8.19808 14.8649 8.4779 14.8649 8.82308C14.8649 9.16826 14.5851 9.44808 14.2399 9.44808C11.3634 9.44808 9.03158 11.7799 9.03158 14.6564C9.03158 15.0016 8.75175 15.2814 8.40658 15.2814C8.0614 15.2814 7.78158 15.0016 7.78158 14.6564C7.78158 11.7799 5.44973 9.44808 2.57324 9.44808C2.22806 9.44808 1.94824 9.16826 1.94824 8.82308C1.94824 8.4779 2.22806 8.19808 2.57324 8.19808C5.44973 8.19808 7.78158 5.86623 7.78158 2.98975C7.78158 2.64457 8.0614 2.36475 8.40658 2.36475Z" fill="white"/><path d="M15.0732 11.6772C15.3379 11.6772 15.5524 11.8918 15.5524 12.1564C15.5524 13.2725 16.4572 14.1772 17.5732 14.1772C17.8379 14.1772 18.0524 14.3918 18.0524 14.6564C18.0524 14.9211 17.8379 15.1356 17.5732 15.1356C16.4572 15.1356 15.5524 16.0403 15.5524 17.1564C15.5524 17.4211 15.3379 17.6356 15.0732 17.6356C14.8086 17.6356 14.5941 17.4211 14.5941 17.1564C14.5941 16.6205 14.3812 16.1065 14.0022 15.7275C13.6232 15.3485 13.1092 15.1356 12.5732 15.1356C12.3086 15.1356 12.0941 14.9211 12.0941 14.6564C12.0941 14.3918 12.3086 14.1772 12.5732 14.1772C13.0219 14.1772 13.5334 13.9602 13.9378 13.5766C14.3387 13.1962 14.5941 12.6908 14.5941 12.1564C14.5941 11.8918 14.8086 11.6772 15.0732 11.6772Z" fill="white"/></svg>Button</button>
+        <button class="btn btn-ai-primary"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M8.40658 2.36475C8.75175 2.36475 9.03158 2.64457 9.03158 2.98975C9.03158 5.86623 11.3634 8.19808 14.2399 8.19808C14.5851 8.19808 14.8649 8.4779 14.8649 8.82308C14.8649 9.16826 14.5851 9.44808 14.2399 9.44808C11.3634 9.44808 9.03158 11.7799 9.03158 14.6564C9.03158 15.0016 8.75175 15.2814 8.40658 15.2814C8.0614 15.2814 7.78158 15.0016 7.78158 14.6564C7.78158 11.7799 5.44973 9.44808 2.57324 9.44808C2.22806 9.44808 1.94824 9.16826 1.94824 8.82308C1.94824 8.4779 2.22806 8.19808 2.57324 8.19808C5.44973 8.19808 7.78158 5.86623 7.78158 2.98975C7.78158 2.64457 8.0614 2.36475 8.40658 2.36475Z" fill="currentColor"/><path d="M15.0732 11.6772C15.3379 11.6772 15.5524 11.8918 15.5524 12.1564C15.5524 13.2725 16.4572 14.1772 17.5732 14.1772C17.8379 14.1772 18.0524 14.3918 18.0524 14.6564C18.0524 14.9211 17.8379 15.1356 17.5732 15.1356C16.4572 15.1356 15.5524 16.0403 15.5524 17.1564C15.5524 17.4211 15.3379 17.6356 15.0732 17.6356C14.8086 17.6356 14.5941 17.4211 14.5941 17.1564C14.5941 16.6205 14.3812 16.1065 14.0022 15.7275C13.6232 15.3485 13.1092 15.1356 12.5732 15.1356C12.3086 15.1356 12.0941 14.9211 12.0941 14.6564C12.0941 14.3918 12.3086 14.1772 12.5732 14.1772C13.0219 14.1772 13.5334 13.9602 13.9378 13.5766C14.3387 13.1962 14.5941 12.6908 14.5941 12.1564C14.5941 11.8918 14.8086 11.6772 15.0732 11.6772Z" fill="currentColor"/></svg>Button</button>
         <span class="variant-name">AI Primary</span>
       </div>
       <div class="variant-col">
-        <button class="btn btn-ai-secondary">Button</button>
+        <button class="btn btn-ai-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M8.40658 2.36475C8.75175 2.36475 9.03158 2.64457 9.03158 2.98975C9.03158 5.86623 11.3634 8.19808 14.2399 8.19808C14.5851 8.19808 14.8649 8.4779 14.8649 8.82308C14.8649 9.16826 14.5851 9.44808 14.2399 9.44808C11.3634 9.44808 9.03158 11.7799 9.03158 14.6564C9.03158 15.0016 8.75175 15.2814 8.40658 15.2814C8.0614 15.2814 7.78158 15.0016 7.78158 14.6564C7.78158 11.7799 5.44973 9.44808 2.57324 9.44808C2.22806 9.44808 1.94824 9.16826 1.94824 8.82308C1.94824 8.4779 2.22806 8.19808 2.57324 8.19808C5.44973 8.19808 7.78158 5.86623 7.78158 2.98975C7.78158 2.64457 8.0614 2.36475 8.40658 2.36475Z" fill="currentColor"/><path d="M15.0732 11.6772C15.3379 11.6772 15.5524 11.8918 15.5524 12.1564C15.5524 13.2725 16.4572 14.1772 17.5732 14.1772C17.8379 14.1772 18.0524 14.3918 18.0524 14.6564C18.0524 14.9211 17.8379 15.1356 17.5732 15.1356C16.4572 15.1356 15.5524 16.0403 15.5524 17.1564C15.5524 17.4211 15.3379 17.6356 15.0732 17.6356C14.8086 17.6356 14.5941 17.4211 14.5941 17.1564C14.5941 16.6205 14.3812 16.1065 14.0022 15.7275C13.6232 15.3485 13.1092 15.1356 12.5732 15.1356C12.3086 15.1356 12.0941 14.9211 12.0941 14.6564C12.0941 14.3918 12.3086 14.1772 12.5732 14.1772C13.0219 14.1772 13.5334 13.9602 13.9378 13.5766C14.3387 13.1962 14.5941 12.6908 14.5941 12.1564C14.5941 11.8918 14.8086 11.6772 15.0732 11.6772Z" fill="currentColor"/></svg>Button</button>
         <span class="variant-name">AI Secondary</span>
       </div>
     </div>
   </div>
 
+
+  <div class="section" style="margin-top: 32px;">
+    <div class="sb-experiment-title">Primary Button Experiment</div>
+    <div class="component-grid" style="grid-template-columns: repeat(4, 1fr); margin-top: 12px;">
+      <div class="variant-col"><button class="btn btn-control">Button</button><span class="variant-name">Control</span></div>
+      <div class="variant-col"><button class="btn btn-primary">Button</button><span class="variant-name">Option 1</span></div>
+      <div class="variant-col"><button class="btn btn-option3">Button</button><span class="variant-name">Option 2</span></div>
+      <div class="variant-col"><button class="btn btn-option4">Button</button><span class="variant-name">Option 3</span></div>
+    </div>
+  </div>
 
   </div><!-- /sbpanel-buttons -->
 
@@ -1161,6 +1258,85 @@
 
   </div><!-- /sbpanel-badges -->
 
+  <div class="sb-panel" id="sbpanel-checkboxes" style="display:none">
+  <!-- CHECKBOXES -->
+  <div class="section">
+    <div class="radio-section-layout">
+
+      <!-- Basic variants -->
+      <div class="radio-basic-grid">
+        <div class="radio-col-header variant-name">Unselected</div>
+        <div class="radio-col-header variant-name">Selected</div>
+
+        <!-- Bare -->
+        <div class="radio-cell"><span class="checkbox-input" data-group="cb-bare" onclick="pickCheckbox(this)"></span></div>
+        <div class="radio-cell"><span class="checkbox-input checkbox-checked" data-group="cb-bare" onclick="pickCheckbox(this)"></span></div>
+
+        <!-- Label -->
+        <div class="radio-cell">
+          <label class="radio-label" onclick="pickCheckbox(this.querySelector('.checkbox-input'))">
+            <span class="checkbox-input" data-group="cb-label"></span>
+            <span class="radio-text">Label</span>
+          </label>
+        </div>
+        <div class="radio-cell">
+          <label class="radio-label" onclick="pickCheckbox(this.querySelector('.checkbox-input'))">
+            <span class="checkbox-input checkbox-checked" data-group="cb-label"></span>
+            <span class="radio-text">Label</span>
+          </label>
+        </div>
+
+        <!-- Label + Subtext -->
+        <div class="radio-cell">
+          <label class="radio-label radio-label-sub" onclick="pickCheckbox(this.querySelector('.checkbox-input'))">
+            <span class="checkbox-input" data-group="cb-labelsub"></span>
+            <div><span class="radio-text">Label</span><span class="radio-subtext">Subtext</span></div>
+          </label>
+        </div>
+        <div class="radio-cell">
+          <label class="radio-label radio-label-sub" onclick="pickCheckbox(this.querySelector('.checkbox-input'))">
+            <span class="checkbox-input checkbox-checked" data-group="cb-labelsub"></span>
+            <div><span class="radio-text">Label</span><span class="radio-subtext">Subtext</span></div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Card variants -->
+      <div class="radio-cards-grid">
+        <div class="radio-col-header variant-name">Unselected</div>
+        <div class="radio-col-header variant-name">Selected</div>
+
+        <div class="radio-card" data-group="cb-cards" onclick="pickCheckbox(this.querySelector('.checkbox-input'))">
+          <span class="checkbox-input" data-group="cb-cards"></span>
+          <div class="radio-card-text">
+            <span class="radio-text">Label</span>
+            <span class="radio-subtext">Subtext</span>
+          </div>
+          <div class="radio-card-slot">
+            <div class="radio-card-slot-item slot-item-tan"></div>
+            <div class="radio-card-slot-item slot-item-pink"></div>
+            <div class="radio-card-slot-item slot-item-blue"></div>
+          </div>
+        </div>
+
+        <div class="radio-card radio-card-selected" data-group="cb-cards" onclick="pickCheckbox(this.querySelector('.checkbox-input'))">
+          <span class="checkbox-input checkbox-checked" data-group="cb-cards"></span>
+          <div class="radio-card-text">
+            <span class="radio-text">Label</span>
+            <span class="radio-subtext">Subtext</span>
+          </div>
+          <div class="radio-card-slot">
+            <div class="radio-card-slot-item slot-item-tan"></div>
+            <div class="radio-card-slot-item slot-item-pink"></div>
+            <div class="radio-card-slot-item slot-item-blue"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  </div><!-- /sbpanel-checkboxes -->
+
   <div class="sb-panel" id="sbpanel-radios" style="display:none">
   <!-- RADIOS -->
   <div class="section">
@@ -1205,7 +1381,10 @@
       </div>
 
       <!-- Card variants -->
-      <div class="radio-cards-col">
+      <div class="radio-cards-grid">
+        <div class="radio-col-header variant-name">Unselected</div>
+        <div class="radio-col-header variant-name">Selected</div>
+
         <div class="radio-card" data-group="cards" onclick="pickRadio(this.querySelector('.radio-input'))">
           <span class="radio-input" data-group="cards"></span>
           <div class="radio-card-text">
@@ -1269,6 +1448,12 @@
     document.querySelectorAll(`.radio-card[data-group="${group}"]`).forEach(c => c.classList.remove('radio-card-selected'));
     const card = input.closest('.radio-card');
     if (card) card.classList.add('radio-card-selected');
+  }
+
+  function pickCheckbox(input) {
+    input.classList.toggle('checkbox-checked');
+    const card = input.closest('.radio-card');
+    if (card) card.classList.toggle('radio-card-selected');
   }
 
   function switchSbTab(name, el) {
