@@ -414,14 +414,14 @@
   .chip-selection:hover  { background: #F3F3F0; border-color: var(--Human-40); }
   .chip-selection:active { background: #E7E7E1; }
 
-  /* Selected: Human-90 fill, white text */
+  /* Selected: human/70 fill, white text */
   .chip-selection.is-selected {
-    background: #3E3E33;
-    border-color: #3E3E33;
+    background: #646459;
+    border-color: #646459;
     color: #fff;
   }
-  .chip-selection.is-selected:hover  { background: #1A1A1A; border-color: #1A1A1A; }
-  .chip-selection.is-selected:active { background: #0D0D0D; border-color: #0D0D0D; }
+  .chip-selection.is-selected:hover  { background: #3E3E33; border-color: #3E3E33; }
+  .chip-selection.is-selected:active { background: #1A1A1A; border-color: #1A1A1A; }
 
   /* ── FILTER CHIP ── */
   .chip-filter:hover  { background: #F3F3F0; }
@@ -788,9 +788,12 @@
   }
 
   .radio-checked {
-    border: 2px solid var(--Human-100);
-    background: var(--Human-100);
+    border: 2px solid #646459;
+    background: #646459;
   }
+  .radio-input:not(.radio-checked):hover { border-color: #646459; }
+  .radio-checked:hover  { border-color: #3E3E33; background: #3E3E33; }
+  .radio-checked:active { border-color: #1A1A1A; background: #1A1A1A; }
 
   .radio-checked::after {
     content: '';
@@ -850,7 +853,7 @@
   }
 
   .radio-card-selected {
-    border: 2px solid var(--Human-100);
+    border: 2px solid #646459;
   }
 
   .radio-card .radio-input {
