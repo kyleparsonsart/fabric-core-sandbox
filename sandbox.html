@@ -73,7 +73,24 @@
     --canvas-bg: #F9F9F6;
   }
 
+  [data-theme="dark"] {
+    --Human-0:   #1A1A1A;
+    --Human-10:  #3E3E33;
+    --Human-20:  #646459;
+    --Human-40:  #898A7F;
+    --Human-60:  #D4D5CB;
+    --Human-80:  #F3F3F0;
+    --Human-90:  #F9F9F6;
+    --Human-100: #FFFFFF;
+    --canvas-bg: #1A1A1A;
+  }
+
   * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  [data-theme="dark"] body, body.dark {
+    background-color: #1A1A1A;
+    color: #F9F9F6;
+  }
 
   body {
     font-family: 'ABC Diatype', sans-serif;
@@ -84,7 +101,7 @@
     padding: 40px 24px 64px;
     gap: 0;
     background-color: #F9F9F6;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease, color 0.2s ease;
   }
 
   /* ── TOOLBAR ── */
@@ -92,8 +109,6 @@
   .content {
     width: 100%;
     max-width: 900px;
-    background-image: radial-gradient(circle, rgba(155, 155, 145, 0.3) 1px, transparent 1px);
-    background-size: 24px 24px;
     border-radius: 12px;
     padding: 32px;
   }
@@ -319,13 +334,13 @@
   /* Secondary — Human-20 → Human-30 → Human-40 */
   .btn-secondary {
     padding: 12px var(--spacing-md);
-    border: 1px solid var(--Human-40);
+    border: 1px solid var(--Human-70);
     background: #F3F3F0;
     box-shadow: 0 3px 3px 0 rgba(62, 62, 51, 0.10);
     color: var(--Human-80);
   }
-  .btn-secondary:hover  { background: #E7E7E1; border-color: #AFAFA5; }
-  .btn-secondary:active { background: #D4D5CB; border-color: #898A7F; }
+  .btn-secondary:hover  { background: #E7E7E1; border-color: #3E3E33; }
+  .btn-secondary:active { background: #D4D5CB; border-color: #1A1A1A; }
 
   /* Tertiary — transparent → Human-20 → Human-30 */
   .btn-tertiary {
@@ -335,51 +350,52 @@
     border: 1px solid transparent;
   }
   .btn-tertiary:hover  { background: #F3F3F0; border: 1px solid #E7E7E1; }
-  .btn-tertiary:active { background: #E7E7E1; border: 1px solid #D4D5CB; }
+  .btn-tertiary:active { background: #E7E7E1; border: 1px solid #D4D5CB; transform: none; }
 
   /* Destructive Primary — rust-10 → rust-20 → rust-30 */
   .btn-destructive-primary {
     padding: 12px var(--spacing-md);
-    border: 1px solid #FEA99F;
+    border: 1px solid #E86F5F;
     background: #FFF1EE;
     box-shadow: 0 3px 3px 0 rgba(106, 36, 25, 0.15);
-    color: #D14532;
+    color: #1A1A1A;
   }
-  .btn-destructive-primary:hover  { background: #FEDBD7; border-color: #E86F5F; }
-  .btn-destructive-primary:active { background: #FEA99F; border-color: #D14532; }
+  .btn-destructive-primary:hover  { background: #FEDBD7; border-color: #D14532; }
+  .btn-destructive-primary:active { background: #FEA99F; border-color: #9E3225; }
 
-  /* Destructive Secondary — tertiary style with rust colors */
+  /* Destructive Secondary — white bg, rust border, black label */
   .btn-destructive-secondary {
     padding: 12px var(--spacing-md);
-    background: transparent;
-    color: #D14532;
-    border: 1px solid transparent;
+    background: #ffffff;
+    color: #1A1A1A;
+    border: 1px solid #FEA99F;
   }
-  .btn-destructive-secondary:hover  { background: #FFF1EE; border-color: #FEDBD7; }
-  .btn-destructive-secondary:active { background: #FEDBD7; border-color: #FEA99F; }
+  .btn-destructive-secondary:hover  { background: #F9F9F6; border-color: #E86F5F; }
+  .btn-destructive-secondary:active { background: #F3F3F0; border-color: #D14532; transform: none; }
 
-  /* AI Primary — iris-10 → iris-20 → iris-30 */
+  /* AI Primary — iris-10 → iris-20 → iris-30, black label */
   .btn-ai-primary {
     padding: 12px var(--spacing-md);
-    border: 1px solid #C3B8F4;
+    border: 1px solid #9D84DC;
     background: #F5F1FD;
     box-shadow: 0 3px 3px 0 rgba(63, 43, 115, 0.15);
-    color: #603FAB;
+    color: #1A1A1A;
     gap: 6px;
   }
-  .btn-ai-primary:hover  { background: #E4DCF9; border-color: #9D84DC; }
-  .btn-ai-primary:active { background: #C3B8F4; border-color: #7F63C5; }
+  .btn-ai-primary:hover  { background: #E4DCF9; border-color: #7F63C5; }
+  .btn-ai-primary:active { background: #C3B8F4; border-color: #603FAB; }
 
-  /* AI Secondary — tertiary style with iris colors */
+  /* AI Secondary — white bg, iris border, black label */
   .btn-ai-secondary {
     padding: 12px var(--spacing-md);
-    background: transparent;
-    color: #603FAB;
-    border: 1px solid transparent;
+    background: #ffffff;
+    color: #1A1A1A;
+    border: 1px solid #C3B8F4;
     gap: 6px;
   }
-  .btn-ai-secondary:hover  { background: #F5F1FD; border-color: #E4DCF9; }
-  .btn-ai-secondary:active { background: #E4DCF9; border-color: #C3B8F4; }
+  .btn-ai-secondary:hover  { background: #F9F9F6; border-color: #9D84DC; }
+  .btn-ai-secondary:active { background: #F3F3F0; border-color: #7F63C5; transform: none; }
+
 
   /* ── VARIANT LABEL ── */
   .variant-label {
@@ -726,12 +742,7 @@
   .chip-status-error:active { background: #FEA99F; border-color: #E86F5F; }
 
   /* ── DOT GRID ── */
-  body.show-grid {
-    background-image: radial-gradient(circle, #C8C8C0 1px, transparent 1px);
-    background-size: 20px 20px;
-  }
-
-  /* Grid toggle button */
+  /* Theme toggle button */
   .grid-toggle {
     display: inline-flex;
     align-items: center;
@@ -763,13 +774,6 @@
     background: #1A1A1A;
     border-color: #1A1A1A;
     color: #fff;
-  }
-  .grid-toggle-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: currentColor;
-    opacity: 0.5;
   }
 
   /* ── TABS ── */
@@ -972,6 +976,28 @@
     transform: rotate(-45deg) translate(1px, -1px);
     display: block;
   }
+  /* ── DARK MODE BUTTON OVERRIDES ── */
+  [data-theme="dark"] .btn-brand { color: #1A1A1A; }
+
+  [data-theme="dark"] .btn-primary { background: #F3F3F0; color: #1A1A1A; }
+  [data-theme="dark"] .btn-primary:hover  { background: #E7E7E1; }
+  [data-theme="dark"] .btn-primary:active { background: #D4D5CB; }
+
+  [data-theme="dark"] .btn-secondary { background: #646459; border-color: #898A7F; color: #F9F9F6; }
+  [data-theme="dark"] .btn-secondary:hover  { background: #3E3E33; border-color: #646459; }
+  [data-theme="dark"] .btn-secondary:active { background: #1A1A1A; border-color: #3E3E33; }
+
+  [data-theme="dark"] .btn-tertiary { color: #F9F9F6; }
+  [data-theme="dark"] .btn-tertiary:hover  { background: #3E3E33; border-color: #646459; color: #F9F9F6; }
+  [data-theme="dark"] .btn-tertiary:active { background: #1A1A1A; border-color: #3E3E33; color: #F9F9F6; transform: none; }
+
+  [data-theme="dark"] .btn-destructive-primary { background: #6A2419; border-color: #FEA99F; color: #F9F9F6; }
+  [data-theme="dark"] .btn-destructive-primary:hover  { background: #451610; border-color: #E86F5F; }
+  [data-theme="dark"] .btn-destructive-primary:active { background: #1A1A1A; border-color: #D14532; }
+
+  [data-theme="dark"] .btn-ai-primary { background: #3F2B73; border-color: #C3B8F4; color: #F9F9F6; }
+  [data-theme="dark"] .btn-ai-primary:hover  { background: #291C4A; border-color: #9D84DC; }
+  [data-theme="dark"] .btn-ai-primary:active { background: #1A1A1A; border-color: #7F63C5; }
 
 </style>
 </head>
@@ -995,9 +1021,8 @@
       <div style="position:relative;">
         <div class="swatch" data-bg="#F3F3F0" onclick="setBg(this)" title="Human-20 · #F3F3F0"></div>
       </div>
-      <button class="grid-toggle" onclick="toggleGrid(this)" title="Toggle dot grid">
-        <span class="grid-toggle-dot"></span>
-        Grid
+      <button class="grid-toggle theme-toggle" id="themeToggle" onclick="toggleTheme(this)" title="Toggle dark mode">
+        ◐ Dark
       </button>
     </div>
   </div>
@@ -1428,12 +1453,38 @@
   document.body.style.backgroundColor = '#ffffff';
   document.documentElement.style.setProperty('--canvas-bg', '#ffffff');
 
-  function toggleGrid(btn) {
-    btn.classList.toggle('is-active');
-    document.body.classList.toggle('show-grid');
+  const lightSwatches = ['#ffffff', '#F9F9F6', '#F3F3F0'];
+  const darkSwatches  = ['#1A1A1A', '#3E3E33', '#646459'];
+
+  function toggleTheme(btn) {
+    const isDark = document.documentElement.dataset.theme === 'dark';
+    const swatchEls = document.querySelectorAll('.swatch');
+    const colors = isDark ? lightSwatches : darkSwatches;
+    const borderColor = isDark ? '#D4D5CB' : '#646459';
+    swatchEls.forEach((s, i) => {
+      s.dataset.bg = colors[i];
+      s.style.background = colors[i];
+      s.style.boxShadow = `inset 0 0 0 1px ${borderColor}`;
+    });
+    if (isDark) {
+      delete document.documentElement.dataset.theme;
+      document.body.style.backgroundColor = '#ffffff';
+      document.documentElement.style.setProperty('--canvas-bg', '#ffffff');
+      btn.textContent = '◐ Dark';
+      btn.classList.remove('is-active');
+    } else {
+      document.documentElement.dataset.theme = 'dark';
+      document.body.style.backgroundColor = '#1A1A1A';
+      document.documentElement.style.setProperty('--canvas-bg', '#1A1A1A');
+      btn.textContent = '◐ Light';
+      btn.classList.add('is-active');
+    }
+    // Select the first swatch as default for the new mode
+    swatchEls.forEach(s => s.classList.remove('active'));
+    swatchEls[0].classList.add('active');
   }
 
-  function setBg(el) {
+function setBg(el) {
     swatches.forEach(s => s.classList.remove('active'));
     el.classList.add('active');
     const bg = el.getAttribute('data-bg');
