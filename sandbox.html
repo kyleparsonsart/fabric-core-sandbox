@@ -334,13 +334,13 @@
   /* Secondary — Human-20 → Human-30 → Human-40 */
   .btn-secondary {
     padding: 12px var(--spacing-md);
-    border: 1px solid var(--Human-70);
+    border: 1px solid #AFAFA5;
     background: #F3F3F0;
     box-shadow: 0 3px 3px 0 rgba(62, 62, 51, 0.10);
     color: var(--Human-80);
   }
-  .btn-secondary:hover  { background: #E7E7E1; border-color: #3E3E33; }
-  .btn-secondary:active { background: #D4D5CB; border-color: #1A1A1A; }
+  .btn-secondary:hover  { background: #E7E7E1; border-color: #898A7F; }
+  .btn-secondary:active { background: #D4D5CB; border-color: #646459; }
 
   /* Tertiary — transparent → Human-20 → Human-30 */
   .btn-tertiary {
@@ -370,8 +370,8 @@
     color: #1A1A1A;
     border: 1px solid #FEA99F;
   }
-  .btn-destructive-secondary:hover  { background: #F9F9F6; border-color: #E86F5F; }
-  .btn-destructive-secondary:active { background: #F3F3F0; border-color: #D14532; transform: none; }
+  .btn-destructive-secondary:hover  { background: #FFF1EE; border-color: #E86F5F; }
+  .btn-destructive-secondary:active { background: #FEDBD7; border-color: #D14532; transform: none; }
 
   /* AI Primary — iris-10 → iris-20 → iris-30, black label */
   .btn-ai-primary {
@@ -393,8 +393,8 @@
     border: 1px solid #C3B8F4;
     gap: 6px;
   }
-  .btn-ai-secondary:hover  { background: #F9F9F6; border-color: #9D84DC; }
-  .btn-ai-secondary:active { background: #F3F3F0; border-color: #7F63C5; transform: none; }
+  .btn-ai-secondary:hover  { background: #F5F1FD; border-color: #9D84DC; }
+  .btn-ai-secondary:active { background: #E4DCF9; border-color: #7F63C5; transform: none; }
 
 
   /* ── VARIANT LABEL ── */
@@ -998,6 +998,14 @@
   [data-theme="dark"] .btn-ai-primary { background: #3F2B73; border-color: #C3B8F4; color: #F9F9F6; }
   [data-theme="dark"] .btn-ai-primary:hover  { background: #291C4A; border-color: #9D84DC; }
   [data-theme="dark"] .btn-ai-primary:active { background: #1A1A1A; border-color: #7F63C5; }
+
+  [data-theme="dark"] .btn-destructive-secondary { background: transparent; color: #F9F9F6; }
+  [data-theme="dark"] .btn-destructive-secondary:hover  { background: #6A2419; }
+  [data-theme="dark"] .btn-destructive-secondary:active { background: #451610; transform: none; }
+
+  [data-theme="dark"] .btn-ai-secondary { background: transparent; color: #F9F9F6; }
+  [data-theme="dark"] .btn-ai-secondary:hover  { background: #3F2B73; }
+  [data-theme="dark"] .btn-ai-secondary:active { background: #291C4A; transform: none; }
 
 </style>
 </head>
