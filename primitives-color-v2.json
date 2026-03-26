@@ -1,0 +1,150 @@
+{
+  "$metadata": {
+    "collection": "Primitives.Color_v2",
+    "tokenSetOrder": ["color"],
+    "exportedAt": "2026-03-24",
+    "notes": "Evergreen values are confirmed. All other ramps are extracted from the v2 color system reference — please spot-check hex values against your Figma source before importing."
+  },
+  "color": {
+    "apollo": {
+      "base": { "$value": "#FFD500", "$type": "color" },
+      "50":   { "$value": "#997C00", "$type": "color" },
+      "40":   { "$value": "#C4A000", "$type": "color" },
+      "30":   { "$value": "#D9BA00", "$type": "color" },
+      "20":   { "$value": "#EBD840", "$type": "color" },
+      "10":   { "$value": "#F5EEA0", "$type": "color" }
+    },
+    "human": {
+      "100": { "$value": "#121207", "$type": "color" },
+      "95":  { "$value": "#242416", "$type": "color" },
+      "90":  { "$value": "#383826", "$type": "color" },
+      "80":  { "$value": "#4E4E38", "$type": "color" },
+      "70":  { "$value": "#606050", "$type": "color" },
+      "60":  { "$value": "#747462", "$type": "color" },
+      "50":  { "$value": "#888874", "$type": "color" },
+      "40":  { "$value": "#A6A690", "$type": "color" },
+      "30":  { "$value": "#BEBEA8", "$type": "color" },
+      "20":  { "$value": "#D2D2C0", "$type": "color" },
+      "10":  { "$value": "#E4E4D8", "$type": "color" },
+      "05":  { "$value": "#F0F0EA", "$type": "color" },
+      "00":  { "$value": "#FAFAF8", "$type": "color" }
+    },
+    "pebble": {
+      "95": { "$value": "#1E1B0C", "$type": "color" },
+      "90": { "$value": "#332C14", "$type": "color" },
+      "80": { "$value": "#4A4120", "$type": "color" },
+      "70": { "$value": "#60582C", "$type": "color" },
+      "60": { "$value": "#7A7040", "$type": "color" },
+      "50": { "$value": "#9E8E52", "$type": "color" },
+      "40": { "$value": "#BCAE78", "$type": "color" },
+      "30": { "$value": "#D3C99E", "$type": "color" },
+      "20": { "$value": "#E0D8BC", "$type": "color" },
+      "10": { "$value": "#EEEACC", "$type": "color" },
+      "05": { "$value": "#F5F3E4", "$type": "color" }
+    },
+    "evergreen": {
+      "95": { "$value": "#0C140C", "$type": "color" },
+      "90": { "$value": "#172818", "$type": "color" },
+      "80": { "$value": "#1F3621", "$type": "color" },
+      "70": { "$value": "#2C4C2F", "$type": "color" },
+      "60": { "$value": "#39613C", "$type": "color" },
+      "50": { "$value": "#4B814F", "$type": "color" },
+      "40": { "$value": "#83B787", "$type": "color" },
+      "30": { "$value": "#A2C9A5", "$type": "color" },
+      "20": { "$value": "#C4DDC6", "$type": "color" },
+      "10": { "$value": "#DBEADC", "$type": "color" },
+      "05": { "$value": "#ECF4ED", "$type": "color" }
+    },
+    "ocean": {
+      "95": { "$value": "#081318", "$type": "color" },
+      "90": { "$value": "#0D2030", "$type": "color" },
+      "80": { "$value": "#0F3450", "$type": "color" },
+      "70": { "$value": "#1A4C6E", "$type": "color" },
+      "60": { "$value": "#1E6492", "$type": "color" },
+      "50": { "$value": "#2E82C0", "$type": "color" },
+      "40": { "$value": "#64AADC", "$type": "color" },
+      "30": { "$value": "#8EC4EC", "$type": "color" },
+      "20": { "$value": "#B4D8F4", "$type": "color" },
+      "10": { "$value": "#D2EAF8", "$type": "color" },
+      "05": { "$value": "#E8F4FC", "$type": "color" }
+    },
+    "ember": {
+      "95": { "$value": "#1C0C04", "$type": "color" },
+      "90": { "$value": "#3A1A00", "$type": "color" },
+      "80": { "$value": "#5A2800", "$type": "color" },
+      "70": { "$value": "#7A3C00", "$type": "color" },
+      "60": { "$value": "#9A5200", "$type": "color" },
+      "50": { "$value": "#C06E00", "$type": "color" },
+      "40": { "$value": "#E09040", "$type": "color" },
+      "30": { "$value": "#F0AC74", "$type": "color" },
+      "20": { "$value": "#F8C8A0", "$type": "color" },
+      "10": { "$value": "#FCDFC0", "$type": "color" },
+      "05": { "$value": "#FEF0E0", "$type": "color" }
+    },
+    "rust": {
+      "95": { "$value": "#1A0808", "$type": "color" },
+      "90": { "$value": "#2E0E0A", "$type": "color" },
+      "80": { "$value": "#4A1810", "$type": "color" },
+      "70": { "$value": "#6A2218", "$type": "color" },
+      "60": { "$value": "#882E24", "$type": "color" },
+      "50": { "$value": "#A83C30", "$type": "color" },
+      "40": { "$value": "#C86454", "$type": "color" },
+      "30": { "$value": "#DF9488", "$type": "color" },
+      "20": { "$value": "#ECBCB0", "$type": "color" },
+      "10": { "$value": "#F5D4CE", "$type": "color" },
+      "05": { "$value": "#FAE8E6", "$type": "color" }
+    },
+    "iris": {
+      "95": { "$value": "#0C0820", "$type": "color" },
+      "90": { "$value": "#18103A", "$type": "color" },
+      "80": { "$value": "#261858", "$type": "color" },
+      "70": { "$value": "#362578", "$type": "color" },
+      "60": { "$value": "#4A34A0", "$type": "color" },
+      "50": { "$value": "#6048BC", "$type": "color" },
+      "40": { "$value": "#8070D8", "$type": "color" },
+      "30": { "$value": "#A898EC", "$type": "color" },
+      "20": { "$value": "#C4B8F4", "$type": "color" },
+      "10": { "$value": "#DAD4F8", "$type": "color" },
+      "05": { "$value": "#EEEBFC", "$type": "color" }
+    },
+    "sakura": {
+      "95": { "$value": "#1A080E", "$type": "color" },
+      "90": { "$value": "#30101C", "$type": "color" },
+      "80": { "$value": "#4A1830", "$type": "color" },
+      "70": { "$value": "#6A2448", "$type": "color" },
+      "60": { "$value": "#8A3462", "$type": "color" },
+      "50": { "$value": "#AC4882", "$type": "color" },
+      "40": { "$value": "#CC78A8", "$type": "color" },
+      "30": { "$value": "#E0A0C4", "$type": "color" },
+      "20": { "$value": "#ECC0D8", "$type": "color" },
+      "10": { "$value": "#F6D8E8", "$type": "color" },
+      "05": { "$value": "#FBECF4", "$type": "color" }
+    },
+    "moss": {
+      "95": { "$value": "#0A1008", "$type": "color" },
+      "90": { "$value": "#182016", "$type": "color" },
+      "80": { "$value": "#263022", "$type": "color" },
+      "70": { "$value": "#364530", "$type": "color" },
+      "60": { "$value": "#465A40", "$type": "color" },
+      "50": { "$value": "#60785A", "$type": "color" },
+      "40": { "$value": "#8AAA80", "$type": "color" },
+      "30": { "$value": "#AABEA8", "$type": "color" },
+      "20": { "$value": "#C4D4C4", "$type": "color" },
+      "10": { "$value": "#DAE5DA", "$type": "color" },
+      "05": { "$value": "#ECF2EC", "$type": "color" }
+    },
+    "tropic": {
+      "95": { "$value": "#001618", "$type": "color" },
+      "90": { "$value": "#002830", "$type": "color" },
+      "80": { "$value": "#003C48", "$type": "color" },
+      "70": { "$value": "#005060", "$type": "color" },
+      "60": { "$value": "#006878", "$type": "color" },
+      "50": { "$value": "#008898", "$type": "color" },
+      "40": { "$value": "#40A8B8", "$type": "color" },
+      "30": { "$value": "#72C0CC", "$type": "color" },
+      "20": { "$value": "#9CD4DC", "$type": "color" },
+      "10": { "$value": "#C0E4EC", "$type": "color" },
+      "05": { "$value": "#DEEEF2", "$type": "color" }
+    }
+  }
+}

@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eval Review</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js" integrity="sha384-EnyY0/GSHQGSxSgMwaIPzSESbqoOLSexfnSMN2AP+39Ckmn92stwABZynq1JyzdT" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #faf9f5;
+      --surface: #ffffff;
+      --border: #e8e6dc;
+      --text: #141413;
+      --text-muted: #b0aea5;
+      --accent: #d97757;
+      --accent-hover: #c4613f;
+      --green: #788c5d;
+      --green-bg: #eef2e8;
+      --red: #c44;
+      --red-bg: #fceaea;
+      --header-bg: #141413;
+      --header-text: #faf9f5;
+      --radius: 6px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Lora', Georgia, serif;
+      background: var(--bg);
+      color: var(--text);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ---- Header ---- */
+    .header {
+      background: var(--header-bg);
+      color: var(--header-text);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .header h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+    .header .instructions {
+      font-size: 0.8rem;
+      opacity: 0.7;
+      margin-top: 0.25rem;
+    }
+    .header .progress {
+      font-size: 0.875rem;
+      opacity: 0.8;
+      text-align: right;
+    }
+
+    /* ---- Main content ---- */
+    .main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    /* ---- Sections ---- */
+    .section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      flex-shrink: 0;
+    }
+    .section-header {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.75rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+    .section-body {
+      padding: 1rem;
+    }
+
+    /* ---- Config badge ---- */
+    .config-badge {
+      display: inline-block;
+      padding: 0.2rem 0.625rem;
+      border-radius: 9999px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-left: 0.75rem;
+      vertical-align: middle;
+    }
+    .config-badge.config-primary {
+      background: rgba(33, 150, 243, 0.12);
+      color: #1976d2;
+    }
+    .config-badge.config-baseline {
+      background: rgba(255, 193, 7, 0.15);
+      color: #f57f17;
+    }
+
+    /* ---- Prompt ---- */
+    .prompt-text {
+      white-space: pre-wrap;
+      font-size: 0.9375rem;
+      line-height: 1.6;
+    }
+
+    /* ---- Outputs ---- */
+    .output-file {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .output-file + .output-file {
+      margin-top: 1rem;
+    }
+    .output-file-header {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      font-family: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .output-file-header .dl-btn {
+      font-size: 0.7rem;
+      color: var(--accent);
+      text-decoration: none;
+      cursor: pointer;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 500;
+      opacity: 0.8;
+    }
+    .output-file-header .dl-btn:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+    .output-file-content {
+      padding: 0.75rem;
+      overflow-x: auto;
+    }
+    .output-file-content pre {
+      font-size: 0.8125rem;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+    }
+    .output-file-content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+    }
+    .output-file-content iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+    }
+    .output-file-content table {
+      border-collapse: collapse;
+      font-size: 0.8125rem;
+      width: 100%;
+    }
+    .output-file-content table td,
+    .output-file-content table th {
+      border: 1px solid var(--border);
+      padding: 0.375rem 0.5rem;
+      text-align: left;
+    }
+    .output-file-content table th {
+      background: var(--bg);
+      font-weight: 600;
+    }
+    .output-file-content .download-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.875rem;
+      cursor: pointer;
+    }
+    .output-file-content .download-link:hover {
+      background: var(--border);
+    }
+    .empty-state {
+      color: var(--text-muted);
+      font-style: italic;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    /* ---- Feedback ---- */
+    .prev-feedback {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.625rem 0.75rem;
+      margin-top: 0.75rem;
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .prev-feedback-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.25rem;
+      color: var(--text-muted);
+    }
+    .feedback-textarea {
+      width: 100%;
+      min-height: 100px;
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 0.9375rem;
+      line-height: 1.5;
+      resize: vertical;
+      color: var(--text);
+    }
+    .feedback-textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    .feedback-status {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      min-height: 1.1em;
+    }
+
+    /* ---- Grades (collapsible) ---- */
+    .grades-toggle {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+    }
+    .grades-toggle:hover {
+      color: var(--accent);
+    }
+    .grades-toggle .arrow {
+      margin-right: 0.5rem;
+      transition: transform 0.15s;
+      font-size: 0.75rem;
+    }
+    .grades-toggle .arrow.open {
+      transform: rotate(90deg);
+    }
+    .grades-content {
+      display: none;
+      margin-top: 0.75rem;
+    }
+    .grades-content.open {
+      display: block;
+    }
+    .grades-summary {
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .grade-badge {
+      display: inline-block;
+      padding: 0.125rem 0.5rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .grade-pass { background: var(--green-bg); color: var(--green); }
+    .grade-fail { background: var(--red-bg); color: var(--red); }
+    .assertion-list {
+      list-style: none;
+    }
+    .assertion-item {
+      padding: 0.625rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.8125rem;
+    }
+    .assertion-item:last-child { border-bottom: none; }
+    .assertion-status {
+      font-weight: 600;
+      margin-right: 0.5rem;
+    }
+    .assertion-status.pass { color: var(--green); }
+    .assertion-status.fail { color: var(--red); }
+    .assertion-evidence {
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+      padding-left: 1.5rem;
+    }
+
+    /* ---- View tabs ---- */
+    .view-tabs {
+      display: flex;
+      gap: 0;
+      padding: 0 2rem;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .view-tab {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.625rem 1.25rem;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: var(--text-muted);
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s;
+    }
+    .view-tab:hover { color: var(--text); }
+    .view-tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+    .view-panel { display: none; }
+    .view-panel.active { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
+
+    /* ---- Benchmark view ---- */
+    .benchmark-view {
+      padding: 1.5rem 2rem;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .benchmark-table {
+      border-collapse: collapse;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.8125rem;
+      width: 100%;
+      margin-bottom: 1.5rem;
+    }
+    .benchmark-table th, .benchmark-table td {
+      padding: 0.625rem 0.75rem;
+      text-align: left;
+      border: 1px solid var(--border);
+    }
+    .benchmark-table th {
+      font-family: 'Poppins', sans-serif;
+      background: var(--header-bg);
+      color: var(--header-text);
+      font-weight: 500;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .benchmark-table tr:hover { background: var(--bg); }
+    .benchmark-table tr.benchmark-row-with { background: rgba(33, 150, 243, 0.06); }
+    .benchmark-table tr.benchmark-row-without { background: rgba(255, 193, 7, 0.06); }
+    .benchmark-table tr.benchmark-row-with:hover { background: rgba(33, 150, 243, 0.12); }
+    .benchmark-table tr.benchmark-row-without:hover { background: rgba(255, 193, 7, 0.12); }
+    .benchmark-table tr.benchmark-row-avg { font-weight: 600; border-top: 2px solid var(--border); }
+    .benchmark-table tr.benchmark-row-avg.benchmark-row-with { background: rgba(33, 150, 243, 0.12); }
+    .benchmark-table tr.benchmark-row-avg.benchmark-row-without { background: rgba(255, 193, 7, 0.12); }
+    .benchmark-delta-positive { color: var(--green); font-weight: 600; }
+    .benchmark-delta-negative { color: var(--red); font-weight: 600; }
+    .benchmark-notes {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+    }
+    .benchmark-notes h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
+    }
+    .benchmark-notes ul {
+      list-style: disc;
+      padding-left: 1.25rem;
+    }
+    .benchmark-notes li {
+      font-size: 0.8125rem;
+      line-height: 1.6;
+      margin-bottom: 0.375rem;
+    }
+    .benchmark-empty {
+      color: var(--text-muted);
+      font-style: italic;
+      text-align: center;
+      padding: 3rem;
+    }
+
+    /* ---- Navigation ---- */
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+      flex-shrink: 0;
+    }
+    .nav-btn {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.5rem 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text);
+      transition: all 0.15s;
+    }
+    .nav-btn:hover:not(:disabled) {
+      background: var(--bg);
+      border-color: var(--text-muted);
+    }
+    .nav-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+    .done-btn {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.5rem 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.15s;
+    }
+    .done-btn:hover {
+      background: var(--bg);
+      border-color: var(--text-muted);
+    }
+    .done-btn.ready {
+      border: none;
+      background: var(--accent);
+      color: white;
+      font-weight: 600;
+    }
+    .done-btn.ready:hover {
+      background: var(--accent-hover);
+    }
+    /* ---- Done overlay ---- */
+    .done-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+    }
+    .done-overlay.visible {
+      display: flex;
+    }
+    .done-card {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 2rem 3rem;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      max-width: 500px;
+    }
+    .done-card h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .done-card p {
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+    .done-card .btn-row {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+    .done-card button {
+      padding: 0.5rem 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 0.875rem;
+    }
+    .done-card button:hover {
+      background: var(--bg);
+    }
+    /* ---- Toast ---- */
+    .toast {
+      position: fixed;
+      bottom: 5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--header-bg);
+      color: var(--header-text);
+      padding: 0.625rem 1.25rem;
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      z-index: 200;
+    }
+    .toast.visible {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div id="app" style="height:100vh; display:flex; flex-direction:column;">
+    <div class="header">
+      <div>
+        <h1>Eval Review: <span id="skill-name"></span></h1>
+        <div class="instructions">Review each output and leave feedback below. Navigate with arrow keys or buttons. When done, copy feedback and paste into Claude Code.</div>
+      </div>
+      <div class="progress" id="progress"></div>
+    </div>
+
+    <!-- View tabs (only shown when benchmark data exists) -->
+    <div class="view-tabs" id="view-tabs" style="display:none;">
+      <button class="view-tab active" onclick="switchView('outputs')">Outputs</button>
+      <button class="view-tab" onclick="switchView('benchmark')">Benchmark</button>
+    </div>
+
+    <!-- Outputs panel (qualitative review) -->
+    <div class="view-panel active" id="panel-outputs">
+    <div class="main">
+      <!-- Prompt -->
+      <div class="section">
+        <div class="section-header">Prompt <span class="config-badge" id="config-badge" style="display:none;"></span></div>
+        <div class="section-body">
+          <div class="prompt-text" id="prompt-text"></div>
+        </div>
+      </div>
+
+      <!-- Outputs -->
+      <div class="section">
+        <div class="section-header">Output</div>
+        <div class="section-body" id="outputs-body">
+          <div class="empty-state">No output files found</div>
+        </div>
+      </div>
+
+      <!-- Previous Output (collapsible) -->
+      <div class="section" id="prev-outputs-section" style="display:none;">
+        <div class="section-header">
+          <div class="grades-toggle" onclick="togglePrevOutputs()">
+            <span class="arrow" id="prev-outputs-arrow">&#9654;</span>
+            Previous Output
+          </div>
+        </div>
+        <div class="grades-content" id="prev-outputs-content"></div>
+      </div>
+
+      <!-- Grades (collapsible) -->
+      <div class="section" id="grades-section" style="display:none;">
+        <div class="section-header">
+          <div class="grades-toggle" onclick="toggleGrades()">
+            <span class="arrow" id="grades-arrow">&#9654;</span>
+            Formal Grades
+          </div>
+        </div>
+        <div class="grades-content" id="grades-content"></div>
+      </div>
+
+      <!-- Feedback -->
+      <div class="section">
+        <div class="section-header">Your Feedback</div>
+        <div class="section-body">
+          <textarea
+            class="feedback-textarea"
+            id="feedback"
+            placeholder="What do you think of this output? Any issues, suggestions, or things that look great?"
+          ></textarea>
+          <div class="feedback-status" id="feedback-status"></div>
+          <div class="prev-feedback" id="prev-feedback" style="display:none;">
+            <div class="prev-feedback-label">Previous feedback</div>
+            <div id="prev-feedback-text"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav" id="outputs-nav">
+      <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">&#8592; Previous</button>
+      <button class="done-btn" id="done-btn" onclick="showDoneDialog()">Submit All Reviews</button>
+      <button class="nav-btn" id="next-btn" onclick="navigate(1)">Next &#8594;</button>
+    </div>
+    </div><!-- end panel-outputs -->
+
+    <!-- Benchmark panel (quantitative stats) -->
+    <div class="view-panel" id="panel-benchmark">
+      <div class="benchmark-view" id="benchmark-content">
+        <div class="benchmark-empty">No benchmark data available. Run a benchmark to see quantitative results here.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Done overlay -->
+  <div class="done-overlay" id="done-overlay">
+    <div class="done-card">
+      <h2>Review Complete</h2>
+      <p>Your feedback has been saved. Go back to your Claude Code session and tell Claude you're done reviewing.</p>
+      <div class="btn-row">
+        <button onclick="closeDoneDialog()">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ---- Embedded data (injected by generate_review.py) ----
+    const EMBEDDED_DATA = {"skill_name": "apollo-product-brand", "runs": [{"id": "upgrade-prompt-with_skill", "prompt": "I'm working on the upgrade prompt that appears when a free-tier Apollo user runs out of mobile credits mid-sequence. Right now it just says 'You've reached your mobile credit limit. Upgrade to continue.' Can you rewrite this to feel more on-brand and compelling? We want it to convert, but not feel pushy or desperate.", "eval_id": 1, "outputs": [{"name": "response.md", "type": "text", "content": "# Apollo Mobile Credits Upgrade Prompt \u2014 Rewrite\n\n## Original Copy\n\"You've reached your mobile credit limit. Upgrade to continue.\"\n\n**Why it falls short:**\n- Passive, obstacle-framed language (\"reached limit,\" \"continue\") \u2014 feels like a wall, not an opportunity\n- No value articulation \u2014 doesn't say what the user unlocks\n- Apologetic energy that undercuts Apollo's confidence\n- Missing specificity about what they're actually upgrading to\n\n---\n\n## Rewritten Version (Recommended)\n\n### Primary Option: Value-Forward & Decisive\n\n**Headline:** \"You've used your mobile credits. Keep going.\"\n\n**Subheading:** \"Upgrade to get 300 mobile numbers per month \u2014 enough to reach any decision maker on your list.\"\n\n**CTA:** \"Unlock Pro\"\n\n**Why this works:**\n- **Confidence, not apology:** \"Keep going\" is momentum language. It assumes the user wants to continue, not that they've hit an obstacle.\n- **Specific value:** \"300 mobile numbers per month\" is concrete and meaningful \u2014 the user understands exactly what they're unlocking, not a vague \"more.\"\n- **Outcome framing:** The second sentence connects the feature to what actually matters \u2014 reaching their prospects. This is Apollo's brand in action.\n- **CTA momentum:** \"Unlock\" is the right verb for this moment \u2014 it signals progress and agency, not a desperate request.\n\n---\n\n## Alternative Option: If You Want Lighter Touch\n\n**Headline:** \"Your mobile credits are spent.\"\n\n**Subheading:** \"Pro plans give you 300 numbers per month \u2014 keep your sequences running without limits.\"\n\n**CTA:** \"Go Pro\"\n\n**Why this alternative:**\n- More neutral, less energetic \u2014 appropriate if this modal sits on a utilities-heavy surface\n- Still specific and outcome-led\n- \"Go Pro\" is slightly less dramatic than \"Unlock\" but still forward-moving\n\n---\n\n## Alternative Option: Longer-Form (If Space Allows)\n\n**Headline:** \"Your sequences are ready. Your mobile credits aren't.\"\n\n**Subheading:** \"Upgrade to Pro and get 300 mobile numbers per month \u2014 plus all the AI research, calling, and list building you need to move deals from pipeline to closed.\"\n\n**CTA:** \"Level Up\"\n\n**Why this version:**\n- Acknowledges the user has built momentum (sequences are ready) \u2014 validates their work\n- Expands the value proposition to the full feature set, not just mobile credits\n- \"Level Up\" is confident and energetic \u2014 Apollo's brand language at its best\n- Works well if this is a moment to introduce broader upgrade value, not just solve the immediate credit constraint\n\n---\n\n## Design & Visual Pairing Notes\n\nAssuming this is a **yellow Brand button** moment (which it should be \u2014 it's a conversion point):\n\n- **Headline weight:** Bold, primary color, 18\u201324px\n- **Subheading:** Secondary gray, 14\u201316px\n- **CTA button:** Yellow (brand), high contrast\n- **Secondary action:** Gray \"Maybe later\" or dismiss \u2014 low visual weight\n\nIf the button is **black Primary**, use the lighter alternative to match the visual restraint.\n\n---\n\n## Copy Principles Applied (From Skill)\n\n\u2713 **Confidence, not apology** \u2014 No hedging, no fear framing\n\u2713 **Specificity over enthusiasm** \u2014 \"300 mobile numbers\" not \"more numbers\"\n\u2713 **Outcome-led** \u2014 Prospect reach, deal momentum, not feature access\n\u2713 **Clear and direct** \u2014 Every sentence earns its place\n\u2713 **Appropriate for brand moment** \u2014 This is sacred conversion space; copy deserves intention\n\u2713 **Momentum language** \u2014 \"Keep going,\" \"Unlock,\" \"Level Up\" \u2014 not \"upgrade\"\n\n---\n\n## Recommendation\n\n**Go with the Primary Option** (\"Keep going\" + \"Unlock Pro\"). It's the tightest balance of:\n- Confidence (doesn't apologize for asking)\n- Specificity (300 numbers is concrete)\n- Conversion intent (energetic, forward-moving)\n- Scarcity of brand expression (it lands because it's not overdone)\n\nThis copy will convert better than the original because it gives the user a reason to upgrade (specific outcome) and permission to want it (confident energy, no guilt).\n"}], "grading": {"eval_id": 1, "eval_name": "upgrade-prompt", "run": "with_skill", "expectations": [{"text": "The rewrite leads with what the user gains or can unlock, rather than framing the message around what they have lost or hit a limit on", "passed": true, "evidence": "Primary option opens with 'Keep going' and 'Upgrade to get 300 mobile numbers per month \u2014 enough to reach any decision maker on your list.' Leads with outcome and momentum, not deficit."}, {"text": "The response includes specific, concrete numbers or details (e.g., credit counts, feature specifics) rather than vague upgrade prompts like 'get more'", "passed": true, "evidence": "Explicitly uses '300 mobile numbers per month' in primary and alternative options. Connects the number to an outcome."}, {"text": "The copy reflects Apollo's brand voice: confident, direct, and not apologetic \u2014 no hedging language or overly cautious phrasing", "passed": true, "evidence": "No apologetic language. 'Keep going', 'Unlock Pro', 'Level Up' \u2014 all confident, forward-leaning. Response even calls out 'Don't apologize for asking' as a principle."}, {"text": "The suggested CTA label uses momentum or outcome language (e.g., 'Unlock', 'Keep going', 'Upgrade to Pro') rather than generic labels like just 'OK' or 'Continue'", "passed": true, "evidence": "'Unlock Pro', 'Go Pro', and 'Level Up' offered as CTA options. All use momentum language."}, {"text": "The response references or demonstrates awareness of the brand vs. utility distinction \u2014 recognizing this as a 'brand moment' (conversion) that deserves more intentional expression", "passed": true, "evidence": "Explicitly states 'This is sacred conversion space; copy deserves intention' and recommends yellow Brand button for this surface. Directly applies skill framework."}], "pass_count": 5, "total_count": 5, "pass_rate": 1.0}}, {"id": "upgrade-prompt-without_skill", "prompt": "I'm working on the upgrade prompt that appears when a free-tier Apollo user runs out of mobile credits mid-sequence. Right now it just says 'You've reached your mobile credit limit. Upgrade to continue.' Can you rewrite this to feel more on-brand and compelling? We want it to convert, but not feel pushy or desperate.", "eval_id": 1, "outputs": [{"name": "response.md", "type": "text", "content": "# Apollo.io Mobile Credits Upgrade Prompt Rewrite\n\n## Original Prompt\n> \"You've reached your mobile credit limit. Upgrade to continue.\"\n\n## Strategic Approach\nThe original prompt is functional but lacks personality and urgency without leverage. A strong rewrite should:\n- Acknowledge the user's momentum (they were in the middle of something)\n- Highlight the value they were gaining\n- Position the upgrade as the obvious next step, not a barrier\n- Use language that feels conversational, not transactional\n- Create FOMO through opportunity (not fear)\n\n---\n\n## Recommended Primary Option\n\n### \"Keep the momentum going\"\n\n**Main Copy:**\n\"You've used up your free mobile credits\u2014but you're just getting started. Keep connecting with prospects across all channels.\"\n\n**CTA Button:** \"View Plans\"\n\n**Why this works:**\n- \"Keep the momentum going\" speaks to where the user is mentally (mid-action)\n- \"Just getting started\" reframes the limit as early success, not failure\n- \"Across all channels\" hints at expanded capability\n- \"View Plans\" is softer than \"Upgrade Now\" (educational vs. hard sell)\n- Conversational tone feels like a helpful nudge, not a gatekeeper\n\n---\n\n## Alternative Options\n\n### Option 2: \"Made an impression?\"\n**Main Copy:**\n\"Made an impression? Your free mobile credits are done, but the real work is just beginning. Upgrade to keep reaching your best prospects.\"\n\n**CTA Button:** \"See Plans\"\n\n**Why this works:**\n- Opens with validation (implies they did something worthwhile)\n- Reframes the free tier as a trial, not a ceiling\n- \"Best prospects\" is outcome-focused, not feature-focused\n- Slightly more directional while remaining conversational\n\n---\n\n### Option 3: \"Running on reserve\"\n**Main Copy:**\n\"You're running on reserve. Your mobile credits are maxed out\u2014time to unlock unlimited reach and keep your sequences moving.\"\n\n**CTA Button:** \"Upgrade\"\n\n**Why this works:**\n- Metaphor (\"running on reserve\") creates urgency without desperation\n- \"Unlimited reach\" is a concrete benefit statement\n- \"Keep your sequences moving\" shows understanding of their workflow\n- Shorter, punchier, still friendly\n\n---\n\n### Option 4: \"Don't break stride\" (Most Conversational)\n**Main Copy:**\n\"Don't break stride. Your free mobile credits are done, but upgrading takes 60 seconds. Keep your sequences flowing and your pipeline growing.\"\n\n**CTA Button:** \"Upgrade Now\"\n\n**Why this works:**\n- \"Don't break stride\" + friction acknowledgment creates urgency + empathy\n- \"60 seconds\" removes perceived friction\n- Outcome-focused language (\"pipeline growing\")\n- Most direct while staying true to brand voice\n\n---\n\n### Option 5: \"Your prospects are waiting\" (Opportunity-Focused)\n**Main Copy:**\n\"Your prospects are waiting. Free mobile credits are used up, but they won't reach themselves. Upgrade to keep connecting.\"\n\n**CTA Button:** \"Unlock\"\n\n**Why this works:**\n- Shifts focus from the limit to the opportunity cost\n- \"Your prospects are waiting\" creates positive urgency\n- Simple, direct, outcome-oriented\n- \"Unlock\" feels less transactional than \"Upgrade\"\n\n---\n\n## Secondary Copy Considerations\n\nIf you have space for supporting text below the main CTA:\n- **Supportive tone:** \"Plans start at $X/month. Cancel anytime.\"\n- **Specific value highlight:** \"Get [X] mobile credits, plus [benefit]\"\n- **Social proof (if available):** \"Join 10k+ teams crushing their goals with Apollo\"\n\n---\n\n## Recommendation\n\n**Use Option 1 (\"Keep the momentum going\")** as your primary prompt because:\n1. It balances urgency with encouragement\n2. The language is warm but not wasted\n3. It acknowledges the user's progress without guilt\n4. \"View Plans\" opens options rather than forcing a single path\n5. It feels most aligned with a confident, growth-focused SaaS brand\n\n**Secondary recommendation:** Option 4 (\"Don't break stride\") if your audience responds better to direct, friction-reducing language.\n\n---\n\n## Testing Notes\n\nConsider A/B testing these variations to track:\n- Click-through rates to plans page\n- Conversion rate to paid upgrade\n- Time to decision (do they act immediately or abandon?)\n\nThe emotional positioning differs enough across options that user segment matters. High-intent users may convert better with Option 4 (direct). Users in exploration mode may prefer Option 1 (less pushy).\n"}], "grading": {"eval_id": 1, "eval_name": "upgrade-prompt", "run": "without_skill", "expectations": [{"text": "The rewrite leads with what the user gains or can unlock, rather than framing the message around what they have lost or hit a limit on", "passed": true, "evidence": "Primary option 'Keep the momentum going' is forward-framing. However, several options open with deficit phrasing ('credits are done', 'maxed out', 'running on reserve')."}, {"text": "The response includes specific, concrete numbers or details (e.g., credit counts, feature specifics) rather than vague upgrade prompts like 'get more'", "passed": false, "evidence": "None of the five options include specific credit numbers (e.g., '300 mobile numbers per month'). Uses vague language like 'unlimited reach', 'more credits'."}, {"text": "The copy reflects Apollo's brand voice: confident, direct, and not apologetic \u2014 no hedging language or overly cautious phrasing", "passed": true, "evidence": "Overall confident tone. 'Don't break stride', 'Your prospects are waiting' are direct. However CTA 'View Plans' is softer than ideal for a conversion moment."}, {"text": "The suggested CTA label uses momentum or outcome language (e.g., 'Unlock', 'Keep going', 'Upgrade to Pro') rather than generic labels like just 'OK' or 'Continue'", "passed": true, "evidence": "'Unlock', 'Upgrade Now', 'See Plans' used across options. 'View Plans' (primary recommendation) is the weakest \u2014 more exploratory than decisive."}, {"text": "The response references or demonstrates awareness of the brand vs. utility distinction \u2014 recognizing this as a 'brand moment' (conversion) that deserves more intentional expression", "passed": false, "evidence": "No awareness of the brand/product moment distinction. Treats this as a generic SaaS upgrade message rather than a 'sacred conversion space' with distinct brand expression needs."}], "pass_count": 3, "total_count": 5, "pass_rate": 0.6}}, {"id": "button-color-debate-with_skill", "prompt": "Our design team is debating whether the 'Start Free Trial' button on our pricing page should be yellow (brand) or black (primary). Some folks say yellow because it's a big conversion moment. Others say black because we've been trying to reserve yellow for in-product brand moments and the pricing page feels more like a marketing surface. What's the right call, and how do we think about this?", "eval_id": 2, "outputs": [{"name": "response.md", "type": "text", "content": "# Pricing Page Button Color: The Right Call\n\n**Short answer: Black (Primary), not yellow.**\n\nHere's why, and how to think about this decision framework so it guides future debates.\n\n---\n\n## The Core Issue\n\nBoth sides are right about what they see, but they're not looking at the same part of the brand strategy. The team that argues for yellow is thinking \"this is a conversion moment.\" The team that argues for black is thinking \"this is not an in-product moment.\" Both are true. The question is: which one should determine the color?\n\n**The answer comes from understanding where the pricing page sits in Apollo's customer journey.**\n\n---\n\n## Where the Pricing Page Actually Lives\n\nThe pricing page is **marketing-adjacent, not in-product**. It's where a free-tier user evaluates the value proposition before they enter the product at all, or where someone is comparing Apollo to alternatives.\n\nThis matters because the brand-product spectrum in the skill has clear guidance on when yellow belongs:\n\n> Yellow is for \"Conversion moments, onboarding highlights, marketing-adjacent surfaces \u2014 NOT routine actions\"\n\nThe pricing page is an outlier in \"conversion moments.\" Here's why:\n\n1. **It's not a friction-removal moment.** When a user hits a credit limit mid-workflow and sees an upgrade modal, that's a brand moment \u2014 they're deciding whether to unlock more power from a tool they're already in.\n\n2. **The pricing page is a friction-introduction moment.** It's showing them the cost. That requires clarity and directness, not visual energy.\n\n3. **The user's frame of mind is comparison-mode, not momentum-mode.** They're reading, evaluating, maybe reading three tabs at once comparing your pricing to Salesforce or Hunter. They're not in Apollo yet asking \"what can I do?\" They're asking \"is this worth it?\"\n\n---\n\n## Why Yellow Doesn't Work Here\n\nApollo reserves yellow for moments when the user is already inside Apollo's experience and deserves to feel the brand's energy and confidence. Examples:\n- Onboarding entry points (\"Start your first search\")\n- Unlock moments (\"Unlock AI-powered research\")\n- Achievement moments (sequence sending, deal closed)\n- Free-tier discovery (\"Try this feature \u2014 see what's possible\")\n\nYellow works in those moments because **the user has already chosen Apollo**. They're now experiencing what that choice unlocks. Yellow celebrates that choice.\n\nThe pricing page is the moment *before* that choice. The user is still in comparison mode. A yellow button here would feel like premature celebration \u2014 like saying \"you've already picked us!\" when they haven't.\n\n---\n\n## Why Black (Primary) is Right\n\nBlack Primary is the visual signal for \"the single most important thing a user can do on a surface.\" The pricing page's primary job is:\n\n1. **Clarity about what you get at each tier**\n2. **A clear path to the next step** (either \"Start free trial\" or \"Talk to sales\")\n\nThe button's job is not to sell the energy of Apollo. The *copy* on the pricing page does that. The button's job is to let the user move forward without friction.\n\nUsing black Primary signals: \"This is the next step. It's straightforward. Let's go.\"\n\nThis actually *builds more confidence* than yellow would, because it says: \"We're so clear on our value that we don't need to jazz up the button to get you excited. The offer speaks for itself.\"\n\n---\n\n## The Bigger Framework: Brand Scarcity\n\nThe skill identifies this as critical:\n\n> \"The failure mode at Apollo has been applying brand-mode energy uniformly across all surfaces \u2014 which dilutes its meaning and makes the actual brand moments hard to find. The goal is scarcity: brand expression should feel rare enough that it lands when it appears.\"\n\nIf every high-stakes moment gets yellow, yellow stops meaning anything. When a user is inside Apollo and finally unlocks the feature they've been waiting for, that yellow button should feel *special*.\n\nReserve yellow for moments of:\n- Reward inside the product\n- Expansion and unlocking\n- Crossing into a new capability\n\nThe pricing page is none of those. It's the ante-chamber. Use black.\n\n---\n\n## The Copy Argument Clinches It\n\nHere's the principle from the skill: \"Visual hierarchy and copy hierarchy are the same hierarchy.\"\n\nWhat would copy for these two button treatments look like?\n\n**With yellow:** \"Start Your Free Trial\" \u2014 feels like a promise, forward-leaning, maybe even celebratory. But the pricing page isn't about celebration yet. It's about commitment.\n\n**With black:** \"Start Free Trial\" (literal, clear, verb-first) \u2014 or even \"Get Started\" \u2014 puts the user in motion without overselling. The *pricing information itself* is what persuades them that it's worth trying.\n\nThe button gets out of the way and lets the pricing model do the work it's supposed to do.\n\n---\n\n## How to Think About This Going Forward\n\nUse this test for any \"conversion moment\" color debate:\n\n1. **Is the user already inside Apollo's experience?**\n   - Yes \u2192 brand-mode candidate (yellow is in play)\n   - No \u2192 tool-mode candidate (black/primary)\n\n2. **Is this moment about unlocking or discovering something new within Apollo?**\n   - Yes \u2192 brand moment\n   - No \u2192 functional moment\n\n3. **Would the moment lose its meaning without a special visual treatment?**\n   - Yes \u2192 deserves yellow\n   - No \u2192 use primary\n\n4. **Does the copy match the visual weight?**\n   - Yellow copy should be outcome-driven, momentum-heavy\n   - Black copy should be literal, task-focused\n\nFor the pricing page: it fails test 1 (user isn't in-product), fails test 2 (it's not about discovery, it's about evaluation), fails test 3 (the value prop is compelling regardless of button color), and the copy should be literal (test 4).\n\n**Recommendation: Black Primary, with copy that's direct and clear.** Let the pricing and the product value do the selling. Save yellow for the moments where Apollo's energy actually matters \u2014 when users are using Apollo, not evaluating it.\n\n---\n\n## One More Thing\n\nThe team arguing for yellow is not wrong that this is a big conversion moment. They're right. The insight they're missing is that **brand doesn't have to be visual to be present**. The pricing page should be saturated with Apollo's voice, clarity, and confidence in the *copy*, the *information hierarchy*, and the *design clarity*.\n\nThat's where the brand lives on the pricing page. The button is just the punctuation mark at the end.\n"}], "grading": {"eval_id": 2, "eval_name": "button-color-debate", "run": "with_skill", "expectations": [{"text": "The response makes a clear, specific recommendation (yellow OR black) rather than just listing pros and cons without a conclusion", "passed": true, "evidence": "Opens immediately with 'Short answer: Black (Primary), not yellow.' No hedging."}, {"text": "The response uses or describes a principled framework for distinguishing brand moments from primary/utility actions \u2014 not just aesthetic preference", "passed": true, "evidence": "Uses Apollo's brand-product spectrum framework directly. Explains why pricing page is 'pre-product' vs 'in-product'. Grounds decision in customer mindset and surface type."}, {"text": "The response meaningfully addresses the distinction between marketing surfaces (pricing page) and in-product surfaces, and how that affects the button choice", "passed": true, "evidence": "Extensively discusses 'pricing page is marketing-adjacent, not in-product' and user mindset differences (comparison-mode vs momentum-mode). Core argument."}, {"text": "The response acknowledges that brand color (yellow) derives meaning from being used sparingly \u2014 overusing it dilutes its impact", "passed": true, "evidence": "Directly cites scarcity principle: 'The failure mode at Apollo has been applying brand-mode energy uniformly across all surfaces \u2014 which dilutes its meaning.' Core argument."}, {"text": "The response provides a principle or test that can be applied to future button color decisions, not just a one-off answer for this specific case", "passed": true, "evidence": "Provides a 4-question decision test: (1) already inside Apollo? (2) about unlocking/discovering? (3) would moment lose meaning without treatment? (4) does copy match visual weight?"}], "pass_count": 5, "total_count": 5, "pass_rate": 1.0}}, {"id": "button-color-debate-without_skill", "prompt": "Our design team is debating whether the 'Start Free Trial' button on our pricing page should be yellow (brand) or black (primary). Some folks say yellow because it's a big conversion moment. Others say black because we've been trying to reserve yellow for in-product brand moments and the pricing page feels more like a marketing surface. What's the right call, and how do we think about this?", "eval_id": 2, "outputs": [{"name": "response.md", "type": "text", "content": "# Apollo.io Pricing Page CTA Button Color Decision\n\n## The Core Question\n**Should the \"Start Free Trial\" button be yellow (brand) or black (primary)?**\n\nThis isn't actually a binary choice\u2014it's a strategic question about brand positioning and user psychology. Here's the framework to make the right call.\n\n---\n\n## The Case for Yellow (Brand Color)\n\n**Advantages:**\n- **Visual Dominance**: Yellow naturally draws the eye and signals this is the primary conversion moment\n- **Consistency**: If your brand guidelines use yellow as the primary action color, deviating creates cognitive friction\n- **Memorability**: Users remember yellow better across pages, creating consistent brand recall\n- **High Intent Traffic**: Pricing page visitors are already qualified\u2014they're not discovering your brand for the first time\n\n**When Yellow Works Best:**\n- Your pricing page is consistently branded and positioned as part of the product experience\n- Yellow is already established as your primary action color across the rest of the product\n- You want to reinforce brand identity throughout the customer journey\n\n---\n\n## The Case for Black (Primary Color)\n\n**Advantages:**\n- **Professionalism & Trust**: Black conveys maturity, seriousness, and enterprise credibility\n- **Strategic Color Separation**: Reserves yellow for in-product moments where users are already customers and need clear action paths\n- **Marketing vs. Sales Distinction**: Pricing pages are conversion gates\u2014they benefit from a different visual language than onboarded experiences\n- **Contrast & Accessibility**: Black often provides superior contrast and readability on white/light backgrounds\n- **Lower Cognitive Load**: Black CTA buttons feel \"standard\" and reduce decision anxiety for prospects\n\n**When Black Works Best:**\n- You're segmenting \"marketing surfaces\" (before purchase) from \"product surfaces\" (after purchase)\n- Your brand strategy deliberately uses yellow for post-conversion experiences to create a \"welcome moment\" feeling\n- Your audience (SMB/enterprise) expects professional, buttoned-up presentation\n\n---\n\n## The Strategic Framework: How to Decide\n\n### 1. **What's Your Brand Positioning?**\n   - **High-energy, playful brand?** \u2192 Yellow makes sense everywhere\n   - **Enterprise/professional brand?** \u2192 Black on marketing, yellow in-product is sophisticated\n   - **Mid-market SaaS?** \u2192 Depends on your audience psychology\n\n### 2. **What Problem Are You Solving?**\n   - If prospects are **anxious about the decision**, black reduces cognitive load\n   - If prospects are **struggling to find the CTA**, yellow wins\n   - If you want to **surprise delight at sign-up**, black pricing \u2192 yellow welcome screen is powerful\n\n### 3. **What's Your Current Conversion Rate?**\n   - Test both if you have traffic. This is one of the highest-impact micro-conversions to validate\n   - Yellow typically wins in A/B tests for short-term conversion, but black wins if it aligns with audience expectations\n   - The \"right\" color isn't universal\u2014it's contextual to your audience\n\n### 4. **What's Your Strategic Intent?**\n   - **Consistency above all:** Use yellow (brand owns the visual hierarchy)\n   - **Strategic color separation:** Use black (pricing is a commitment gate, not a brand showcase)\n\n---\n\n## Recommendation: The Nuanced Take\n\n**I'd lean toward BLACK for the pricing page CTA, with a strategic caveat:**\n\n### Why:\n1. **Mental Model Separation**: Pricing pages serve a specific purpose (decision-making), while in-product is about user success. Different moments deserve different visual languages.\n\n2. **Trust Hypothesis**: Prospects evaluating pricing are most anxious about commitment. Black reduces noise and signals \"serious, professional, trustworthy.\"\n\n3. **Yellow Payoff Moment**: If yellow is reserved for the post-trial onboarding experience (\"Welcome! Start here\"), it becomes a *rewarding* brand moment rather than just another CTA. This creates stronger emotional memory than seeing yellow again on the pricing page.\n\n4. **Audience Psychology**: Most SMB/mid-market users expect professional, slightly conservative design at the decision gate. Yellow risks signaling \"casual\" when they're evaluating whether to commit.\n\n5. **Conversion Reality**: While yellow theoretically attracts attention better, black CTAs on pricing pages often convert *better* because they align with decision-making psychology. The visitor is already on the pricing page\u2014you don't need to scream at them.\n\n---\n\n## How to Test & Validate\n\nIf you have meaningful traffic, this is worth a 2-week A/B test:\n\n- **Variant A**: Black \"Start Free Trial\" button\n- **Variant B**: Yellow \"Start Free Trial\" button\n- **Metrics**: Click-through rate, trial signups, trial-to-paid conversion (most important)\n\n**Key insight**: Pricing page CTA performance often differs from other pages because the user is already in conversion mode. What works on a homepage hero might underperform on pricing.\n\n---\n\n## The Bigger Picture\n\nThis decision reveals something important about Apollo's brand strategy:\n\n**Are you building a consistent visual language across the entire funnel, or are you strategically using color to segment customer journey moments?**\n\n**Scenario A - Consistency Approach:**\n- Yellow everywhere = strong, recognizable brand\n- Works if: you want users to feel \"this is Apollo\" throughout their journey\n\n**Scenario B - Strategic Separation Approach:**\n- Black on pricing, yellow in product = sophisticated brand architecture\n- Works if: you want pricing to feel like a professional business decision, then *surprise* them with brand warmth post-signup\n\n---\n\n## Final Word\n\n**Black is the safer, smarter call for a B2B SaaS pricing page.** It reduces conversion friction and positions yellow as a reward moment (the welcome sequence) rather than diluting it with repetition.\n\nBut test it if you have the traffic. Your actual audience data will teach you more than any design principle.\n\n---\n\n## Next Steps\n\n1. **Check your current conversion funnels**: What colors are you using for CTAs across marketing pages? For secondary actions on pricing?\n\n2. **Map your user journey**: Where does yellow create maximum impact? (Likely answer: post-signup onboarding, not pre-purchase decision gates)\n\n3. **Run a test if possible**: 2 weeks of A/B testing will answer this definitively for your specific audience\n\n4. **Document the decision**: Whatever you choose, document *why* so future decisions about color have strategic context\n"}], "grading": {"eval_id": 2, "eval_name": "button-color-debate", "run": "without_skill", "expectations": [{"text": "The response makes a clear, specific recommendation (yellow OR black) rather than just listing pros and cons without a conclusion", "passed": true, "evidence": "'I'd lean toward BLACK for the pricing page CTA' \u2014 clear recommendation, though buried in a longer pros/cons structure."}, {"text": "The response uses or describes a principled framework for distinguishing brand moments from primary/utility actions \u2014 not just aesthetic preference", "passed": false, "evidence": "Framework is generic SaaS brand strategy (consistency vs. separation) rather than Apollo's specific brand/product spectrum. Not grounded in Apollo's token system or moment-based approach."}, {"text": "The response meaningfully addresses the distinction between marketing surfaces (pricing page) and in-product surfaces, and how that affects the button choice", "passed": true, "evidence": "Addresses 'marketing surfaces vs. product surfaces' distinction and 'different visual language' concept. Gets to the same conclusion but through generic reasoning."}, {"text": "The response acknowledges that brand color (yellow) derives meaning from being used sparingly \u2014 overusing it dilutes its impact", "passed": false, "evidence": "Does mention 'yellow payoff moment' for post-signup, but frames it as a 'surprise delight' technique rather than a principled scarcity argument. Misses the core insight."}, {"text": "The response provides a principle or test that can be applied to future button color decisions, not just a one-off answer for this specific case", "passed": true, "evidence": "Provides a 4-question framework (positioning, problem, conversion rate, strategic intent). Usable but generic \u2014 lacks Apollo-specific grounding."}], "pass_count": 3, "total_count": 5, "pass_rate": 0.6}}, {"id": "empty-states-with_skill", "prompt": "Can you write 3 different empty state messages for the Sequences tab when a brand new user has never created a sequence? We want them to feel on-brand \u2014 not just 'No sequences yet.' But also not too salesy. Think about the fact that this is a free-tier user who just signed up and is figuring out what Apollo can do for them.", "eval_id": 3, "outputs": [{"name": "response.md", "type": "text", "content": "# Apollo Sequences Tab - Empty State Messages\n\nThree on-brand empty state messages for a free-tier user who has never created a sequence.\n\n---\n\n## Option 1: Discovery-Focused (Warm, Forward-Looking)\n\n**Headline:** Your first sequence is minutes away.\n\n**Supporting copy:** Search for a company you're targeting, and we'll show you who to reach. Add them to a sequence, and your first outreach goes out automatically.\n\n**Why this works:**\n- Speaks to outcome, not feature (first outreach, not \"create a sequence\")\n- Warm and reassuring without being pushy\n- Specific about what happens next (shows the user they're already winning)\n- Avoids apologetic framing (\"No sequences yet\" would feel like a gap)\n- Matches the \"free tier is brand investment\" principle \u2014 treating the user as capable\n\n---\n\n## Option 2: Clarity-First (Direct, Efficient)\n\n**Headline:** Build outreach that converts.\n\n**Supporting copy:** Sequences let you stay in front of prospects across email and LinkedIn. Set it once, and it reaches people automatically. Ready to try one?\n\n**Why this works:**\n- Leads with the value, not the mechanics\n- \"Build outreach that converts\" has momentum \u2014 it's about the user's outcome\n- Educates without over-explaining (two sentences max)\n- \"Ready to try one?\" feels confident, not salesy\n- Avoids jargon while being specific about what sequences do\n- Matches the brand's \"clear and direct\" personality\n\n---\n\n## Option 3: Invitation-Based (Curious, Empowering)\n\n**Headline:** Turn contacts into conversations.\n\n**Supporting copy:** Sequences automate your outreach so you can focus on closing. Pick your first prospect and we'll get you set up.\n\n**Why this works:**\n- Benefits-first framing (conversations, not sequences)\n- \"Focus on closing\" repositions the user \u2014 they're already winning at the important part\n- \"We'll get you set up\" is warm and collaborative without being patronizing\n- Specific actionable next step (\"Pick your first prospect\")\n- Feels like a peer guiding them, not a product pushing them\n- Matches the \"confident, not arrogant\" voice \u2014 trusting the user to know what matters\n\n---\n\n## Brand Alignment Summary\n\nAll three options:\n- \u2713 Avoid generic copy (\"No sequences yet\")\n- \u2713 Lead with outcomes, not features\n- \u2713 Are warm but not salesy\n- \u2713 Use specific, energetic language\n- \u2713 Treat the free-tier user as intelligent and capable\n- \u2713 Show what's possible without gating or apologizing\n- \u2713 Include a clear next step (implied or stated)\n- \u2713 Sit in \"Brand Mode\" on the spectrum (empty states with discovery potential deserve personality)\n\n**Recommendation for testing:** Pair with a prominent primary (black) CTA like \"Create your first sequence\" or \"Get started\" \u2014 the button grounds the momentum in action, while the copy sets the tone.\n"}], "grading": {"eval_id": 3, "eval_name": "empty-states", "run": "with_skill", "expectations": [{"text": "The response provides exactly 3 distinct empty state options that each take a meaningfully different approach (not just variations of the same message)", "passed": true, "evidence": "Three options: (1) Discovery-focused with process walkthrough, (2) Clarity-first with value proposition, (3) Invitation-based with outcome framing. Distinct angles."}, {"text": "At least 2 of the 3 options lead with an outcome or forward momentum for the user, not a description of what's missing", "passed": true, "evidence": "All 3 lead with outcomes: 'Your first sequence is minutes away', 'Build outreach that converts', 'Turn contacts into conversations'. No deficit framing."}, {"text": "None of the options feel like a promotional ad or hard sell \u2014 they treat the user as someone exploring, not a conversion target", "passed": true, "evidence": "None promote upgrading or push conversion. Warm, exploratory tone throughout. 'Ready to try one?' vs 'Start upgrading now'."}, {"text": "Each empty state option is brief and scannable \u2014 appropriate for an empty state UI element, not a paragraph of explanation", "passed": true, "evidence": "Headlines are tight (5-6 words). Supporting copy is 1-2 sentences. Appropriate for empty state rendering."}, {"text": "The copy treats the free-tier user with the same care and quality as a paid user \u2014 not making the experience feel lesser or provisional", "passed": true, "evidence": "Explicitly applies 'free tier is brand investment' principle. Notes treating user 'as intelligent and capable'. No limitations mentioned."}], "pass_count": 5, "total_count": 5, "pass_rate": 1.0}}, {"id": "empty-states-without_skill", "prompt": "Can you write 3 different empty state messages for the Sequences tab when a brand new user has never created a sequence? We want them to feel on-brand \u2014 not just 'No sequences yet.' But also not too salesy. Think about the fact that this is a free-tier user who just signed up and is figuring out what Apollo can do for them.", "eval_id": 3, "outputs": [{"name": "response.md", "type": "text", "content": "# Apollo Sequences Tab - Empty State Messages\n\nThree different messaging options for a brand new user who hasn't created their first sequence yet.\n\n---\n\n## Option 1: Curiosity-Driven (Action-Oriented)\n\n**Headline:** \"Ready to reach more people at scale?\"\n\n**Body:** Create your first sequence to automatically nurture leads through personalized outreach. Build once, reach many.\n\n**Primary CTA:** Create Your First Sequence\n\n**Secondary CTA:** Learn how sequences work\n\n---\n\n## Option 2: Discovery-Focused (Educational)\n\n**Headline:** \"Sequences keep your outreach on track\"\n\n**Body:** Instead of sending one-off emails, set up a sequence to maintain consistent contact with prospects over time. Most successful teams use sequences to close more deals.\n\n**Primary CTA:** Start a Sequence\n\n**Secondary CTA:** See examples\n\n---\n\n## Option 3: Empowering & Conversational (Confidence-Building)\n\n**Headline:** \"You haven't started automating outreach yet\"\n\n**Body:** Sequences are your best friend. They handle the timing, the follow-ups, and the persistence while you focus on what matters. Let's set up your first one.\n\n**Primary CTA:** Create Sequence\n\n**Secondary CTA:** Take the tour\n\n---\n\n## Design Notes\n\n- **Tone:** Each message assumes the user is capable and curious, not uncertain. No hand-holding or condescension.\n- **Value Clarity:** Each message emphasizes what sequences *do* (efficiency, consistency, automation) rather than features.\n- **CTA Strategy:** Primary CTA is always action-oriented; secondary CTA offers an escape hatch for users who want to learn before committing.\n- **No Pressure:** Messaging avoids \"limited time,\" \"upgrade now,\" or other conversion tactics that would feel out of place for a brand-new free user.\n\n---\n\n## Recommendation\n\n**Option 1** works best if Apollo wants to lead with aspirational impact and growth.\n\n**Option 2** is strongest if the brand emphasizes smart workflows and team success.\n\n**Option 3** feels most conversational and human\u2014it acknowledges the user where they are and invites them in naturally.\n"}], "grading": {"eval_id": 3, "eval_name": "empty-states", "run": "without_skill", "expectations": [{"text": "The response provides exactly 3 distinct empty state options that each take a meaningfully different approach (not just variations of the same message)", "passed": true, "evidence": "Three options: curiosity-driven, discovery-focused/educational, empowering/conversational. Reasonably distinct approaches."}, {"text": "At least 2 of the 3 options lead with an outcome or forward momentum for the user, not a description of what's missing", "passed": false, "evidence": "Option 3 headline 'You haven't started automating outreach yet' is deficit framing \u2014 leads with what's missing. Option 1 and 2 are better but Option 1 ('Ready to reach more people?') is a question rather than a statement of momentum."}, {"text": "None of the options feel like a promotional ad or hard sell \u2014 they treat the user as someone exploring, not a conversion target", "passed": true, "evidence": "No hard sell or upgrade language. Options feel informational and helpful."}, {"text": "Each empty state option is brief and scannable \u2014 appropriate for an empty state UI element, not a paragraph of explanation", "passed": true, "evidence": "Appropriate length. Headlines are short. Body copy is 1-2 sentences."}, {"text": "The copy treats the free-tier user with the same care and quality as a paid user \u2014 not making the experience feel lesser or provisional", "passed": true, "evidence": "No mention of free tier limitations or upgrade prompts. Treats user as capable."}], "pass_count": 4, "total_count": 5, "pass_rate": 0.8}}, {"id": "ai-feature-launch-with_skill", "prompt": "I need to write a short in-app announcement (banner or modal) for when we launch our new AI Research feature that lets sales reps get a full account brief in one click. This is going live for paid users first, then rolling to free later. Write something that would appear the first time a paid user logs in after the launch.", "eval_id": 4, "outputs": [{"name": "response.md", "type": "text", "content": "# AI Research Feature Launch Announcement\n\n## Variant 1: Modal / Banner Headline + CTA\n\n**Headline:**\nGet a full account brief in one click.\n\n**Body:**\nApollo's AI Research instantly surfaces the intelligence you need\u2014company overview, tech stack, financials, and decision-makers\u2014all from a single search. No more piecing together intel from three different tabs.\n\n**CTA Button:**\nTry AI Research\n\n---\n\n## Variant 2: Shorter Banner (Single Line)\n\n**Headline:**\nNew: Get full account briefs instantly with AI Research.\n\n**CTA:**\nTry it\n\n---\n\n## Variant 3: Slightly More Energetic (Brand Mode)\n\n**Headline:**\nYour sales research just got smarter.\n\n**Body:**\nMeet AI Research\u2014the fastest way to build account context before your call. One click gives you company overview, tech stack, key contacts, and funding news. Everything you need to move deals forward, instantly.\n\n**CTA Button:**\nUnlock AI Research\n\n---\n\n## Variant 4: Minimal (Best for Modal with Dismissible Design)\n\n**Headline:**\nResearch an account in seconds.\n\n**Body:**\nNew feature: Search any company and get a complete brief\u2014financials, tech, decision-makers, and more\u2014powered by AI. Paid feature rolling to free users later this month.\n\n**CTA:**\nTry now\n\n---\n\n## Design & Implementation Notes\n\n**Surface type:** Brand mode (expansion/discovery moment for paid users)\n- This deserves visual weight\u2014either a full modal on first login post-launch, or a highlighted in-app banner\n- Could use a brand color accent (yellow or violet for AI actions) to differentiate from routine product moments\n- Keep the dismissible option light (secondary ghost button or X close) so the modal doesn't feel pushy\n\n**Why each variant works:**\n1. **Variant 1** is the safest choice\u2014specific about value, confident without overselling, clear next action\n2. **Variant 2** works for constrained spaces (notification center, top banner)\n3. **Variant 3** adds slight personality\u2014good if you want the moment to feel more like a launch than an update\n4. **Variant 4** is the most minimal\u2014best if the modal/banner has generous whitespace and visual treatment carrying the weight\n\n**Tone check:**\n- All variants avoid hedging (\"Check out our new...\", \"We're excited to announce...\")\n- All lead with outcome (what the user gets), not feature (what we built)\n- All are specific (not \"access more intel\" but actual examples)\n- None oversell\u2014the feature does the work, copy just makes the ask clear\n\n**Post-launch iteration:**\nConsider tracking which variant drives the highest \"Try\" engagement, and A/B testing whether \"AI Research\" as a product name needs reinforcement in follow-up onboarding or help content. The feature name should appear consistently across modals, tooltips, and empty states.\n"}], "grading": {"eval_id": 4, "eval_name": "ai-feature-launch", "run": "with_skill", "expectations": [{"text": "The announcement leads with the outcome or value for the user (e.g., 'full account brief in one click') rather than just naming the feature ('AI Research is here')", "passed": true, "evidence": "Variant 1: 'Get a full account brief in one click.' \u2014 pure outcome framing. Variant 3: 'Your sales research just got smarter.' All variants lead with what the user gets."}, {"text": "The copy is concise and banner/modal-appropriate in length \u2014 not a long paragraph, suitable for a first-login announcement", "passed": true, "evidence": "All 4 variants are appropriately concise. Variant 2 is a single line. Variant 1 is ~3 sentences. Good length range for banner/modal contexts."}, {"text": "The copy acknowledges or implies this is something the paid user is getting \u2014 it feels like a perk or reward, not just a generic product update", "passed": true, "evidence": "Design notes explicitly state 'Brand mode (expansion/discovery moment for paid users)'. Tone of variants implies exclusivity. Variant 4 explicitly mentions paid-first rollout."}, {"text": "The announcement is specific about what the feature does (e.g., 'account brief in one click', specifics about what's in the brief) rather than using vague claims like 'AI-powered insights'", "passed": true, "evidence": "Variant 1: 'company overview, tech stack, financials, and decision-makers'. Variant 3: 'company overview, tech stack, key contacts, and funding news'. High specificity."}, {"text": "The copy reflects that AI features have their own distinct lane at Apollo \u2014 they're not just features, they represent augmented capability, and the language should signal that", "passed": true, "evidence": "Design notes recommend 'violet for AI actions' and acknowledge distinct AI visual lane. Copy uses 'powered by AI' and 'AI Research' as a named distinct entity."}], "pass_count": 5, "total_count": 5, "pass_rate": 1.0}}, {"id": "ai-feature-launch-without_skill", "prompt": "I need to write a short in-app announcement (banner or modal) for when we launch our new AI Research feature that lets sales reps get a full account brief in one click. This is going live for paid users first, then rolling to free later. Write something that would appear the first time a paid user logs in after the launch.", "eval_id": 4, "outputs": [{"name": "response.md", "type": "text", "content": "# AI Research Feature Launch - In-App Announcements\n\n## Option 1: Banner Announcement (Persistent Header)\n\n### Copy\n\n**Headline:** Get Account Briefs in Seconds \u26a1\n\n**Body:** Meet AI Research\u2014your new copilot for discovering what matters most about any account. One click gets you a comprehensive brief on company intel, key contacts, and conversation starters\u2014all powered by AI.\n\n**CTA Button:** Try It Now\n**Secondary CTA:** Learn More\n\n---\n\n## Option 2: Modal Announcement (First Login Experience)\n\n### Design Approach: Welcome Modal\n\n### Headline\n**Account Intelligence, Instantly**\n\n### Body Copy\nYour new superpower just unlocked. AI Research gives you everything you need to know about any account in one click\u2014from company overview and key decision makers to recent news and talking points. No more time wasted on prep work.\n\n**Key Benefits (Bullet Points):**\n- \u2713 Full company briefs generated in seconds\n- \u2713 Key contact intel automatically surfaced\n- \u2713 Conversation starters ready to go\n- \u2713 Built into your existing Apollo workflow\n\n### CTA Buttons\n**Primary:** Launch AI Research\n**Secondary:** See How It Works (optional video/demo link)\n\n### Footer\n*AI Research is now available to all paid Apollo members. Free members coming soon.*\n\n---\n\n## Option 3: Compact In-Line Banner (For Dashboard)\n\n### Copy\n\n**Headline:** Your AI Research Assistant is Ready\n\n**Body:** Unlock deeper account insights in seconds. Click any account to generate a full research brief with AI Research.\n\n**CTA:** Get Started\n\n---\n\n## Notes for Implementation\n\n- **Trigger:** Display on first login after feature launch for paid users only\n- **Visibility:** Dismiss options included (don't show again / maybe later)\n- **Placement:** Modal Rec: Center of screen, banner rec: top of dashboard\n- **Color/Branding:** Use Apollo brand primary color for CTA button; emphasize the speed/efficiency angle\n- **Analytics:** Track: impressions, CTA clicks, feature adoption post-announcement\n"}], "grading": {"eval_id": 4, "eval_name": "ai-feature-launch", "run": "without_skill", "expectations": [{"text": "The announcement leads with the outcome or value for the user (e.g., 'full account brief in one click') rather than just naming the feature ('AI Research is here')", "passed": true, "evidence": "Option 1: 'Get Account Briefs in Seconds' \u2014 outcome-led. Option 2 modal: 'Account Intelligence, Instantly' \u2014 outcome-led. Generally good on this dimension."}, {"text": "The copy is concise and banner/modal-appropriate in length \u2014 not a long paragraph, suitable for a first-login announcement", "passed": true, "evidence": "Options are concise. Modal option (Option 2) is slightly long with bullet points, but banner options are appropriate length."}, {"text": "The copy acknowledges or implies this is something the paid user is getting \u2014 it feels like a perk or reward, not just a generic product update", "passed": false, "evidence": "Option 2 has a footer 'AI Research is now available to all paid Apollo members' but this feels like a policy notice rather than a reward/perk. The announcement doesn't make the paid user feel specially recognized."}, {"text": "The announcement is specific about what the feature does (e.g., 'account brief in one click', specifics about what's in the brief) rather than using vague claims like 'AI-powered insights'", "passed": true, "evidence": "Option 1 body mentions 'company intel, key contacts, and conversation starters'. Option 2 lists 'company overview, key decision makers, recent news and talking points'. Specific enough."}, {"text": "The copy reflects that AI features have their own distinct lane at Apollo \u2014 they're not just features, they represent augmented capability, and the language should signal that", "passed": false, "evidence": "No awareness of Apollo's AI visual/copy lane (violet/indigo, sparkle icon, distinct treatment). Uses emojis (\u26a1, \u2713) which don't match Apollo's voice. Treats AI as a regular feature announcement."}], "pass_count": 3, "total_count": 5, "pass_rate": 0.6}}], "previous_feedback": {}, "previous_outputs": {}, "benchmark": {"metadata": {"skill_name": "apollo-product-brand", "skill_path": "/sessions/sweet-dreamy-pascal/apollo-product-brand", "executor_model": "claude-sonnet-4-6", "analyzer_model": "claude-sonnet-4-6", "timestamp": "2026-03-20T00:00:00Z", "evals_run": ["upgrade-prompt", "button-color-debate", "empty-states", "ai-feature-launch"], "runs_per_configuration": 1}, "runs": [{"eval_id": 1, "eval_name": "upgrade-prompt", "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 5, "failed": 0, "total": 5, "time_seconds": 30.2, "tokens": 43582, "tool_calls": 3, "errors": 0}, "expectations": [{"text": "Leads with unlock/gain not loss/limit", "passed": true, "evidence": "'Keep going' + '300 mobile numbers per month \u2014 enough to reach any decision maker'"}, {"text": "Includes specific credit numbers", "passed": true, "evidence": "Explicitly uses '300 mobile numbers per month' across options"}, {"text": "Apollo voice: confident, direct, not apologetic", "passed": true, "evidence": "No hedging. 'Keep going', 'Unlock Pro', 'Level Up'. Notes 'don't apologize for asking'."}, {"text": "CTA uses momentum/outcome language", "passed": true, "evidence": "'Unlock Pro', 'Go Pro', 'Level Up' \u2014 all momentum labels"}, {"text": "Demonstrates brand vs utility moment awareness", "passed": true, "evidence": "Calls this 'sacred conversion space', recommends yellow Brand button, applies framework directly"}], "notes": []}, {"eval_id": 1, "eval_name": "upgrade-prompt", "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 0.6, "passed": 3, "failed": 2, "total": 5, "time_seconds": 22.1, "tokens": 39268, "tool_calls": 2, "errors": 0}, "expectations": [{"text": "Leads with unlock/gain not loss/limit", "passed": true, "evidence": "'Keep the momentum going' is forward-framing. Several options still open with deficit phrasing."}, {"text": "Includes specific credit numbers", "passed": false, "evidence": "No specific credit numbers in any of the 5 options. Uses vague 'unlimited reach', 'more credits'."}, {"text": "Apollo voice: confident, direct, not apologetic", "passed": true, "evidence": "Overall confident tone. 'View Plans' CTA is weaker than ideal for a conversion moment."}, {"text": "CTA uses momentum/outcome language", "passed": true, "evidence": "'Unlock', 'Upgrade Now', 'See Plans' used. Primary recommendation 'View Plans' is soft."}, {"text": "Demonstrates brand vs utility moment awareness", "passed": false, "evidence": "No awareness of brand/product moment distinction. Generic SaaS upgrade framing."}], "notes": ["Missing specificity (credit numbers) is the clearest gap vs with_skill"]}, {"eval_id": 2, "eval_name": "button-color-debate", "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 5, "failed": 0, "total": 5, "time_seconds": 34.8, "tokens": 44139, "tool_calls": 3, "errors": 0}, "expectations": [{"text": "Clear recommendation (yellow or black)", "passed": true, "evidence": "'Short answer: Black (Primary), not yellow.' \u2014 first line of response."}, {"text": "Uses principled brand vs utility framework", "passed": true, "evidence": "Applies Apollo brand-product spectrum. Explains pricing page as pre-product vs in-product. Mindset analysis."}, {"text": "Marketing vs product surface distinction addressed", "passed": true, "evidence": "Core argument: 'pricing page is marketing-adjacent, not in-product'. User in comparison-mode vs momentum-mode."}, {"text": "Scarcity principle mentioned", "passed": true, "evidence": "Directly cites: 'failure mode has been applying brand-mode energy uniformly... dilutes its meaning'. Core insight."}, {"text": "Reusable decision principle provided", "passed": true, "evidence": "4-question test: already in product? about unlocking? would moment lose meaning? does copy match visual weight?"}], "notes": ["Best response of the four evals \u2014 skill produced exceptional depth and reusability"]}, {"eval_id": 2, "eval_name": "button-color-debate", "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 0.6, "passed": 3, "failed": 2, "total": 5, "time_seconds": 32.7, "tokens": 39803, "tool_calls": 2, "errors": 0}, "expectations": [{"text": "Clear recommendation (yellow or black)", "passed": true, "evidence": "'I'd lean toward BLACK' \u2014 clear but buried after a long pros/cons structure."}, {"text": "Uses principled brand vs utility framework", "passed": false, "evidence": "Generic SaaS brand strategy framework. Not grounded in Apollo's token system or moment-based approach."}, {"text": "Marketing vs product surface distinction addressed", "passed": true, "evidence": "Addresses marketing vs product surface distinction. Gets to same conclusion through generic reasoning."}, {"text": "Scarcity principle mentioned", "passed": false, "evidence": "Mentions 'yellow payoff moment' as surprise delight technique. Misses the core scarcity principle."}, {"text": "Reusable decision principle provided", "passed": true, "evidence": "4-part framework (positioning, problem, conversion, intent). Generic but usable."}], "notes": ["Reaches same conclusion (black) but through generic brand reasoning rather than Apollo-specific framework"]}, {"eval_id": 3, "eval_name": "empty-states", "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 5, "failed": 0, "total": 5, "time_seconds": 25.9, "tokens": 43361, "tool_calls": 3, "errors": 0}, "expectations": [{"text": "3 distinct options with different approaches", "passed": true, "evidence": "Discovery-focused, Clarity-first, Invitation-based \u2014 genuinely different angles"}, {"text": "2+ options lead with outcome/momentum", "passed": true, "evidence": "All 3 lead with outcomes: 'minutes away', 'Build outreach that converts', 'Turn contacts into conversations'"}, {"text": "Not salesy or pushy", "passed": true, "evidence": "None promote upgrading. Warm, exploratory. 'Ready to try one?' vs conversion pressure."}, {"text": "Brief and scannable", "passed": true, "evidence": "Headlines 5-6 words, body 1-2 sentences. Appropriate for empty state UI."}, {"text": "Free-tier user treated with same care as paid", "passed": true, "evidence": "Explicitly applies 'free tier is brand investment' principle."}], "notes": []}, {"eval_id": 3, "eval_name": "empty-states", "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 0.8, "passed": 4, "failed": 1, "total": 5, "time_seconds": 15.5, "tokens": 38771, "tool_calls": 2, "errors": 0}, "expectations": [{"text": "3 distinct options with different approaches", "passed": true, "evidence": "Curiosity-driven, discovery/educational, empowering/conversational. Reasonably distinct."}, {"text": "2+ options lead with outcome/momentum", "passed": false, "evidence": "Option 3: 'You haven't started automating outreach yet' \u2014 deficit framing, leads with what's missing."}, {"text": "Not salesy or pushy", "passed": true, "evidence": "No hard sell. No upgrade language. Informational and helpful."}, {"text": "Brief and scannable", "passed": true, "evidence": "Appropriate length. Short headlines, 1-2 sentence body."}, {"text": "Free-tier user treated with same care as paid", "passed": true, "evidence": "No mention of limitations or upgrade prompts."}], "notes": ["Option 3 headline is deficit-framing \u2014 the key miss vs with_skill"]}, {"eval_id": 4, "eval_name": "ai-feature-launch", "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 5, "failed": 0, "total": 5, "time_seconds": 30.7, "tokens": 43435, "tool_calls": 3, "errors": 0}, "expectations": [{"text": "Outcome-led, not feature-led headline", "passed": true, "evidence": "'Get a full account brief in one click.' Pure outcome. All variants lead with user value."}, {"text": "Concise and banner/modal-appropriate", "passed": true, "evidence": "Range from single-line to ~3 sentences. All appropriately concise."}, {"text": "Paid user moment honored as perk/reward", "passed": true, "evidence": "Design notes: 'Brand mode (expansion/discovery moment for paid users)'. Paid-first rollout explicitly acknowledged."}, {"text": "Specific about what feature does", "passed": true, "evidence": "'company overview, tech stack, financials, and decision-makers' \u2014 high specificity."}, {"text": "Respects Apollo AI visual/copy lane", "passed": true, "evidence": "Recommends violet for AI actions. Uses 'powered by AI' with distinction. No generic AI marketing copy."}], "notes": []}, {"eval_id": 4, "eval_name": "ai-feature-launch", "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 0.6, "passed": 3, "failed": 2, "total": 5, "time_seconds": 21.8, "tokens": 38835, "tool_calls": 2, "errors": 0}, "expectations": [{"text": "Outcome-led, not feature-led headline", "passed": true, "evidence": "'Get Account Briefs in Seconds' \u2014 outcome-led. 'Account Intelligence, Instantly' \u2014 good."}, {"text": "Concise and banner/modal-appropriate", "passed": true, "evidence": "Options appropriately concise. Modal option slightly long with bullet points."}, {"text": "Paid user moment honored as perk/reward", "passed": false, "evidence": "Footer is policy-like, not reward framing. No sense of exclusivity or earned access for paid users."}, {"text": "Specific about what feature does", "passed": true, "evidence": "'company intel, key contacts, conversation starters'. Specific enough."}, {"text": "Respects Apollo AI visual/copy lane", "passed": false, "evidence": "No awareness of AI color lane. Uses emojis (\u26a1, \u2713) that don't match Apollo's voice. Treats AI as a regular feature."}], "notes": ["Emojis and bullet-point style in options are off-brand for Apollo. No awareness of AI's distinct visual lane."]}], "run_summary": {"with_skill": {"pass_rate": {"mean": 1.0, "stddev": 0.0, "min": 1.0, "max": 1.0}, "time_seconds": {"mean": 30.4, "stddev": 3.7, "min": 25.9, "max": 34.8}, "tokens": {"mean": 43629, "stddev": 339, "min": 43361, "max": 44139}}, "without_skill": {"pass_rate": {"mean": 0.65, "stddev": 0.09, "min": 0.6, "max": 0.8}, "time_seconds": {"mean": 23.0, "stddev": 7.1, "min": 15.5, "max": 32.7}, "tokens": {"mean": 39169, "stddev": 773, "min": 38771, "max": 39803}}, "delta": {"pass_rate": "+0.35", "time_seconds": "+7.4", "tokens": "+4460"}}, "notes": ["With-skill achieves 100% pass rate across all 4 evals vs 65% without \u2014 +35pp improvement", "The brand-product spectrum framework is the key differentiator: without-skill responses reach some correct conclusions but via generic SaaS reasoning, not Apollo-specific principles", "Specificity (concrete credit numbers, feature details) is a consistent gap in without-skill runs", "Without-skill is 7.4 seconds faster on average and uses ~4,500 fewer tokens \u2014 reasonable tradeoff for the quality lift", "Eval 3 (empty states) shows the smallest gap (1.0 vs 0.8) \u2014 this task has less Apollo-specific framing needed", "Eval 2 (button color) shows where skill adds most depth: the 4-question decision test and scarcity principle are uniquely useful"]}};
+
+    // ---- State ----
+    let feedbackMap = {};  // run_id -> feedback text
+    let currentIndex = 0;
+    let visitedRuns = new Set();
+
+    // ---- Init ----
+    async function init() {
+      // Load saved feedback from server — but only if this isn't a fresh
+      // iteration (indicated by previous_feedback being present). When
+      // previous feedback exists, the feedback.json on disk is stale from
+      // the prior iteration and should not pre-fill the textareas.
+      const hasPrevious = Object.keys(EMBEDDED_DATA.previous_feedback || {}).length > 0
+        || Object.keys(EMBEDDED_DATA.previous_outputs || {}).length > 0;
+      if (!hasPrevious) {
+        try {
+          const resp = await fetch("/api/feedback");
+          const data = await resp.json();
+          if (data.reviews) {
+            for (const r of data.reviews) feedbackMap[r.run_id] = r.feedback;
+          }
+        } catch { /* first run, no feedback yet */ }
+      }
+
+      document.getElementById("skill-name").textContent = EMBEDDED_DATA.skill_name;
+      showRun(0);
+
+      // Wire up feedback auto-save
+      const textarea = document.getElementById("feedback");
+      let saveTimeout = null;
+      textarea.addEventListener("input", () => {
+        clearTimeout(saveTimeout);
+        document.getElementById("feedback-status").textContent = "";
+        saveTimeout = setTimeout(() => saveCurrentFeedback(), 800);
+      });
+    }
+
+    // ---- Navigation ----
+    function navigate(delta) {
+      const newIndex = currentIndex + delta;
+      if (newIndex >= 0 && newIndex < EMBEDDED_DATA.runs.length) {
+        saveCurrentFeedback();
+        showRun(newIndex);
+      }
+    }
+
+    function updateNavButtons() {
+      document.getElementById("prev-btn").disabled = currentIndex === 0;
+      document.getElementById("next-btn").disabled =
+        currentIndex === EMBEDDED_DATA.runs.length - 1;
+    }
+
+    // ---- Show a run ----
+    function showRun(index) {
+      currentIndex = index;
+      const run = EMBEDDED_DATA.runs[index];
+
+      // Progress
+      document.getElementById("progress").textContent =
+        `${index + 1} of ${EMBEDDED_DATA.runs.length}`;
+
+      // Prompt
+      document.getElementById("prompt-text").textContent = run.prompt;
+
+      // Config badge
+      const badge = document.getElementById("config-badge");
+      const configMatch = run.id.match(/(with_skill|without_skill|new_skill|old_skill)/);
+      if (configMatch) {
+        const config = configMatch[1];
+        const isBaseline = config === "without_skill" || config === "old_skill";
+        badge.textContent = config.replace(/_/g, " ");
+        badge.className = "config-badge " + (isBaseline ? "config-baseline" : "config-primary");
+        badge.style.display = "inline-block";
+      } else {
+        badge.style.display = "none";
+      }
+
+      // Outputs
+      renderOutputs(run);
+
+      // Previous outputs
+      renderPrevOutputs(run);
+
+      // Grades
+      renderGrades(run);
+
+      // Previous feedback
+      const prevFb = (EMBEDDED_DATA.previous_feedback || {})[run.id];
+      const prevEl = document.getElementById("prev-feedback");
+      if (prevFb) {
+        document.getElementById("prev-feedback-text").textContent = prevFb;
+        prevEl.style.display = "block";
+      } else {
+        prevEl.style.display = "none";
+      }
+
+      // Feedback
+      document.getElementById("feedback").value = feedbackMap[run.id] || "";
+      document.getElementById("feedback-status").textContent = "";
+
+      updateNavButtons();
+
+      // Track visited runs and promote done button when all visited
+      visitedRuns.add(index);
+      const doneBtn = document.getElementById("done-btn");
+      if (visitedRuns.size >= EMBEDDED_DATA.runs.length) {
+        doneBtn.classList.add("ready");
+      }
+
+      // Scroll main content to top
+      document.querySelector(".main").scrollTop = 0;
+    }
+
+    // ---- Render outputs ----
+    function renderOutputs(run) {
+      const container = document.getElementById("outputs-body");
+      container.innerHTML = "";
+
+      const outputs = run.outputs || [];
+      if (outputs.length === 0) {
+        container.innerHTML = '<div class="empty-state">No output files</div>';
+        return;
+      }
+
+      for (const file of outputs) {
+        const fileDiv = document.createElement("div");
+        fileDiv.className = "output-file";
+
+        // Always show file header with download link
+        const header = document.createElement("div");
+        header.className = "output-file-header";
+        const nameSpan = document.createElement("span");
+        nameSpan.textContent = file.name;
+        header.appendChild(nameSpan);
+        const dlBtn = document.createElement("a");
+        dlBtn.className = "dl-btn";
+        dlBtn.textContent = "Download";
+        dlBtn.download = file.name;
+        dlBtn.href = getDownloadUri(file);
+        header.appendChild(dlBtn);
+        fileDiv.appendChild(header);
+
+        const content = document.createElement("div");
+        content.className = "output-file-content";
+
+        if (file.type === "text") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          content.appendChild(pre);
+        } else if (file.type === "image") {
+          const img = document.createElement("img");
+          img.src = file.data_uri;
+          img.alt = file.name;
+          content.appendChild(img);
+        } else if (file.type === "pdf") {
+          const iframe = document.createElement("iframe");
+          iframe.src = file.data_uri;
+          content.appendChild(iframe);
+        } else if (file.type === "xlsx") {
+          renderXlsx(content, file.data_b64);
+        } else if (file.type === "binary") {
+          const a = document.createElement("a");
+          a.className = "download-link";
+          a.href = file.data_uri;
+          a.download = file.name;
+          a.textContent = "Download " + file.name;
+          content.appendChild(a);
+        } else if (file.type === "error") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          pre.style.color = "var(--red)";
+          content.appendChild(pre);
+        }
+
+        fileDiv.appendChild(content);
+        container.appendChild(fileDiv);
+      }
+    }
+
+    // ---- XLSX rendering via SheetJS ----
+    function renderXlsx(container, b64Data) {
+      try {
+        const raw = Uint8Array.from(atob(b64Data), c => c.charCodeAt(0));
+        const wb = XLSX.read(raw, { type: "array" });
+
+        for (let i = 0; i < wb.SheetNames.length; i++) {
+          const sheetName = wb.SheetNames[i];
+          const ws = wb.Sheets[sheetName];
+
+          if (wb.SheetNames.length > 1) {
+            const sheetLabel = document.createElement("div");
+            sheetLabel.style.cssText =
+              "font-weight:600; font-size:0.8rem; color:#b0aea5; margin-top:0.5rem; margin-bottom:0.25rem;";
+            sheetLabel.textContent = "Sheet: " + sheetName;
+            container.appendChild(sheetLabel);
+          }
+
+          const htmlStr = XLSX.utils.sheet_to_html(ws, { editable: false });
+          const wrapper = document.createElement("div");
+          wrapper.innerHTML = htmlStr;
+          container.appendChild(wrapper);
+        }
+      } catch (err) {
+        container.textContent = "Error rendering spreadsheet: " + err.message;
+      }
+    }
+
+    // ---- Grades ----
+    function renderGrades(run) {
+      const section = document.getElementById("grades-section");
+      const content = document.getElementById("grades-content");
+
+      if (!run.grading) {
+        section.style.display = "none";
+        return;
+      }
+
+      const grading = run.grading;
+      section.style.display = "block";
+      // Reset to collapsed
+      content.classList.remove("open");
+      document.getElementById("grades-arrow").classList.remove("open");
+
+      const summary = grading.summary || {};
+      const expectations = grading.expectations || [];
+
+      let html = '<div style="padding: 1rem;">';
+
+      // Summary line
+      const passRate = summary.pass_rate != null
+        ? Math.round(summary.pass_rate * 100) + "%"
+        : "?";
+      const badgeClass = summary.pass_rate >= 0.8 ? "grade-pass" : summary.pass_rate >= 0.5 ? "" : "grade-fail";
+      html += '<div class="grades-summary">';
+      html += '<span class="grade-badge ' + badgeClass + '">' + passRate + '</span>';
+      html += '<span>' + (summary.passed || 0) + ' passed, ' + (summary.failed || 0) + ' failed of ' + (summary.total || 0) + '</span>';
+      html += '</div>';
+
+      // Assertions list
+      html += '<ul class="assertion-list">';
+      for (const exp of expectations) {
+        const statusClass = exp.passed ? "pass" : "fail";
+        const statusIcon = exp.passed ? "\u2713" : "\u2717";
+        html += '<li class="assertion-item">';
+        html += '<span class="assertion-status ' + statusClass + '">' + statusIcon + '</span>';
+        html += '<span>' + escapeHtml(exp.text) + '</span>';
+        if (exp.evidence) {
+          html += '<div class="assertion-evidence">' + escapeHtml(exp.evidence) + '</div>';
+        }
+        html += '</li>';
+      }
+      html += '</ul>';
+
+      html += '</div>';
+      content.innerHTML = html;
+    }
+
+    function toggleGrades() {
+      const content = document.getElementById("grades-content");
+      const arrow = document.getElementById("grades-arrow");
+      content.classList.toggle("open");
+      arrow.classList.toggle("open");
+    }
+
+    // ---- Previous outputs (collapsible) ----
+    function renderPrevOutputs(run) {
+      const section = document.getElementById("prev-outputs-section");
+      const content = document.getElementById("prev-outputs-content");
+      const prevOutputs = (EMBEDDED_DATA.previous_outputs || {})[run.id];
+
+      if (!prevOutputs || prevOutputs.length === 0) {
+        section.style.display = "none";
+        return;
+      }
+
+      section.style.display = "block";
+      // Reset to collapsed
+      content.classList.remove("open");
+      document.getElementById("prev-outputs-arrow").classList.remove("open");
+
+      // Render the files into the content area
+      content.innerHTML = "";
+      const wrapper = document.createElement("div");
+      wrapper.style.padding = "1rem";
+
+      for (const file of prevOutputs) {
+        const fileDiv = document.createElement("div");
+        fileDiv.className = "output-file";
+
+        const header = document.createElement("div");
+        header.className = "output-file-header";
+        const nameSpan = document.createElement("span");
+        nameSpan.textContent = file.name;
+        header.appendChild(nameSpan);
+        const dlBtn = document.createElement("a");
+        dlBtn.className = "dl-btn";
+        dlBtn.textContent = "Download";
+        dlBtn.download = file.name;
+        dlBtn.href = getDownloadUri(file);
+        header.appendChild(dlBtn);
+        fileDiv.appendChild(header);
+
+        const fc = document.createElement("div");
+        fc.className = "output-file-content";
+
+        if (file.type === "text") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          fc.appendChild(pre);
+        } else if (file.type === "image") {
+          const img = document.createElement("img");
+          img.src = file.data_uri;
+          img.alt = file.name;
+          fc.appendChild(img);
+        } else if (file.type === "pdf") {
+          const iframe = document.createElement("iframe");
+          iframe.src = file.data_uri;
+          fc.appendChild(iframe);
+        } else if (file.type === "xlsx") {
+          renderXlsx(fc, file.data_b64);
+        } else if (file.type === "binary") {
+          const a = document.createElement("a");
+          a.className = "download-link";
+          a.href = file.data_uri;
+          a.download = file.name;
+          a.textContent = "Download " + file.name;
+          fc.appendChild(a);
+        }
+
+        fileDiv.appendChild(fc);
+        wrapper.appendChild(fileDiv);
+      }
+
+      content.appendChild(wrapper);
+    }
+
+    function togglePrevOutputs() {
+      const content = document.getElementById("prev-outputs-content");
+      const arrow = document.getElementById("prev-outputs-arrow");
+      content.classList.toggle("open");
+      arrow.classList.toggle("open");
+    }
+
+    // ---- Feedback (saved to server -> feedback.json) ----
+    function saveCurrentFeedback() {
+      const run = EMBEDDED_DATA.runs[currentIndex];
+      const text = document.getElementById("feedback").value;
+
+      if (text.trim() === "") {
+        delete feedbackMap[run.id];
+      } else {
+        feedbackMap[run.id] = text;
+      }
+
+      // Build reviews array from map
+      const reviews = [];
+      for (const [run_id, feedback] of Object.entries(feedbackMap)) {
+        if (feedback.trim()) {
+          reviews.push({ run_id, feedback, timestamp: new Date().toISOString() });
+        }
+      }
+
+      fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reviews, status: "in_progress" }),
+      }).then(() => {
+        document.getElementById("feedback-status").textContent = "Saved";
+      }).catch(() => {
+        // Static mode or server unavailable — no-op on auto-save,
+        // feedback will be downloaded on final submit
+        document.getElementById("feedback-status").textContent = "Will download on submit";
+      });
+    }
+
+    // ---- Done ----
+    function showDoneDialog() {
+      // Save current textarea to feedbackMap (but don't POST yet)
+      const run = EMBEDDED_DATA.runs[currentIndex];
+      const text = document.getElementById("feedback").value;
+      if (text.trim() === "") {
+        delete feedbackMap[run.id];
+      } else {
+        feedbackMap[run.id] = text;
+      }
+
+      // POST once with status: complete — include ALL runs so the model
+      // can distinguish "no feedback" (looks good) from "not reviewed"
+      const reviews = [];
+      const ts = new Date().toISOString();
+      for (const r of EMBEDDED_DATA.runs) {
+        reviews.push({ run_id: r.id, feedback: feedbackMap[r.id] || "", timestamp: ts });
+      }
+      const payload = JSON.stringify({ reviews, status: "complete" }, null, 2);
+      fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: payload,
+      }).then(() => {
+        document.getElementById("done-overlay").classList.add("visible");
+      }).catch(() => {
+        // Server not available (static mode) — download as file
+        const blob = new Blob([payload], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "feedback.json";
+        a.click();
+        URL.revokeObjectURL(url);
+        document.getElementById("done-overlay").classList.add("visible");
+      });
+    }
+
+    function closeDoneDialog() {
+      // Reset status back to in_progress
+      saveCurrentFeedback();
+      document.getElementById("done-overlay").classList.remove("visible");
+    }
+
+    // ---- Toast ----
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.classList.add("visible");
+      setTimeout(() => toast.classList.remove("visible"), 2000);
+    }
+
+    // ---- Keyboard nav ----
+    document.addEventListener("keydown", (e) => {
+      // Don't capture when typing in textarea
+      if (e.target.tagName === "TEXTAREA") return;
+
+      if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+        e.preventDefault();
+        navigate(-1);
+      } else if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+        e.preventDefault();
+        navigate(1);
+      }
+    });
+
+    // ---- Util ----
+    function getDownloadUri(file) {
+      if (file.data_uri) return file.data_uri;
+      if (file.data_b64) return "data:application/octet-stream;base64," + file.data_b64;
+      if (file.type === "text") return "data:text/plain;charset=utf-8," + encodeURIComponent(file.content);
+      return "#";
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement("div");
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // ---- View switching ----
+    function switchView(view) {
+      document.querySelectorAll(".view-tab").forEach(t => t.classList.remove("active"));
+      document.querySelectorAll(".view-panel").forEach(p => p.classList.remove("active"));
+      document.querySelector(`[onclick="switchView('${view}')"]`).classList.add("active");
+      document.getElementById("panel-" + view).classList.add("active");
+    }
+
+    // ---- Benchmark rendering ----
+    function renderBenchmark() {
+      const data = EMBEDDED_DATA.benchmark;
+      if (!data) return;
+
+      // Show the tabs
+      document.getElementById("view-tabs").style.display = "flex";
+
+      const container = document.getElementById("benchmark-content");
+      const summary = data.run_summary || {};
+      const metadata = data.metadata || {};
+      const notes = data.notes || [];
+
+      let html = "";
+
+      // Header
+      html += "<h2 style='font-family: Poppins, sans-serif; margin-bottom: 0.5rem;'>Benchmark Results</h2>";
+      html += "<p style='color: var(--text-muted); font-size: 0.875rem; margin-bottom: 1.25rem;'>";
+      if (metadata.skill_name) html += "<strong>" + escapeHtml(metadata.skill_name) + "</strong> &mdash; ";
+      if (metadata.timestamp) html += metadata.timestamp + " &mdash; ";
+      if (metadata.evals_run) html += "Evals: " + metadata.evals_run.join(", ") + " &mdash; ";
+      html += (metadata.runs_per_configuration || "?") + " runs per configuration";
+      html += "</p>";
+
+      // Summary table
+      html += '<table class="benchmark-table">';
+
+      function fmtStat(stat, pct) {
+        if (!stat) return "—";
+        const suffix = pct ? "%" : "";
+        const m = pct ? (stat.mean * 100).toFixed(0) : stat.mean.toFixed(1);
+        const s = pct ? (stat.stddev * 100).toFixed(0) : stat.stddev.toFixed(1);
+        return m + suffix + " ± " + s + suffix;
+      }
+
+      function deltaClass(val) {
+        if (!val) return "";
+        const n = parseFloat(val);
+        if (n > 0) return "benchmark-delta-positive";
+        if (n < 0) return "benchmark-delta-negative";
+        return "";
+      }
+
+      // Discover config names dynamically (everything except "delta")
+      const configs = Object.keys(summary).filter(k => k !== "delta");
+      const configA = configs[0] || "config_a";
+      const configB = configs[1] || "config_b";
+      const labelA = configA.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+      const labelB = configB.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+      const a = summary[configA] || {};
+      const b = summary[configB] || {};
+      const delta = summary.delta || {};
+
+      html += "<thead><tr><th>Metric</th><th>" + escapeHtml(labelA) + "</th><th>" + escapeHtml(labelB) + "</th><th>Delta</th></tr></thead>";
+      html += "<tbody>";
+
+      html += "<tr><td><strong>Pass Rate</strong></td>";
+      html += "<td>" + fmtStat(a.pass_rate, true) + "</td>";
+      html += "<td>" + fmtStat(b.pass_rate, true) + "</td>";
+      html += '<td class="' + deltaClass(delta.pass_rate) + '">' + (delta.pass_rate || "—") + "</td></tr>";
+
+      // Time (only show row if data exists)
+      if (a.time_seconds || b.time_seconds) {
+        html += "<tr><td><strong>Time (s)</strong></td>";
+        html += "<td>" + fmtStat(a.time_seconds, false) + "</td>";
+        html += "<td>" + fmtStat(b.time_seconds, false) + "</td>";
+        html += '<td class="' + deltaClass(delta.time_seconds) + '">' + (delta.time_seconds ? delta.time_seconds + "s" : "—") + "</td></tr>";
+      }
+
+      // Tokens (only show row if data exists)
+      if (a.tokens || b.tokens) {
+        html += "<tr><td><strong>Tokens</strong></td>";
+        html += "<td>" + fmtStat(a.tokens, false) + "</td>";
+        html += "<td>" + fmtStat(b.tokens, false) + "</td>";
+        html += '<td class="' + deltaClass(delta.tokens) + '">' + (delta.tokens || "—") + "</td></tr>";
+      }
+
+      html += "</tbody></table>";
+
+      // Per-eval breakdown (if runs data available)
+      const runs = data.runs || [];
+      if (runs.length > 0) {
+        const evalIds = [...new Set(runs.map(r => r.eval_id))].sort((a, b) => a - b);
+
+        html += "<h3 style='font-family: Poppins, sans-serif; margin-bottom: 0.75rem;'>Per-Eval Breakdown</h3>";
+
+        const hasTime = runs.some(r => r.result && r.result.time_seconds != null);
+        const hasErrors = runs.some(r => r.result && r.result.errors > 0);
+
+        for (const evalId of evalIds) {
+          const evalRuns = runs.filter(r => r.eval_id === evalId);
+          const evalName = evalRuns[0] && evalRuns[0].eval_name ? evalRuns[0].eval_name : "Eval " + evalId;
+
+          html += "<h4 style='font-family: Poppins, sans-serif; margin: 1rem 0 0.5rem; color: var(--text);'>" + escapeHtml(evalName) + "</h4>";
+          html += '<table class="benchmark-table">';
+          html += "<thead><tr><th>Config</th><th>Run</th><th>Pass Rate</th>";
+          if (hasTime) html += "<th>Time (s)</th>";
+          if (hasErrors) html += "<th>Crashes During Execution</th>";
+          html += "</tr></thead>";
+          html += "<tbody>";
+
+          // Group by config and render with average rows
+          const configGroups = [...new Set(evalRuns.map(r => r.configuration))];
+          for (let ci = 0; ci < configGroups.length; ci++) {
+            const config = configGroups[ci];
+            const configRuns = evalRuns.filter(r => r.configuration === config);
+            if (configRuns.length === 0) continue;
+
+            const rowClass = ci === 0 ? "benchmark-row-with" : "benchmark-row-without";
+            const configLabel = config.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+
+            for (const run of configRuns) {
+              const r = run.result || {};
+              const prClass = r.pass_rate >= 0.8 ? "benchmark-delta-positive" : r.pass_rate < 0.5 ? "benchmark-delta-negative" : "";
+              html += '<tr class="' + rowClass + '">';
+              html += "<td>" + configLabel + "</td>";
+              html += "<td>" + run.run_number + "</td>";
+              html += '<td class="' + prClass + '">' + ((r.pass_rate || 0) * 100).toFixed(0) + "% (" + (r.passed || 0) + "/" + (r.total || 0) + ")</td>";
+              if (hasTime) html += "<td>" + (r.time_seconds != null ? r.time_seconds.toFixed(1) : "—") + "</td>";
+              if (hasErrors) html += "<td>" + (r.errors || 0) + "</td>";
+              html += "</tr>";
+            }
+
+            // Average row
+            const rates = configRuns.map(r => (r.result || {}).pass_rate || 0);
+            const avgRate = rates.reduce((a, b) => a + b, 0) / rates.length;
+            const avgPrClass = avgRate >= 0.8 ? "benchmark-delta-positive" : avgRate < 0.5 ? "benchmark-delta-negative" : "";
+            html += '<tr class="benchmark-row-avg ' + rowClass + '">';
+            html += "<td>" + configLabel + "</td>";
+            html += "<td>Avg</td>";
+            html += '<td class="' + avgPrClass + '">' + (avgRate * 100).toFixed(0) + "%</td>";
+            if (hasTime) {
+              const times = configRuns.map(r => (r.result || {}).time_seconds).filter(t => t != null);
+              html += "<td>" + (times.length ? (times.reduce((a, b) => a + b, 0) / times.length).toFixed(1) : "—") + "</td>";
+            }
+            if (hasErrors) html += "<td></td>";
+            html += "</tr>";
+          }
+          html += "</tbody></table>";
+
+          // Per-assertion detail for this eval
+          const runsWithExpectations = {};
+          for (const config of configGroups) {
+            runsWithExpectations[config] = evalRuns.filter(r => r.configuration === config && r.expectations && r.expectations.length > 0);
+          }
+          const hasAnyExpectations = Object.values(runsWithExpectations).some(runs => runs.length > 0);
+          if (hasAnyExpectations) {
+            // Collect all unique assertion texts across all configs
+            const allAssertions = [];
+            const seen = new Set();
+            for (const config of configGroups) {
+              for (const run of runsWithExpectations[config]) {
+                for (const exp of (run.expectations || [])) {
+                  if (!seen.has(exp.text)) {
+                    seen.add(exp.text);
+                    allAssertions.push(exp.text);
+                  }
+                }
+              }
+            }
+
+            html += '<table class="benchmark-table" style="margin-top: 0.5rem;">';
+            html += "<thead><tr><th>Assertion</th>";
+            for (const config of configGroups) {
+              const label = config.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+              html += "<th>" + escapeHtml(label) + "</th>";
+            }
+            html += "</tr></thead><tbody>";
+
+            for (const assertionText of allAssertions) {
+              html += "<tr><td>" + escapeHtml(assertionText) + "</td>";
+
+              for (const config of configGroups) {
+                html += "<td>";
+                for (const run of runsWithExpectations[config]) {
+                  const exp = (run.expectations || []).find(e => e.text === assertionText);
+                  if (exp) {
+                    const cls = exp.passed ? "benchmark-delta-positive" : "benchmark-delta-negative";
+                    const icon = exp.passed ? "\u2713" : "\u2717";
+                    html += '<span class="' + cls + '" title="Run ' + run.run_number + ': ' + escapeHtml(exp.evidence || "") + '">' + icon + "</span> ";
+                  } else {
+                    html += "— ";
+                  }
+                }
+                html += "</td>";
+              }
+              html += "</tr>";
+            }
+            html += "</tbody></table>";
+          }
+        }
+      }
+
+      // Notes
+      if (notes.length > 0) {
+        html += '<div class="benchmark-notes">';
+        html += "<h3>Analysis Notes</h3>";
+        html += "<ul>";
+        for (const note of notes) {
+          html += "<li>" + escapeHtml(note) + "</li>";
+        }
+        html += "</ul></div>";
+      }
+
+      container.innerHTML = html;
+    }
+
+    // ---- Start ----
+    init();
+    renderBenchmark();
+  </script>
+</body>
+</html>

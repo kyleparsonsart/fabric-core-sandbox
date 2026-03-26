@@ -1,0 +1,77 @@
+<svg width="640" height="500" viewBox="0 0 640 500" xmlns="http://www.w3.org/2000/svg" font-family="Calibri, Arial, sans-serif">
+
+  <!-- Background -->
+  <rect width="640" height="500" fill="#F6F6F4"/>
+
+  <!-- Chart area -->
+  <rect x="80" y="30" width="500" height="400" fill="#FFFFFF" rx="3"
+        stroke="#E2E4E8" stroke-width="1"/>
+
+  <!-- Quadrant labels (very subtle, background text) -->
+  <text x="105" y="65" font-size="9" fill="#DDDDDA" font-weight="bold" letter-spacing="1">STRUCTURAL · NEUTRAL</text>
+  <text x="355" y="65" font-size="9" fill="#DDDDDA" font-weight="bold" letter-spacing="1">EXPRESSIVE · ASSERTIVE</text>
+  <text x="105" y="425" font-size="9" fill="#DDDDDA" font-weight="bold" letter-spacing="1">RECESSIVE · SUPPORTING</text>
+  <text x="390" y="425" font-size="9" fill="#DDDDDA" font-weight="bold" letter-spacing="1">DECORATIVE · AMBIENT</text>
+
+  <!-- Quadrant dividers (dashed) -->
+  <line x1="330" y1="30" x2="330" y2="430" stroke="#E2E4E8" stroke-width="1" stroke-dasharray="5,4"/>
+  <line x1="80"  y1="230" x2="580" y2="230" stroke="#E2E4E8" stroke-width="1" stroke-dasharray="5,4"/>
+
+  <!-- Axis lines -->
+  <line x1="80" y1="430" x2="578" y2="430" stroke="#C8CACD" stroke-width="1.5"/>
+  <line x1="80" y1="430" x2="80"  y2="32"  stroke="#C8CACD" stroke-width="1.5"/>
+
+  <!-- Axis arrows -->
+  <polygon points="578,425 590,430 578,435" fill="#C8CACD"/>
+  <polygon points="75,32 80,20 85,32"       fill="#C8CACD"/>
+
+  <!-- X axis label -->
+  <text x="335" y="472" text-anchor="middle" font-size="12" fill="#6B7280" font-weight="bold" letter-spacing="0.5">Color Loudness</text>
+  <text x="88"  y="469" font-size="9" fill="#AAAAAA">Low</text>
+  <text x="553" y="469" font-size="9" fill="#AAAAAA">High</text>
+
+  <!-- Y axis label (rotated) -->
+  <text x="18" y="232" text-anchor="middle" font-size="12" fill="#6B7280" font-weight="bold" letter-spacing="0.5"
+        transform="rotate(-90 18 232)">Weight Emphasis</text>
+  <text x="60" y="434" text-anchor="end" font-size="9" fill="#AAAAAA">Low</text>
+  <text x="60" y="42"  text-anchor="end" font-size="9" fill="#AAAAAA">High</text>
+
+  <!-- ─────────────────────────────────────── -->
+  <!-- BUTTON DOTS                             -->
+  <!-- ─────────────────────────────────────── -->
+
+  <!-- PRIMARY: low loudness, very high weight  → left, top -->
+  <circle cx="148" cy="78" r="8" fill="#111111"/>
+  <text x="163" y="74"  font-size="11" font-weight="bold" fill="#111111">Primary</text>
+  <text x="163" y="87"  font-size="9"  fill="#9CA3AF">Black · Neutral</text>
+
+  <!-- SECONDARY: very low loudness, medium weight  → far left, mid -->
+  <circle cx="115" cy="248" r="8" fill="#CCCCCC" stroke="#AAAAAA" stroke-width="1.2"/>
+  <text x="130" y="244" font-size="11" font-weight="bold" fill="#555555">Secondary</text>
+  <text x="130" y="257" font-size="9"  fill="#9CA3AF">Gray · Subtle</text>
+
+  <!-- TERTIARY: minimal loudness, low weight  → far left, bottom -->
+  <circle cx="100" cy="382" r="8" fill="none" stroke="#BBBBBB" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <text x="115" y="378" font-size="11" font-weight="bold" fill="#777777">Tertiary</text>
+  <text x="115" y="391" font-size="9"  fill="#BBBBBB">None · Ghost</text>
+
+  <!-- AI: medium loudness, medium-high weight  → center, upper half -->
+  <circle cx="342" cy="158" r="8" fill="#6D28D9"/>
+  <text x="357" y="154" font-size="11" font-weight="bold" fill="#6D28D9">AI</text>
+  <text x="357" y="167" font-size="9"  fill="#9CA3AF">Violet · Distinct</text>
+
+  <!-- DESTRUCTIVE: medium-high loudness, very high weight  → right of center, top -->
+  <circle cx="448" cy="90" r="8" fill="#DC2626"/>
+  <text x="380" y="80"  font-size="11" font-weight="bold" fill="#DC2626">Destructive</text>
+  <text x="380" y="93"  font-size="9"  fill="#9CA3AF">Red · Semantic</text>
+  <!-- small connector line from label to dot -->
+  <line x1="440" y1="83" x2="456" y2="90" stroke="#DDAAAA" stroke-width="1"/>
+
+  <!-- BRAND: very high loudness, high weight  → far right, upper -->
+  <circle cx="528" cy="132" r="8" fill="#E8FF3F" stroke="#B8CC00" stroke-width="1.5"/>
+  <text x="468" y="148" font-size="11" font-weight="bold" fill="#7A8800">Brand</text>
+  <text x="468" y="161" font-size="9"  fill="#9CA3AF">Yellow · Expressive</text>
+  <!-- connector -->
+  <line x1="509" y1="138" x2="521" y2="143" stroke="#CCDD88" stroke-width="1"/>
+
+</svg>
