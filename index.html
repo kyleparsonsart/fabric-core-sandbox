@@ -755,14 +755,7 @@
   .color-ramp-name { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 5px; }
   .color-ramp-tag { font-family: monospace; font-size: 10px; color: var(--text-tertiary); background: var(--c2); padding: 1px 6px; border-radius: 3px; display: inline-block; }
   .color-ramp-swatches { display: flex; flex: 1; }
-  .color-ramp-swatch { flex: 1; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 6px; position: relative; overflow: hidden; cursor: pointer; }
-  /* hover overlay: 10% — visible on :hover, hidden when pressed */
-  .color-ramp-swatch .ramp-ov-hover   { position: absolute; inset: 0; opacity: 0; transition: opacity .1s; pointer-events: none; }
-  /* pressed overlay: 20% — visible only while mousedown */
-  .color-ramp-swatch .ramp-ov-pressed { position: absolute; inset: 0; opacity: 0; transition: opacity .1s; pointer-events: none; }
-  .color-ramp-swatch:hover .ramp-ov-hover              { opacity: 0.10; }
-  .color-ramp-swatch.is-pressed .ramp-ov-hover         { opacity: 0; }
-  .color-ramp-swatch.is-pressed .ramp-ov-pressed       { opacity: 0.20; }
+  .color-ramp-swatch { flex: 1; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 6px; position: relative; overflow: hidden; }
   .ramp-step { font-size: 9px; font-weight: 700; letter-spacing: 0; pointer-events: none; position: relative; z-index: 1; }
   .ramp-legend-row  { display: flex; align-items: center; gap: 18px; margin-bottom: 10px; }
   .ramp-legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-tertiary); }
@@ -1517,19 +1510,19 @@ function buildRadiusTables() {
   });
 }
 
-// ── COLOR DATA (v2) ──
+// ── COLOR DATA (v3) ──
 const colorRamps = [
-  { name:'Human',     tag:'human',     steps:[{s:0,l:'#FFFFFF'},{s:10,l:'#F9F9F6'},{s:20,l:'#F3F3F0'},{s:30,l:'#E7E7E1'},{s:40,l:'#D4D5CB'},{s:50,l:'#AFAFA5'},{s:60,l:'#898A7F'},{s:70,l:'#646459'},{s:80,l:'#3E3E33'},{s:90,l:'#1A1A1A'}]},
-  { name:'Pebble',    tag:'pebble',    steps:[{s:10,l:'#F6F2EF'},{s:20,l:'#E8E2D8'},{s:30,l:'#CDBEA8'},{s:40,l:'#A7906C'},{s:50,l:'#867250'},{s:60,l:'#66583D'},{s:70,l:'#493B2C'},{s:80,l:'#2F271C'}]},
-  { name:'Ocean',     tag:'ocean',     steps:[{s:10,l:'#ECF3FE'},{s:20,l:'#DAE5FC'},{s:30,l:'#A8C3EB'},{s:40,l:'#6697C9'},{s:50,l:'#447AAF'},{s:60,l:'#2B5782'},{s:70,l:'#1D3D58'},{s:80,l:'#122536'}]},
-  { name:'Evergreen', tag:'evergreen', steps:[{s:10,l:'#EBF4EB'},{s:20,l:'#D8E8DA'},{s:30,l:'#A5CAA9'},{s:40,l:'#62A265'},{s:50,l:'#4B814F'},{s:60,l:'#396039'},{s:70,l:'#274427'},{s:80,l:'#1B2D1B'}]},
-  { name:'Ember',     tag:'ember',     steps:[{s:10,l:'#F9F1ED'},{s:20,l:'#F3E2D3'},{s:30,l:'#E4BC9B'},{s:40,l:'#CE8345'},{s:50,l:'#B16120'},{s:60,l:'#884411'},{s:70,l:'#602F0C'},{s:80,l:'#402007'}]},
-  { name:'Rust',      tag:'rust',      steps:[{s:10,l:'#FFF1EE'},{s:20,l:'#FEDBD7'},{s:30,l:'#FEA99F'},{s:40,l:'#E86F5F'},{s:50,l:'#D14532'},{s:60,l:'#9E3225'},{s:70,l:'#6A2419'},{s:80,l:'#451610'}]},
-  { name:'Sakura',    tag:'sakura',    steps:[{s:10,l:'#FBF0FB'},{s:20,l:'#F6DAF5'},{s:30,l:'#EAA9E5'},{s:40,l:'#DA67CF'},{s:50,l:'#BC44B1'},{s:60,l:'#8C3485'},{s:70,l:'#5F235B'},{s:80,l:'#3E1739'}]},
-  { name:'Iris',      tag:'iris',      steps:[{s:10,l:'#F5F1FD'},{s:20,l:'#E4DCF9'},{s:30,l:'#C3B8F4'},{s:40,l:'#9D84DC'},{s:50,l:'#7F63C5'},{s:60,l:'#603FAB'},{s:70,l:'#3F2B73'},{s:80,l:'#291C4A'}]},
-  { name:'Tropic',    tag:'tropic',    steps:[{s:10,l:'#EBF4F4'},{s:20,l:'#D3E7E9'},{s:30,l:'#99CBCC'},{s:40,l:'#5A9EA0'},{s:50,l:'#487E7F'},{s:60,l:'#355D5F'},{s:70,l:'#294343'},{s:80,l:'#192929'}]},
-  { name:'Moss',      tag:'moss',      steps:[{s:10,l:'#F1F3EC'},{s:20,l:'#DEE5D1'},{s:30,l:'#B8C69A'},{s:40,l:'#839B55'},{s:50,l:'#6A7D45'},{s:60,l:'#4E5C33'},{s:70,l:'#384224'},{s:80,l:'#1E2B18'}]},
-  { name:'Apollo',    tag:'apollo',    steps:[{s:30,l:'#FAFF5C'},{s:50,l:'#EBF212'},{s:70,l:'#D8E003'}]},
+  { name:'Human',     tag:'human',     steps:[{s:100,l:'#121207'},{s:95,l:'#242416'},{s:90,l:'#383826'},{s:80,l:'#4E4E38'},{s:70,l:'#606050'},{s:60,l:'#747462'},{s:50,l:'#888874'},{s:40,l:'#A6A690'},{s:30,l:'#BEBEA8'},{s:20,l:'#D2D2C0'},{s:10,l:'#E4E4D8'},{s:5,l:'#F0F0EA'},{s:0,l:'#FAFAF8'}]},
+  { name:'Pebble',    tag:'pebble',    steps:[{s:95,l:'#1E1B0C'},{s:90,l:'#332C14'},{s:80,l:'#4A4120'},{s:70,l:'#60582C'},{s:60,l:'#7A7040'},{s:50,l:'#9E8E52'},{s:40,l:'#BCAE78'},{s:30,l:'#D3C99E'},{s:20,l:'#E0D8BC'},{s:10,l:'#EEEACC'},{s:5,l:'#F5F3E4'}]},
+  { name:'Evergreen', tag:'evergreen', steps:[{s:95,l:'#0C140C'},{s:90,l:'#172818'},{s:80,l:'#1F3621'},{s:70,l:'#2C4C2F'},{s:60,l:'#39613C'},{s:50,l:'#4B814F'},{s:40,l:'#83B787'},{s:30,l:'#A2C9A5'},{s:20,l:'#C4DDC6'},{s:10,l:'#DBEADC'},{s:5,l:'#ECF4ED'}]},
+  { name:'Ocean',     tag:'ocean',     steps:[{s:95,l:'#081318'},{s:90,l:'#0D2030'},{s:80,l:'#0F3450'},{s:70,l:'#1A4C6E'},{s:60,l:'#1E6492'},{s:50,l:'#2E82C0'},{s:40,l:'#64AADC'},{s:30,l:'#8EC4EC'},{s:20,l:'#B4D8F4'},{s:10,l:'#D2EAF8'},{s:5,l:'#E8F4FC'}]},
+  { name:'Ember',     tag:'ember',     steps:[{s:95,l:'#1C0C04'},{s:90,l:'#3A1A00'},{s:80,l:'#5A2800'},{s:70,l:'#7A3C00'},{s:60,l:'#9A5200'},{s:50,l:'#C06E00'},{s:40,l:'#E09040'},{s:30,l:'#F0AC74'},{s:20,l:'#F8C8A0'},{s:10,l:'#FCDFC0'},{s:5,l:'#FEF0E0'}]},
+  { name:'Rust',      tag:'rust',      steps:[{s:95,l:'#1A0808'},{s:90,l:'#2E0E0A'},{s:80,l:'#4A1810'},{s:70,l:'#6A2218'},{s:60,l:'#882E24'},{s:50,l:'#A83C30'},{s:40,l:'#C86454'},{s:30,l:'#DF9488'},{s:20,l:'#ECBCB0'},{s:10,l:'#F5D4CE'},{s:5,l:'#FAE8E6'}]},
+  { name:'Iris',      tag:'iris',      steps:[{s:95,l:'#0C0820'},{s:90,l:'#18103A'},{s:80,l:'#261858'},{s:70,l:'#362578'},{s:60,l:'#4A34A0'},{s:50,l:'#6048BC'},{s:40,l:'#8070D8'},{s:30,l:'#A898EC'},{s:20,l:'#C4B8F4'},{s:10,l:'#DAD4F8'},{s:5,l:'#EEEBFC'}]},
+  { name:'Sakura',    tag:'sakura',    steps:[{s:95,l:'#1A080E'},{s:90,l:'#30101C'},{s:80,l:'#4A1830'},{s:70,l:'#6A2448'},{s:60,l:'#8A3462'},{s:50,l:'#AC4882'},{s:40,l:'#CC78A8'},{s:30,l:'#E0A0C4'},{s:20,l:'#ECC0D8'},{s:10,l:'#F6D8E8'},{s:5,l:'#FBECF4'}]},
+  { name:'Moss',      tag:'moss',      steps:[{s:95,l:'#0A1008'},{s:90,l:'#182016'},{s:80,l:'#263022'},{s:70,l:'#364530'},{s:60,l:'#465A40'},{s:50,l:'#60785A'},{s:40,l:'#8AAA80'},{s:30,l:'#AABEA8'},{s:20,l:'#C4D4C4'},{s:10,l:'#DAE5DA'},{s:5,l:'#ECF2EC'}]},
+  { name:'Tropic',    tag:'tropic',    steps:[{s:95,l:'#001618'},{s:90,l:'#002830'},{s:80,l:'#003C48'},{s:70,l:'#005060'},{s:60,l:'#006878'},{s:50,l:'#008898'},{s:40,l:'#40A8B8'},{s:30,l:'#72C0CC'},{s:20,l:'#9CD4DC'},{s:10,l:'#C0E4EC'},{s:5,l:'#DEEEF2'}]},
+  { name:'Apollo',    tag:'apollo',    steps:[{s:'base',l:'#FFD500'},{s:50,l:'#997C00'},{s:40,l:'#C4A000'},{s:30,l:'#D9BA00'},{s:20,l:'#EBD840'},{s:10,l:'#F5EEA0'}]},
 ];
 
 const fgTokens = [
@@ -1748,47 +1741,17 @@ function buildColorTables() {
   buildContrastMatrix();
 }
 
-// Alpha overlay color per ramp (from bg/states tokens)
-const rampAlphaOverlay = {
-  human:     '#1A1A1A',
-  pebble:    '#493B2C',
-  ocean:     '#1D3D58',
-  evergreen: '#274427',
-  ember:     '#602F0C',
-  rust:      '#6A2419',
-  sakura:    '#5F235B',
-  iris:      '#3F2B73',
-  tropic:    '#294343',
-  moss:      '#384224',
-  apollo:    '#1A1A1A',
-};
-
 function buildColorPrims() {
   const grid = document.getElementById('color-prim-grid');
   if (!grid) return;
 
-  // Legend
-  const legend = document.createElement('div');
-  legend.className = 'ramp-legend-row';
-  legend.innerHTML = `
-    <div class="ramp-legend-item"><div class="ramp-legend-pip" style="background:#AFAFA5;"></div>Base</div>
-    <div class="ramp-legend-item"><div class="ramp-legend-pip" style="background:#898A7F;"></div>Hover (10% overlay)</div>
-    <div class="ramp-legend-item"><div class="ramp-legend-pip" style="background:#646459;"></div>Click (20% overlay)</div>`;
-  grid.appendChild(legend);
-
   colorRamps.forEach(ramp => {
-    const overlayHex = rampAlphaOverlay[ramp.tag] || '#1A1A1A';
     const row = document.createElement('div');
     row.className = 'color-ramp-row';
     const swatchesHtml = ramp.steps.map(step => {
       const labelColor = lum(step.l) > 0.4 ? 'rgba(0,0,0,0.4)' : 'rgba(255,255,255,0.75)';
       return `<div class="color-ramp-swatch" style="background:${step.l};"
-        title="${ramp.tag}/${step.s} · ${step.l}"
-        onmousedown="this.classList.add('is-pressed')"
-        onmouseup="this.classList.remove('is-pressed')"
-        onmouseleave="this.classList.remove('is-pressed')">
-        <div class="ramp-ov-hover"   style="background:${overlayHex};"></div>
-        <div class="ramp-ov-pressed" style="background:${overlayHex};"></div>
+        title="${ramp.tag}/${step.s} · ${step.l}">
         <span class="ramp-step" style="color:${labelColor};">${step.s}</span>
       </div>`;
     }).join('');
