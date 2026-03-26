@@ -1,0 +1,1981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tokens Northstar · Fabric</title>
+<style>
+@font-face {
+  font-family: 'ABCDiatype';
+  font-weight: 400;
+  font-style: normal;
+  src: url('fonts/ABCDiatype-400-normal.otf') format('opentype');
+}
+@font-face {
+  font-family: 'ABCDiatype';
+  font-weight: 500;
+  font-style: normal;
+  src: url('fonts/ABCDiatype-500-normal.otf') format('opentype');
+}
+@font-face {
+  font-family: 'ABCDiatype';
+  font-weight: 700;
+  font-style: normal;
+  src: url('fonts/ABCDiatype-700-normal.otf') format('opentype');
+}
+@font-face {
+  font-family: 'FoundersGrotesk';
+  font-weight: 400;
+  font-style: normal;
+  src: url('fonts/FoundersGrotesk-400-normal.otf') format('opentype');
+}
+@font-face {
+  font-family: 'FoundersGrotesk';
+  font-weight: 500;
+  font-style: normal;
+  src: url('fonts/FoundersGrotesk-500-normal.otf') format('opentype');
+}
+@font-face {
+  font-family: 'FoundersGrotesk';
+  font-weight: 700;
+  font-style: normal;
+  src: url('fonts/FoundersGrotesk-700-normal.otf') format('opentype');
+}
+  :root {
+    --c0:  #FFFFFF; --c1:  #F9F9F6; --c2:  #F3F3F0; --c3:  #E7E7E1;
+    --c4:  #D4D5CB; --c5:  #C3C3B3; --c6:  #878675; --c7:  #6B6758;
+    --c8:  #504E41; --c9:  #3E3E33; --c10: #1A1A1A; --c11: #FBF500;
+
+    --bg-page:         var(--c2);
+    --bg-surface:      var(--c1);
+    --bg-surface-2:    var(--c2);
+    --border:          var(--c3);
+    --border-mid:      var(--c4);
+    --text-primary:    var(--c10);
+    --text-secondary:  var(--c7);
+    --text-tertiary:   var(--c6);
+    --text-on-dark:    var(--c2);
+    --text-muted-dark: var(--c6);
+    --accent-text:     var(--c8);
+
+    --pass:         #1A6640;
+    --pass-bg:      #EEF7F2;
+    --pass-border:  #B0DBBF;
+    --fail:         #B91C1C;
+    --fail-bg:      #FEF2F2;
+    --fail-border:  #FECACA;
+    --advisory:     #7A5C00;
+    --advisory-bg:  #FEFCE8;
+    --advisory-border: #FDE047;
+
+    --radius:    5px;
+    --radius-lg: 8px;
+    --shadow:    0 1px 3px rgba(26,26,26,0.08);
+    --shadow-md: 0 4px 16px rgba(26,26,26,0.12);
+    --font-ui:      'ABCDiatype', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-display: 'FoundersGrotesk', sans-serif;
+
+    --tag-fg-bg:     #E7E7E1;
+    --tag-fg-color:  #3E3E33;
+    --tag-fg-border: #D4D5CB;
+    --tag-abc-bg:    #F3F3F0;
+    --tag-abc-color: #504E41;
+    --tag-abc-border:#E7E7E1;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--font-ui);
+    background: var(--bg-page); color: var(--text-primary);
+    font-size: 13px; line-height: 1.5; min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ══ HOME ══ */
+  .home-wrap { max-width: 900px; margin: 0 auto; padding: 72px 28px 80px; }
+
+  .home-eyebrow {
+    font-family: var(--font-ui); font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1px;
+    color: var(--accent-text); margin-bottom: 8px;
+  }
+  .home-heading {
+    font-family: var(--font-display);
+    font-size: 32px; font-weight: 400; letter-spacing: -0.8px; line-height: 40px;
+    color: var(--text-primary); margin-bottom: 10px;
+  }
+  .home-sub {
+    font-family: var(--font-ui); font-size: 14px; font-weight: 400;
+    line-height: 20px; letter-spacing: 0;
+    color: var(--text-secondary); margin-bottom: 44px; max-width: 480px;
+  }
+
+  @keyframes cardUp {
+    from { opacity:0; transform:translateY(20px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+
+  .phase-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+
+  .phase-card {
+    background: var(--c1); border: 2px solid var(--c0);
+    border-radius: 10px; padding: 24px 24px 64px;
+    cursor: pointer; position: relative; overflow: hidden;
+    opacity: 0; animation: cardUp 0.5s cubic-bezier(0.22,1,0.36,1) forwards;
+    transition: box-shadow 0.2s, background 0.2s, transform 0.15s;
+  }
+  .phase-card:nth-child(1){ animation-delay:.05s; }
+  .phase-card:nth-child(2){ animation-delay:.15s; }
+  .phase-card:nth-child(3){ animation-delay:.25s; }
+  .phase-card:not(.disabled) { box-shadow: 0 2px 12px rgba(26,26,26,0.07); }
+  .phase-card:not(.disabled):hover { background: var(--c0); box-shadow: 0 2px 6px rgba(26,26,26,0.13); transform: translateY(-2px); }
+  .phase-card.disabled { cursor: default; background: var(--c2); border-color: var(--c3); box-shadow: none; }
+  .phase-card.disabled .card-title,
+  .phase-card.disabled .card-desc,
+  .phase-card.disabled .card-symbol-wrap { opacity: 0.35; }
+
+  .card-phase-num { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.8px; color:var(--text-tertiary); margin-bottom:14px; }
+
+  .card-symbol-wrap { width:44px; height:44px; border-radius:8px; display:flex; align-items:center; justify-content:center; margin-bottom:18px; }
+  .wrap-type    { background: var(--c3); }
+  .wrap-spacing { background: var(--c3); }
+  .wrap-color   { background: var(--c3); }
+
+  .symbol-type    { font-family:var(--font-display); font-size:20px; font-weight:400; color:var(--text-primary); letter-spacing:-0.5px; }
+  .symbol-spacing { width:18px; height:18px; border:2px solid var(--c8); border-radius:2px; }
+  .symbol-color   { width:20px; height:20px; background:var(--c10); border-radius:50%; }
+
+  .card-title { font-family:var(--font-display); font-size:20px; font-weight:400; letter-spacing:-0.3px; color:var(--text-primary); margin-bottom:7px; }
+  .card-desc  { font-size:12.5px; color:var(--text-secondary); line-height:1.6; }
+
+  .card-status { position:absolute; bottom:22px; left:24px; display:inline-flex; align-items:center; gap:5px; padding:3px 10px; border-radius:3px; font-size:11px; font-weight:600; }
+  .status-defined { background:var(--c3); color:var(--c9); border:1px solid var(--c4); }
+  .status-concept { background:var(--c2); color:var(--c6); border:1px solid var(--c3); }
+
+  .card-arrow { position:absolute; bottom:24px; right:22px; font-size:15px; color:var(--text-tertiary); transition:color .15s,transform .15s; }
+  .phase-card:not(.disabled):hover .card-arrow { color:var(--text-primary); transform:translate(2px,-2px); }
+
+  /* ══ SANDBOX BUTTON ══ */
+  .sandbox-btn-wrap {
+    display: flex; justify-content: center;
+    margin-top: 52px;
+  }
+  .sandbox-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--c10); color: var(--c0);
+    font-family: var(--font-display); font-size: 15px; font-weight: 400; letter-spacing: -0.2px;
+    border: none; border-radius: 100px; padding: 14px 28px;
+    cursor: pointer; transition: background 0.15s, transform 0.12s, box-shadow 0.15s;
+    box-shadow: 0 4px 18px rgba(26,26,26,0.22), 0 1px 3px rgba(26,26,26,0.12);
+  }
+  .sandbox-btn:hover {
+    background: var(--c9);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(26,26,26,0.28), 0 2px 6px rgba(26,26,26,0.14);
+  }
+  .sandbox-btn:active { transform: translateY(0); box-shadow: 0 2px 8px rgba(26,26,26,0.18); }
+  .sandbox-btn-arrow { flex-shrink: 0; transition: transform 0.15s; }
+  .sandbox-btn:hover .sandbox-btn-arrow { transform: translateX(3px); }
+
+  /* ══ SANDBOX PAGE ══ */
+  #page-sandbox { position: relative; width: 100%; height: 100vh; overflow: hidden; background: var(--c1); }
+
+  /* dot grid background */
+  #page-sandbox::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: radial-gradient(circle, var(--c4) 1px, transparent 1px);
+    background-size: 24px 24px;
+    pointer-events: none;
+  }
+
+  .sandbox-back {
+    position: absolute; top: 20px; left: 24px; z-index: 10;
+    display: inline-flex; align-items: center; gap: 5px;
+    font-family: var(--font-ui); font-size: 12px; font-weight: 600;
+    color: var(--text-secondary); cursor: pointer;
+    background: var(--c0); border: 1px solid var(--border);
+    padding: 6px 12px; border-radius: 6px;
+    transition: color 0.12s, background 0.12s;
+  }
+  .sandbox-back:hover { color: var(--text-primary); background: var(--c1); }
+
+  .sandbox-canvas {
+    position: absolute; inset: 0;
+    overflow-y: auto; overflow-x: hidden;
+    padding: 60px 40px 80px;
+    display: flex; flex-direction: column; align-items: center; gap: 48px;
+  }
+
+  .sandbox-label-group {
+    display: flex; flex-direction: column; align-items: center; gap: 14px;
+    width: 100%; max-width: 760px;
+  }
+
+  .sandbox-section-label {
+    font-family: var(--font-ui); font-size: 10px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1px; color: var(--text-tertiary);
+  }
+
+  .sandbox-component-group {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+    gap: 10px;
+  }
+
+  /* ── Sandbox: Buttons ── */
+  .sb-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    font-family: var(--font-ui); font-size: 13px; font-weight: 500; letter-spacing: 0;
+    border-radius: 8px; padding: 9px 16px; cursor: pointer;
+    border: 1.5px solid transparent;
+    transition: background 0.1s, border-color 0.1s, box-shadow 0.1s;
+    white-space: nowrap; user-select: none; outline: none;
+    line-height: 1.2;
+  }
+  .sb-btn-sm {
+    font-size: 12px; padding: 6px 12px; border-radius: 6px;
+  }
+
+  /* Primary — Apollo Yellow */
+  .sb-btn-primary {
+    background: #EBF212; color: #1A1A1A; border-color: transparent;
+  }
+  .sb-btn-primary:hover   { background: #FAFF5C; }
+  .sb-btn-primary:active,
+  .sb-btn-primary.pressed { background: #D8E003; }
+  .sb-btn-primary:focus-visible {
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px #1A1A1A;
+  }
+
+  /* Secondary — white + border */
+  .sb-btn-secondary {
+    background: #FFFFFF; color: #1A1A1A;
+    border-color: #D4D4CC;
+  }
+  .sb-btn-secondary:hover   { background: #F3F3F0; }
+  .sb-btn-secondary:active,
+  .sb-btn-secondary.pressed { background: #E7E7E1; }
+  .sb-btn-secondary:focus-visible {
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px #1A1A1A;
+    border-color: #1A1A1A;
+  }
+
+  /* Tertiary — no bg, no border at rest */
+  .sb-btn-tertiary {
+    background: transparent; color: #1A1A1A; border-color: transparent;
+  }
+  .sb-btn-tertiary:hover   { background: #F3F3F0; }
+  .sb-btn-tertiary:active,
+  .sb-btn-tertiary.pressed { background: #E7E7E1; }
+  .sb-btn-tertiary:focus-visible {
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px #1A1A1A;
+    border-color: #1A1A1A;
+  }
+
+  /* Disabled — shared across all variants */
+  .sb-btn:disabled,
+  .sb-btn.disabled {
+    background: #F3F3F0; color: #AFAFA5;
+    border-color: transparent; cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  /* Loading — grayed, spinner icon */
+  .sb-btn.loading {
+    background: #F3F3F0; color: #AFAFA5;
+    border-color: transparent; cursor: not-allowed;
+    pointer-events: none;
+  }
+  .sb-spinner {
+    width: 13px; height: 13px; flex-shrink: 0;
+    border: 1.5px solid #AFAFA5; border-top-color: #646459;
+    border-radius: 50%; animation: spin 0.7s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* AI sparkle icon — gradient tint on ai-primary (white), gradient on ai-secondary */
+  .sb-btn-ai-primary .ai-icon { color: rgba(255,255,255,0.9); font-style: normal; }
+  .sb-btn-ai-secondary .ai-icon {
+    background: linear-gradient(135deg, #4B7FBF, #9B5FA5);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text; font-style: normal;
+  }
+  .sb-btn-ai-secondary:disabled .ai-icon,
+  .sb-btn-ai-secondary.loading .ai-icon { background: none; -webkit-text-fill-color: #AFAFA5; }
+
+  /* ── Button matrix layout ── */
+  .sb-btn-matrix {
+    display: flex; flex-direction: column; gap: 0;
+    background: var(--c0); border: 1px solid var(--border);
+    border-radius: 10px; overflow: hidden;
+  }
+  .sb-matrix-header {
+    display: grid;
+    grid-template-columns: 100px repeat(6, 100px);
+    background: var(--c1); border-bottom: 1px solid var(--border);
+  }
+  .sb-matrix-state-head {
+    font-family: var(--font-ui); font-size: 10px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-tertiary);
+    padding: 10px 0; text-align: center;
+  }
+  .sb-matrix-variant-block { border-bottom: 1px solid var(--border); }
+  .sb-matrix-variant-block:last-child { border-bottom: none; }
+  .sb-matrix-row {
+    display: grid;
+    grid-template-columns: 100px repeat(6, 100px);
+    align-items: center; border-bottom: 1px solid var(--c2);
+  }
+  .sb-matrix-row:last-child { border-bottom: none; }
+  .sb-matrix-row-label {
+    font-family: var(--font-display); font-size: 13px; font-weight: 400;
+    color: var(--text-primary); padding: 14px 14px 14px 16px;
+    display: flex; flex-direction: column; gap: 3px;
+  }
+  .sb-size-tag {
+    font-family: var(--font-ui); font-size: 9px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-tertiary);
+  }
+  .sb-matrix-cell {
+    display: flex; align-items: center; justify-content: center;
+    padding: 14px 8px;
+  }
+
+  /* simulated interactive states for demo */
+  .sb-btn.hover-demo.sb-btn-primary     { background: #FAFF5C; }
+  .sb-btn.hover-demo.sb-btn-secondary   { background: #F3F3F0; }
+  .sb-btn.hover-demo.sb-btn-tertiary    { background: #F3F3F0; }
+  .sb-btn.pressed.sb-btn-primary        { background: #D8E003; }
+  .sb-btn.pressed.sb-btn-secondary      { background: #E7E7E1; }
+  .sb-btn.pressed.sb-btn-tertiary       { background: #E7E7E1; }
+  .sb-btn.focus-visible-demo.sb-btn-primary  { box-shadow: 0 0 0 2px #fff, 0 0 0 4px #1A1A1A; }
+  .sb-btn.focus-visible-demo.sb-btn-secondary{ box-shadow: 0 0 0 2px #fff, 0 0 0 4px #1A1A1A; border-color: #1A1A1A; }
+  .sb-btn.focus-visible-demo.sb-btn-tertiary { box-shadow: 0 0 0 2px #fff, 0 0 0 4px #1A1A1A; }
+
+  /* Destroy */
+  .sb-btn-destroy {
+    background: #C94B35; color: #FFFFFF; border-color: transparent;
+  }
+  .sb-btn-destroy.hover-demo  { background: #D95F48; }
+  .sb-btn-destroy.pressed     { background: #9E3222; }
+  .sb-btn-destroy:focus-visible,
+  .sb-btn-destroy.focus-visible-demo { box-shadow: 0 0 0 2px #fff, 0 0 0 4px #C94B35; }
+  .sb-btn-destroy:hover       { background: #D95F48; }
+  .sb-btn-destroy:active      { background: #9E3222; }
+
+  /* Destroy-tertiary */
+  .sb-btn-destroy-tertiary {
+    background: transparent; color: #C94B35; border-color: transparent;
+  }
+  .sb-btn-destroy-tertiary.hover-demo  { background: #FBEDEB; }
+  .sb-btn-destroy-tertiary.pressed     { background: #F5D0CC; }
+  .sb-btn-destroy-tertiary:hover       { background: #FBEDEB; }
+  .sb-btn-destroy-tertiary:active      { background: #F5D0CC; }
+  .sb-btn-destroy-tertiary:focus-visible,
+  .sb-btn-destroy-tertiary.focus-visible-demo { box-shadow: 0 0 0 2px #fff, 0 0 0 4px #C94B35; border-color: #C94B35; }
+
+  /* AI-primary — gradient fill */
+  .sb-btn-ai-primary {
+    background: linear-gradient(135deg, #4B7FBF 0%, #9B5FA5 100%);
+    color: #FFFFFF; border-color: transparent;
+  }
+  .sb-btn-ai-primary.hover-demo  { background: linear-gradient(135deg, #6496CC 0%, #B07BB8 100%); }
+  .sb-btn-ai-primary.pressed     { background: linear-gradient(135deg, #2D5C96 0%, #7A3E85 100%); }
+  .sb-btn-ai-primary:hover       { background: linear-gradient(135deg, #6496CC 0%, #B07BB8 100%); }
+  .sb-btn-ai-primary:active      { background: linear-gradient(135deg, #2D5C96 0%, #7A3E85 100%); }
+  .sb-btn-ai-primary:focus-visible,
+  .sb-btn-ai-primary.focus-visible-demo { box-shadow: 0 0 0 2px #fff, 0 0 0 4px #7A3E85; }
+  .sb-btn-ai-primary:disabled,
+  .sb-btn-ai-primary.disabled    { background: #F3F3F0; }
+
+  /* AI-secondary — border + gradient text */
+  .sb-btn-ai-secondary {
+    background: #FFFFFF;
+    border-color: #C8A8D4;
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    /* text gets gradient, bg stays white — use a wrapper trick */
+    position: relative;
+  }
+  /* Override: use a simpler approach with colored text */
+  .sb-btn-ai-secondary {
+    background: #FFFFFF; color: #7A4A96; border-color: #C8A8D4;
+    background-clip: unset; -webkit-background-clip: unset;
+  }
+  .sb-btn-ai-secondary .ai-icon { background: linear-gradient(135deg, #4B7FBF, #9B5FA5); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .sb-btn-ai-secondary.hover-demo  { background: #F7EEFA; border-color: #B090C8; }
+  .sb-btn-ai-secondary.pressed     { background: #EDD8F5; border-color: #9B5FA5; }
+  .sb-btn-ai-secondary:hover       { background: #F7EEFA; border-color: #B090C8; }
+  .sb-btn-ai-secondary:active      { background: #EDD8F5; border-color: #9B5FA5; }
+  .sb-btn-ai-secondary:focus-visible,
+  .sb-btn-ai-secondary.focus-visible-demo { box-shadow: 0 0 0 2px #fff, 0 0 0 4px #9B5FA5; border-color: #9B5FA5; }
+
+  /* 24px gap between variant blocks in matrix */
+  .sb-matrix-variant-block { border-bottom: none; margin-bottom: 24px; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
+  .sb-matrix-variant-block:last-child { margin-bottom: 0; }
+  .sb-btn-matrix { background: transparent; border: none; border-radius: 0; gap: 0; }
+  .sb-matrix-header { border-radius: 0; border-bottom: none; margin-bottom: 4px; background: transparent; }
+
+  /* ── Sandbox: Chips ── */
+  .sb-chip {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-family: var(--font-ui); font-size: 12px; font-weight: 500;
+    border-radius: 100px; padding: 4px 12px; cursor: pointer;
+    border: 1.5px solid; transition: background 0.12s, border-color 0.12s, transform 0.1s;
+    white-space: nowrap; user-select: none;
+  }
+  .sb-chip:active { transform: scale(0.96); }
+  .sb-chip-default { background: var(--c0); color: var(--text-primary); border-color: var(--border); }
+  .sb-chip-default:hover { background: var(--c1); border-color: var(--c5); }
+  .sb-chip-selected { background: var(--c10); color: var(--c0); border-color: var(--c10); }
+  .sb-chip-selected:hover { background: var(--c9); border-color: var(--c9); }
+  .sb-chip-subtle   { background: var(--c2); color: var(--text-secondary); border-color: var(--c3); }
+  .sb-chip-subtle:hover { background: var(--c3); }
+  .sb-chip-info     { background: #EAF0FC; color: #1D3D58; border-color: #C2D4F0; }
+  .sb-chip-success  { background: #E5F0E8; color: #274427; border-color: #B8D4BC; }
+  .sb-chip-warning  { background: #FDF0E4; color: #602F0C; border-color: #F0D0B0; }
+  .sb-chip-danger   { background: #FBECEB; color: #6A2419; border-color: #F0C4C0; }
+  .sb-chip-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .sb-chip-x { font-size: 13px; line-height: 1; color: currentColor; opacity: 0.6; margin-left: 2px; }
+  .sb-chip-x:hover { opacity: 1; }
+
+  /* ── Sandbox: Badges ── */
+  .sb-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-family: var(--font-ui); font-size: 11px; font-weight: 600;
+    border-radius: 4px; padding: 2px 7px;
+    white-space: nowrap; letter-spacing: 0.1px;
+  }
+  .sb-badge-neutral  { background: var(--c2); color: var(--text-secondary); }
+  .sb-badge-info     { background: #EAF0FC; color: #1D3D58; }
+  .sb-badge-success  { background: #E5F0E8; color: #274427; }
+  .sb-badge-warning  { background: #FDF0E4; color: #602F0C; }
+  .sb-badge-danger   { background: #FBECEB; color: #6A2419; }
+  .sb-badge-ai       { background: #EEE8FA; color: #3F2B73; }
+  .sb-badge-strong   { background: var(--c10); color: var(--c0); }
+  .sb-badge-outline  { background: transparent; color: var(--text-secondary); border: 1.5px solid var(--border); }
+  .sb-badge-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+  .sb-badge-pill { border-radius: 100px; }
+
+  /* ══ TYPOGRAPHY ══ */
+  .typo-wrap { max-width:100%; padding:28px 28px 60px; }
+
+  .floating-crumbs { display:flex; align-items:center; gap:5px; font-size:12px; color:var(--text-secondary); margin-bottom:18px; }
+  .f-crumb { cursor:pointer; transition:color .1s; }
+  .f-crumb:hover { color:var(--text-primary); }
+  .f-crumb-sep { color:var(--text-tertiary); }
+  .f-crumb-current { color:var(--text-primary); font-weight:500; }
+
+  .typo-header { margin-bottom:24px; }
+  .typo-header h1 { font-family:var(--font-display); font-size:28px; font-weight:400; letter-spacing:-0.6px; margin-bottom:4px; }
+  .typo-header p  { font-size:14px; color:var(--text-secondary); }
+
+  .controls-bar {
+    background:var(--c1); border:1px solid var(--border);
+    border-radius:var(--radius-lg); padding:10px 16px;
+    display:flex; align-items:center; gap:16px; margin-bottom:14px; flex-wrap:wrap;
+  }
+  .ctrl-group { display:flex; align-items:center; gap:8px; }
+  .ctrl-label { font-size:10.5px; font-weight:600; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:.5px; white-space:nowrap; }
+
+  .text-input {
+    border:1px solid var(--border); border-radius:var(--radius);
+    padding:5px 10px; font-size:12.5px; color:var(--text-primary);
+    background:var(--bg-surface-2); width:220px; outline:none;
+    font-family:var(--font-ui); transition:border-color .1s;
+  }
+  .text-input:focus { border-color:var(--text-primary); }
+
+  .ctrl-div { width:1px; height:22px; background:var(--border); }
+
+  .swatch-picker { display:flex; align-items:center; gap:3px; flex-wrap:nowrap; }
+  .swatch {
+    width:20px; height:20px; border-radius:3px; cursor:pointer;
+    border:1.5px solid rgba(0,0,0,0.08);
+    transition:transform .1s, box-shadow .1s;
+    flex-shrink:0;
+  }
+  .swatch:hover { transform:scale(1.2); }
+  .swatch.active-swatch { box-shadow:0 0 0 2px var(--c10); transform:scale(1.1); }
+
+  .table-wrap { width:100%; }
+
+  .col-headers { display:grid; grid-template-columns: minmax(130px,1.4fr) minmax(100px,1.2fr) minmax(110px,1.3fr) 56px 70px 74px 68px minmax(120px,1.3fr) minmax(100px,1.1fr) 48px; width:100%; padding-bottom:4px; margin-bottom:2px; }
+  .col-th { padding:0 12px; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:var(--text-tertiary); }
+
+  .tokens-grid { display:flex; flex-direction:column; gap:6px; width:100%; }
+
+  .token-card {
+    background:var(--bg-surface); border:1px solid var(--border);
+    border-radius:var(--radius-lg); overflow:hidden; transition:box-shadow .1s; width:100%;
+  }
+  .token-card:hover { box-shadow:var(--shadow-md); }
+  .token-card.hidden { display:none; }
+  .token-card.priority-advisory { border-left:2px solid var(--advisory-border); }
+
+  .card-row {
+    display:grid; grid-template-columns: minmax(130px,1.4fr) minmax(100px,1.2fr) minmax(110px,1.3fr) 56px 70px 74px 68px minmax(120px,1.3fr) minmax(100px,1.1fr) 48px;
+    width:100%; align-items:stretch; cursor:pointer; user-select:none;
+  }
+  .card-row:hover { background: rgba(255,255,255,0.6); }
+
+  .card-cell {
+    padding:10px 12px; border-right:1px solid var(--border);
+    font-size:12px; display:flex; align-items:center; min-height:48px; overflow:hidden;
+  }
+  .card-cell:last-child { border-right:none; justify-content:center; }
+
+  .card-cell-name {
+    overflow:visible; align-items:center; padding:10px 14px;
+    min-height:0 !important;
+  }
+
+  .token-name { font-weight:inherit; color:var(--text-primary); white-space:nowrap; display:block; }
+
+  .original-chip {
+    font-family:'SF Mono','Fira Code',ui-monospace,monospace;
+    font-size:10.5px; padding:2px 7px; border-radius:3px;
+    background:var(--c3); color:var(--c8); white-space:nowrap;
+  }
+  .original-chip.is-new { background:var(--c10); color:var(--c2); font-family:var(--font-ui); font-weight:600; font-size:11px; }
+
+  .tag {
+    font-size:10.5px; font-weight:600; padding:2px 7px; border-radius:3px; white-space:nowrap;
+    display:inline-flex; align-items:center;
+  }
+  .tag-a { background:var(--tag-fg-bg); color:var(--tag-fg-color); border:1px solid var(--tag-fg-border); }
+  .tag-b { background:var(--tag-abc-bg); color:var(--tag-abc-color); border:1px solid var(--tag-abc-border); }
+
+  .meta-val { color:var(--text-primary); font-size:12.5px; white-space:nowrap; }
+
+  .pri-badge { display:inline-flex; align-items:center; gap:4px; padding:2px 8px; border-radius:3px; font-size:10.5px; font-weight:600; white-space:nowrap; }
+  .pri-advisory { background:var(--advisory-bg); color:var(--advisory); border:1px solid var(--advisory-border); }
+  .pri-pass     { background:var(--pass-bg);     color:var(--pass);     border:1px solid var(--pass-border); }
+
+  .expand-btn {
+    width:28px; height:28px; border-radius:50%;
+    background:none; border:1px solid var(--border);
+    cursor:pointer; color:var(--text-tertiary); font-size:12px;
+    display:flex; align-items:center; justify-content:center;
+    transition:color .1s,border-color .1s,transform .2s; flex-shrink:0;
+  }
+  .expand-btn:hover { border-color:var(--border-mid); color:var(--text-primary); }
+  .token-card.expanded .expand-btn { transform:rotate(180deg); color:var(--text-primary); border-color:var(--text-primary); }
+
+  .card-panel { display:none; border-top:1px solid var(--border); }
+  .token-card.expanded .card-panel { display:block; }
+  .panel-top { display:grid; grid-template-columns:1fr 1fr 1fr; }
+
+  .panel-preview { padding:24px; border-right:1px solid var(--border); background:var(--c0); transition:background .2s; }
+  .panel-preview.dark-surface { background:var(--c10); }
+  .preview-label { font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:.6px; color:var(--text-tertiary); margin-bottom:16px; }
+  .panel-preview.dark-surface .preview-label { color:var(--c6); }
+  .preview-text { word-break:break-word; transition:color .2s; }
+  .panel-preview.dark-surface .preview-text { color:var(--c2); }
+
+  .wcag-live { margin-top:18px; padding:9px 13px; border-radius:var(--radius); font-size:11.5px; display:flex; align-items:center; gap:7px; }
+  .wcag-live.pass { background:var(--pass-bg); color:var(--pass); border:1px solid var(--pass-border); }
+  .wcag-live.fail { background:var(--fail-bg); color:var(--fail); border:1px solid var(--fail-border); }
+
+  .panel-info { padding:24px; display:flex; flex-direction:column; gap:18px; background:var(--c0); }
+  .info-section h4 { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.6px; color:var(--text-tertiary); margin-bottom:9px; }
+
+  .props-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+  .prop-item { background:var(--bg-surface-2); border:1px solid var(--border); border-radius:var(--radius); padding:8px 11px; }
+  .prop-key { font-size:9.5px; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:.4px; margin-bottom:3px; }
+  .prop-val { font-family:'ABCDiatype',sans-serif; font-weight:500; font-size:12.5px; color:var(--text-primary); }
+
+  .notes-box { background:var(--bg-surface-2); border:1px solid var(--border); border-radius:var(--radius); padding:11px 13px; font-size:12px; color:var(--text-secondary); line-height:1.6; }
+
+  .usage-section { padding:24px; border-left:1px solid var(--border); overflow-y:auto; background:var(--c0); }
+  .usage-header { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.6px; color:var(--text-tertiary); margin-bottom:12px; }
+  .usage-advisory-banner {
+    background: var(--advisory-bg); border:1px solid var(--advisory-border);
+    color: var(--advisory); border-radius:var(--radius);
+    font-size:11.5px; line-height:1.5; padding:8px 12px; margin-bottom:12px;
+  }
+  .usage-grid { display:flex; flex-direction:column; gap:8px; margin-bottom:12px; }
+  .usage-block { background:var(--c2); border:1px solid var(--border); border-radius:var(--radius); padding:10px 13px; }
+  .usage-block-label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:var(--text-secondary); margin-bottom:5px; }
+  .avoid-label { color:var(--text-secondary) !important; }
+  .usage-block-text { font-size:12px; color:var(--text-secondary); line-height:1.6; }
+  .usage-seen { font-size:11.5px; color:var(--text-tertiary); }
+  .usage-list { margin:0; padding-left:16px; }
+  .usage-list li { font-size:12px; color:var(--text-secondary); line-height:1.6; margin-bottom:3px; }
+  .usage-list li:last-child { margin-bottom:0; }
+  .usage-seen-label { font-weight:700; color:var(--text-secondary); text-transform:uppercase; font-size:10px; letter-spacing:.4px; margin-right:4px; }
+  .notes-box.is-advisory { background:var(--advisory-bg); border-color:var(--advisory-border); color:var(--advisory); }
+  .lh-note { display:block; margin-top:8px; font-size:11px; color:var(--c7); background:var(--c2); border:1px solid var(--c3); border-radius:3px; padding:4px 9px; line-height:1.5; }
+
+  /* ══ SPACING PAGE ══ */
+  .sp-wrap { max-width: 900px; margin: 0 auto; padding: 48px 28px 80px; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .sp-wrap .floating-crumbs,
+  .sp-wrap .typo-header,
+  .sp-wrap .sp-tab-bar,
+  .sp-wrap .sp-panel > .ed-section { opacity: 0; animation: fadeUp 0.45s cubic-bezier(0.22,1,0.36,1) forwards; }
+  .sp-wrap .floating-crumbs  { animation-delay: 0.03s; }
+  .sp-wrap .typo-header       { animation-delay: 0.08s; }
+  .sp-wrap .sp-tab-bar        { animation-delay: 0.13s; }
+  .sp-panel > .ed-section:nth-child(1) { animation-delay: 0.18s; }
+  .sp-panel > .ed-section:nth-child(2) { animation-delay: 0.26s; }
+  .sp-panel > .ed-section:nth-child(3) { animation-delay: 0.34s; }
+  .sp-panel > .ed-section:nth-child(4) { animation-delay: 0.42s; }
+  .sp-panel > .ed-section:nth-child(5) { animation-delay: 0.50s; }
+  .sp-panel > .ed-section:nth-child(6) { animation-delay: 0.58s; }
+  .sp-panel > .ed-section:nth-child(7) { animation-delay: 0.66s; }
+
+  .sp-tab-bar { display:flex; gap:0; border-bottom:1px solid var(--border); margin-bottom:28px; }
+  .sp-tab {
+    padding:10px 18px; font-size:14px; font-weight:500; color:var(--text-secondary);
+    background:none; border:none; border-bottom:2px solid transparent;
+    margin-bottom:-1px; cursor:pointer; font-family:var(--font-ui);
+    transition:color .15s, border-color .15s;
+  }
+  .sp-tab:hover { color:var(--text-primary); }
+  .sp-tab.active { color:var(--text-primary); border-bottom-color:var(--text-primary); font-weight:600; }
+
+  .sp-code { font-family:monospace; background:var(--c2); padding:1px 5px; border-radius:3px; font-size:12px; color:var(--text-primary); }
+
+  .sp-table { border:1px solid var(--border); border-radius:var(--radius-lg); overflow:hidden; }
+  .sp-thead { display:grid; grid-template-columns:1fr 1fr 1fr; background:var(--c1); border-bottom:1px solid var(--border); }
+  .sp-thead.gap-head { grid-template-columns:240px 180px 70px 1fr; }
+  .sp-thead.scale-head { grid-template-columns:70px 1fr 1fr; }
+  .sp-thead.hier-head { grid-template-columns:130px 1fr 1fr; }
+  .sp-thead.radius-prim-head { grid-template-columns:240px 80px 1fr 100px; }
+  .sp-thead.radius-sem-head { grid-template-columns:240px 180px 1fr 100px; }
+  .sp-th { padding:10px 14px; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:var(--text-tertiary); white-space:nowrap; overflow:hidden; }
+  .sp-tr { display:grid; grid-template-columns:1fr 1fr 1fr; border-bottom:1px solid var(--border); align-items:start; background:#fff; }
+  .sp-tr:last-child { border-bottom:none; }
+  .sp-tr.gap-tr { grid-template-columns:240px 180px 70px 1fr; }
+  .sp-tr.scale-tr { grid-template-columns:70px 1fr 1fr; }
+  .sp-tr.hier-tr { grid-template-columns:130px 1fr 1fr; }
+  .sp-tr.radius-prim-tr { grid-template-columns:240px 80px 1fr 100px; }
+  .sp-tr.radius-sem-tr { grid-template-columns:240px 180px 1fr 100px; }
+  .sp-td { padding:12px 14px; font-size:14px; line-height:22px; color:var(--text-secondary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .sp-td-label { padding:12px 14px; font-size:14px; line-height:22px; font-weight:500; color:var(--text-primary); white-space:nowrap; }
+  .sp-td-desc { padding:12px 14px; font-size:14px; line-height:22px; color:var(--text-secondary); white-space:normal; }
+  .sp-token-name { font-family:monospace; font-size:12px; font-weight:500; color:#1A1A1A; background:var(--c2); padding:2px 7px; border-radius:3px; white-space:nowrap; display:inline-block; }
+  .sp-ref-tag { font-family:monospace; font-size:11px; color:#1A1A1A; background:var(--c2); border:1px solid var(--c4); padding:1px 6px; border-radius:3px; white-space:nowrap; display:inline-block; }
+  .sp-val-tag { font-size:14px; font-weight:600; color:#1A1A1A; white-space:nowrap; }
+  .sp-mobile-tag { font-size:14px; color:#1A1A1A; font-weight:500; white-space:nowrap; }
+
+  /* Diagram viewer */
+  .diag-viewer { margin-top: 24px; margin-bottom: 0; }
+  .diag-img-frame {
+    width: 100%; border-radius: 10px; overflow: hidden;
+    border: 1px solid var(--border); background: var(--c2);
+    position: relative; margin-bottom: 12px;
+  }
+  .diag-img-frame img { width: 100%; display: block; opacity: 0; transition: opacity .3s ease; position: absolute; top: 0; left: 0; }
+  .diag-img-frame img.diag-active { opacity: 1; position: relative; }
+  .diag-toggle-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .diag-toggle-card {
+    border-radius: 10px; padding: 20px 18px 18px;
+    border: 2px solid var(--c3); background: var(--c1);
+    cursor: pointer; transition: border-color .15s, background .15s, box-shadow .15s;
+    position: relative; overflow: hidden; user-select: none;
+    box-shadow: 0 2px 12px rgba(26,26,26,0.07);
+  }
+  .diag-toggle-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: 8px 8px 0 0; opacity: 0; transition: opacity .15s; }
+  .diag-toggle-card:hover::before { opacity: 1; }
+  .diag-toggle-card.diag-card-active::before { opacity: 1; }
+  .diag-card-yellow::before  { background: #C8A200; }
+  .diag-card-orange::before  { background: #D06010; }
+  .diag-card-red::before     { background: #C83030; }
+  .diag-card-purple::before  { background: #7C5CBF; }
+  .diag-card-blue::before    { background: #2E6FB5; }
+  .diag-card-green::before   { background: #3A7A4A; }
+  .diag-toggle-card:hover { background: var(--c0); border-color: var(--c4); box-shadow: 0 2px 6px rgba(26,26,26,0.13); }
+  .diag-toggle-card.diag-card-active { background: var(--c0); box-shadow: 0 2px 6px rgba(26,26,26,0.13); }
+  .diag-card-yellow.diag-card-active  { border-color: #C8A200; }
+  .diag-card-orange.diag-card-active  { border-color: #D06010; }
+  .diag-card-red.diag-card-active     { border-color: #C83030; }
+  .diag-card-purple.diag-card-active  { border-color: #7C5CBF; }
+  .diag-card-blue.diag-card-active    { border-color: #2E6FB5; }
+  .diag-card-green.diag-card-active   { border-color: #3A7A4A; }
+  .diag-card-kicker { font-family: var(--font-ui); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; color: var(--text-tertiary); margin-bottom: 6px; }
+  .diag-card-name { font-family: var(--font-display); font-size: 18px; font-weight: 400; color: var(--text-primary); line-height: 1.2; margin-bottom: 6px; }
+  .diag-card-token { display: inline-block; font-family: var(--font-ui); font-size: 11px; color: var(--text-secondary); background: var(--c3); border: 1px solid var(--border); border-radius: 4px; padding: 2px 8px; margin-bottom: 10px; }
+  .diag-card-desc { font-family: var(--font-ui); font-size: 12px; color: var(--text-secondary); line-height: 1.6; }
+
+  /* Radius */
+  .radius-preview-box { width:40px; height:32px; background:var(--c5); border:1.5px solid var(--c7); display:inline-block; }
+  .nesting-diagram { display:flex; gap:32px; align-items:flex-start; flex-wrap:wrap; margin-bottom:16px; }
+  .nest-layer { padding:20px; border:2px solid var(--c5); position:relative; display:flex; flex-direction:column; align-items:flex-start; min-width:160px; transition:box-shadow .15s; }
+  .nest-layer:hover { box-shadow:0 0 0 2px var(--c7); }
+  .nest-l1 { border-radius:12px; background:var(--c2); }
+  .nest-l2 { border-radius:8px; background:var(--c3); margin-top:10px; }
+  .nest-l3 { border-radius:4px; background:var(--c4); margin-top:10px; }
+  .nest-label { font-size:10px; font-weight:700; color:var(--text-secondary); text-transform:uppercase; letter-spacing:.4px; margin-bottom:4px; display:flex; flex-direction:column; gap:1px; }
+  .nest-label span { font-size:14px; font-weight:400; font-family:var(--font-display); color:var(--text-primary); text-transform:none; letter-spacing:-0.3px; }
+
+  /* Editorial sections */
+  .ed-section { padding: 40px 0; border-bottom: 1px solid var(--border); }
+  .ed-eyebrow { font-family: var(--font-ui); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--accent-text); margin-bottom: 10px; }
+  .ed-h2 { font-family: var(--font-display); font-size: 24px; font-weight: 400; letter-spacing: 0; line-height: 32px; color: var(--text-primary); margin-bottom: 14px; }
+  .ed-body { font-family: var(--font-ui); font-size: 16px; font-weight: 400; line-height: 26px; color: var(--text-secondary); max-width: 680px; margin-bottom: 14px; }
+  .ed-body:last-child { margin-bottom: 0; }
+  .ed-body strong { color: var(--text-primary); font-weight: 500; }
+  .ed-body em { font-style: italic; }
+  .ed-body code { font-family: monospace; background:var(--c2); padding:1px 5px; border-radius:3px; font-size:14px; color:var(--text-primary); }
+
+  /* Principles */
+  .guid-principles-list { display: flex; flex-direction: column; margin-top: 24px; }
+  .guid-principle-row { display: flex; gap: 24px; align-items: flex-start; padding: 20px 0; border-bottom: 1px solid var(--border); }
+  .guid-principle-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .guid-principle-row-oos { opacity: .55; }
+  .guid-plain-row { gap: 0; }
+  .guid-principle-row-num { font-family: var(--font-ui); font-size: 11px; font-weight: 700; color: var(--text-tertiary); letter-spacing: .5px; min-width: 24px; padding-top: 5px; flex-shrink: 0; }
+  .guid-principle-row-body { flex: 1; }
+  .guid-principle-row-title { font-family: var(--font-display); font-size: 18px; font-weight: 400; line-height: 24px; color: var(--text-primary); margin-bottom: 6px; letter-spacing: 0; }
+  .guid-principle-row-desc { font-family: var(--font-ui); font-size: 16px; color: var(--text-secondary); line-height: 1.6; }
+
+  /* Color page */
+  .col-wrap { max-width: 900px; margin: 0 auto; padding: 48px 28px 80px; }
+  .col-wrap .floating-crumbs, .col-wrap .typo-header, .col-wrap .sp-tab-bar, .col-wrap .col-panel > .ed-section { opacity: 0; animation: fadeUp 0.45s cubic-bezier(0.22,1,0.36,1) forwards; }
+  .col-wrap .floating-crumbs { animation-delay: 0.03s; }
+  .col-wrap .typo-header      { animation-delay: 0.08s; }
+  .col-wrap .sp-tab-bar       { animation-delay: 0.13s; }
+  .col-wrap .col-panel > .ed-section:nth-child(1) { animation-delay: 0.18s; }
+  .col-wrap .col-panel > .ed-section:nth-child(2) { animation-delay: 0.26s; }
+  .col-wrap .col-panel > .ed-section:nth-child(3) { animation-delay: 0.34s; }
+
+  .color-prim-grid { display: flex; flex-direction: column; gap: 6px; margin-top: 28px; }
+  .color-ramp-row { display: flex; align-items: stretch; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); height: 60px; }
+  .color-ramp-meta { width: 136px; flex-shrink: 0; display: flex; flex-direction: column; justify-content: center; padding: 0 14px; background: var(--c1); border-right: 1px solid var(--border); }
+  .color-ramp-name { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 5px; }
+  .color-ramp-tag { font-family: monospace; font-size: 10px; color: var(--text-tertiary); background: var(--c2); padding: 1px 6px; border-radius: 3px; display: inline-block; }
+  .color-ramp-swatches { display: flex; flex: 1; }
+  .color-ramp-swatch { flex: 1; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 6px; position: relative; overflow: hidden; cursor: pointer; }
+  /* hover overlay: 10% — visible on :hover, hidden when pressed */
+  .color-ramp-swatch .ramp-ov-hover   { position: absolute; inset: 0; opacity: 0; transition: opacity .1s; pointer-events: none; }
+  /* pressed overlay: 20% — visible only while mousedown */
+  .color-ramp-swatch .ramp-ov-pressed { position: absolute; inset: 0; opacity: 0; transition: opacity .1s; pointer-events: none; }
+  .color-ramp-swatch:hover .ramp-ov-hover              { opacity: 0.10; }
+  .color-ramp-swatch.is-pressed .ramp-ov-hover         { opacity: 0; }
+  .color-ramp-swatch.is-pressed .ramp-ov-pressed       { opacity: 0.20; }
+  .ramp-step { font-size: 9px; font-weight: 700; letter-spacing: 0; pointer-events: none; position: relative; z-index: 1; }
+  .ramp-legend-row  { display: flex; align-items: center; gap: 18px; margin-bottom: 10px; }
+  .ramp-legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-tertiary); }
+  .ramp-legend-pip  { width: 10px; height: 10px; border-radius: 2px; border: 1px solid var(--border); }
+
+  .col-sem-section { margin-top: 40px; }
+  .col-sem-section:first-child { margin-top: 28px; }
+  .col-sem-section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .col-sem-section-name { font-family: var(--font-display); font-size: 18px; font-weight: 400; color: var(--text-primary); }
+  .col-sem-section-prefix { font-family: monospace; font-size: 11px; color: var(--text-tertiary); background: var(--c2); padding: 2px 7px; border-radius: 4px; }
+  .col-sem-group { margin-top: 20px; }
+  .col-sem-group-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; color: var(--text-tertiary); margin-bottom: 8px; }
+  .col-sem-table-inner { border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+  .col-sem-thead { display: grid; grid-template-columns: 290px 120px 150px 36px 1fr; background: var(--c1); border-bottom: 1px solid var(--border); }
+  .col-sem-th { padding: 10px 14px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--text-tertiary); white-space: nowrap; overflow: hidden; }
+  .col-sem-tr { display: grid; grid-template-columns: 290px 120px 150px 36px 1fr; border-bottom: 1px solid var(--border); background: #fff; align-items: center; }
+  .col-sem-tr:last-child { border-bottom: none; }
+  .col-sem-td { padding: 11px 14px; font-size: 13px; color: var(--text-secondary); overflow: hidden; white-space: nowrap; }
+  .col-sem-tr > .col-sem-td:first-child { white-space: normal; overflow: visible; }
+  .col-sem-hex { font-family: monospace; font-size: 11px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .col-sem-td-swatch { padding: 11px 8px 11px 0; display: flex; align-items: center; justify-content: center; }
+  .col-sem-swatch { width: 22px; height: 22px; border-radius: 4px; border: 1px solid rgba(0,0,0,0.10); flex-shrink: 0; }
+  .col-sem-swatch.alpha-swatch { position: relative; overflow: hidden; background-image: linear-gradient(45deg, #ccc 25%, transparent 25%), linear-gradient(-45deg, #ccc 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #ccc 75%), linear-gradient(-45deg, transparent 75%, #ccc 75%); background-size: 6px 6px; background-position: 0 0, 0 3px, 3px -3px, -3px 0px; background-color: white; }
+  .col-sem-td-desc { padding: 11px 14px; font-size: 13px; color: var(--text-secondary); line-height: 1.55; white-space: normal; }
+
+  .col-swatch-inline { display: inline-block; width: 14px; height: 14px; border-radius: 3px; border: 1px solid rgba(0,0,0,0.10); margin-right: 7px; vertical-align: middle; flex-shrink: 0; }
+  .sp-thead.col-surface-head { grid-template-columns: 180px 130px 1fr; }
+  .sp-tr.col-surface-tr      { grid-template-columns: 180px 130px 1fr; }
+  .sp-td.col-val-with-swatch { display: flex; align-items: center; }
+
+  #contrast-matrix { margin-top: 28px; }
+  .contrast-wrap { border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; overflow-x: auto; }
+  .contrast-table { border-collapse: collapse; width: 100%; min-width: 560px; }
+  .contrast-table th, .contrast-table td { border: 1px solid var(--border); }
+  .contrast-table thead tr:first-child th { border-top: none; }
+  .contrast-table tbody tr:last-child th, .contrast-table tbody tr:last-child td { border-bottom: none; }
+  .contrast-table tr th:first-child, .contrast-table tr td:first-child { border-left: none; }
+  .contrast-table tr th:last-child,  .contrast-table tr td:last-child   { border-right: none; }
+  .contrast-corner { background: var(--c1); padding: 12px 14px; min-width: 156px; vertical-align: middle; }
+  .contrast-corner-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--text-tertiary); }
+  .contrast-th-bg { background: var(--c1); padding: 10px 12px; text-align: left; vertical-align: top; min-width: 100px; }
+  .contrast-th-swatch { display: block; width: 100%; height: 14px; border-radius: 3px; border: 1px solid rgba(0,0,0,0.08); margin-bottom: 5px; }
+  .contrast-th-token { font-family: monospace; font-size: 10px; font-weight: 600; color: var(--text-primary); white-space: nowrap; margin-bottom: 2px; }
+  .contrast-th-hex { font-family: monospace; font-size: 10px; color: var(--text-secondary); }
+  .contrast-th-text { background: var(--c1); padding: 12px 14px; text-align: left; vertical-align: middle; min-width: 156px; }
+  .contrast-th-text-token { font-family: monospace; font-size: 11px; font-weight: 600; color: var(--text-primary); display: flex; align-items: center; gap: 6px; margin-bottom: 2px; white-space: nowrap; }
+  .contrast-row-swatch { display: inline-block; width: 14px; height: 14px; border-radius: 3px; border: 1px solid rgba(0,0,0,0.10); flex-shrink: 0; }
+  .contrast-th-text-hex { font-family: monospace; font-size: 10px; color: var(--text-secondary); padding-left: 20px; }
+  .contrast-cell { padding: 10px 12px; text-align: center; vertical-align: middle; background: #fff; }
+  .contrast-cell.cell-pass-std { background: var(--pass-bg); }
+  .contrast-cell.cell-pass-lg  { background: var(--advisory-bg); }
+  .contrast-cell.cell-fail     { background: var(--fail-bg); }
+  .contrast-cell.cell-same     { background: var(--c2); }
+  .contrast-ratio { font-family: monospace; font-size: 12px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
+  .contrast-badge { display: inline-flex; align-items: center; padding: 2px 6px; border-radius: 3px; font-size: 9px; font-weight: 600; white-space: nowrap; }
+  .contrast-badge.pass-std { background: var(--pass-bg);     color: var(--pass);     border: 1px solid var(--pass-border); }
+  .contrast-badge.pass-lg  { background: var(--advisory-bg); color: var(--advisory); border: 1px solid var(--advisory-border); }
+  .contrast-badge.fail     { background: var(--fail-bg);     color: var(--fail);     border: 1px solid var(--fail-border); }
+  .contrast-same-dash { color: var(--text-tertiary); font-size: 20px; line-height: 1; }
+</style>
+</head>
+<body>
+
+<!-- HOME -->
+<div class="page active" id="page-home">
+  <div class="home-wrap">
+    <div class="home-eyebrow">Fabric Foundations</div>
+    <h1 class="home-heading">Tokens Northstar</h1>
+    <p class="home-sub">A systematic overhaul of Apollo's visual foundation — typography, spacing, and color aligned toward a more human direction.</p>
+    <div class="phase-cards">
+      <div class="phase-card" onclick="goPage('typography')">
+        <div class="card-phase-num">Phase 01</div>
+        <div class="card-symbol-wrap wrap-type"><span class="symbol-type">Aa</span></div>
+        <div class="card-title">Typography</div>
+        <div class="card-desc">Semantic type tokens, font family assignments, WCAG compliance, and scale documentation.</div>
+        <span class="card-status status-defined">✏️ Defined</span>
+        <div class="card-arrow">↗</div>
+      </div>
+      <div class="phase-card" onclick="goPage('spacing')">
+        <div class="card-phase-num">Phase 02</div>
+        <div class="card-symbol-wrap wrap-spacing"><div class="symbol-spacing"></div></div>
+        <div class="card-title">Spacing</div>
+        <div class="card-desc">Spacing scale tokens, layout density standards, and interactive target size compliance.</div>
+        <span class="card-status status-defined">✏️ Defined</span>
+        <div class="card-arrow">↗</div>
+      </div>
+      <div class="phase-card" onclick="goPage('color')">
+        <div class="card-phase-num">Phase 03</div>
+        <div class="card-symbol-wrap wrap-color"><div class="symbol-color"></div></div>
+        <div class="card-title">Color</div>
+        <div class="card-desc">Semantic color tokens, contrast pairing matrix, dark mode support, and brand alignment.</div>
+        <span class="card-status status-defined">✏️ Defined</span>
+        <div class="card-arrow">↗</div>
+      </div>
+    </div>
+    <div class="sandbox-btn-wrap">
+      <button class="sandbox-btn" onclick="window.location.href='./sandbox.html'">
+        Enter Sandbox
+        <svg class="sandbox-btn-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- SANDBOX -->
+<div class="page" id="page-sandbox">
+  <div class="sandbox-back" onclick="goHome()">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M10 7H4M6 4L3 7l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Back
+  </div>
+  <div class="sandbox-canvas" id="sandbox-canvas">
+    <div class="sandbox-label-group">
+      <div class="sandbox-section-label">Buttons</div>
+      <div id="sb-buttons"></div>
+    </div>
+    <div class="sandbox-label-group">
+      <div class="sandbox-section-label">Chips</div>
+      <div class="sandbox-component-group" id="sb-chips"></div>
+    </div>
+    <div class="sandbox-label-group">
+      <div class="sandbox-section-label">Badges</div>
+      <div class="sandbox-component-group" id="sb-badges"></div>
+    </div>
+  </div>
+</div>
+
+<!-- TYPOGRAPHY -->
+<div class="page" id="page-typography">
+  <div class="typo-wrap">
+    <div class="floating-crumbs">
+      <span class="f-crumb" onclick="goHome()">Fabric</span>
+      <span class="f-crumb-sep">/</span>
+      <span class="f-crumb" onclick="goHome()">Tokens Northstar</span>
+      <span class="f-crumb-sep">/</span>
+      <span class="f-crumb-current">Typography</span>
+    </div>
+    <div class="typo-header">
+      <h1>Typography Tokens</h1>
+      <p>Preview tokens live, test contrast on any surface, and review WCAG 2.2 AA compliance status.</p>
+    </div>
+    <div class="controls-bar">
+      <div class="ctrl-group">
+        <span class="ctrl-label">Sample text</span>
+        <input class="text-input" id="sampleText" type="text" value="The quick brown fox jumps" placeholder="Type to preview…">
+      </div>
+      <div class="ctrl-div"></div>
+      <div class="ctrl-group">
+        <span class="ctrl-label">BG</span>
+        <div class="swatch-picker" id="bgSwatches">
+          <div class="swatch" style="background:#FFFFFF" data-color="#FFFFFF" title="#FFFFFF" onclick="setBg(this)"></div>
+          <div class="swatch" style="background:#F9F9F6" data-color="#F9F9F6" title="#F9F9F6" onclick="setBg(this)"></div>
+          <div class="swatch" style="background:#F3F3F0" data-color="#F3F3F0" title="#F3F3F0" onclick="setBg(this)"></div>
+          <div class="swatch" style="background:#E7E7E1" data-color="#E7E7E1" title="#E7E7E1" onclick="setBg(this)"></div>
+          <div class="swatch" style="background:#D4D5CB" data-color="#D4D5CB" title="#D4D5CB" onclick="setBg(this)"></div>
+          <div class="swatch" style="background:#C3C3B3" data-color="#C3C3B3" title="#C3C3B3" onclick="setBg(this)"></div>
+          <div class="swatch" style="background:#878675" data-color="#878675" title="#878675" onclick="setBg(this)"></div>
+          <div class="swatch" style="background:#6B6758" data-color="#6B6758" title="#6B6758" onclick="setBg(this)"></div>
+          <div class="swatch" style="background:#504E41" data-color="#504E41" title="#504E41" onclick="setBg(this)"></div>
+          <div class="swatch" style="background:#3E3E33" data-color="#3E3E33" title="#3E3E33" onclick="setBg(this)"></div>
+          <div class="swatch" style="background:#1A1A1A" data-color="#1A1A1A" title="#1A1A1A" onclick="setBg(this)"></div>
+          <div class="swatch" style="background:#FBF500" data-color="#FBF500" title="#FBF500" onclick="setBg(this)"></div>
+        </div>
+      </div>
+      <div class="ctrl-div"></div>
+      <div class="ctrl-group">
+        <span class="ctrl-label">Text</span>
+        <div class="swatch-picker" id="fgSwatches">
+          <div class="swatch" style="background:#FFFFFF" data-color="#FFFFFF" title="#FFFFFF" onclick="setFg(this)"></div>
+          <div class="swatch" style="background:#F9F9F6" data-color="#F9F9F6" title="#F9F9F6" onclick="setFg(this)"></div>
+          <div class="swatch" style="background:#F3F3F0" data-color="#F3F3F0" title="#F3F3F0" onclick="setFg(this)"></div>
+          <div class="swatch" style="background:#E7E7E1" data-color="#E7E7E1" title="#E7E7E1" onclick="setFg(this)"></div>
+          <div class="swatch" style="background:#D4D5CB" data-color="#D4D5CB" title="#D4D5CB" onclick="setFg(this)"></div>
+          <div class="swatch" style="background:#C3C3B3" data-color="#C3C3B3" title="#C3C3B3" onclick="setFg(this)"></div>
+          <div class="swatch" style="background:#878675" data-color="#878675" title="#878675" onclick="setFg(this)"></div>
+          <div class="swatch" style="background:#6B6758" data-color="#6B6758" title="#6B6758" onclick="setFg(this)"></div>
+          <div class="swatch" style="background:#504E41" data-color="#504E41" title="#504E41" onclick="setFg(this)"></div>
+          <div class="swatch" style="background:#3E3E33" data-color="#3E3E33" title="#3E3E33" onclick="setFg(this)"></div>
+          <div class="swatch" style="background:#1A1A1A" data-color="#1A1A1A" title="#1A1A1A" onclick="setFg(this)"></div>
+          <div class="swatch" style="background:#FBF500" data-color="#FBF500" title="#FBF500" onclick="setFg(this)"></div>
+        </div>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <div class="col-headers">
+        <div class="col-th">Token</div>
+        <div class="col-th">Original</div>
+        <div class="col-th">Font Family</div>
+        <div class="col-th">Size</div>
+        <div class="col-th">Line Ht.</div>
+        <div class="col-th">Tracking</div>
+        <div class="col-th">Weight</div>
+        <div class="col-th">WCAG 2.2 AA</div>
+        <div class="col-th">Status</div>
+        <div class="col-th"></div>
+      </div>
+      <div class="tokens-grid" id="tokensGrid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- SPACING -->
+<div class="page" id="page-spacing">
+  <div class="sp-wrap">
+    <div class="floating-crumbs">
+      <span class="f-crumb" onclick="goHome()">Fabric</span>
+      <span class="f-crumb-sep">/</span>
+      <span class="f-crumb" onclick="goHome()">Tokens Northstar</span>
+      <span class="f-crumb-sep">/</span>
+      <span class="f-crumb-current">Spacing</span>
+    </div>
+    <div class="typo-header">
+      <h1>Spacing System</h1>
+      <p>A four-step scale with semantic tokens for gap and padding roles — primitives, layout guidance, and corner radius.</p>
+    </div>
+    <div class="sp-tab-bar">
+      <button class="sp-tab active" onclick="switchSpTab('tokens', this)">Tokens</button>
+      <button class="sp-tab" onclick="switchSpTab('guidance', this)">Guidance</button>
+      <button class="sp-tab" onclick="switchSpTab('radii', this)">Radii</button>
+    </div>
+
+    <!-- TAB: TOKENS -->
+    <div class="sp-panel" id="sptab-tokens">
+      <div class="ed-section">
+        <div class="ed-eyebrow">Primitives · Spacing</div>
+        <h2 class="ed-h2">The raw scale</h2>
+        <p class="ed-body">The full primitive collection. Do not consume primitives directly in components — always reach for a semantic token. Values without a semantic mapping (<code>xxs</code>, <code>md</code>, <code>xl</code>, <code>xxxl</code>) are available for component-level optical adjustments only.</p>
+        <div class="sp-table" style="margin-top:24px;">
+          <div class="sp-thead"><div class="sp-th">Token</div><div class="sp-th">Base</div><div class="sp-th">Mobile</div></div>
+          <div class="sp-tbody" id="prim-rows"></div>
+        </div>
+      </div>
+      <div class="ed-section">
+        <div class="ed-eyebrow">Semantics · Gap</div>
+        <h2 class="ed-h2">Space between elements</h2>
+        <p class="ed-body">Gap tokens encode the structural relationship between elements. Reference these in <code>gap</code>, <code>margin</code>, or <code>column-gap</code> properties. Note that <code>gap/region</code> and <code>gap/section</code> intentionally resolve to the same primitive — the semantic layer keeps them independently updatable.</p>
+        <div class="sp-table" style="margin-top:24px;">
+          <div class="sp-thead gap-head"><div class="sp-th">Token</div><div class="sp-th">References</div><div class="sp-th">Base</div><div class="sp-th">Description</div></div>
+          <div class="sp-tbody" id="gap-rows"></div>
+        </div>
+      </div>
+      <div class="ed-section" style="border-bottom:none; padding-bottom:0;">
+        <div class="ed-eyebrow">Semantics · Padding</div>
+        <h2 class="ed-h2">Space inside a container</h2>
+        <p class="ed-body">Padding tokens encode container context. Reference these in <code>padding</code> properties. Directional padding — applying to one or two sides only — is specified at the component level in redlines, not tokenized at this layer.</p>
+        <div class="sp-table" style="margin-top:24px;">
+          <div class="sp-thead gap-head"><div class="sp-th">Token</div><div class="sp-th">References</div><div class="sp-th">Base</div><div class="sp-th">Description</div></div>
+          <div class="sp-tbody" id="pad-rows"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: GUIDANCE -->
+    <div class="sp-panel" id="sptab-guidance" style="display:none;">
+      <div class="ed-section">
+        <div class="ed-eyebrow">Overview</div>
+        <h2 class="ed-h2">Why spacing matters in Apollo</h2>
+        <p class="ed-body">Apollo is a data-dense sales platform — users are scanning hundreds of records, switching between workflows, and making time-sensitive decisions in a single session. Spacing is the primary signal that tells users where one thing ends and another begins. Each value in the four-step scale serves a distinct structural role — from separating major page regions down to binding sub-elements within a single component. Spacing decisions should be based on the <em>relationship</em> between elements, not visual preference.</p>
+        <div class="guid-principles-list">
+          <div class="guid-principle-row guid-plain-row"><div class="guid-principle-row-body"><div class="guid-principle-row-title">Scannability</div><div class="guid-principle-row-desc">Predictable rhythm lets users parse tables and lists faster.</div></div></div>
+          <div class="guid-principle-row guid-plain-row"><div class="guid-principle-row-body"><div class="guid-principle-row-title">Clarity</div><div class="guid-principle-row-desc">Consistent gaps communicate which elements belong together and which don't.</div></div></div>
+          <div class="guid-principle-row guid-plain-row"><div class="guid-principle-row-body"><div class="guid-principle-row-title">Reduced friction</div><div class="guid-principle-row-desc">Designers and engineers stop debating spacing case-by-case.</div></div></div>
+          <div class="guid-principle-row guid-plain-row"><div class="guid-principle-row-body"><div class="guid-principle-row-title">Maintainability</div><div class="guid-principle-row-desc">A token-based system means spacing can be updated globally from a single source.</div></div></div>
+        </div>
+      </div>
+      <div class="ed-section">
+        <div class="ed-eyebrow">Spacing Scale</div>
+        <h2 class="ed-h2">Four values, two roles</h2>
+        <p class="ed-body">Spacing values serve two distinct roles: <strong>gap</strong> (space between elements) and <strong>padding</strong> (space inside a container). The same value can serve both roles depending on context.</p>
+        <div class="diag-viewer" id="diag-spacing">
+          <div class="diag-img-frame" id="diag-spacing-frame">
+            <img src="Frame 1618870580.png" alt="Gaps between regions" class="diag-active" data-diag="spacing" data-idx="0">
+            <img src="Frame 1618870581.png" alt="Padding within sections" data-diag="spacing" data-idx="1">
+            <img src="Frame 1618870582.png" alt="Gaps between zones" data-diag="spacing" data-idx="2">
+          </div>
+          <div class="diag-toggle-cards">
+            <div class="diag-toggle-card diag-card-purple diag-card-active" onclick="switchDiag('spacing',0,this)" onmouseenter="switchDiag('spacing',0,this)">
+              <div class="diag-card-name">Gaps between regions</div>
+              <div class="diag-card-token">gap/region · 24px</div>
+              <div class="diag-card-desc">The sidebar and main content are each a region. A 24px gap separates them — the widest break in the layout hierarchy.</div>
+            </div>
+            <div class="diag-toggle-card diag-card-blue" onclick="switchDiag('spacing',1,this)" onmouseenter="switchDiag('spacing',1,this)">
+              <div class="diag-card-name">Padding within sections</div>
+              <div class="diag-card-token">padding/section · 24px or 16px</div>
+              <div class="diag-card-desc">Standalone page-level cards use 24px padding. Nested or compact cards use 16px — padding follows context, not preference.</div>
+            </div>
+            <div class="diag-toggle-card diag-card-green" onclick="switchDiag('spacing',2,this)" onmouseenter="switchDiag('spacing',2,this)">
+              <div class="diag-card-name">Gaps between zones</div>
+              <div class="diag-card-token">gap/zone · 16px</div>
+              <div class="diag-card-desc">The tab bar, toolbar, and table are each zones within a section. A 16px gap separates them.</div>
+            </div>
+          </div>
+        </div>
+        <div class="sp-table" style="margin-top:24px;">
+          <div class="sp-thead scale-head"><div class="sp-th">Value</div><div class="sp-th">As Gap</div><div class="sp-th">As Padding</div></div>
+          <div class="sp-tbody">
+            <div class="sp-tr scale-tr"><div class="sp-td"><span class="sp-val-tag">24px</span></div><div class="sp-td-desc">Between top-level sections</div><div class="sp-td-desc">Default padding for standalone page-level cards</div></div>
+            <div class="sp-tr scale-tr"><div class="sp-td"><span class="sp-val-tag">16px</span></div><div class="sp-td-desc">Between zones within a section</div><div class="sp-td-desc">Padding for compact or nested cards</div></div>
+            <div class="sp-tr scale-tr"><div class="sp-td"><span class="sp-val-tag">8px</span></div><div class="sp-td-desc">Between elements within a component</div><div class="sp-td-desc">Padding inside small, dense components (chips, tags)</div></div>
+            <div class="sp-tr scale-tr"><div class="sp-td"><span class="sp-val-tag">4px</span></div><div class="sp-td-desc">Between sub-elements within a component</div><div class="sp-td-desc">Padding inside the tightest components (icon buttons, inline labels)</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="ed-section">
+        <div class="ed-eyebrow">Page Hierarchy</div>
+        <h2 class="ed-h2">Region, Section, Zone</h2>
+        <p class="ed-body">Apollo's layouts are composed of three levels. Understanding which level you're working at determines which spacing value to reach for. Below the zone level, you're working inside a <strong>component</strong> — a discrete UI element like a table row, a chip, or a form field.</p>
+        <div class="diag-viewer" id="diag-hierarchy">
+          <div class="diag-img-frame" id="diag-hierarchy-frame">
+            <img src="Frame 1618870577.png" alt="Region" class="diag-active" data-diag="hierarchy" data-idx="0">
+            <img src="Frame 1618870578.png" alt="Section" data-diag="hierarchy" data-idx="1">
+            <img src="Frame 1618870579.png" alt="Zone" data-diag="hierarchy" data-idx="2">
+          </div>
+          <div class="diag-toggle-cards">
+            <div class="diag-toggle-card diag-card-yellow diag-card-active" onclick="switchDiag('hierarchy',0,this)" onmouseenter="switchDiag('hierarchy',0,this)">
+              <div class="diag-card-kicker">01</div><div class="diag-card-name">Region</div>
+              <div class="diag-card-token">gap/region · 24px</div>
+              <div class="diag-card-desc">The highest-level division of a page. The app sidebar and the main content area are each a region.</div>
+            </div>
+            <div class="diag-toggle-card diag-card-orange" onclick="switchDiag('hierarchy',1,this)" onmouseenter="switchDiag('hierarchy',1,this)">
+              <div class="diag-card-kicker">02</div><div class="diag-card-name">Section</div>
+              <div class="diag-card-token">gap/section · 24px</div>
+              <div class="diag-card-desc">A self-contained block of content within a region, separated by a 24px gap.</div>
+            </div>
+            <div class="diag-toggle-card diag-card-red" onclick="switchDiag('hierarchy',2,this)" onmouseenter="switchDiag('hierarchy',2,this)">
+              <div class="diag-card-kicker">03</div><div class="diag-card-name">Zone</div>
+              <div class="diag-card-token">gap/zone · 16px</div>
+              <div class="diag-card-desc">A functional subdivision within a section, separated by a 16px gap.</div>
+            </div>
+          </div>
+        </div>
+        <div class="sp-table" style="margin-top:24px;">
+          <div class="sp-thead hier-head"><div class="sp-th">Level</div><div class="sp-th">Gap to same-level elements</div><div class="sp-th">Internal padding</div></div>
+          <div class="sp-tbody">
+            <div class="sp-tr hier-tr"><div class="sp-td-label">Region</div><div class="sp-td"><span class="sp-token-name">24px</span></div><div class="sp-td" style="color:var(--text-tertiary);">—</div></div>
+            <div class="sp-tr hier-tr"><div class="sp-td-label">Section</div><div class="sp-td"><span class="sp-token-name">24px</span></div><div class="sp-td"><span class="sp-token-name">24px</span> standalone · <span class="sp-token-name">16px</span> nested</div></div>
+            <div class="sp-tr hier-tr"><div class="sp-td-label">Zone</div><div class="sp-td"><span class="sp-token-name">16px</span></div><div class="sp-td" style="color:var(--text-tertiary);">—</div></div>
+            <div class="sp-tr hier-tr"><div class="sp-td-label">Component</div><div class="sp-td"><span class="sp-token-name">8px · 4px</span></div><div class="sp-td"><span class="sp-token-name">8px · 4px</span></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="ed-section" style="border-bottom:none; padding-bottom:0;">
+        <div class="ed-eyebrow">Principles</div>
+        <h2 class="ed-h2">How to apply this system</h2>
+        <p class="ed-body">Six rules that should govern every spacing decision made in Apollo's UI.</p>
+        <div class="guid-principles-list">
+          <div class="guid-principle-row"><div class="guid-principle-row-num">01</div><div class="guid-principle-row-body"><div class="guid-principle-row-title">Gap and padding are different roles, not different values.</div><div class="guid-principle-row-desc">24px means something different as card padding than it does as section gap. Always consider which role a value is serving before applying it.</div></div></div>
+          <div class="guid-principle-row"><div class="guid-principle-row-num">02</div><div class="guid-principle-row-body"><div class="guid-principle-row-title">Card padding follows context, not preference.</div><div class="guid-principle-row-desc">A standalone page-level card gets 24px padding. A nested or compact card gets 16px.</div></div></div>
+          <div class="guid-principle-row"><div class="guid-principle-row-num">03</div><div class="guid-principle-row-body"><div class="guid-principle-row-title">Space communicates relationship.</div><div class="guid-principle-row-desc">The smaller the gap, the stronger the implied connection. Use 4px only when two elements are genuinely sub-parts of the same component.</div></div></div>
+          <div class="guid-principle-row"><div class="guid-principle-row-num">04</div><div class="guid-principle-row-body"><div class="guid-principle-row-title">Padding doesn't have to be uniform.</div><div class="guid-principle-row-desc">Applying padding to one or two sides only is common throughout Apollo. When describing asymmetric padding in redlines, always name the sides.</div></div></div>
+          <div class="guid-principle-row"><div class="guid-principle-row-num">05</div><div class="guid-principle-row-body"><div class="guid-principle-row-title">Be consistent within a surface type.</div><div class="guid-principle-row-desc">All data table surfaces should share the same spacing rhythm. One-off values erode the system.</div></div></div>
+          <div class="guid-principle-row"><div class="guid-principle-row-num">06</div><div class="guid-principle-row-body"><div class="guid-principle-row-title">Don't use spacing to compensate for missing hierarchy.</div><div class="guid-principle-row-desc">Extra padding won't make something feel like a section heading. That's a typography problem.</div></div></div>
+          <div class="guid-principle-row guid-principle-row-oos"><div class="guid-principle-row-num">07</div><div class="guid-principle-row-body"><div class="guid-principle-row-title">Canvas surfaces are out of scope.</div><div class="guid-principle-row-desc">Don't apply these rules to the Workflow builder or other canvas layouts. Separate documentation will follow in Phase 02.</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: RADII -->
+    <div class="sp-panel" id="sptab-radii" style="display:none;">
+      <div class="ed-section">
+        <div class="ed-eyebrow">Corner Radius</div>
+        <h2 class="ed-h2">Radius communicates hierarchy</h2>
+        <p class="ed-body">Corner radius is part of the same visual foundation as spacing and follows the same two-layer token architecture. Radius values communicate component hierarchy and surface elevation — smaller radii for nested or sub-level elements, larger radii for elevated floating surfaces.</p>
+        <p class="ed-body">Apollo's current usage — 8px for components and 12px for modals — aligns well with industry standards. Material Design 3 uses the same values for equivalent surface types. Apollo's "more human" brand direction makes 8px and 12px the right call.</p>
+      </div>
+      <div class="ed-section">
+        <div class="ed-eyebrow">Primitives · Radius</div>
+        <h2 class="ed-h2">The raw scale</h2>
+        <p class="ed-body">Five primitive values covering the full range from flush to fully pill-shaped.</p>
+        <div class="sp-table" style="margin-top:24px;">
+          <div class="sp-thead radius-prim-head"><div class="sp-th">Token</div><div class="sp-th">Value</div><div class="sp-th">Use</div><div class="sp-th">Preview</div></div>
+          <div class="sp-tbody" id="radius-prim-rows"></div>
+        </div>
+      </div>
+      <div class="ed-section">
+        <div class="ed-eyebrow">Semantics · Radius</div>
+        <h2 class="ed-h2">Intent-encoded tokens</h2>
+        <p class="ed-body">The semantic layer maps each primitive to a specific surface role. Always reach for a semantic token when building components.</p>
+        <div class="sp-table" style="margin-top:24px;">
+          <div class="sp-thead radius-sem-head"><div class="sp-th">Token</div><div class="sp-th">References</div><div class="sp-th">Description</div><div class="sp-th">Preview</div></div>
+          <div class="sp-tbody" id="radius-sem-rows"></div>
+        </div>
+      </div>
+      <div class="ed-section">
+        <div class="ed-eyebrow">The Nesting Rule</div>
+        <h2 class="ed-h2">Always step down for nested elements</h2>
+        <p class="ed-body">When a component sits inside a container, the inner element's radius must always be smaller than the outer container's radius.</p>
+        <div class="nesting-diagram" style="margin-top:28px;">
+          <div class="nest-layer nest-l1">
+            <div class="nest-label">radius/surface<span>12px</span></div>
+            <div class="nest-layer nest-l2">
+              <div class="nest-label">radius/component<span>8px</span></div>
+              <div class="nest-layer nest-l3">
+                <div class="nest-label">radius/element<span>4px</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ed-section" style="border-bottom:none; padding-bottom:0;">
+        <div class="ed-eyebrow">Principles</div>
+        <h2 class="ed-h2">Four rules for corner radius</h2>
+        <div class="guid-principles-list">
+          <div class="guid-principle-row"><div class="guid-principle-row-num">01</div><div class="guid-principle-row-body"><div class="guid-principle-row-title">Always step down for nested elements.</div><div class="guid-principle-row-desc">An inner element's radius should always be smaller than its container's.</div></div></div>
+          <div class="guid-principle-row"><div class="guid-principle-row-num">02</div><div class="guid-principle-row-body"><div class="guid-principle-row-title">radius/none is intentional, not a default.</div><div class="guid-principle-row-desc">A flush element inside a rounded container is a deliberate signal that it's structural rather than interactive.</div></div></div>
+          <div class="guid-principle-row"><div class="guid-principle-row-num">03</div><div class="guid-principle-row-body"><div class="guid-principle-row-title">Don't introduce intermediate values.</div><div class="guid-principle-row-desc">Values like 6px or 10px break the nesting rule and create visual inconsistency.</div></div></div>
+          <div class="guid-principle-row"><div class="guid-principle-row-num">04</div><div class="guid-principle-row-body"><div class="guid-principle-row-title">radius/pill uses 9999px, not 50%.</div><div class="guid-principle-row-desc">This ensures correct rendering across browsers at any component height.</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COLOR -->
+<div class="page" id="page-color">
+  <div class="col-wrap">
+    <div class="floating-crumbs">
+      <span class="f-crumb" onclick="goHome()">Fabric</span>
+      <span class="f-crumb-sep">/</span>
+      <span class="f-crumb" onclick="goHome()">Tokens Northstar</span>
+      <span class="f-crumb-sep">/</span>
+      <span class="f-crumb-current">Color</span>
+    </div>
+    <div class="typo-header">
+      <h1>Color System</h1>
+      <p>Primitive palette, semantic token assignments, and WCAG contrast pairings — Apollo's warm neutral foundation with a single brand accent.</p>
+    </div>
+    <div class="sp-tab-bar">
+      <button class="sp-tab active" onclick="switchColTab('tokens', this)">Tokens</button>
+      <button class="sp-tab" onclick="switchColTab('contrast', this)">Contrast</button>
+      <button class="sp-tab" onclick="switchColTab('guidance', this)">Guidance</button>
+    </div>
+
+    <!-- TAB: TOKENS -->
+    <div class="col-panel" id="coltab-tokens">
+      <div class="ed-section">
+        <div class="ed-eyebrow">Primitives · Color</div>
+        <h2 class="ed-h2">11 named ramps</h2>
+        <p class="ed-body">Apollo v3 organizes its palette into 11 named color ramps. Each ramp runs from light (10) to dark (80–90), giving semantic tokens a consistent dimensional reference. Do not consume primitive tokens directly in components — always reach for a semantic token.</p>
+        <div class="color-prim-grid" id="color-prim-grid"></div>
+      </div>
+      <div class="ed-section" style="border-bottom:none; padding-bottom:0;">
+        <div class="ed-eyebrow">Semantics · Color</div>
+        <h2 class="ed-h2">Intent-encoded tokens</h2>
+        <p class="ed-body">Semantic tokens map ramp steps to named roles across three categories: <strong>Foreground</strong> (text and icon colors — fg tokens apply to both), <strong>Background</strong> (surface fills), and <strong>Border</strong> (strokes and dividers).</p>
+        <div id="color-sem-table"></div>
+      </div>
+    </div>
+
+    <!-- TAB: CONTRAST -->
+    <div class="col-panel" id="coltab-contrast" style="display:none;">
+      <div class="ed-section" style="border-bottom:none; padding-bottom:0;">
+        <div class="ed-eyebrow">Contrast Pairing Matrix</div>
+        <h2 class="ed-h2">Which text/background pairs pass WCAG AA</h2>
+        <p class="ed-body">Evaluated against WCAG 2.2 AA thresholds. Standard text requires <strong>4.5:1</strong>; large text (≥18pt regular or ≥14pt bold) requires <strong>3:1</strong>.</p>
+        <div id="contrast-matrix"></div>
+      </div>
+    </div>
+
+    <!-- TAB: GUIDANCE -->
+    <div class="col-panel" id="coltab-guidance" style="display:none;">
+      <div class="ed-section">
+        <div class="ed-eyebrow">Overview</div>
+        <h2 class="ed-h2">A deliberate palette</h2>
+        <p class="ed-body">Apollo's color system is built around a single warm neutral scale — not a traditional multi-hue design system palette. This is intentional. Apollo is a data-dense platform where color competes with user-generated content: names, company logos, status chips, email threads. A neutral foundation ensures the interface recedes when it should, and the user's data takes center stage.</p>
+        <p class="ed-body">Apollo Yellow (the <code>apollo</code> ramp, default <code>#EBF212</code>) is the sole expressive accent. Its use is reserved for brand-anchored moments — not status colors, not interactive states.</p>
+        <div class="guid-principles-list">
+          <div class="guid-principle-row guid-plain-row"><div class="guid-principle-row-body"><div class="guid-principle-row-title">Scannability</div><div class="guid-principle-row-desc">Neutral backgrounds and high-contrast text let users scan dense tables and lead lists without visual fatigue.</div></div></div>
+          <div class="guid-principle-row guid-plain-row"><div class="guid-principle-row-body"><div class="guid-principle-row-title">Content first</div><div class="guid-principle-row-desc">The interface shouldn't compete with user data. Warm neutrals subordinate the chrome so leads, contacts, and metrics stand out.</div></div></div>
+          <div class="guid-principle-row guid-plain-row"><div class="guid-principle-row-body"><div class="guid-principle-row-title">Brand restraint</div><div class="guid-principle-row-desc">Apollo Yellow is expressive — use it for brand moments, not functional UI. Overuse dilutes its signal.</div></div></div>
+        </div>
+      </div>
+      <div class="ed-section">
+        <div class="ed-eyebrow">Surface Hierarchy</div>
+        <h2 class="ed-h2">Three backgrounds, one layering order</h2>
+        <p class="ed-body">Three background values create a subtle elevation system. The layering must be consistent — bg/neutral/foreground always sits above bg/neutral/middleground, and bg/neutral/background is the base page layer.</p>
+        <div class="sp-table" style="margin-top:24px;">
+          <div class="sp-thead col-surface-head"><div class="sp-th">Token</div><div class="sp-th">Value</div><div class="sp-th">Use</div></div>
+          <div class="sp-tbody">
+            <div class="sp-tr col-surface-tr"><div class="sp-td"><span class="sp-token-name">bg/neutral/background/default</span></div><div class="sp-td col-val-with-swatch"><span class="col-swatch-inline" style="background:#F3F3F0;"></span><span class="sp-val-tag">#F3F3F0</span></div><div class="sp-td-desc">Base layer — the page background behind all cards and panels</div></div>
+            <div class="sp-tr col-surface-tr"><div class="sp-td"><span class="sp-token-name">bg/neutral/middleground/default</span></div><div class="sp-td col-val-with-swatch"><span class="col-swatch-inline" style="background:#F9F9F6;"></span><span class="sp-val-tag">#F9F9F6</span></div><div class="sp-td-desc">Sidebars, panels, nav — sit between page and foreground</div></div>
+            <div class="sp-tr col-surface-tr"><div class="sp-td"><span class="sp-token-name">bg/neutral/foreground/default</span></div><div class="sp-td col-val-with-swatch"><span class="col-swatch-inline" style="background:#FFFFFF;"></span><span class="sp-val-tag">#FFFFFF</span></div><div class="sp-td-desc">Cards, modals, drawers — the primary elevated surface</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="ed-section" style="border-bottom:none; padding-bottom:0;">
+        <div class="ed-eyebrow">Principles</div>
+        <h2 class="ed-h2">Four rules for color use</h2>
+        <div class="guid-principles-list">
+          <div class="guid-principle-row"><div class="guid-principle-row-num">01</div><div class="guid-principle-row-body"><div class="guid-principle-row-title">Always use semantic tokens in components.</div><div class="guid-principle-row-desc">Referencing <code class="sp-code">text/primary</code> instead of <code class="sp-code">color/10</code> means the entire UI can adapt from a single source. Never hardcode hex values in components.</div></div></div>
+          <div class="guid-principle-row"><div class="guid-principle-row-num">02</div><div class="guid-principle-row-body"><div class="guid-principle-row-title">Verify contrast before using secondary or tertiary text.</div><div class="guid-principle-row-desc"><code class="sp-code">text/secondary</code> and <code class="sp-code">text/tertiary</code> may not pass 4.5:1 on all surfaces.</div></div></div>
+          <div class="guid-principle-row"><div class="guid-principle-row-num">03</div><div class="guid-principle-row-body"><div class="guid-principle-row-title">Reserve Apollo Yellow for brand moments.</div><div class="guid-principle-row-desc">Apollo Yellow is not a general-purpose highlight color. Do not use it as a status color, hover state, or interactive affordance.</div></div></div>
+          <div class="guid-principle-row"><div class="guid-principle-row-num">04</div><div class="guid-principle-row-body"><div class="guid-principle-row-title">Status colors are intentionally out of palette.</div><div class="guid-principle-row-desc">Pass green, advisory amber, and fail red carry a universal signal that must stay distinct from neutral surfaces.</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const closest = {"display-lg": "heading-1", "display-sm": "Net New", "title-lg": "heading-2", "title-md": "heading-3", "title-sm": "heading-4", "subtitle-lg": "subheading-1", "subtitle-sm": "subheading-2", "body-lg-regular": "body-1", "body-lg-medium": "body-1-medium", "body-lg-bold": "body-1-bold", "body-sm-regular": "body-2", "body-sm-medium": "body-2-medium", "body-sm-bold": "body-2-bold", "caption-regular": "subtext", "caption-medium": "subtext-medium", "caption-bold": "subtext-bold"};
+
+const tokens = [
+  { name:'display-lg',      family:'FoundersGrotesk', size:32, lh:40, ls:-0.5, weight:400, wcag:'large',    priority:'none', notes:'V2 uses regular weight — original heading-1 was bold (700). Negative tracking may affect legibility for some users with dyslexia, but is not a compliance failure.' },
+  { name:'display-sm',      family:'FoundersGrotesk', size:28, lh:36, ls:-0.5, weight:400, wcag:'large',    priority:'none', isNew:true, notes:'Net new token — sits between heading-1 (32) and heading-2 (24). Document intended contexts carefully to prevent misuse at small viewports.' },
+  { name:'title-lg',        family:'FoundersGrotesk', size:24, lh:32, ls:0,    weight:400, wcag:'large',    priority:'none', notes:'V2 uses regular weight — original heading-2 was bold (700). Qualifies as large text at 24px/400 (≥18pt regular).' },
+  { name:'title-md',        family:'FoundersGrotesk', size:20, lh:28, ls:0,    weight:400, wcag:'large',    priority:'none', notes:'V2 uses regular weight — original heading-3 was bold (700). Qualifies as large text at 20px/400 (≥18pt regular).' },
+  { name:'title-sm',        family:'FoundersGrotesk', size:18, lh:24, ls:0,    weight:400, wcag:'large',    priority:'none', notes:'Updated from 16px to 18px — now qualifies as large text (≥18pt regular). Original heading-4 was 700 at 16px.' },
+  { name:'subtitle-lg',     family:'ABCDiatype',      size:14, lh:22, ls:0.5,  weight:500, wcag:'standard', priority:'none', notes:'Line height updated to 22px (1.57×) — meets WCAG-recommended 1.5× minimum. Must meet 4.5:1 contrast at 14px/500.' },
+  { name:'subtitle-sm',     family:'ABCDiatype',      size:12, lh:18, ls:0.5,  weight:500, wcag:'standard', priority:'advisory', notes:'12px is the practical legibility floor. Near-identical to caption-medium (12px/500) — evaluate consolidation.', lhNote:'Line height updated to 18px (1.5×) — meets WCAG minimum.' },
+  { name:'body-lg-regular', family:'ABCDiatype',      size:16, lh:24, ls:0,    weight:400, wcag:'standard', priority:'none', notes:'Line height 1.5× — meets WCAG text spacing recommendation.' },
+  { name:'body-lg-medium',  family:'ABCDiatype',      size:16, lh:24, ls:0,    weight:500, wcag:'standard', priority:'none', notes:'Line height 1.5× — meets WCAG text spacing recommendation.' },
+  { name:'body-lg-bold',    family:'ABCDiatype',      size:16, lh:24, ls:0,    weight:700, wcag:'standard', priority:'none', notes:'16px/700 is close to the large text threshold (14pt bold ≈ 18.66px) but does not qualify. Must still meet 4.5:1.' },
+  { name:'body-sm-regular', family:'ABCDiatype',      size:14, lh:20, ls:0,    weight:400, wcag:'standard', priority:'none', notes:'Highest-volume legacy token — maps to body-2 (43.7% of codebase). Line height 1.43× is slightly below 1.5× recommendation.' },
+  { name:'body-sm-medium',  family:'ABCDiatype',      size:14, lh:20, ls:0,    weight:500, wcag:'standard', priority:'advisory', notes:'14px/500 does NOT qualify as large text. Must meet 4.5:1.', lhNote:'Line height 1.43× — slightly below 1.5× recommendation.' },
+  { name:'body-sm-bold',    family:'ABCDiatype',      size:14, lh:20, ls:0,    weight:700, wcag:'large',    priority:'none', notes:'14px/700 qualifies as large text (14pt bold threshold). 3:1 contrast applies.' },
+  { name:'caption-regular', family:'ABCDiatype',      size:12, lh:18, ls:0,    weight:400, wcag:'standard', priority:'advisory', notes:'12px/400 requires confirmed 4.5:1 contrast. Must never be used for critical or actionable content.', lhNote:'Line height updated to 18px (1.5×) — meets WCAG minimum.' },
+  { name:'caption-medium',  family:'ABCDiatype',      size:12, lh:18, ls:0,    weight:500, wcag:'standard', priority:'advisory', notes:'Near-identical to subtitle-sm (12px/500) — evaluate consolidation. Must meet 4.5:1.', lhNote:'Line height updated to 18px (1.5×) — meets WCAG minimum.' },
+  { name:'caption-bold',    family:'ABCDiatype',      size:12, lh:18, ls:0,    weight:700, wcag:'standard', priority:'advisory', notes:'12px/700 does NOT qualify as large text. Still requires 4.5:1.', lhNote:'Line height updated to 18px (1.5×) — meets WCAG minimum.' },
+];
+
+const usageData = (function() {
+  const u = {};
+  u['display-lg'] = `<div class="usage-section"><div class="usage-header">Usage Guidelines</div><div class="usage-grid"><div class="usage-block"><div class="usage-block-label">✓ Use when</div><div class="usage-block-text"><ul class="usage-list"><li>Full-bleed hero headings, large empty state headlines, prominent onboarding headers.</li></ul></div></div><div class="usage-block usage-block-avoid"><div class="usage-block-label avoid-label">✕ Avoid</div><div class="usage-block-text"><ul class="usage-list"><li>Do not use for any heading that appears alongside other content.</li><li>Do not stack two display tokens consecutively.</li><li>Do not use for navigational elements, sidebar labels, or card headings.</li></ul></div></div></div><div class="usage-seen"><span class="usage-seen-label">Seen in</span> Large empty state headlines.</div></div>`;
+  u['display-sm'] = `<div class="usage-section"><div class="usage-header">Usage Guidelines</div><div class="usage-grid"><div class="usage-block"><div class="usage-block-label">✓ Use when</div><div class="usage-block-text"><ul class="usage-list"><li>Primary content area page titles and major section headings (e.g., "Suggested leads", "Saved people").</li></ul></div></div><div class="usage-block usage-block-avoid"><div class="usage-block-label avoid-label">✕ Avoid</div><div class="usage-block-text"><ul class="usage-list"><li>Do not use for navigational elements, sidebar labels, or card headings.</li></ul></div></div></div><div class="usage-seen"><span class="usage-seen-label">Seen in</span> "Suggested leads" and "Saved people" page titles.</div></div>`;
+  u['title-lg'] = `<div class="usage-section"><div class="usage-header">Usage Guidelines</div><div class="usage-grid"><div class="usage-block"><div class="usage-block-label">✓ Use when</div><div class="usage-block-text"><ul class="usage-list"><li>Subpage titles, modal headings, drawer-level titles.</li></ul></div></div><div class="usage-block usage-block-avoid"><div class="usage-block-label avoid-label">✕ Avoid</div><div class="usage-block-text"><ul class="usage-list"><li>Do not use for table column headers, row content, or inline metadata.</li></ul></div></div></div><div class="usage-seen"><span class="usage-seen-label">Seen in</span> Modal and drawer-level headings.</div></div>`;
+  u['title-md'] = `<div class="usage-section"><div class="usage-header">Usage Guidelines</div><div class="usage-grid"><div class="usage-block"><div class="usage-block-label">✓ Use when</div><div class="usage-block-text"><ul class="usage-list"><li>Personalized or contextual page greetings (e.g., "Welcome 👋").</li></ul></div></div><div class="usage-block usage-block-avoid"><div class="usage-block-label avoid-label">✕ Avoid</div><div class="usage-block-text"><ul class="usage-list"><li>Do not use for table column headers, row content, or inline metadata.</li></ul></div></div></div><div class="usage-seen"><span class="usage-seen-label">Seen in</span> "Welcome 👋" greeting on Home.</div></div>`;
+  u['title-sm'] = `<div class="usage-section"><div class="usage-header">Usage Guidelines</div><div class="usage-grid"><div class="usage-block"><div class="usage-block-label">✓ Use when</div><div class="usage-block-text"><ul class="usage-list"><li>Sidebar navigation group labels, content tab bar labels and sub-navigation items.</li></ul></div></div><div class="usage-block usage-block-avoid"><div class="usage-block-label avoid-label">✕ Avoid</div><div class="usage-block-text"><ul class="usage-list"><li>Do not use as content area section headings — those belong to the display tier.</li></ul></div></div></div><div class="usage-seen"><span class="usage-seen-label">Seen in</span> Sidebar nav group labels; content tab bar items.</div></div>`;
+  u['subtitle-lg'] = `<div class="usage-section"><div class="usage-header">Usage Guidelines</div><div class="usage-grid"><div class="usage-block"><div class="usage-block-label">✓ Use when</div><div class="usage-block-text"><ul class="usage-list"><li>Higher-prominence metadata labels, filter group names, section subheadings.</li></ul></div></div><div class="usage-block usage-block-avoid"><div class="usage-block-label avoid-label">✕ Avoid</div><div class="usage-block-text"><ul class="usage-list"><li>Do not use as primary section or page headings.</li></ul></div></div></div><div class="usage-seen"><span class="usage-seen-label">Seen in</span> Filter group names, section subheadings.</div></div>`;
+  u['subtitle-sm'] = `<div class="usage-section"><div class="usage-header">Usage Guidelines</div><div class="usage-advisory-banner">⚠️ Advisory WCAG status — explicit contrast verification required before use.</div><div class="usage-grid"><div class="usage-block"><div class="usage-block-label">✓ Use when</div><div class="usage-block-text"><ul class="usage-list"><li>Data table column headers (e.g., "Name", "Stage", "Last Activity Date").</li></ul></div></div><div class="usage-block usage-block-avoid"><div class="usage-block-label avoid-label">✕ Avoid</div><div class="usage-block-text"><ul class="usage-list"><li>Must never be used for critical or interactive standalone text.</li></ul></div></div></div><div class="usage-seen"><span class="usage-seen-label">Seen in</span> Saved people table column headers.</div></div>`;
+  u['body-lg-regular'] = `<div class="usage-section"><div class="usage-header">Usage Guidelines</div><div class="usage-grid"><div class="usage-block"><div class="usage-block-label">✓ Use when</div><div class="usage-block-text"><ul class="usage-list"><li>Primary sidebar navigation item labels, workspace/account selectors, paragraph content.</li></ul></div></div><div class="usage-block usage-block-avoid"><div class="usage-block-label avoid-label">✕ Avoid</div><div class="usage-block-text"><ul class="usage-list"><li>Do not use for table cell content, compact list rows, or filter chips — use body-sm instead.</li></ul></div></div></div><div class="usage-seen"><span class="usage-seen-label">Seen in</span> Primary sidebar nav labels — "Home", "Projects".</div></div>`;
+  u['body-lg-medium'] = `<div class="usage-section"><div class="usage-header">Usage Guidelines</div><div class="usage-grid"><div class="usage-block"><div class="usage-block-label">✓ Use when</div><div class="usage-block-text"><ul class="usage-list"><li>Emphasized navigation labels, form field values, interactive item labels.</li></ul></div></div></div></div>`;
+  u['body-lg-bold'] = `<div class="usage-section"><div class="usage-header">Usage Guidelines</div><div class="usage-grid"><div class="usage-block"><div class="usage-block-label">✓ Use when</div><div class="usage-block-text"><ul class="usage-list"><li>Inline emphasis within body copy, key data points within prose.</li></ul></div></div></div></div>`;
+  u['body-sm-regular'] = `<div class="usage-section"><div class="usage-header">Usage Guidelines</div><div class="usage-grid"><div class="usage-block"><div class="usage-block-label">✓ Use when</div><div class="usage-block-text"><ul class="usage-list"><li>Filter chips and toolbar controls, table action bar labels, tag text.</li></ul></div></div><div class="usage-block usage-block-avoid"><div class="usage-block-label avoid-label">✕ Avoid</div><div class="usage-block-text"><ul class="usage-list"><li>Do not use for multi-paragraph reading — switch to body-lg-regular for sustained prose.</li></ul></div></div></div><div class="usage-seen"><span class="usage-seen-label">Seen in</span> Filter chips ("Owner", "Company", "Add filter").</div></div>`;
+  u['body-sm-medium'] = `<div class="usage-section"><div class="usage-header">Usage Guidelines</div><div class="usage-advisory-banner">⚠️ Advisory WCAG status — explicit contrast verification required before use.</div><div class="usage-grid"><div class="usage-block"><div class="usage-block-label">✓ Use when</div><div class="usage-block-text"><ul class="usage-list"><li>Person names and primary identifiers in lead and contact rows.</li></ul></div></div></div><div class="usage-seen"><span class="usage-seen-label">Seen in</span> Person name in Suggested leads table rows.</div></div>`;
+  u['body-sm-bold'] = `<div class="usage-section"><div class="usage-header">Usage Guidelines</div><div class="usage-grid"><div class="usage-block"><div class="usage-block-label">✓ Use when</div><div class="usage-block-text"><ul class="usage-list"><li>Status indicators, score labels, key metrics in compact containers.</li></ul></div></div></div></div>`;
+  u['caption-regular'] = `<div class="usage-section"><div class="usage-header">Usage Guidelines</div><div class="usage-advisory-banner">⚠️ Advisory WCAG status — explicit contrast verification required before use.</div><div class="usage-grid"><div class="usage-block"><div class="usage-block-label">✓ Use when</div><div class="usage-block-text"><ul class="usage-list"><li>Secondary row content beneath primary identifiers, record counts, chart date ranges, pagination indicators.</li></ul></div></div></div><div class="usage-seen"><span class="usage-seen-label">Seen in</span> Job title beneath lead names; "45.5k records"; pagination indicators.</div></div>`;
+  u['caption-medium'] = `<div class="usage-section"><div class="usage-header">Usage Guidelines</div><div class="usage-advisory-banner">⚠️ Advisory WCAG status — explicit contrast verification required before use.</div><div class="usage-grid"><div class="usage-block"><div class="usage-block-label">✓ Use when</div><div class="usage-block-text"><ul class="usage-list"><li>Secondary metadata labels, compact filter indicators.</li></ul></div></div></div></div>`;
+  u['caption-bold'] = `<div class="usage-section"><div class="usage-header">Usage Guidelines</div><div class="usage-advisory-banner">⚠️ Advisory WCAG status — explicit contrast verification required before use.</div><div class="usage-grid"><div class="usage-block"><div class="usage-block-label">✓ Use when</div><div class="usage-block-text"><ul class="usage-list"><li>Badge counts, pill emphasis in extremely tight containers.</li></ul></div></div></div></div>`;
+  return u;
+})();
+
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + (name || 'home')).classList.add('active');
+  if (name === 'typography' && document.getElementById('tokensGrid').children.length === 0) buildCards();
+  if (name === 'color' && document.getElementById('color-prim-grid') && !document.querySelector('#color-prim-grid .color-ramp-row')) { document.getElementById('color-prim-grid').innerHTML = ''; buildColorTables(); }
+  if (name === 'sandbox' && !document.getElementById('sb-buttons').children.length) buildSandbox();
+}
+function goHome() { history.pushState({ page: null }, '', './'); showPage(null); }
+function goPage(name) { history.pushState({ page: name }, '', './' + name); showPage(name); }
+
+window.addEventListener('popstate', function(e) {
+  showPage(e.state && e.state.page ? e.state.page : null);
+});
+
+let customBg = '#FFFFFF', customFg = '#1A1A1A';
+
+function lum(hex) {
+  hex = hex.replace('#','');
+  if(hex.length===3) hex=hex.split('').map(c=>c+c).join('');
+  const r=parseInt(hex.slice(0,2),16)/255, g=parseInt(hex.slice(2,4),16)/255, b=parseInt(hex.slice(4,6),16)/255;
+  const f=c=>c<=0.03928?c/12.92:Math.pow((c+0.055)/1.055,2.4);
+  return 0.2126*f(r)+0.7152*f(g)+0.0722*f(b);
+}
+function cr(a,b){ const l1=lum(a),l2=lum(b); return (Math.max(l1,l2)+0.05)/(Math.min(l1,l2)+0.05); }
+
+function setActiveSwatch(containerId, color) {
+  document.querySelectorAll('#'+containerId+' .swatch').forEach(s=>s.classList.remove('active-swatch'));
+  const t = document.querySelector('#'+containerId+' [data-color="'+color+'"]');
+  if(t) t.classList.add('active-swatch');
+}
+
+function setBg(el) { customBg = el.dataset.color; setActiveSwatch('bgSwatches', customBg); refreshAll(); }
+function setFg(el) { customFg = el.dataset.color; setActiveSwatch('fgSwatches', customFg); refreshAll(); }
+
+const DARK_BG = new Set(['#504E41','#3E3E33','#1A1A1A']);
+
+function buildCards() {
+  const grid = document.getElementById('tokensGrid');
+  grid.innerHTML = '';
+  tokens.forEach((t,i) => {
+    const card = document.createElement('div');
+    card.className = 'token-card priority-'+t.priority;
+    card.dataset.priority = t.priority;
+    card.dataset.index = i;
+    const isABC = t.family === 'ABCDiatype';
+    const famTag = isABC ? '<span class="tag tag-b">ABC Diatype</span>' : '<span class="tag tag-a">Founders Grotesk</span>';
+    const wcagTag = t.wcag === 'large' ? '<span class="tag tag-a">Large text · 3:1</span>' : '<span class="tag tag-b">Standard · 4.5:1</span>';
+    const pLabel = t.priority==='advisory' ? '🟡 Advisory' : '✓ Passing';
+    const pCls   = t.priority==='advisory' ? 'pri-advisory' : 'pri-pass';
+    const orig = closest[t.name]||'';
+    const origChip = orig==='Net New' ? '<span class="original-chip is-new">Net New</span>' : `<span class="original-chip">${orig}</span>`;
+    const fontFace = isABC ? 'ABCDiatype' : 'FoundersGrotesk';
+    const usageHtml = usageData[t.name] || '';
+    const vPad = 12;
+    card.innerHTML = `
+      <div class="card-row" onclick="toggle(${i})">
+        <div class="card-cell card-cell-name" style="padding-top:${vPad}px;padding-bottom:${vPad}px;"><span class="token-name" style="font-family:'${fontFace}',sans-serif;font-size:${t.size}px;line-height:${t.lh}px;letter-spacing:${t.ls}px;font-weight:${t.weight};">${t.name}</span></div>
+        <div class="card-cell">${origChip}</div>
+        <div class="card-cell">${famTag}</div>
+        <div class="card-cell"><span class="meta-val">${t.size}px</span></div>
+        <div class="card-cell"><span class="meta-val">${t.lh}px</span></div>
+        <div class="card-cell"><span class="meta-val">${t.ls>=0?'+':''}${t.ls}px</span></div>
+        <div class="card-cell"><span class="meta-val">${t.weight}</span></div>
+        <div class="card-cell">${wcagTag}</div>
+        <div class="card-cell"><span class="pri-badge ${pCls}">${pLabel}</span></div>
+        <div class="card-cell"><button class="expand-btn" onclick="event.stopPropagation();toggle(${i})" aria-label="Expand">▾</button></div>
+      </div>
+      <div class="card-panel">
+        <div class="panel-top">
+          <div class="panel-preview" id="prev-${i}">
+            <div class="preview-label">Live Preview</div>
+            <div class="preview-text" id="pt-${i}" style="font-family:'${fontFace}',sans-serif;font-size:${t.size}px;line-height:${t.lh}px;letter-spacing:${t.ls}px;font-weight:${t.weight};">The quick brown fox jumps</div>
+            <div class="wcag-live" id="wl-${i}"><span>·</span><span id="wlt-${i}">Checking…</span></div>
+          </div>
+          <div class="panel-info">
+            <div class="info-section">
+              <h4>Token Properties</h4>
+              <div class="props-grid">
+                <div class="prop-item"><div class="prop-key">Font Family</div><div class="prop-val">${t.family}</div></div>
+                <div class="prop-item"><div class="prop-key">Font Size</div><div class="prop-val">${t.size}px</div></div>
+                <div class="prop-item"><div class="prop-key">Line Height</div><div class="prop-val">${t.lh}px</div></div>
+                <div class="prop-item"><div class="prop-key">Letter Spacing</div><div class="prop-val">${t.ls>=0?'+':''}${t.ls}px</div></div>
+                <div class="prop-item"><div class="prop-key">Font Weight</div><div class="prop-val">${t.weight}</div></div>
+                <div class="prop-item"><div class="prop-key">LH Ratio</div><div class="prop-val">${(t.lh/t.size).toFixed(2)}×</div></div>
+                <div class="prop-item"><div class="prop-key">Min. Contrast</div><div class="prop-val">${t.wcag==='large'?'3:1':'4.5:1'}</div></div>
+                <div class="prop-item"><div class="prop-key">WCAG Class</div><div class="prop-val">${t.wcag==='large'?'Large text':'Standard'}</div></div>
+              </div>
+            </div>
+            <div class="info-section">
+              <h4>Notes & Constraints</h4>
+              <div class="notes-box ${t.priority==='advisory'?'is-advisory':''}">
+                ${t.notes}
+                ${t.lhNote?`<span class="lh-note">📐 ${t.lhNote}</span>`:''}
+              </div>
+            </div>
+          </div>
+          ${usageHtml}
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+  setActiveSwatch('bgSwatches','#FFFFFF');
+  setActiveSwatch('fgSwatches','#1A1A1A');
+  refreshAll();
+}
+
+function toggle(i) {
+  document.querySelector(`[data-index="${i}"]`).classList.toggle('expanded');
+  refresh(i);
+}
+
+function refresh(i) {
+  const t = tokens[i];
+  const prev = document.getElementById(`prev-${i}`);
+  const pt   = document.getElementById(`pt-${i}`);
+  const wl   = document.getElementById(`wl-${i}`);
+  const wlt  = document.getElementById(`wlt-${i}`);
+  if(!prev) return;
+  prev.style.background = customBg;
+  pt.style.color = customFg;
+  pt.textContent = document.getElementById('sampleText').value || 'The quick brown fox jumps';
+  const ratio = cr(customBg,customFg), req = t.wcag==='large'?3:4.5, pass = ratio>=req;
+  wl.className = `wcag-live ${pass?'pass':'fail'}`;
+  wl.firstElementChild.textContent = pass ? '✓' : '✗';
+  wlt.textContent = `${ratio.toFixed(2)}:1 — ${pass?`Passes AA (min ${req}:1)`:`Fails AA (min ${req}:1)`}`;
+  prev.classList.toggle('dark-surface', DARK_BG.has(customBg));
+}
+
+function refreshAll() { tokens.forEach((_,i) => refresh(i)); }
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('sampleText').addEventListener('input', refreshAll);
+  buildSpacingTables();
+  buildRadiusTables();
+});
+
+function switchSpTab(tab, btn) {
+  document.querySelectorAll('.sp-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.sp-panel').forEach(p => { p.style.display = 'none'; });
+  btn.classList.add('active');
+  document.getElementById('sptab-' + tab).style.display = 'block';
+}
+
+function switchDiag(groupId, idx, cardEl) {
+  const frame = document.getElementById('diag-' + groupId + '-frame');
+  if (frame) { frame.querySelectorAll('img').forEach((img, i) => { img.classList.toggle('diag-active', i === idx); }); }
+  const parent = cardEl.parentElement;
+  parent.querySelectorAll('.diag-toggle-card').forEach(c => c.classList.remove('diag-card-active'));
+  cardEl.classList.add('diag-card-active');
+}
+
+function buildSpacingTables() {
+  const prims = [
+    { token:'spacing/xxxl', base:32, mobile:40 },
+    { token:'spacing/xxl',  base:24, mobile:32 },
+    { token:'spacing/xl',   base:20, mobile:24 },
+    { token:'spacing/lg',   base:16, mobile:20 },
+    { token:'spacing/md',   base:12, mobile:16 },
+    { token:'spacing/sm',   base:8,  mobile:12 },
+    { token:'spacing/xs',   base:4,  mobile:8  },
+    { token:'spacing/xxs',  base:2,  mobile:4  },
+    { token:'spacing/none', base:0,  mobile:0  },
+  ];
+  const gaps = [
+    { token:'gap/region',    ref:'spacing/xxl', base:'24px', desc:'Between the app sidebar and content area, and between nested regions.' },
+    { token:'gap/section',   ref:'spacing/xxl', base:'24px', desc:'Between top-level sections within a region, whether stacked vertically or side by side.' },
+    { token:'gap/zone',      ref:'spacing/lg',  base:'16px', desc:'Between functional zones within a section — tab bar, toolbar, data table.' },
+    { token:'gap/component', ref:'spacing/sm',  base:'8px',  desc:'Between related elements within a component — name and subtitle, icon clusters, grouped tags.' },
+    { token:'gap/element',   ref:'spacing/xs',  base:'4px',  desc:'Between sub-elements within a component — icon and label, tightly paired metadata.' },
+  ];
+  const pads = [
+    { token:'padding/card-default', ref:'spacing/xxl', base:'24px', desc:'Interior padding for standalone page-level section cards.' },
+    { token:'padding/card-compact', ref:'spacing/lg',  base:'16px', desc:'Interior padding for nested or secondary cards that coexist with adjacent content.' },
+    { token:'padding/component',    ref:'spacing/sm',  base:'8px',  desc:'Interior padding for small dense components — chips, badges, filter tags.' },
+    { token:'padding/element',      ref:'spacing/xs',  base:'4px',  desc:'Interior padding for the tightest components — icon buttons, inline labels.' },
+  ];
+  const primRows = document.getElementById('prim-rows');
+  prims.forEach(p => { primRows.innerHTML += `<div class="sp-tr"><div class="sp-td"><span class="sp-token-name">${p.token}</span></div><div class="sp-td"><span class="sp-val-tag">${p.base}px</span></div><div class="sp-td"><span class="sp-mobile-tag">${p.mobile}px</span></div></div>`; });
+  const gapRows = document.getElementById('gap-rows');
+  gaps.forEach(g => { gapRows.innerHTML += `<div class="sp-tr gap-tr"><div class="sp-td"><span class="sp-token-name">${g.token}</span></div><div class="sp-td"><span class="sp-ref-tag">${g.ref}</span></div><div class="sp-td"><span class="sp-val-tag">${g.base}</span></div><div class="sp-td-desc">${g.desc}</div></div>`; });
+  const padRows = document.getElementById('pad-rows');
+  pads.forEach(p => { padRows.innerHTML += `<div class="sp-tr gap-tr"><div class="sp-td"><span class="sp-token-name">${p.token}</span></div><div class="sp-td"><span class="sp-ref-tag">${p.ref}</span></div><div class="sp-td"><span class="sp-val-tag">${p.base}</span></div><div class="sp-td-desc">${p.desc}</div></div>`; });
+}
+
+function buildRadiusTables() {
+  const primData = [
+    { token:'radius/none', val:'0px',    use:'Flush elements — table cells, inline inputs, elements that meet a container edge' },
+    { token:'radius/sm',   val:'4px',    use:'Sub-components — inner elements nested inside a rounded container' },
+    { token:'radius/md',   val:'8px',    use:'Standard components — buttons, chips, inputs, cards, popovers, dropdowns' },
+    { token:'radius/lg',   val:'12px',   use:'Large floating surfaces — modals, dialogs, sheets' },
+    { token:'radius/pill', val:'9999px', use:'Pill-shaped elements — toggle switches, avatar chips, status badges' },
+  ];
+  const semData = [
+    { token:'radius/component', ref:'radius/md (8px)',     desc:'Default for all interactive and container components' },
+    { token:'radius/surface',   ref:'radius/lg (12px)',    desc:'Large elevated surfaces that float above the UI' },
+    { token:'radius/element',   ref:'radius/sm (4px)',     desc:'Sub-elements nested inside a rounded component' },
+    { token:'radius/pill',      ref:'radius/pill (9999px)',desc:'Fully rounded elements — toggles, status badges, avatar chips' },
+    { token:'radius/none',      ref:'radius/none (0px)',   desc:'Flush elements that meet a container or viewport edge' },
+  ];
+  const primContainer = document.getElementById('radius-prim-rows');
+  primData.forEach(r => {
+    const rx = r.val === '9999px' ? '9999px' : r.val;
+    primContainer.innerHTML += `<div class="sp-tr radius-prim-tr"><div class="sp-td"><span class="sp-token-name">${r.token}</span></div><div class="sp-td"><span class="sp-val-tag">${r.val}</span></div><div class="sp-td-desc">${r.use}</div><div class="sp-td" style="display:flex;align-items:center;justify-content:center;padding-top:10px;"><div class="radius-preview-box" style="border-radius:${rx};"></div></div></div>`;
+  });
+  const semContainer = document.getElementById('radius-sem-rows');
+  semData.forEach(r => {
+    const rx = r.ref.includes('9999') ? '9999px' : r.ref.includes('12') ? '12px' : r.ref.includes('8') ? '8px' : r.ref.includes('4') ? '4px' : '0px';
+    semContainer.innerHTML += `<div class="sp-tr radius-sem-tr"><div class="sp-td"><span class="sp-token-name">${r.token}</span></div><div class="sp-td"><span class="sp-ref-tag">${r.ref}</span></div><div class="sp-td-desc">${r.desc}</div><div class="sp-td" style="display:flex;align-items:center;justify-content:center;padding-top:10px;"><div class="radius-preview-box" style="border-radius:${rx};"></div></div></div>`;
+  });
+}
+
+// ── COLOR DATA (v2) ──
+const colorRamps = [
+  { name:'Human',     tag:'human',     steps:[{s:0,l:'#FFFFFF'},{s:10,l:'#F9F9F6'},{s:20,l:'#F3F3F0'},{s:30,l:'#E7E7E1'},{s:40,l:'#D4D5CB'},{s:50,l:'#AFAFA5'},{s:60,l:'#898A7F'},{s:70,l:'#646459'},{s:80,l:'#3E3E33'},{s:90,l:'#1A1A1A'}]},
+  { name:'Pebble',    tag:'pebble',    steps:[{s:10,l:'#F6F2EF'},{s:20,l:'#E8E2D8'},{s:30,l:'#CDBEA8'},{s:40,l:'#A7906C'},{s:50,l:'#867250'},{s:60,l:'#66583D'},{s:70,l:'#493B2C'},{s:80,l:'#2F271C'}]},
+  { name:'Ocean',     tag:'ocean',     steps:[{s:10,l:'#ECF3FE'},{s:20,l:'#DAE5FC'},{s:30,l:'#A8C3EB'},{s:40,l:'#6697C9'},{s:50,l:'#447AAF'},{s:60,l:'#2B5782'},{s:70,l:'#1D3D58'},{s:80,l:'#122536'}]},
+  { name:'Evergreen', tag:'evergreen', steps:[{s:10,l:'#EBF4EB'},{s:20,l:'#D8E8DA'},{s:30,l:'#A5CAA9'},{s:40,l:'#62A265'},{s:50,l:'#4B814F'},{s:60,l:'#396039'},{s:70,l:'#274427'},{s:80,l:'#1B2D1B'}]},
+  { name:'Ember',     tag:'ember',     steps:[{s:10,l:'#F9F1ED'},{s:20,l:'#F3E2D3'},{s:30,l:'#E4BC9B'},{s:40,l:'#CE8345'},{s:50,l:'#B16120'},{s:60,l:'#884411'},{s:70,l:'#602F0C'},{s:80,l:'#402007'}]},
+  { name:'Rust',      tag:'rust',      steps:[{s:10,l:'#FFF1EE'},{s:20,l:'#FEDBD7'},{s:30,l:'#FEA99F'},{s:40,l:'#E86F5F'},{s:50,l:'#D14532'},{s:60,l:'#9E3225'},{s:70,l:'#6A2419'},{s:80,l:'#451610'}]},
+  { name:'Sakura',    tag:'sakura',    steps:[{s:10,l:'#FBF0FB'},{s:20,l:'#F6DAF5'},{s:30,l:'#EAA9E5'},{s:40,l:'#DA67CF'},{s:50,l:'#BC44B1'},{s:60,l:'#8C3485'},{s:70,l:'#5F235B'},{s:80,l:'#3E1739'}]},
+  { name:'Iris',      tag:'iris',      steps:[{s:10,l:'#F5F1FD'},{s:20,l:'#E4DCF9'},{s:30,l:'#C3B8F4'},{s:40,l:'#9D84DC'},{s:50,l:'#7F63C5'},{s:60,l:'#603FAB'},{s:70,l:'#3F2B73'},{s:80,l:'#291C4A'}]},
+  { name:'Tropic',    tag:'tropic',    steps:[{s:10,l:'#EBF4F4'},{s:20,l:'#D3E7E9'},{s:30,l:'#99CBCC'},{s:40,l:'#5A9EA0'},{s:50,l:'#487E7F'},{s:60,l:'#355D5F'},{s:70,l:'#294343'},{s:80,l:'#192929'}]},
+  { name:'Moss',      tag:'moss',      steps:[{s:10,l:'#F1F3EC'},{s:20,l:'#DEE5D1'},{s:30,l:'#B8C69A'},{s:40,l:'#839B55'},{s:50,l:'#6A7D45'},{s:60,l:'#4E5C33'},{s:70,l:'#384224'},{s:80,l:'#1E2B18'}]},
+  { name:'Apollo',    tag:'apollo',    steps:[{s:30,l:'#FAFF5C'},{s:50,l:'#EBF212'},{s:70,l:'#D8E003'}]},
+];
+
+const fgTokens = [
+  // Neutral
+  { sub:'Neutral', token:'fg/neutral/strong',    alias:'human/80', hex:'#3E3E33', desc:'Primary text & icons — headings, strong labels' },
+  { sub:'Neutral', token:'fg/neutral/base',       alias:'human/70', hex:'#646459', desc:'Default text & icons — body copy, interactive labels' },
+  { sub:'Neutral', token:'fg/neutral/subtle',     alias:'human/60', hex:'#898A7F', desc:'Secondary text & icons — captions, metadata' },
+  { sub:'Neutral', token:'fg/neutral/muted',      alias:'human/50', hex:'#AFAFA5', desc:'Tertiary text & icons — placeholders, ghost labels' },
+  { sub:'Neutral', token:'fg/neutral/disabled',   alias:'human/40', hex:'#D4D5CB', desc:'Disabled text & icons' },
+  // Feedback
+  { sub:'Info',        token:'fg/feedback/info/base',         alias:'human/70',      hex:'#646459', desc:'Informational foreground — base' },
+  { sub:'Info',        token:'fg/feedback/info/subtle',       alias:'human/60',      hex:'#898A7F', desc:'Informational foreground — subtle' },
+  { sub:'Info',        token:'fg/feedback/info/muted',        alias:'human/50',      hex:'#AFAFA5', desc:'Informational foreground — muted' },
+  { sub:'Success',     token:'fg/feedback/success/base',      alias:'evergreen/70',  hex:'#274427', desc:'Success foreground — high contrast' },
+  { sub:'Success',     token:'fg/feedback/success/subtle',    alias:'evergreen/60',  hex:'#396039', desc:'Success foreground — medium' },
+  { sub:'Success',     token:'fg/feedback/success/muted',     alias:'evergreen/50',  hex:'#4B814F', desc:'Success foreground — muted' },
+  { sub:'Warning',     token:'fg/feedback/warning/base',      alias:'ember/70',      hex:'#602F0C', desc:'Warning foreground — high contrast' },
+  { sub:'Warning',     token:'fg/feedback/warning/subtle',    alias:'ember/60',      hex:'#884411', desc:'Warning foreground — medium' },
+  { sub:'Warning',     token:'fg/feedback/warning/muted',     alias:'ember/50',      hex:'#B16120', desc:'Warning foreground — muted' },
+  { sub:'Destructive', token:'fg/feedback/destructive/base',  alias:'rust/70',       hex:'#6A2419', desc:'Destructive foreground — high contrast' },
+  { sub:'Destructive', token:'fg/feedback/destructive/subtle',alias:'rust/60',       hex:'#9E3225', desc:'Destructive foreground — medium' },
+  { sub:'Destructive', token:'fg/feedback/destructive/muted', alias:'rust/50',       hex:'#D14532', desc:'Destructive foreground — muted' },
+  // AI
+  { sub:'AI', token:'fg/feedback/ai/base',   alias:'iris/70',   hex:'#3F2B73', desc:'AI foreground — deep iris, strong emphasis' },
+  { sub:'AI', token:'fg/feedback/ai/subtle', alias:'iris/60',   hex:'#603FAB', desc:'AI foreground — medium iris' },
+  { sub:'AI', token:'fg/feedback/ai/muted',  alias:'iris/50',   hex:'#7F63C5', desc:'AI foreground — light iris' },
+  { sub:'AI', token:'fg/feedback/ai/sakura', alias:'sakura/40', hex:'#DA67CF', desc:'AI accent — Sakura pink' },
+  { sub:'AI', token:'fg/feedback/ai/ocean',  alias:'ocean/40',  hex:'#6697C9', desc:'AI accent — Ocean blue' },
+  // Link
+  { sub:'Link', token:'fg/link/base',          alias:'ocean/70', hex:'#1D3D58', desc:'Link text & icon — high contrast' },
+  { sub:'Link', token:'fg/link/subtle',         alias:'ocean/60', hex:'#2B5782', desc:'Link text & icon — medium' },
+  { sub:'Link', token:'fg/link/muted/default',  alias:'ocean/50', hex:'#447AAF', desc:'Link text & icon — default interactive' },
+  { sub:'Link', token:'fg/link/muted/hover',    alias:'ocean/60', hex:'#2B5782', desc:'Link text & icon — hover' },
+  { sub:'Link', token:'fg/link/muted/disabled', alias:'ocean/20', hex:'#DAE5FC', desc:'Link text & icon — disabled' },
+  // Inverse
+  { sub:'Inverse', token:'fg/inverse/default',  alias:'human/0',  hex:'#FFFFFF', desc:'Text & icons on dark reversed surfaces' },
+  { sub:'Inverse', token:'fg/inverse/hover',     alias:'human/30', hex:'#E7E7E1', desc:'Inverse text & icons — hover state' },
+  { sub:'Inverse', token:'fg/inverse/disabled',  alias:'human/60', hex:'#898A7F', desc:'Inverse text & icons — disabled state' },
+  // Expressive color
+  { sub:'Color / Pebble', token:'fg/color/pebble/base',   alias:'pebble/70', hex:'#493B2C', desc:'Pebble expressive text — strong' },
+  { sub:'Color / Pebble', token:'fg/color/pebble/subtle', alias:'pebble/60', hex:'#66583D', desc:'Pebble expressive text — medium' },
+  { sub:'Color / Pebble', token:'fg/color/pebble/muted',  alias:'pebble/50', hex:'#867250', desc:'Pebble expressive text — muted' },
+  { sub:'Color / Sakura', token:'fg/color/sakura/base',   alias:'sakura/70', hex:'#5F235B', desc:'Sakura expressive text — strong' },
+  { sub:'Color / Sakura', token:'fg/color/sakura/subtle', alias:'sakura/60', hex:'#8C3485', desc:'Sakura expressive text — medium' },
+  { sub:'Color / Sakura', token:'fg/color/sakura/muted',  alias:'sakura/50', hex:'#BC44B1', desc:'Sakura expressive text — muted' },
+  { sub:'Color / Tropic', token:'fg/color/tropic/base',   alias:'tropic/70', hex:'#294343', desc:'Tropic expressive text — strong' },
+  { sub:'Color / Tropic', token:'fg/color/tropic/subtle', alias:'tropic/60', hex:'#355D5F', desc:'Tropic expressive text — medium' },
+  { sub:'Color / Tropic', token:'fg/color/tropic/muted',  alias:'tropic/50', hex:'#487E7F', desc:'Tropic expressive text — muted' },
+  { sub:'Color / Moss',   token:'fg/color/moss/base',     alias:'moss/70',   hex:'#384224', desc:'Moss expressive text — strong' },
+  { sub:'Color / Moss',   token:'fg/color/moss/subtle',   alias:'moss/60',   hex:'#4E5C33', desc:'Moss expressive text — medium' },
+  { sub:'Color / Moss',   token:'fg/color/moss/muted',    alias:'moss/50',   hex:'#6A7D45', desc:'Moss expressive text — muted' },
+];
+
+const bgTokens = [
+  // Brand
+  { sub:'Brand', token:'bg/brand/strong/default', alias:'apollo/50', hex:'#EBF212', desc:'Apollo Yellow — primary CTA surface (default)' },
+  { sub:'Brand', token:'bg/brand/strong/hover',   alias:'apollo/30', hex:'#FAFF5C', desc:'Apollo Yellow — CTA hover' },
+  { sub:'Brand', token:'bg/brand/strong/pressed', alias:'apollo/70', hex:'#D8E003', desc:'Apollo Yellow — CTA pressed' },
+  { sub:'Brand', token:'bg/brand/strong/disabled',alias:'human/10',  hex:'#F9F9F6', desc:'CTA disabled surface' },
+  // Neutral surfaces
+  { sub:'Neutral / Foreground', token:'bg/neutral/foreground/default',  alias:'human/0',   hex:'#FFFFFF',  desc:'White — cards, modals, overlays' },
+  { sub:'Neutral / Foreground', token:'bg/neutral/foreground/active',   alias:'pebble/10', hex:'#F6F2EF',  desc:'Active state on foreground surface' },
+  { sub:'Neutral / Foreground', token:'bg/neutral/foreground/disabled', alias:'human/0',   hex:'#FFFFFF',  desc:'Disabled foreground surface' },
+  { sub:'Neutral / Middleground', token:'bg/neutral/middleground/default',       alias:'human/10',  hex:'#F9F9F6', desc:'Sidebars, panels — default' },
+  { sub:'Neutral / Middleground', token:'bg/neutral/middleground/active',        alias:'pebble/20', hex:'#E8E2D8', desc:'Sidebars, panels — active' },
+  { sub:'Neutral / Middleground', token:'bg/neutral/middleground/disabled',      alias:'human/10',  hex:'#F9F9F6', desc:'Sidebars, panels — disabled' },
+  { sub:'Neutral / Background',   token:'bg/neutral/background/default',         alias:'human/20',  hex:'#F3F3F0', desc:'Page background — default' },
+  { sub:'Neutral / Background',   token:'bg/neutral/background/disabled',        alias:'human/20',  hex:'#F3F3F0', desc:'Page background — disabled' },
+  // Reversed (dark) surfaces
+  { sub:'Neutral / Reversed', token:'bg/neutral/reversed/strong', alias:'human/80', hex:'#3E3E33', desc:'Dark surface — strong (tooltips, toasts)' },
+  { sub:'Neutral / Reversed', token:'bg/neutral/reversed/base',   alias:'human/70', hex:'#646459', desc:'Dark surface — base' },
+  { sub:'Neutral / Reversed', token:'bg/neutral/reversed/subtle', alias:'human/60', hex:'#898A7F', desc:'Dark surface — subtle' },
+  { sub:'Neutral / Reversed', token:'bg/neutral/reversed/muted',  alias:'human/30', hex:'#E7E7E1', desc:'Dark surface — muted overlay' },
+  // Selection
+  { sub:'Selection', token:'bg/selection/on/default',       alias:'human/80', hex:'#3E3E33', desc:'Selected / checked state — default' },
+  { sub:'Selection', token:'bg/selection/on/disabled',      alias:'human/60', hex:'#898A7F', desc:'Selected state — disabled' },
+  { sub:'Selection', token:'bg/selection/off/default',      alias:'human/40', hex:'#D4D5CB', desc:'Unselected / unchecked state — default' },
+  { sub:'Selection', token:'bg/selection/off/disabled',     alias:'human/30', hex:'#E7E7E1', desc:'Unselected state — disabled' },
+  // Feedback
+  { sub:'Info',        token:'bg/feedback/info/strong',   alias:'human/80',     hex:'#3E3E33', desc:'Info banner — strong surface' },
+  { sub:'Info',        token:'bg/feedback/info/base',     alias:'human/50',     hex:'#AFAFA5', desc:'Info banner — base surface' },
+  { sub:'Info',        token:'bg/feedback/info/subtle',   alias:'human/20',     hex:'#F3F3F0', desc:'Info banner — subtle surface' },
+  { sub:'Info',        token:'bg/feedback/info/muted',    alias:'human/10',     hex:'#F9F9F6', desc:'Info banner — muted surface' },
+  { sub:'Success',     token:'bg/feedback/success/strong',alias:'evergreen/70', hex:'#274427', desc:'Success banner — strong surface' },
+  { sub:'Success',     token:'bg/feedback/success/base',  alias:'evergreen/50', hex:'#4B814F', desc:'Success badge/banner — base' },
+  { sub:'Success',     token:'bg/feedback/success/subtle',alias:'evergreen/20', hex:'#D8E8DA', desc:'Success banner — subtle tint' },
+  { sub:'Success',     token:'bg/feedback/success/muted', alias:'evergreen/10', hex:'#EBF4EB', desc:'Success banner — muted tint' },
+  { sub:'Warning',     token:'bg/feedback/warning/strong',alias:'ember/70',     hex:'#602F0C', desc:'Warning banner — strong surface' },
+  { sub:'Warning',     token:'bg/feedback/warning/base',  alias:'ember/50',     hex:'#B16120', desc:'Warning badge/banner — base' },
+  { sub:'Warning',     token:'bg/feedback/warning/subtle',alias:'ember/20',     hex:'#F3E2D3', desc:'Warning banner — subtle tint' },
+  { sub:'Warning',     token:'bg/feedback/warning/muted', alias:'ember/10',     hex:'#F9F1ED', desc:'Warning banner — muted tint' },
+  { sub:'Destructive', token:'bg/feedback/destructive/strong',alias:'rust/70',  hex:'#6A2419', desc:'Destructive banner — strong surface' },
+  { sub:'Destructive', token:'bg/feedback/destructive/base',  alias:'rust/50',  hex:'#D14532', desc:'Destructive badge/banner — base' },
+  { sub:'Destructive', token:'bg/feedback/destructive/subtle',alias:'rust/20',  hex:'#FEDBD7', desc:'Destructive banner — subtle tint' },
+  { sub:'Destructive', token:'bg/feedback/destructive/muted', alias:'rust/10',  hex:'#FFF1EE', desc:'Destructive banner — muted tint' },
+  { sub:'AI',          token:'bg/feedback/ai/strong',     alias:'iris/70',      hex:'#3F2B73', desc:'AI surface — deep iris' },
+  { sub:'AI',          token:'bg/feedback/ai/base',       alias:'iris/50',      hex:'#7F63C5', desc:'AI surface — base iris' },
+  { sub:'AI',          token:'bg/feedback/ai/subtle',     alias:'iris/20',      hex:'#E4DCF9', desc:'AI surface — subtle iris tint' },
+  { sub:'AI',          token:'bg/feedback/ai/muted',      alias:'iris/10',      hex:'#F5F1FD', desc:'AI surface — muted iris tint' },
+  // Status
+  { sub:'Status', token:'bg/status/in-progress/base',   alias:'ocean/60',     hex:'#2B5782', desc:'In progress status badge' },
+  { sub:'Status', token:'bg/status/in-progress/subtle', alias:'ocean/20',     hex:'#DAE5FC', desc:'In progress status tint' },
+  { sub:'Status', token:'bg/status/incomplete/base',    alias:'human/60',     hex:'#898A7F', desc:'Incomplete status badge' },
+  { sub:'Status', token:'bg/status/incomplete/subtle',  alias:'human/20',     hex:'#F3F3F0', desc:'Incomplete status tint' },
+  { sub:'Status', token:'bg/status/error/base',         alias:'rust/60',      hex:'#9E3225', desc:'Error status badge' },
+  { sub:'Status', token:'bg/status/error/subtle',       alias:'rust/20',      hex:'#FEDBD7', desc:'Error status tint' },
+  { sub:'Status', token:'bg/status/completed/base',     alias:'evergreen/40', hex:'#62A265', desc:'Completed status badge' },
+  { sub:'Status', token:'bg/status/completed/subtle',   alias:'evergreen/20', hex:'#D8E8DA', desc:'Completed status tint' },
+  // Expressive color backgrounds
+  { sub:'Color / Pebble', token:'bg/color/pebble/strong', alias:'pebble/70', hex:'#493B2C', desc:'Pebble expressive bg — strong' },
+  { sub:'Color / Pebble', token:'bg/color/pebble/base',   alias:'pebble/50', hex:'#867250', desc:'Pebble expressive bg — base' },
+  { sub:'Color / Pebble', token:'bg/color/pebble/subtle', alias:'pebble/20', hex:'#E8E2D8', desc:'Pebble expressive bg — subtle tint' },
+  { sub:'Color / Pebble', token:'bg/color/pebble/muted',  alias:'pebble/10', hex:'#F6F2EF', desc:'Pebble expressive bg — muted tint' },
+  { sub:'Color / Ocean',  token:'bg/color/ocean/strong',  alias:'ocean/70',  hex:'#1D3D58', desc:'Ocean expressive bg — strong' },
+  { sub:'Color / Ocean',  token:'bg/color/ocean/base',    alias:'ocean/50',  hex:'#447AAF', desc:'Ocean expressive bg — base' },
+  { sub:'Color / Ocean',  token:'bg/color/ocean/subtle',  alias:'ocean/20',  hex:'#DAE5FC', desc:'Ocean expressive bg — subtle tint' },
+  { sub:'Color / Ocean',  token:'bg/color/ocean/muted',   alias:'ocean/10',  hex:'#ECF3FE', desc:'Ocean expressive bg — muted tint' },
+  { sub:'Color / Tropic', token:'bg/color/tropic/strong', alias:'tropic/70', hex:'#294343', desc:'Tropic expressive bg — strong' },
+  { sub:'Color / Tropic', token:'bg/color/tropic/base',   alias:'tropic/50', hex:'#487E7F', desc:'Tropic expressive bg — base' },
+  { sub:'Color / Tropic', token:'bg/color/tropic/subtle', alias:'tropic/20', hex:'#D3E7E9', desc:'Tropic expressive bg — subtle tint' },
+  { sub:'Color / Tropic', token:'bg/color/tropic/muted',  alias:'tropic/10', hex:'#EBF4F4', desc:'Tropic expressive bg — muted tint' },
+  { sub:'Color / Sakura', token:'bg/color/sakura/strong', alias:'sakura/70', hex:'#5F235B', desc:'Sakura expressive bg — strong' },
+  { sub:'Color / Sakura', token:'bg/color/sakura/base',   alias:'sakura/50', hex:'#BC44B1', desc:'Sakura expressive bg — base' },
+  { sub:'Color / Sakura', token:'bg/color/sakura/subtle', alias:'sakura/20', hex:'#F6DAF5', desc:'Sakura expressive bg — subtle tint' },
+  { sub:'Color / Sakura', token:'bg/color/sakura/muted',  alias:'sakura/10', hex:'#FBF0FB', desc:'Sakura expressive bg — muted tint' },
+  { sub:'Color / Moss',   token:'bg/color/moss/strong',   alias:'moss/70',   hex:'#384224', desc:'Moss expressive bg — strong' },
+  { sub:'Color / Moss',   token:'bg/color/moss/base',     alias:'moss/50',   hex:'#6A7D45', desc:'Moss expressive bg — base' },
+  { sub:'Color / Moss',   token:'bg/color/moss/subtle',   alias:'moss/20',   hex:'#DEE5D1', desc:'Moss expressive bg — subtle tint' },
+  { sub:'Color / Moss',   token:'bg/color/moss/muted',    alias:'moss/10',   hex:'#F1F3EC', desc:'Moss expressive bg — muted tint' },
+  // States — alpha overlays for interactive feedback surfaces
+  { sub:'States / Info',        token:'bg/states/info/hover',         alias:'alpha/human/10',     hex:'rgba(26,26,26,0.10)',    desc:'Info surface hover overlay (10% dark)' },
+  { sub:'States / Info',        token:'bg/states/info/pressed',       alias:'alpha/human/20',     hex:'rgba(26,26,26,0.20)',    desc:'Info surface pressed overlay (20% dark)' },
+  { sub:'States / Success',     token:'bg/states/success/hover',      alias:'alpha/evergreen/10', hex:'rgba(39,68,39,0.10)',    desc:'Success surface hover overlay' },
+  { sub:'States / Success',     token:'bg/states/success/pressed',    alias:'alpha/evergreen/20', hex:'rgba(39,68,39,0.20)',    desc:'Success surface pressed overlay' },
+  { sub:'States / Warning',     token:'bg/states/warning/hover',      alias:'alpha/ember/10',     hex:'rgba(96,47,12,0.10)',    desc:'Warning surface hover overlay' },
+  { sub:'States / Warning',     token:'bg/states/warning/pressed',    alias:'alpha/ember/20',     hex:'rgba(96,47,12,0.20)',    desc:'Warning surface pressed overlay' },
+  { sub:'States / Destructive', token:'bg/states/destructive/hover',  alias:'alpha/rust/10',      hex:'rgba(106,36,25,0.10)',   desc:'Destructive surface hover overlay' },
+  { sub:'States / Destructive', token:'bg/states/destructive/pressed',alias:'alpha/rust/20',      hex:'rgba(106,36,25,0.20)',   desc:'Destructive surface pressed overlay' },
+  { sub:'States / AI',          token:'bg/states/ai/hover',           alias:'alpha/iris/10',      hex:'rgba(63,43,115,0.10)',   desc:'AI surface hover overlay' },
+  { sub:'States / AI',          token:'bg/states/ai/pressed',         alias:'alpha/iris/20',      hex:'rgba(63,43,115,0.20)',   desc:'AI surface pressed overlay' },
+  { sub:'States / Sakura',      token:'bg/states/sakura/hover',       alias:'alpha/sakura/10',    hex:'rgba(95,35,91,0.10)',    desc:'Sakura expressive hover overlay' },
+  { sub:'States / Sakura',      token:'bg/states/sakura/pressed',     alias:'alpha/sakura/20',    hex:'rgba(95,35,91,0.20)',    desc:'Sakura expressive pressed overlay' },
+  { sub:'States / Tropic',      token:'bg/states/tropic/hover',       alias:'alpha/tropic/10',    hex:'rgba(41,67,67,0.10)',    desc:'Tropic expressive hover overlay' },
+  { sub:'States / Tropic',      token:'bg/states/tropic/pressed',     alias:'alpha/tropic/20',    hex:'rgba(41,67,67,0.20)',    desc:'Tropic expressive pressed overlay' },
+  { sub:'States / Pebble',      token:'bg/states/pebble/hover',       alias:'alpha/pebble/10',    hex:'rgba(73,59,44,0.10)',    desc:'Pebble expressive hover overlay' },
+  { sub:'States / Pebble',      token:'bg/states/pebble/pressed',     alias:'alpha/pebble/20',    hex:'rgba(73,59,44,0.20)',    desc:'Pebble expressive pressed overlay' },
+  { sub:'States / Ocean',       token:'bg/states/ocean/hover',        alias:'alpha/ocean/10',     hex:'rgba(29,61,88,0.10)',    desc:'Ocean expressive hover overlay' },
+  { sub:'States / Ocean',       token:'bg/states/ocean/pressed',      alias:'alpha/ocean/20',     hex:'rgba(29,61,88,0.20)',    desc:'Ocean expressive pressed overlay' },
+  { sub:'States / Moss',        token:'bg/states/moss/hover',         alias:'alpha/moss/10',      hex:'rgba(56,66,36,0.10)',    desc:'Moss expressive hover overlay' },
+  { sub:'States / Moss',        token:'bg/states/moss/pressed',       alias:'alpha/moss/20',      hex:'rgba(56,66,36,0.20)',    desc:'Moss expressive pressed overlay' },
+  // Shadows & Highlights
+  { sub:'Shadow',    token:'bg/states/shadow/base/default', alias:'alpha/shadow-0',   hex:'rgba(0,0,0,0.00)',       desc:'No shadow — default resting state' },
+  { sub:'Shadow',    token:'bg/states/shadow/base/hover',   alias:'alpha/shadow-6',   hex:'rgba(46,43,41,0.15)',    desc:'Elevation shadow on hover' },
+  { sub:'Shadow',    token:'bg/states/shadow/base/pressed', alias:'alpha/shadow-7',   hex:'rgba(46,43,41,0.25)',    desc:'Elevation shadow on press' },
+  { sub:'Highlight', token:'bg/states/highlight/base',      alias:'alpha/highlight-0',hex:'rgba(255,255,255,0.00)', desc:'No highlight — default resting state' },
+  { sub:'Highlight', token:'bg/states/highlight/subtle',    alias:'alpha/highlight-1',hex:'rgba(255,255,255,0.15)', desc:'Subtle surface highlight (dark surfaces)' },
+  { sub:'Highlight', token:'bg/states/highlight/muted',     alias:'alpha/highlight-2',hex:'rgba(255,255,255,0.25)', desc:'Muted surface highlight (dark surfaces)' },
+  // Overlay
+  { sub:'Overlay', token:'overlay/shadow',    alias:'alpha/overlay',         hex:'rgba(46,43,41,0.20)',    desc:'Modal/drawer backdrop — dark tint' },
+  { sub:'Overlay', token:'overlay/highlight', alias:'alpha/overlay-inverse', hex:'rgba(255,255,255,0.20)', desc:'Inverse backdrop — light tint on dark' },
+];
+
+const borderTokens = [
+  // Neutral
+  { sub:'Neutral', token:'border/neutral/muted',   alias:'human/10',  hex:'#F9F9F6', desc:'Hairline dividers, ghost borders' },
+  { sub:'Neutral', token:'border/neutral/subtle',  alias:'human/20',  hex:'#F3F3F0', desc:'Subtle borders — section dividers' },
+  { sub:'Neutral', token:'border/neutral/base',    alias:'human/30',  hex:'#E7E7E1', desc:'Default border — component edges' },
+  { sub:'Neutral', token:'border/neutral/active',  alias:'pebble/30', hex:'#CDBEA8', desc:'Active / focused neutral border' },
+  { sub:'Neutral', token:'border/neutral/strong',  alias:'human/80',  hex:'#3E3E33', desc:'Strong border — high-contrast edges' },
+  { sub:'Neutral', token:'border/inverse/base',    alias:'human/0',   hex:'#FFFFFF', desc:'White border on dark surfaces' },
+  // Semantic
+  { sub:'Error',  token:'border/error/strong',  alias:'rust/70',  hex:'#6A2419', desc:'Error border — strong' },
+  { sub:'Error',  token:'border/error/base',    alias:'rust/50',  hex:'#D14532', desc:'Error border — default (invalid inputs)' },
+  { sub:'Error',  token:'border/error/subtle',  alias:'rust/40',  hex:'#E86F5F', desc:'Error border — subtle' },
+  { sub:'Error',  token:'border/error/muted',   alias:'rust/20',  hex:'#FEDBD7', desc:'Error border — muted tint' },
+  { sub:'Focus',  token:'border/focus/base',    alias:'ocean/50', hex:'#447AAF', desc:'Focus ring — keyboard navigation' },
+  // Brand
+  { sub:'Brand',  token:'border/brand/strong',  alias:'apollo/70', hex:'#D8E003', desc:'Brand border — pressed/strong CTA' },
+  { sub:'Brand',  token:'border/brand/base',    alias:'apollo/50', hex:'#EBF212', desc:'Brand border — default CTA outline' },
+  // Link
+  { sub:'Link',   token:'border/link/base',     alias:'ocean/30', hex:'#A8C3EB', desc:'Link underline / border — default' },
+  { sub:'Link',   token:'border/link/disabled', alias:'ocean/10', hex:'#ECF3FE', desc:'Link underline / border — disabled' },
+  // AI
+  { sub:'AI', token:'border/ai/strong', alias:'iris/70', hex:'#3F2B73', desc:'AI border — strong iris' },
+  { sub:'AI', token:'border/ai/base',   alias:'iris/50', hex:'#7F63C5', desc:'AI border — default iris (focus ring)' },
+  { sub:'AI', token:'border/ai/subtle', alias:'iris/30', hex:'#C3B8F4', desc:'AI border — subtle iris' },
+  { sub:'AI', token:'border/ai/muted',  alias:'iris/20', hex:'#E4DCF9', desc:'AI border — muted iris tint' },
+];
+
+const matrixTexts = [
+  { label:'fg/neutral/strong',  hex:'#3E3E33' },
+  { label:'fg/neutral/base',    hex:'#646459' },
+  { label:'fg/neutral/subtle',  hex:'#898A7F' },
+  { label:'fg/neutral/muted',   hex:'#AFAFA5' },
+  { label:'fg/inverse/default', hex:'#FFFFFF' },
+];
+
+const matrixBgs = [
+  { label:'bg/neutral/foreground/default',  hex:'#FFFFFF' },
+  { label:'bg/neutral/middleground/default',hex:'#F9F9F6' },
+  { label:'bg/neutral/background/default',  hex:'#F3F3F0' },
+  { label:'bg/neutral/reversed/strong',     hex:'#3E3E33' },
+  { label:'bg/brand/strong/default',        hex:'#EBF212' },
+];
+
+function switchColTab(tab, btn) {
+  btn.closest('.sp-tab-bar').querySelectorAll('.sp-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.col-panel').forEach(p => { p.style.display = 'none'; });
+  btn.classList.add('active');
+  document.getElementById('coltab-' + tab).style.display = 'block';
+}
+
+function buildColorTables() {
+  buildColorPrims();
+  buildColorSemantics();
+  buildContrastMatrix();
+}
+
+// Alpha overlay color per ramp (from bg/states tokens)
+const rampAlphaOverlay = {
+  human:     '#1A1A1A',
+  pebble:    '#493B2C',
+  ocean:     '#1D3D58',
+  evergreen: '#274427',
+  ember:     '#602F0C',
+  rust:      '#6A2419',
+  sakura:    '#5F235B',
+  iris:      '#3F2B73',
+  tropic:    '#294343',
+  moss:      '#384224',
+  apollo:    '#1A1A1A',
+};
+
+function buildColorPrims() {
+  const grid = document.getElementById('color-prim-grid');
+  if (!grid) return;
+
+  // Legend
+  const legend = document.createElement('div');
+  legend.className = 'ramp-legend-row';
+  legend.innerHTML = `
+    <div class="ramp-legend-item"><div class="ramp-legend-pip" style="background:#AFAFA5;"></div>Base</div>
+    <div class="ramp-legend-item"><div class="ramp-legend-pip" style="background:#898A7F;"></div>Hover (10% overlay)</div>
+    <div class="ramp-legend-item"><div class="ramp-legend-pip" style="background:#646459;"></div>Click (20% overlay)</div>`;
+  grid.appendChild(legend);
+
+  colorRamps.forEach(ramp => {
+    const overlayHex = rampAlphaOverlay[ramp.tag] || '#1A1A1A';
+    const row = document.createElement('div');
+    row.className = 'color-ramp-row';
+    const swatchesHtml = ramp.steps.map(step => {
+      const labelColor = lum(step.l) > 0.4 ? 'rgba(0,0,0,0.4)' : 'rgba(255,255,255,0.75)';
+      return `<div class="color-ramp-swatch" style="background:${step.l};"
+        title="${ramp.tag}/${step.s} · ${step.l}"
+        onmousedown="this.classList.add('is-pressed')"
+        onmouseup="this.classList.remove('is-pressed')"
+        onmouseleave="this.classList.remove('is-pressed')">
+        <div class="ramp-ov-hover"   style="background:${overlayHex};"></div>
+        <div class="ramp-ov-pressed" style="background:${overlayHex};"></div>
+        <span class="ramp-step" style="color:${labelColor};">${step.s}</span>
+      </div>`;
+    }).join('');
+    row.innerHTML = `<div class="color-ramp-meta"><div class="color-ramp-name">${ramp.name}</div><span class="color-ramp-tag">${ramp.tag}</span></div><div class="color-ramp-swatches">${swatchesHtml}</div>`;
+    grid.appendChild(row);
+  });
+}
+
+function buildColorSemantics() {
+  const container = document.getElementById('color-sem-table');
+  if (!container) return;
+  const sections = [
+    { label:'Foreground', prefix:'fg', data:fgTokens },
+    { label:'Background', prefix:'bg', data:bgTokens },
+    { label:'Border', prefix:'border', data:borderTokens },
+  ];
+  sections.forEach(section => {
+    const sectionDiv = document.createElement('div');
+    sectionDiv.className = 'col-sem-section';
+    sectionDiv.innerHTML = `<div class="col-sem-section-header"><span class="col-sem-section-name">${section.label}</span><span class="col-sem-section-prefix">${section.prefix}</span></div>`;
+    const subs = [...new Set(section.data.map(t => t.sub))];
+    subs.forEach(sub => {
+      const toks = section.data.filter(t => t.sub === sub);
+      const groupDiv = document.createElement('div');
+      groupDiv.className = 'col-sem-group';
+      let html = `<div class="col-sem-group-label">${sub}</div><div class="col-sem-table-inner"><div class="col-sem-thead"><div class="col-sem-th">Token</div><div class="col-sem-th">Primitive</div><div class="col-sem-th">Value</div><div class="col-sem-th"></div><div class="col-sem-th">Description</div></div>`;
+      toks.forEach(t => {
+        const isAlpha = t.hex.startsWith('rgba');
+        let swatchHtml;
+        if (isAlpha) {
+          // Extract rgb components from rgba(...) to build both opacities
+          const m = t.hex.match(/rgba\((\d+),(\d+),(\d+),([\d.]+)\)/);
+          if (m) {
+            const rgb = `${m[1]},${m[2]},${m[3]}`;
+            // Show half/half: 10% left, 20% right so tint difference is visible
+            swatchHtml = `<div class="col-sem-swatch alpha-swatch" title="hover: rgba(${rgb},0.10) · pressed: rgba(${rgb},0.20)">
+              <div style="position:absolute;inset:0;left:0;width:50%;background:rgba(${rgb},0.10);border-radius:3px 0 0 3px;"></div>
+              <div style="position:absolute;inset:0;left:50%;background:rgba(${rgb},0.20);border-radius:0 3px 3px 0;"></div>
+            </div>`;
+          } else {
+            swatchHtml = `<div class="col-sem-swatch alpha-swatch"><div style="width:100%;height:100%;border-radius:3px;background:${t.hex};"></div></div>`;
+          }
+        } else {
+          swatchHtml = `<div class="col-sem-swatch" style="background:${t.hex};"></div>`;
+        }
+        html += `<div class="col-sem-tr"><div class="col-sem-td"><span class="sp-token-name">${t.token}</span></div><div class="col-sem-td"><span class="sp-ref-tag">${t.alias}</span></div><div class="col-sem-td"><span class="col-sem-hex">${t.hex}</span></div><div class="col-sem-td-swatch">${swatchHtml}</div><div class="col-sem-td-desc">${t.desc}</div></div>`;
+      });
+      html += '</div>';
+      groupDiv.innerHTML = html;
+      sectionDiv.appendChild(groupDiv);
+    });
+    container.appendChild(sectionDiv);
+  });
+}
+
+function buildContrastMatrix() {
+  const container = document.getElementById('contrast-matrix');
+  if (!container) return;
+  let html = '<div class="contrast-wrap"><table class="contrast-table"><thead><tr><th class="contrast-corner"><div class="contrast-corner-label">Text ↓ / BG →</div></th>';
+  matrixBgs.forEach(bg => { html += `<th class="contrast-th-bg"><span class="contrast-th-swatch" style="background:${bg.hex};"></span><div class="contrast-th-token">${bg.label}</div><div class="contrast-th-hex">${bg.hex}</div></th>`; });
+  html += '</tr></thead><tbody>';
+  matrixTexts.forEach(text => {
+    html += `<tr class="contrast-row"><th class="contrast-th-text"><div class="contrast-th-text-token"><span class="contrast-row-swatch" style="background:${text.hex};"></span>${text.label}</div><div class="contrast-th-text-hex">${text.hex}</div></th>`;
+    matrixBgs.forEach(bg => {
+      if (text.hex === bg.hex) { html += `<td class="contrast-cell cell-same"><span class="contrast-same-dash">—</span></td>`; return; }
+      const ratio = cr(text.hex, bg.hex);
+      const passStd = ratio >= 4.5, passLg = ratio >= 3;
+      let cellClass = 'contrast-cell', badge = '';
+      if (passStd) { cellClass += ' cell-pass-std'; badge = `<span class="contrast-badge pass-std">✓ AA</span>`; }
+      else if (passLg) { cellClass += ' cell-pass-lg'; badge = `<span class="contrast-badge pass-lg">✓ Large only</span>`; }
+      else { cellClass += ' cell-fail'; badge = `<span class="contrast-badge fail">✗ Fails</span>`; }
+      html += `<td class="${cellClass}"><div class="contrast-ratio">${ratio.toFixed(2)}:1</div>${badge}</td>`;
+    });
+    html += '</tr>';
+  });
+  html += '</tbody></table></div>';
+  container.innerHTML = html;
+}
+
+function buildSandbox() {
+  const spinner = `<span class="sb-spinner"></span>`;
+  const sparkle = `<span class="ai-icon">✦</span>`;
+
+  // ── Buttons: variant × state matrix ──
+  const btnEl = document.getElementById('sb-buttons');
+  const variants = [
+    { label: 'Primary',          cls: 'sb-btn-primary' },
+    { label: 'Secondary',        cls: 'sb-btn-secondary' },
+    { label: 'Tertiary',         cls: 'sb-btn-tertiary' },
+    { label: 'Destroy',          cls: 'sb-btn-destroy' },
+    { label: 'Destroy-tertiary', cls: 'sb-btn-destroy-tertiary' },
+    { label: 'AI Primary',       cls: 'sb-btn-ai-primary',   icon: sparkle },
+    { label: 'AI Secondary',     cls: 'sb-btn-ai-secondary', icon: sparkle },
+  ];
+  const states = [
+    { label: 'Default',  extra: '',                disabled: false, loading: false },
+    { label: 'Hover',    extra: 'hover-demo',      disabled: false, loading: false },
+    { label: 'Pressed',  extra: 'pressed',         disabled: false, loading: false },
+    { label: 'Focus',    extra: 'focus-visible-demo', disabled: false, loading: false },
+    { label: 'Disabled', extra: '',                disabled: true,  loading: false },
+    { label: 'Loading',  extra: 'loading',         disabled: false, loading: true },
+  ];
+
+  let html = `<div class="sb-btn-matrix">
+    <div class="sb-matrix-header">
+      <div class="sb-matrix-row-label"></div>
+      ${states.map(s => `<div class="sb-matrix-state-head">${s.label}</div>`).join('')}
+    </div>`;
+
+  variants.forEach(v => {
+    html += `<div class="sb-matrix-variant-block">`;
+    ['md', 'sm'].forEach(size => {
+      html += `<div class="sb-matrix-row">
+        <div class="sb-matrix-row-label">${size === 'md' ? v.label : ''}<span class="sb-size-tag">${size}</span></div>`;
+      states.forEach(s => {
+        const szCls = size === 'sm' ? ' sb-btn-sm' : '';
+        const icon = v.icon || '';
+        const inner = s.loading ? (spinner + 'Button') : (icon + 'Button');
+        const extraCls = s.extra ? ' ' + s.extra : '';
+        const loadCls  = s.loading ? ' loading' : '';
+        html += `<div class="sb-matrix-cell">
+          <button class="sb-btn ${v.cls}${szCls}${extraCls}${loadCls}"
+            ${s.disabled ? 'disabled' : ''}>${inner}</button>
+        </div>`;
+      });
+      html += `</div>`;
+    });
+    html += `</div>`;
+  });
+  html += `</div>`;
+  btnEl.innerHTML = html;
+
+  // ── Chips ──
+  const chipEl = document.getElementById('sb-chips');
+  const chips = [
+    { cls:'sb-chip-default',  label:'All contacts' },
+    { cls:'sb-chip-selected', label:'Owner' },
+    { cls:'sb-chip-default',  label:'Company', x:true },
+    { cls:'sb-chip-subtle',   label:'Inactive' },
+    { cls:'sb-chip-info',     label:'In progress', dot:'#447AAF' },
+    { cls:'sb-chip-success',  label:'Qualified',   dot:'#4E5C33' },
+    { cls:'sb-chip-warning',  label:'Needs review',dot:'#602F0C' },
+    { cls:'sb-chip-danger',   label:'Blocked',     dot:'#6A2419' },
+  ];
+  chipEl.innerHTML = chips.map(c =>
+    `<span class="sb-chip ${c.cls}">
+      ${c.dot ? `<span class="sb-chip-dot" style="background:${c.dot}"></span>` : ''}
+      ${c.label}
+      ${c.x ? '<span class="sb-chip-x">×</span>' : ''}
+    </span>`
+  ).join('');
+
+  // ── Badges ──
+  const badgeEl = document.getElementById('sb-badges');
+  const badges = [
+    { cls:'sb-badge-neutral', label:'Draft' },
+    { cls:'sb-badge-info',    label:'New',      dot:'#447AAF' },
+    { cls:'sb-badge-success', label:'Active',   dot:'#4E5C33' },
+    { cls:'sb-badge-warning', label:'Pending',  dot:'#602F0C' },
+    { cls:'sb-badge-danger',  label:'Overdue',  dot:'#6A2419' },
+    { cls:'sb-badge-ai',      label:'✦ AI' },
+    { cls:'sb-badge-strong',  label:'Pro' },
+    { cls:'sb-badge-outline', label:'Beta' },
+    { cls:'sb-badge-success sb-badge-pill', label:'● Connected' },
+    { cls:'sb-badge-neutral', label:'12' },
+  ];
+  badgeEl.innerHTML = badges.map(b =>
+    `<span class="sb-badge ${b.cls}">
+      ${b.dot ? `<span class="sb-badge-dot" style="background:${b.dot}"></span>` : ''}
+      ${b.label}
+    </span>`
+  ).join('');
+}
+
+// On direct load, check URL for a page slug (must run after all data consts are initialized)
+(function() {
+  const valid = ['typography', 'spacing', 'color', 'sandbox'];
+  const params = new URLSearchParams(window.location.search);
+  const fromParam = params.get('p');
+  if (fromParam && valid.includes(fromParam)) {
+    history.replaceState({ page: fromParam }, '', './' + fromParam);
+    showPage(fromParam);
+  } else {
+    const seg = window.location.pathname.replace(/\/$/, '').split('/').pop();
+    if (valid.includes(seg)) { history.replaceState({ page: seg }, '', window.location.pathname); showPage(seg); }
+  }
+})();
+</script>
+</body>
+</html>

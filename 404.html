@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Redirecting…</title>
+<script>
+  // Grab the path segment after the repo/base path and redirect to index with it as ?p=
+  const segments = window.location.pathname.replace(/\/$/, '').split('/');
+  const page = segments[segments.length - 1];
+  const base = window.location.pathname.replace(/\/[^/]*$/, '/');
+  window.location.replace(base + '?p=' + encodeURIComponent(page));
+</script>
+</head>
+<body></body>
+</html>
