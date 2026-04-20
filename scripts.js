@@ -437,49 +437,59 @@ function switchDiag(groupId, idx, cardEl) {
 // ── COLOR DATA ──
 
 const colorRamps = [
-  { name:'Human',     tag:'human',     steps:[
-    {s:0,  l:'#FFFFFF'}, {s:10, l:'#F9F9F6'}, {s:20, l:'#F3F3F0'}, {s:30, l:'#E7E7E1'},
-    {s:40, l:'#D4D5CB'}, {s:50, l:'#AFAFA5'}, {s:60, l:'#898A7F'}, {s:70, l:'#646459'},
-    {s:80, l:'#3E3E33'}, {s:90, l:'#1A1A1A'},
+  { name:'Stone',  tag:'stone',  steps:[
+    {s:0,  l:'#FFFFFF'}, {s:5,  l:'#F9F9F6'}, {s:10, l:'#EFEFEB'}, {s:20, l:'#E4E5D9'},
+    {s:30, l:'#CCCDBF'}, {s:40, l:'#ABAD99'}, {s:50, l:'#767862'}, {s:60, l:'#5F6151'},
+    {s:70, l:'#4D4D41'}, {s:80, l:'#3C3D33'}, {s:90, l:'#2F2F27'}, {s:95, l:'#252521'}, {s:100, l:'#12120F'},
   ]},
-  { name:'Pebble',    tag:'pebble',    steps:[
-    {s:10, l:'#F6F2EF'}, {s:20, l:'#E8E2D8'}, {s:30, l:'#CDBEA8'}, {s:40, l:'#A7906C'},
-    {s:50, l:'#867250'}, {s:60, l:'#66583D'}, {s:70, l:'#493B2C'}, {s:80, l:'#2F271C'},
+  { name:'Brown',  tag:'brown',  steps:[
+    {s:5,  l:'#F7F5F3'}, {s:10, l:'#EFEDE6'}, {s:20, l:'#E8E2D8'}, {s:30, l:'#D9D0BF'},
+    {s:40, l:'#BAA88B'}, {s:50, l:'#877250'}, {s:60, l:'#65563C'}, {s:70, l:'#4F432F'},
+    {s:80, l:'#382F21'}, {s:90, l:'#292319'}, {s:95, l:'#15120C'},
   ]},
-  { name:'Ocean',     tag:'ocean',     steps:[
-    {s:10, l:'#ECF3FE'}, {s:20, l:'#DAE5FC'}, {s:30, l:'#A8C3EB'}, {s:40, l:'#6697C9'},
-    {s:50, l:'#447AAF'}, {s:60, l:'#2B5782'}, {s:70, l:'#1D3D58'}, {s:80, l:'#122536'},
+  { name:'Green',  tag:'green',  steps:[
+    {s:5,  l:'#F1FDF3'}, {s:10, l:'#E5FBE9'}, {s:20, l:'#CEF8D5'}, {s:30, l:'#A6F2B2'},
+    {s:40, l:'#5FE876'}, {s:50, l:'#1AB333'}, {s:60, l:'#138727'}, {s:70, l:'#0F691E'},
+    {s:80, l:'#0B4A15'}, {s:90, l:'#083710'}, {s:95, l:'#041C08'},
   ]},
-  { name:'Evergreen', tag:'evergreen', steps:[
-    {s:10, l:'#EBF4EB'}, {s:20, l:'#D8E8DA'}, {s:30, l:'#A5CAA9'}, {s:40, l:'#62A265'},
-    {s:50, l:'#4B814F'}, {s:60, l:'#396039'}, {s:70, l:'#274427'}, {s:80, l:'#1B2D1B'},
+  { name:'Blue',   tag:'blue',   steps:[
+    {s:5,  l:'#F1F6FE'}, {s:10, l:'#E3EDFD'}, {s:20, l:'#CBDEFB'}, {s:30, l:'#A1C3F7'},
+    {s:40, l:'#69A0F3'}, {s:50, l:'#1368E7'}, {s:60, l:'#0E4BA7'}, {s:70, l:'#0A3576'},
+    {s:80, l:'#072655'}, {s:90, l:'#051B3D'}, {s:95, l:'#030F22'},
   ]},
-  { name:'Ember',     tag:'ember',     steps:[
-    {s:10, l:'#F9F1ED'}, {s:20, l:'#F3E2D3'}, {s:30, l:'#E4BC9B'}, {s:40, l:'#CE8345'},
-    {s:50, l:'#B16120'}, {s:60, l:'#884411'}, {s:70, l:'#602F0C'}, {s:80, l:'#402007'},
+  { name:'Orange', tag:'orange', steps:[
+    {s:5,  l:'#FFF6F0'}, {s:10, l:'#FFEDE0'}, {s:20, l:'#FFDFC7'}, {s:30, l:'#FFCBA3'},
+    {s:40, l:'#FFA35C'}, {s:50, l:'#F06800'}, {s:60, l:'#B24D00'}, {s:70, l:'#8F3E00'},
+    {s:80, l:'#662C00'}, {s:90, l:'#4D2100'}, {s:95, l:'#230F00'},
   ]},
-  { name:'Rust',      tag:'rust',      steps:[
-    {s:10, l:'#FFF1EE'}, {s:20, l:'#FEDBD7'}, {s:30, l:'#FEA99F'}, {s:40, l:'#E86F5F'},
-    {s:50, l:'#D14532'}, {s:60, l:'#9E3225'}, {s:70, l:'#6A2419'}, {s:80, l:'#451610'},
+  { name:'Red',    tag:'red',    steps:[
+    {s:5,  l:'#FFF0F2'}, {s:10, l:'#FFE6EA'}, {s:20, l:'#FFD6DC'}, {s:30, l:'#FFBDC7'},
+    {s:40, l:'#FF6B81'}, {s:50, l:'#FA0026'}, {s:60, l:'#C2001D'}, {s:70, l:'#940016'},
+    {s:80, l:'#66000F'}, {s:90, l:'#4C000B'}, {s:95, l:'#240005'},
   ]},
-  { name:'Sakura',    tag:'sakura',    steps:[
-    {s:10, l:'#FBF0FB'}, {s:20, l:'#F6DAF5'}, {s:30, l:'#EAA9E5'}, {s:40, l:'#DA67CF'},
-    {s:50, l:'#BC44B1'}, {s:60, l:'#8C3485'}, {s:70, l:'#5F235B'}, {s:80, l:'#3E1739'},
+  { name:'Purple', tag:'purple', steps:[
+    {s:5,  l:'#F8F2FD'}, {s:10, l:'#F3E9FB'}, {s:20, l:'#EAD7F9'}, {s:30, l:'#DAB8F4'},
+    {s:40, l:'#BE83EC'}, {s:50, l:'#9534DF'}, {s:60, l:'#701CB0'}, {s:70, l:'#541584'},
+    {s:80, l:'#3E0F62'}, {s:90, l:'#2D0B47'}, {s:95, l:'#14051F'},
   ]},
-  { name:'Iris',      tag:'iris',      steps:[
-    {s:10, l:'#F5F1FD'}, {s:20, l:'#E4DCF9'}, {s:30, l:'#C3B8F4'}, {s:40, l:'#9D84DC'},
-    {s:50, l:'#7F63C5'}, {s:60, l:'#603FAB'}, {s:70, l:'#3F2B73'}, {s:80, l:'#291C4A'},
+  { name:'Pink',   tag:'pink',   steps:[
+    {s:5,  l:'#FFF0FF'}, {s:10, l:'#FFE5FF'}, {s:20, l:'#FFD1FF'}, {s:30, l:'#FFB3FF'},
+    {s:40, l:'#FF6EFF'}, {s:50, l:'#FF14FF'}, {s:60, l:'#CC00CC'}, {s:70, l:'#970097'},
+    {s:80, l:'#660066'}, {s:90, l:'#480048'}, {s:95, l:'#240024'},
   ]},
-  { name:'Tropic',    tag:'tropic',    steps:[
-    {s:10, l:'#EBF4F4'}, {s:20, l:'#D3E7E9'}, {s:30, l:'#99CBCC'}, {s:40, l:'#5A9EA0'},
-    {s:50, l:'#487E7F'}, {s:60, l:'#355D5F'}, {s:70, l:'#294343'}, {s:80, l:'#192929'},
+  { name:'Lime',   tag:'lime',   steps:[
+    {s:5,  l:'#F7FEF0'}, {s:10, l:'#EBFCD9'}, {s:20, l:'#E2FCC0'}, {s:30, l:'#D7F9B3'},
+    {s:40, l:'#C4F68D'}, {s:50, l:'#8DED26'}, {s:60, l:'#69BD0F'}, {s:70, l:'#4F8E0B'},
+    {s:80, l:'#345E08'}, {s:90, l:'#254205'}, {s:95, l:'#132103'},
   ]},
-  { name:'Moss',      tag:'moss',      steps:[
-    {s:10, l:'#F1F3EC'}, {s:20, l:'#DEE5D1'}, {s:30, l:'#B8C69A'}, {s:40, l:'#839B55'},
-    {s:50, l:'#6A7D45'}, {s:60, l:'#4E5C33'}, {s:70, l:'#384224'}, {s:80, l:'#1E2B18'},
+  { name:'Aqua',   tag:'aqua',   steps:[
+    {s:5,  l:'#F1FCFE'}, {s:10, l:'#E3F9FC'}, {s:20, l:'#D5F6FB'}, {s:30, l:'#B8ECF5'},
+    {s:40, l:'#98E3F1'}, {s:50, l:'#30C8E3'}, {s:60, l:'#189CB4'}, {s:70, l:'#127587'},
+    {s:80, l:'#0C4E5A'}, {s:90, l:'#09373F'}, {s:95, l:'#041C20'},
   ]},
-  { name:'Helios',    tag:'helios',    steps:[
-    {s:10, l:'#FBFDAA'}, {s:30, l:'#FAFD62'}, {s:50, l:'#FBF500'}, {s:70, l:'#F5E902'}, {s:90, l:'#E8DB00'},
+  { name:'Sun',    tag:'sun',    steps:[
+    {s:10, l:'#FBF500'}, {s:20, l:'#F2EC00'}, {s:30, l:'#E1DC21'}, {s:40, l:'#CBC958'},
+    {s:50, l:'#9E9C51'}, {s:60, l:'#79773D'}, {s:70, l:'#58562F'},
   ]},
 ];
 
