@@ -4,147 +4,179 @@
 
 # Primitive Color Ramps
 
-## Human (replaces Sand)
+## Sun
 
-| Step | Light | Dark |
-|---|---|---|
-| `human-0` | `#FFFFFF` | `#2B2A2C` |
-| `human-10` | `#F9F9F6` | `#333234` |
-| `human-20` | `#F3F3F0` | `#454446` |
-| `human-30` | `#E7E7E1` | `#4D4B4E` |
-| `human-40` | `#D4D5CB` | `#666468` |
-| `human-50` | `#AFAFA5` | `#7B787D` |
-| `human-60` | `#898A7F` | `#A6A4A8` |
-| `human-70` | `#646459` | `#B8B6B9` |
-| `human-80` | `#3E3E33` | `#D9D8D9` |
-| `human-90` | `#1A1A1A` | `#E5E5E6` |
+| Step | Value |
+|---|---|
+| `sun-10` | `#FBF500` |
+| `sun-20` | `#F2EC00` |
+| `sun-30` | `#E1DC21` |
+| `sun-40` | `#CBC958` |
+| `sun-50` | `#9E9C51` |
+| `sun-60` | `#79773D` |
+| `sun-70` | `#58562F` |
 
-## Pebble
+## Stone
 
-| Step | Light | Dark |
-|---|---|---|
-| `pebble-10` | `#F6F2EF` | `#413830` |
-| `pebble-20` | `#E8E2D8` | `#655A4E` |
-| `pebble-30` | `#CDBEA8` | `#756757` |
-| `pebble-40` | `#A7906C` | `#847362` |
-| `pebble-50` | `#867250` | `#A89A8A` |
-| `pebble-60` | `#66583D` | `#C5BBB0` |
-| `pebble-70` | `#493B2C` | `#E9E6E2` |
-| `pebble-80` | `#2F271C` | `#F6F5F3` |
+| Step | Value |
+|---|---|
+| `stone-00` | `#FFFFFF` |
+| `stone-05` | `#F9F9F6` |
+| `stone-10` | `#EFEFEB` |
+| `stone-20` | `#E4E5D9` |
+| `stone-30` | `#CCCDBF` |
+| `stone-40` | `#ABAD99` |
+| `stone-50` | `#767862` |
+| `stone-60` | `#5F6151` |
+| `stone-70` | `#4D4D41` |
+| `stone-80` | `#3C3D33` |
+| `stone-90` | `#2F2F27` |
+| `stone-95` | `#252521` |
+| `stone-100` | `#12120F` |
 
-## Ocean
+## Brown
 
-| Step | Light | Dark |
-|---|---|---|
-| `ocean-10` | `#ECF3FE` | `#253F56` |
-| `ocean-20` | `#DAE5FC` | `#325776` |
-| `ocean-30` | `#A8C3EB` | `#43719D` |
-| `ocean-40` | `#6697C9` | `#6F94B8` |
-| `ocean-50` | `#447AAF` | `#92B0CE` |
-| `ocean-60` | `#2B5782` | `#D4E0F2` |
-| `ocean-70` | `#1D3D58` | `#DCE6FA` |
-| `ocean-80` | `#122536` | `#F1F6FD` |
+| Step | Value |
+|---|---|
+| `brown-05` | `#F7F5F3` |
+| `brown-10` | `#EFEDE6` |
+| `brown-20` | `#E8E2D8` |
+| `brown-30` | `#D9D0BF` |
+| `brown-40` | `#BAA88B` |
+| `brown-50` | `#877250` |
+| `brown-60` | `#65563C` |
+| `brown-70` | `#4F432F` |
+| `brown-80` | `#382F21` |
+| `brown-90` | `#292319` |
+| `brown-95` | `#15120C` |
 
-## Evergreen
+## Green
 
-| Step | Light | Dark |
-|---|---|---|
-| `evergreen-10` | `#EBF4EB` | `#314931` |
-| `evergreen-20` | `#D8E8DA` | `#3E603E` |
-| `evergreen-30` | `#A5CAA9` | `#527A52` |
-| `evergreen-40` | `#62A265` | `#659A69` |
-| `evergreen-50` | `#4B814F` | `#87B089` |
-| `evergreen-60` | `#396039` | `#C7DBCA` |
-| `evergreen-70` | `#274427` | `#E6EFE7` |
-| `evergreen-80` | `#1B2D1B` | `#F2F7F2` |
+| Step | Value |
+|---|---|
+| `green-05` | `#F1FDF3` |
+| `green-10` | `#E5FBE9` |
+| `green-20` | `#CEF8D5` |
+| `green-30` | `#A6F2B2` |
+| `green-40` | `#5FE876` |
+| `green-50` | `#1AB333` |
+| `green-60` | `#138727` |
+| `green-70` | `#0F691E` |
+| `green-80` | `#0B4A15` |
+| `green-90` | `#083710` |
+| `green-95` | `#041C08` |
 
-## Ember
+## Blue
 
-| Step | Light | Dark |
-|---|---|---|
-| `ember-10` | `#F9F1ED` | `#623918` |
-| `ember-20` | `#F3E2D3` | `#7D4721` |
-| `ember-30` | `#E4BC9B` | `#A15E2B` |
-| `ember-40` | `#CE8345` | `#BF7C45` |
-| `ember-50` | `#B16120` | `#CF9F77` |
-| `ember-60` | `#884411` | `#E8D2BF` |
-| `ember-70` | `#602F0C` | `#F4EAE1` |
-| `ember-80` | `#402007` | `#F9F3F1` |
+| Step | Value |
+|---|---|
+| `blue-05` | `#F1F6FE` |
+| `blue-10` | `#E3EDFD` |
+| `blue-20` | `#CBDEFB` |
+| `blue-30` | `#A1C3F7` |
+| `blue-40` | `#69A0F3` |
+| `blue-50` | `#1368E7` |
+| `blue-60` | `#0E4BA7` |
+| `blue-70` | `#0A3576` |
+| `blue-80` | `#072655` |
+| `blue-90` | `#051B3D` |
+| `blue-95` | `#030F22` |
 
-## Rust
+## Orange
 
-| Step | Light | Dark |
-|---|---|---|
-| `rust-10` | `#FFF1EE` | `#692921` |
-| `rust-20` | `#FEDBD7` | `#8F3628` |
-| `rust-30` | `#FEA99F` | `#BA483B` |
-| `rust-40` | `#E86F5F` | `#D37164` |
-| `rust-50` | `#D14532` | `#EE978B` |
-| `rust-60` | `#9E3225` | `#FBBEB6` |
-| `rust-70` | `#6A2419` | `#FDDCD8` |
-| `rust-80` | `#451610` | `#FEEFEC` |
+| Step | Value |
+|---|---|
+| `orange-05` | `#FFF6F0` |
+| `orange-10` | `#FFEDE0` |
+| `orange-20` | `#FFDFC7` |
+| `orange-30` | `#FFCBA3` |
+| `orange-40` | `#FFA35C` |
+| `orange-50` | `#F06800` |
+| `orange-60` | `#B24D00` |
+| `orange-70` | `#8F3E00` |
+| `orange-80` | `#662C00` |
+| `orange-90` | `#4D2100` |
+| `orange-95` | `#230F00` |
 
-## Sakura
+## Red
 
-| Step | Light | Dark |
-|---|---|---|
-| `sakura-10` | `#FBF0FB` | `#5E2C57` |
-| `sakura-20` | `#F6DAF5` | `#793975` |
-| `sakura-30` | `#EAA9E5` | `#A64E9F` |
-| `sakura-40` | `#DA67CF` | `#BF73B8` |
-| `sakura-50` | `#BC44B1` | `#DD97D7` |
-| `sakura-60` | `#8C3485` | `#F1D5EF` |
-| `sakura-70` | `#5F235B` | `#F5E0F4` |
-| `sakura-80` | `#3E1739` | `#FAF0FA` |
+| Step | Value |
+|---|---|
+| `red-05` | `#FFF0F2` |
+| `red-10` | `#FFE6EA` |
+| `red-20` | `#FFD6DC` |
+| `red-30` | `#FFBDC7` |
+| `red-40` | `#FF6B81` |
+| `red-50` | `#FA0026` |
+| `red-60` | `#C2001D` |
+| `red-70` | `#940016` |
+| `red-80` | `#66000F` |
+| `red-90` | `#4C000B` |
+| `red-95` | `#240005` |
 
-## Iris
+## Purple
 
-| Step | Light | Dark |
-|---|---|---|
-| `iris-10` | `#F5F1FD` | `#413168` |
-| `iris-20` | `#E4DCF9` | `#58438E` |
-| `iris-30` | `#C3B8F4` | `#7F66B7` |
-| `iris-40` | `#9D84DC` | `#A190CB` |
-| `iris-50` | `#7F63C5` | `#C1B6DD` |
-| `iris-60` | `#603FAB` | `#DBD1F5` |
-| `iris-70` | `#3F2B73` | `#E5DEF7` |
-| `iris-80` | `#291C4A` | `#F3EEFB` |
+| Step | Value |
+|---|---|
+| `purple-05` | `#F8F2FD` |
+| `purple-10` | `#F3E9FB` |
+| `purple-20` | `#EAD7F9` |
+| `purple-30` | `#DAB8F4` |
+| `purple-40` | `#BE83EC` |
+| `purple-50` | `#9534DF` |
+| `purple-60` | `#701CB0` |
+| `purple-70` | `#541584` |
+| `purple-80` | `#3E0F62` |
+| `purple-90` | `#2D0B47` |
+| `purple-95` | `#14051F` |
 
-## Tropic
+## Pink
 
-| Step | Light | Dark |
-|---|---|---|
-| `tropic-10` | `#EBF4F4` | `#304646` |
-| `tropic-20` | `#D3E7E9` | `#405E5E` |
-| `tropic-30` | `#99CBCC` | `#4D787A` |
-| `tropic-40` | `#5A9EA0` | `#60999A` |
-| `tropic-50` | `#487E7F` | `#7EADAE` |
-| `tropic-60` | `#355D5F` | `#BEDADA` |
-| `tropic-70` | `#294343` | `#DEEBED` |
-| `tropic-80` | `#192929` | `#EFF5F5` |
+| Step | Value |
+|---|---|
+| `pink-05` | `#FFF0FF` |
+| `pink-10` | `#FFE5FF` |
+| `pink-20` | `#FFD1FF` |
+| `pink-30` | `#FFB3FF` |
+| `pink-40` | `#FF6EFF` |
+| `pink-50` | `#FF14FF` |
+| `pink-60` | `#CC00CC` |
+| `pink-70` | `#970097` |
+| `pink-80` | `#660066` |
+| `pink-90` | `#480048` |
+| `pink-95` | `#240024` |
 
-## Moss
+## Lime
 
-| Step | Light | Dark |
-|---|---|---|
-| `moss-10` | `#F1F3EC` | `#36482D` |
-| `moss-20` | `#DEE5D1` | `#535F3A` |
-| `moss-30` | `#B8C69A` | `#68784A` |
-| `moss-40` | `#839B55` | `#84985D` |
-| `moss-50` | `#6A7D45` | `#9AAC77` |
-| `moss-60` | `#4E5C33` | `#CED6BD` |
-| `moss-70` | `#384224` | `#E7EBE0` |
-| `moss-80` | `#1E2B18` | `#F6F7F2` |
+| Step | Value |
+|---|---|
+| `lime-05` | `#F7FEF0` |
+| `lime-10` | `#EBFCD9` |
+| `lime-20` | `#E2FCC0` |
+| `lime-30` | `#D7F9B3` |
+| `lime-40` | `#C4F68D` |
+| `lime-50` | `#8DED26` |
+| `lime-60` | `#69BD0F` |
+| `lime-70` | `#4F8E0B` |
+| `lime-80` | `#345E08` |
+| `lime-90` | `#254205` |
+| `lime-95` | `#132103` |
 
-## Helios (replaces Sunbeam)
+## Aqua
 
-| Step | Light | Dark |
-|---|---|---|
-| `helios-10` | `#FBFDAA` | `#E8DB00` |
-| `helios-30` | `#FAFD62` | `#F5E902` |
-| `helios-50` | `#FBF500` | `#FBF500` |
-| `helios-70` | `#F5E902` | `#FAFD62` |
-| `helios-90` | `#E8DB00` | `#FBFDAA` |
+| Step | Value |
+|---|---|
+| `aqua-05` | `#F1FCFE` |
+| `aqua-10` | `#E3F9FC` |
+| `aqua-20` | `#D5F6FB` |
+| `aqua-30` | `#B8ECF5` |
+| `aqua-40` | `#98E3F1` |
+| `aqua-50` | `#30C8E3` |
+| `aqua-60` | `#189CB4` |
+| `aqua-70` | `#127587` |
+| `aqua-80` | `#0C4E5A` |
+| `aqua-90` | `#09373F` |
+| `aqua-95` | `#041C20` |
 
 ## Alpha
 
@@ -208,39 +240,39 @@
 
 | Token | Light | Alias |
 |---|---|---|
-| `fg/neutral/strong` | `#3E3E33` | human-80 |
-| `fg/neutral/base/default` | `#646459` | human-70 |
-| `fg/neutral/base/disabled` | `#D4D5CB` | human-40 |
-| `fg/neutral/subtle` | `#898A7F` | human-60 |
-| `fg/neutral/muted` | `#AFAFA5` | human-50 |
-| `fg/info/base` | `#646459` | human-70 |
-| `fg/success/base` | `#274427` | evergreen-70 |
-| `fg/success/subtle` | `#396039` | evergreen-60 |
-| `fg/success/muted` | `#4B814F` | evergreen-50 |
-| `fg/warning/base` | `#602F0C` | ember-70 |
-| `fg/warning/subtle` | `#884411` | ember-60 |
-| `fg/warning/muted` | `#B16120` | ember-50 |
-| `fg/destructive/base` | `#6A2419` | rust-70 |
-| `fg/destructive/subtle` | `#9E3225` | rust-60 |
-| `fg/destructive/muted` | `#D14532` | rust-50 |
-| `fg/link/base` | `#1D3D58` | ocean-70 |
-| `fg/link/subtle` | `#2B5782` | ocean-60 |
-| `fg/link/muted/default` | `#447AAF` | ocean-50 |
-| `fg/link/muted/disabled` | `#DAE5FC` | ocean-20 |
-| `fg/inverse/base/default` | `#FFFFFF` | human-0 |
-| `fg/inverse/base/disabled` | `#898A7F` | human-60 |
-| `fg/ai/sakura` | `#DA67CF` | sakura-40 |
-| `fg/ai/ocean` | `#6697C9` | ocean-40 |
-| `fg/color/pebble/base` | `#493B2C` | pebble-70 |
-| `fg/color/pebble/subtle` | `#66583D` | pebble-60 |
-| `fg/color/sakura/base` | `#5F235B` | sakura-70 |
-| `fg/color/sakura/muted` | `#BC44B1` | sakura-50 |
-| `fg/color/iris/base` | `#3F2B73` | iris-70 |
-| `fg/color/iris/muted` | `#7F63C5` | iris-50 |
-| `fg/color/tropic/base` | `#294343` | tropic-70 |
-| `fg/color/tropic/muted` | `#487E7F` | tropic-50 |
-| `fg/color/moss/base` | `#384224` | moss-70 |
-| `fg/color/moss/subtle` | `#4E5C33` | moss-60 |
+| `fg/neutral/strong` | `#3C3D33` | stone-80 |
+| `fg/neutral/base/default` | `#5F6151` | stone-60 |
+| `fg/neutral/base/disabled` | `#CCCDBF` | stone-30 |
+| `fg/neutral/subtle` | `#767862` | stone-50 |
+| `fg/neutral/muted` | `#ABAD99` | stone-40 |
+| `fg/info/base` | `#5F6151` | stone-60 |
+| `fg/success/base` | `#0F691E` | green-70 |
+| `fg/success/subtle` | `#138727` | green-60 |
+| `fg/success/muted` | `#1AB333` | green-50 |
+| `fg/warning/base` | `#8F3E00` | orange-70 |
+| `fg/warning/subtle` | `#B24D00` | orange-60 |
+| `fg/warning/muted` | `#F06800` | orange-50 |
+| `fg/destructive/base` | `#940016` | red-70 |
+| `fg/destructive/subtle` | `#C2001D` | red-60 |
+| `fg/destructive/muted` | `#FA0026` | red-50 |
+| `fg/link/base` | `#0A3576` | blue-70 |
+| `fg/link/subtle` | `#0E4BA7` | blue-60 |
+| `fg/link/muted/default` | `#1368E7` | blue-50 |
+| `fg/link/muted/disabled` | `#CBDEFB` | blue-20 |
+| `fg/inverse/base/default` | `#FFFFFF` | stone-00 |
+| `fg/inverse/base/disabled` | `#767862` | stone-50 |
+| `fg/ai/sakura` | `#FF6EFF` | pink-40 |
+| `fg/ai/ocean` | `#69A0F3` | blue-40 |
+| `fg/color/pebble/base` | `#4F432F` | brown-70 |
+| `fg/color/pebble/subtle` | `#65563C` | brown-60 |
+| `fg/color/sakura/base` | `#970097` | pink-70 |
+| `fg/color/sakura/muted` | `#FF14FF` | pink-50 |
+| `fg/color/iris/base` | `#541584` | purple-70 |
+| `fg/color/iris/muted` | `#9534DF` | purple-50 |
+| `fg/color/tropic/base` | `#127587` | aqua-70 |
+| `fg/color/tropic/muted` | `#30C8E3` | aqua-50 |
+| `fg/color/moss/base` | `#4F8E0B` | lime-70 |
+| `fg/color/moss/subtle` | `#69BD0F` | lime-60 |
 
 ---
 
@@ -250,123 +282,123 @@
 
 | Token | Light | Alias |
 |---|---|---|
-| `bg/brand/base` | `#447AAF` | ocean-50 |
-| `bg/brand/subtle` | `#867250` | pebble-50 |
-| `bg/brand/strong/default` | `#FBF500` | helios-50 |
-| `bg/brand/strong/disabled` | `#F9F9F6` | human-10 |
+| `bg/brand/base` | `#1368E7` | blue-50 |
+| `bg/brand/subtle` | `#877250` | brown-50 |
+| `bg/brand/strong/default` | `#FBF500` | sun-10 |
+| `bg/brand/strong/disabled` | `#F9F9F6` | stone-05 |
 
 ### Neutral
 
 | Token | Light | Alias |
 |---|---|---|
-| `bg/neutral/base/default` | `#FFFFFF` | human-0 |
-| `bg/neutral/base/active` | `#F6F2EF` | pebble-10 |
-| `bg/neutral/base/disabled` | `#FFFFFF` | human-0 |
-| `bg/neutral/subtle/default` | `#F9F9F6` | human-10 |
-| `bg/neutral/subtle/active` | `#E8E2D8` | pebble-20 |
-| `bg/neutral/subtle/active-disabled` | `#F6F2EF` | pebble-10 |
-| `bg/neutral/subtle/disabled` | `#F9F9F6` | human-10 |
-| `bg/neutral/muted/default` | `#F3F3F0` | human-20 |
-| `bg/neutral/muted/disabled` | `#F3F3F0` | human-20 |
-| `bg/neutral/reversed/strong/default` | `#3E3E33` | human-80 |
-| `bg/neutral/reversed/strong/disabled` | `#E7E7E1` | human-30 |
-| `bg/neutral/reversed/base/default` | `#646459` | human-70 |
-| `bg/neutral/reversed/base/disabled` | `#646459` | human-70 |
-| `bg/neutral/reversed/muted/default` | `#E7E7E1` | human-30 |
-| `bg/neutral/reversed/muted/disabled` | `#F3F3F0` | human-20 |
+| `bg/neutral/base/default` | `#FFFFFF` | stone-00 |
+| `bg/neutral/base/active` | `#EFEDE6` | brown-10 |
+| `bg/neutral/base/disabled` | `#FFFFFF` | stone-00 |
+| `bg/neutral/subtle/default` | `#F9F9F6` | stone-05 |
+| `bg/neutral/subtle/active` | `#E8E2D8` | brown-20 |
+| `bg/neutral/subtle/active-disabled` | `#EFEDE6` | brown-10 |
+| `bg/neutral/subtle/disabled` | `#F9F9F6` | stone-05 |
+| `bg/neutral/muted/default` | `#EFEFEB` | stone-10 |
+| `bg/neutral/muted/disabled` | `#EFEFEB` | stone-10 |
+| `bg/neutral/reversed/strong/default` | `#3C3D33` | stone-80 |
+| `bg/neutral/reversed/strong/disabled` | `#E4E5D9` | stone-20 |
+| `bg/neutral/reversed/base/default` | `#5F6151` | stone-60 |
+| `bg/neutral/reversed/base/disabled` | `#5F6151` | stone-60 |
+| `bg/neutral/reversed/muted/default` | `#E4E5D9` | stone-20 |
+| `bg/neutral/reversed/muted/disabled` | `#EFEFEB` | stone-10 |
 
 ### Selection
 
 | Token | Light | Alias |
 |---|---|---|
-| `bg/selection/on/base/default` | `#3E3E33` | human-80 |
-| `bg/selection/on/base/disabled` | `#898A7F` | human-60 |
-| `bg/selection/on/subtle/disabled` | `#D4D5CB` | human-40 |
-| `bg/selection/off/base/default` | `#D4D5CB` | human-40 |
-| `bg/selection/off/base/disabled` | `#E7E7E1` | human-30 |
+| `bg/selection/on/base/default` | `#3C3D33` | stone-80 |
+| `bg/selection/on/base/disabled` | `#767862` | stone-50 |
+| `bg/selection/on/subtle/disabled` | `#CCCDBF` | stone-30 |
+| `bg/selection/off/base/default` | `#CCCDBF` | stone-30 |
+| `bg/selection/off/base/disabled` | `#E4E5D9` | stone-20 |
 
 ### Info
 
 | Token | Light | Alias |
 |---|---|---|
-| `bg/info/base/default` | `#AFAFA5` | human-50 |
-| `bg/info/base/disabled` | `#F9F9F6` | human-10 |
-| `bg/info/subtle/default` | `#F3F3F0` | human-20 |
-| `bg/info/subtle/disabled` | `#F9F9F6` | human-10 |
-| `bg/info/muted/default` | `#F9F9F6` | human-10 |
-| `bg/info/muted/disabled` | `#FFFFFF` | human-0 |
+| `bg/info/base/default` | `#ABAD99` | stone-40 |
+| `bg/info/base/disabled` | `#F9F9F6` | stone-05 |
+| `bg/info/subtle/default` | `#EFEFEB` | stone-10 |
+| `bg/info/subtle/disabled` | `#F9F9F6` | stone-05 |
+| `bg/info/muted/default` | `#F9F9F6` | stone-05 |
+| `bg/info/muted/disabled` | `#FFFFFF` | stone-00 |
 
 ### Success
 
 | Token | Light | Alias |
 |---|---|---|
-| `bg/success/base/default` | `#4B814F` | evergreen-50 |
-| `bg/success/base/disabled` | `#F9F9F6` | human-10 |
-| `bg/success/subtle/default` | `#D8E8DA` | evergreen-20 |
-| `bg/success/subtle/disabled` | `#F9F9F6` | human-10 |
-| `bg/success/muted/default` | `#EBF4EB` | evergreen-10 |
-| `bg/success/muted/disabled` | `#FFFFFF` | human-0 |
+| `bg/success/base/default` | `#1AB333` | green-50 |
+| `bg/success/base/disabled` | `#F9F9F6` | stone-05 |
+| `bg/success/subtle/default` | `#CEF8D5` | green-20 |
+| `bg/success/subtle/disabled` | `#F9F9F6` | stone-05 |
+| `bg/success/muted/default` | `#E5FBE9` | green-10 |
+| `bg/success/muted/disabled` | `#FFFFFF` | stone-00 |
 
 ### Warning
 
 | Token | Light | Alias |
 |---|---|---|
-| `bg/warning/base/default` | `#B16120` | ember-50 |
-| `bg/warning/base/disabled` | `#F9F9F6` | human-10 |
-| `bg/warning/subtle/default` | `#F3E2D3` | ember-20 |
-| `bg/warning/subtle/disabled` | `#F9F9F6` | human-10 |
-| `bg/warning/muted/default` | `#F9F1ED` | ember-10 |
-| `bg/warning/muted/disabled` | `#FFFFFF` | human-0 |
+| `bg/warning/base/default` | `#F06800` | orange-50 |
+| `bg/warning/base/disabled` | `#F9F9F6` | stone-05 |
+| `bg/warning/subtle/default` | `#FFDFC7` | orange-20 |
+| `bg/warning/subtle/disabled` | `#F9F9F6` | stone-05 |
+| `bg/warning/muted/default` | `#FFEDE0` | orange-10 |
+| `bg/warning/muted/disabled` | `#FFFFFF` | stone-00 |
 
 ### Destructive
 
 | Token | Light | Alias |
 |---|---|---|
-| `bg/destructive/base/default` | `#D14532` | rust-50 |
-| `bg/destructive/base/disabled` | `#F9F9F6` | human-10 |
-| `bg/destructive/subtle/default` | `#FEDBD7` | rust-20 |
-| `bg/destructive/subtle/disabled` | `#F9F9F6` | human-10 |
-| `bg/destructive/muted/default` | `#FFF1EE` | rust-10 |
-| `bg/destructive/muted/disabled` | `#FFFFFF` | human-0 |
+| `bg/destructive/base/default` | `#FA0026` | red-50 |
+| `bg/destructive/base/disabled` | `#F9F9F6` | stone-05 |
+| `bg/destructive/subtle/default` | `#FFD6DC` | red-20 |
+| `bg/destructive/subtle/disabled` | `#F9F9F6` | stone-05 |
+| `bg/destructive/muted/default` | `#FFE6EA` | red-10 |
+| `bg/destructive/muted/disabled` | `#FFFFFF` | stone-00 |
 
 ### Status
 
 | Token | Light | Alias |
 |---|---|---|
-| `bg/status/in-progress/base/default` | `#2B5782` | ocean-60 |
-| `bg/status/in-progress/subtle/default` | `#DAE5FC` | ocean-20 |
-| `bg/status/incomplete/base/default` | `#898A7F` | human-60 |
-| `bg/status/incomplete/subtle/default` | `#F3F3F0` | human-20 |
-| `bg/status/error/base/default` | `#9E3225` | rust-60 |
-| `bg/status/error/subtle/default` | `#FEDBD7` | rust-20 |
-| `bg/status/completed/base/default` | `#62A265` | evergreen-40 |
+| `bg/status/in-progress/base/default` | `#0E4BA7` | blue-60 |
+| `bg/status/in-progress/subtle/default` | `#CBDEFB` | blue-20 |
+| `bg/status/incomplete/base/default` | `#767862` | stone-50 |
+| `bg/status/incomplete/subtle/default` | `#EFEFEB` | stone-10 |
+| `bg/status/error/base/default` | `#C2001D` | red-60 |
+| `bg/status/error/subtle/default` | `#FFD6DC` | red-20 |
+| `bg/status/completed/base/default` | `#5FE876` | green-40 |
 
 ### AI
 
 | Token | Light | Alias |
 |---|---|---|
-| `bg/ai/sakura/base/default` | `#DA67CF` | sakura-40 |
-| `bg/ai/sakura/base/disabled` | `#F9F9F6` | human-10 |
-| `bg/ai/ocean/base/default` | `#6697C9` | ocean-40 |
-| `bg/ai/ocean/base/disabled` | `#F9F9F6` | human-10 |
+| `bg/ai/sakura/base/default` | `#FF6EFF` | pink-40 |
+| `bg/ai/sakura/base/disabled` | `#F9F9F6` | stone-05 |
+| `bg/ai/ocean/base/default` | `#69A0F3` | blue-40 |
+| `bg/ai/ocean/base/disabled` | `#F9F9F6` | stone-05 |
 
 ### Color
 
 | Token | Light | Alias |
 |---|---|---|
-| `bg/color/human` | `#3E3E33` | human-80 |
-| `bg/color/evergreen` | `#274427` | evergreen-70 |
-| `bg/color/pebble` | `#493B2C` | pebble-70 |
-| `bg/color/pebble/subtle/default` | `#E8E2D8` | pebble-20 |
-| `bg/color/ocean` | `#1D3D58` | ocean-70 |
-| `bg/color/ocean/subtle/default` | `#DAE5FC` | ocean-20 |
-| `bg/color/tropic/subtle/default` | `#D3E7E9` | tropic-20 |
-| `bg/color/sakura` | `#5F235B` | sakura-70 |
-| `bg/color/sakura/subtle/default` | `#F6DAF5` | sakura-20 |
-| `bg/color/iris` | `#3F2B73` | iris-70 |
-| `bg/color/iris/subtle/default` | `#E4DCF9` | iris-20 |
-| `bg/color/iris/muted/default` | `#F5F1FD` | iris-10 |
-| `bg/color/moss/subtle/default` | `#DEE5D1` | moss-20 |
+| `bg/color/human` | `#3C3D33` | stone-80 |
+| `bg/color/evergreen` | `#0F691E` | green-70 |
+| `bg/color/pebble` | `#4F432F` | brown-70 |
+| `bg/color/pebble/subtle/default` | `#E8E2D8` | brown-20 |
+| `bg/color/ocean` | `#0A3576` | blue-70 |
+| `bg/color/ocean/subtle/default` | `#CBDEFB` | blue-20 |
+| `bg/color/tropic/subtle/default` | `#D5F6FB` | aqua-20 |
+| `bg/color/sakura` | `#970097` | pink-70 |
+| `bg/color/sakura/subtle/default` | `#FFD1FF` | pink-20 |
+| `bg/color/iris` | `#541584` | purple-70 |
+| `bg/color/iris/subtle/default` | `#EAD7F9` | purple-20 |
+| `bg/color/iris/muted/default` | `#F3E9FB` | purple-10 |
+| `bg/color/moss/subtle/default` | `#E2FCC0` | lime-20 |
 
 ### Alpha
 
@@ -385,35 +417,35 @@
 
 | Token | Light | Alias |
 |---|---|---|
-| `border/neutral/muted` | `#F9F9F6` | human-10 |
-| `border/neutral/subtle/default` | `#F3F3F0` | human-20 |
-| `border/neutral/base/default` | `#E7E7E1` | human-30 |
-| `border/neutral/base/active` | `#CDBEA8` | pebble-30 |
-| `border/neutral/base/disabled` | `#F3F3F0` | human-20 |
-| `border/neutral/strong/default` | `#3E3E33` | human-80 |
-| `border/neutral/strong/disabled` | `#898A7F` | human-60 |
+| `border/neutral/muted` | `#F9F9F6` | stone-05 |
+| `border/neutral/subtle/default` | `#EFEFEB` | stone-10 |
+| `border/neutral/base/default` | `#E4E5D9` | stone-20 |
+| `border/neutral/base/active` | `#D9D0BF` | brown-30 |
+| `border/neutral/base/disabled` | `#EFEFEB` | stone-10 |
+| `border/neutral/strong/default` | `#3C3D33` | stone-80 |
+| `border/neutral/strong/disabled` | `#767862` | stone-50 |
 
 ### Semantic
 
 | Token | Light | Alias |
 |---|---|---|
-| `border/destructive/base` | `#D14532` | rust-50 |
-| `border/destructive/subtle` | `#E86F5F` | rust-40 |
-| `border/inverse/base` | `#FFFFFF` | human-0 |
-| `border/focus/base` | `#7F63C5` | iris-50 |
-| `border/brand/strong` | `#F5E902` | helios-70 |
-| `border/brand/base` | `#CDBEA8` | pebble-30 |
-| `border/link/base/default` | `#A8C3EB` | ocean-30 |
-| `border/link/base/disabled` | `#ECF3FE` | ocean-10 |
+| `border/destructive/base` | `#FA0026` | red-50 |
+| `border/destructive/subtle` | `#FF6B81` | red-40 |
+| `border/inverse/base` | `#FFFFFF` | stone-00 |
+| `border/focus/base` | `#9534DF` | purple-50 |
+| `border/brand/strong` | `#F2EC00` | sun-20 |
+| `border/brand/base` | `#D9D0BF` | brown-30 |
+| `border/link/base/default` | `#A1C3F7` | blue-30 |
+| `border/link/base/disabled` | `#E3EDFD` | blue-10 |
 
 ### AI
 
 | Token | Light | Alias |
 |---|---|---|
-| `border/ai/sakura/base` | `#EAA9E5` | sakura-30 |
-| `border/ai/sakura/subtle` | `#F6DAF5` | sakura-20 |
-| `border/ai/ocean/base` | `#A8C3EB` | ocean-30 |
-| `border/ai/iris/subtle` | `#E4DCF9` | iris-20 |
+| `border/ai/sakura/base` | `#FFB3FF` | pink-30 |
+| `border/ai/sakura/subtle` | `#FFD1FF` | pink-20 |
+| `border/ai/ocean/base` | `#A1C3F7` | blue-30 |
+| `border/ai/iris/subtle` | `#EAD7F9` | purple-20 |
 
 ---
 
