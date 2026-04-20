@@ -674,9 +674,13 @@ function buildColorPrims() {
   colorRamps.forEach(ramp => {
     const row = document.createElement('div');
     row.className = 'color-ramp-row';
-    const swatchesHtml = ramp.steps.map(step => {
+    const swatchesHtml = ramp.steps.map((step, i) => {
+      const hoverStep = ramp.steps[i + 1] || step;
+      const pressStep = ramp.steps[i + 2] || hoverStep;
       const labelColor = lum(step.l) > 0.4 ? 'rgba(0,0,0,0.4)' : 'rgba(255,255,255,0.75)';
-      return `<div class="color-ramp-swatch" style="background:${step.l};" title="${ramp.tag}-${step.s} · ${step.l}"><span class="ramp-step" style="color:${labelColor};">${step.s}</span></div>`;
+      const hoverLabel = lum(hoverStep.l) > 0.4 ? 'rgba(0,0,0,0.4)' : 'rgba(255,255,255,0.75)';
+      const pressLabel = lum(pressStep.l) > 0.4 ? 'rgba(0,0,0,0.4)' : 'rgba(255,255,255,0.75)';
+      return `<div class="color-ramp-swatch" style="background:${step.l};" title="${ramp.tag}-${step.s} · ${step.l}" data-default="${step.l}" data-default-s="${step.s}" data-label-default="${labelColor}" data-hover="${hoverStep.l}" data-hover-s="${hoverStep.s}" data-label-hover="${hoverLabel}" data-press="${pressStep.l}" data-press-s="${pressStep.s}" data-label-press="${pressLabel}"><span class="ramp-state" style="color:${labelColor};"></span><span class="ramp-step" style="color:${labelColor};">${step.s}</span></div>`;
     }).join('');
     row.innerHTML = `
       <div class="color-ramp-meta">
@@ -684,6 +688,38 @@ function buildColorPrims() {
         <span class="color-ramp-tag">${ramp.tag}</span>
       </div>
       <div class="color-ramp-swatches">${swatchesHtml}</div>`;
+    row.querySelectorAll('.color-ramp-swatch').forEach(el => {
+      const stateEl = el.querySelector('.ramp-state');
+      const stepEl = el.querySelector('.ramp-step');
+      el.addEventListener('mouseenter', () => {
+        el.style.background = el.dataset.hover;
+        stepEl.style.color = el.dataset.labelHover;
+        stepEl.textContent = el.dataset.hoverS;
+        stateEl.style.color = el.dataset.labelHover;
+        stateEl.textContent = 'hover';
+        stateEl.style.opacity = '1';
+      });
+      el.addEventListener('mouseleave', () => {
+        el.style.background = el.dataset.default;
+        stepEl.style.color = el.dataset.labelDefault;
+        stepEl.textContent = el.dataset.defaultS;
+        stateEl.style.opacity = '0';
+      });
+      el.addEventListener('mousedown', () => {
+        el.style.background = el.dataset.press;
+        stepEl.style.color = el.dataset.labelPress;
+        stepEl.textContent = el.dataset.pressS;
+        stateEl.style.color = el.dataset.labelPress;
+        stateEl.textContent = 'press';
+      });
+      el.addEventListener('mouseup', () => {
+        el.style.background = el.dataset.hover;
+        stepEl.style.color = el.dataset.labelHover;
+        stepEl.textContent = el.dataset.hoverS;
+        stateEl.style.color = el.dataset.labelHover;
+        stateEl.textContent = 'hover';
+      });
+    });
     grid.appendChild(row);
   });
 }

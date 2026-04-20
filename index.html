@@ -755,8 +755,9 @@
   .color-ramp-name { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 5px; }
   .color-ramp-tag { font-family: monospace; font-size: 10px; color: var(--text-tertiary); background: var(--c2); padding: 1px 6px; border-radius: 3px; display: inline-block; }
   .color-ramp-swatches { display: flex; flex: 1; }
-  .color-ramp-swatch { flex: 1; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 6px; position: relative; overflow: hidden; }
+  .color-ramp-swatch { flex: 1; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 6px; position: relative; overflow: hidden; transition: background 0.1s ease; cursor: default; user-select: none; }
   .ramp-step { font-size: 9px; font-weight: 700; letter-spacing: 0; pointer-events: none; position: relative; z-index: 1; }
+  .ramp-state { font-size: 8px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; pointer-events: none; position: absolute; top: 5px; left: 0; right: 0; text-align: center; opacity: 0; transition: opacity 0.1s; z-index: 1; }
   .ramp-legend-row  { display: flex; align-items: center; gap: 18px; margin-bottom: 10px; }
   .ramp-legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-tertiary); }
   .ramp-legend-pip  { width: 10px; height: 10px; border-radius: 2px; border: 1px solid var(--border); }
@@ -1748,14 +1749,57 @@ function buildColorPrims() {
   colorRamps.forEach(ramp => {
     const row = document.createElement('div');
     row.className = 'color-ramp-row';
-    const swatchesHtml = ramp.steps.map(step => {
+    const swatchesHtml = ramp.steps.map((step, i) => {
+      const hoverStep = ramp.steps[i + 1] || step;
+      const pressStep = ramp.steps[i + 2] || hoverStep;
       const labelColor = lum(step.l) > 0.4 ? 'rgba(0,0,0,0.4)' : 'rgba(255,255,255,0.75)';
-      return `<div class="color-ramp-swatch" style="background:${step.l};"
-        title="${ramp.tag}/${step.s} · ${step.l}">
+      const hoverLabel = lum(hoverStep.l) > 0.4 ? 'rgba(0,0,0,0.4)' : 'rgba(255,255,255,0.75)';
+      const pressLabel = lum(pressStep.l) > 0.4 ? 'rgba(0,0,0,0.4)' : 'rgba(255,255,255,0.75)';
+      return `<div class="color-ramp-swatch"
+        style="background:${step.l};"
+        title="${ramp.tag}/${step.s} · ${step.l}"
+        data-default="${step.l}" data-default-s="${step.s}" data-label-default="${labelColor}"
+        data-hover="${hoverStep.l}" data-hover-s="${hoverStep.s}" data-label-hover="${hoverLabel}"
+        data-press="${pressStep.l}" data-press-s="${pressStep.s}" data-label-press="${pressLabel}">
+        <span class="ramp-state" style="color:${labelColor};"></span>
         <span class="ramp-step" style="color:${labelColor};">${step.s}</span>
       </div>`;
     }).join('');
     row.innerHTML = `<div class="color-ramp-meta"><div class="color-ramp-name">${ramp.name}</div><span class="color-ramp-tag">${ramp.tag}</span></div><div class="color-ramp-swatches">${swatchesHtml}</div>`;
+
+    row.querySelectorAll('.color-ramp-swatch').forEach(el => {
+      const stateEl = el.querySelector('.ramp-state');
+      const stepEl = el.querySelector('.ramp-step');
+      el.addEventListener('mouseenter', () => {
+        el.style.background = el.dataset.hover;
+        stepEl.style.color = el.dataset.labelHover;
+        stepEl.textContent = el.dataset.hoverS;
+        stateEl.style.color = el.dataset.labelHover;
+        stateEl.textContent = 'hover';
+        stateEl.style.opacity = '1';
+      });
+      el.addEventListener('mouseleave', () => {
+        el.style.background = el.dataset.default;
+        stepEl.style.color = el.dataset.labelDefault;
+        stepEl.textContent = el.dataset.defaultS;
+        stateEl.style.opacity = '0';
+      });
+      el.addEventListener('mousedown', () => {
+        el.style.background = el.dataset.press;
+        stepEl.style.color = el.dataset.labelPress;
+        stepEl.textContent = el.dataset.pressS;
+        stateEl.style.color = el.dataset.labelPress;
+        stateEl.textContent = 'press';
+      });
+      el.addEventListener('mouseup', () => {
+        el.style.background = el.dataset.hover;
+        stepEl.style.color = el.dataset.labelHover;
+        stepEl.textContent = el.dataset.hoverS;
+        stateEl.style.color = el.dataset.labelHover;
+        stateEl.textContent = 'hover';
+      });
+    });
+
     grid.appendChild(row);
   });
 }
