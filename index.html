@@ -158,6 +158,67 @@
   .card-arrow { position:absolute; bottom:24px; right:22px; font-size:15px; color:var(--text-tertiary); transition:color .15s,transform .15s; }
   .phase-card:not(.disabled):hover .card-arrow { color:var(--text-primary); transform:translate(2px,-2px); }
 
+  /* ══ REPORTING SECTION ══ */
+  .home-section-divider {
+    display: flex; align-items: center; gap: 12px;
+    margin-top: 36px; margin-bottom: 16px;
+  }
+  .home-section-divider-label {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1px; color: var(--text-tertiary); white-space: nowrap;
+  }
+  .home-section-divider-line {
+    flex: 1; height: 1px; background: var(--c3);
+  }
+
+  .analytics-card {
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--c1); border: 2px solid var(--c0);
+    border-radius: 10px; padding: 24px 28px;
+    cursor: pointer; text-decoration: none; color: inherit;
+    box-shadow: 0 2px 12px rgba(26,26,26,0.07);
+    opacity: 0; animation: cardUp 0.5s cubic-bezier(0.22,1,0.36,1) 0.35s forwards;
+    transition: box-shadow 0.2s, background 0.2s, transform 0.15s;
+  }
+  .analytics-card:hover {
+    background: var(--c0); box-shadow: 0 2px 6px rgba(26,26,26,0.13);
+    transform: translateY(-2px);
+  }
+  .analytics-card:hover .card-arrow-inline { color: var(--text-primary); transform: translate(2px,-2px); }
+
+  .analytics-card-left { display: flex; align-items: center; gap: 20px; }
+  .analytics-symbol-wrap {
+    width: 44px; height: 44px; border-radius: 8px; flex-shrink: 0;
+    background: var(--c3); display: flex; align-items: center; justify-content: center;
+  }
+
+  .analytics-card-text { display: flex; flex-direction: column; gap: 4px; }
+  .analytics-card-title {
+    font-family: var(--font-display); font-size: 20px; font-weight: 400;
+    letter-spacing: -0.3px; color: var(--text-primary);
+  }
+  .analytics-card-desc { font-size: 12.5px; color: var(--text-secondary); line-height: 1.5; }
+
+  .analytics-card-right { display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
+  .analytics-live-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 11px; font-weight: 600; color: var(--pass);
+    background: var(--pass-bg); border: 1px solid var(--pass-border);
+    border-radius: 3px; padding: 3px 9px;
+  }
+  .analytics-live-dot {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--pass);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  .card-arrow-inline {
+    font-size: 16px; color: var(--text-tertiary);
+    transition: color .15s, transform .15s;
+  }
+
   /* ══ SANDBOX BUTTON ══ */
   .sandbox-btn-wrap {
     display: flex; justify-content: center;
@@ -852,6 +913,34 @@
         <div class="card-arrow">↗</div>
       </div>
     </div>
+    <div class="home-section-divider">
+      <span class="home-section-divider-label">Reporting</span>
+      <div class="home-section-divider-line"></div>
+    </div>
+
+    <a class="analytics-card" href="./analytics.html">
+      <div class="analytics-card-left">
+        <div class="analytics-symbol-wrap">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="13" width="4" height="7" rx="1" fill="var(--c8)"/>
+            <rect x="9" y="8" width="4" height="12" rx="1" fill="var(--c7)"/>
+            <rect x="16" y="3" width="4" height="17" rx="1" fill="var(--c5)"/>
+          </svg>
+        </div>
+        <div class="analytics-card-text">
+          <span class="analytics-card-title">Token Analytics</span>
+          <span class="analytics-card-desc">Live adoption dashboard — color, typography, and spacing token usage across all 8 Apollo Figma teams.</span>
+        </div>
+      </div>
+      <div class="analytics-card-right">
+        <span class="analytics-live-badge">
+          <span class="analytics-live-dot"></span>
+          Live
+        </span>
+        <span class="card-arrow-inline">↗</span>
+      </div>
+    </a>
+
     <div class="sandbox-btn-wrap">
       <button class="sandbox-btn" onclick="window.location.href='./sandbox.html'">
         Enter Sandbox

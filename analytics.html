@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Token Analytics · Fabric</title>
+<style>
+@font-face { font-family:'ABCDiatype'; font-weight:400; src:url('fonts/ABCDiatype-400-normal.otf') format('opentype'); }
+@font-face { font-family:'ABCDiatype'; font-weight:500; src:url('fonts/ABCDiatype-500-normal.otf') format('opentype'); }
+@font-face { font-family:'ABCDiatype'; font-weight:700; src:url('fonts/ABCDiatype-700-normal.otf') format('opentype'); }
+@font-face { font-family:'FoundersGrotesk'; font-weight:400; src:url('fonts/FoundersGrotesk-400-normal.otf') format('opentype'); }
+@font-face { font-family:'FoundersGrotesk'; font-weight:500; src:url('fonts/FoundersGrotesk-500-normal.otf') format('opentype'); }
+
+:root {
+  --c0:#FFFFFF;--c1:#F9F9F6;--c2:#F3F3F0;--c3:#E7E7E1;--c4:#D4D5CB;
+  --c5:#C3C3B3;--c6:#878675;--c7:#6B6758;--c8:#504E41;--c9:#3E3E33;--c10:#1A1A1A;
+  --bg-page:var(--c2);--border:var(--c3);
+  --text-primary:var(--c10);--text-secondary:var(--c7);--text-tertiary:var(--c6);
+  --radius:5px;--radius-lg:8px;
+  --shadow:0 1px 3px rgba(26,26,26,0.08);
+  --font-ui:'ABCDiatype',-apple-system,sans-serif;
+  --font-display:'FoundersGrotesk',sans-serif;
+  --pass:#1A6640;--pass-bg:#EEF7F2;--pass-border:#B0DBBF;
+  --sem-color:#0E4BA7;--sem-bg:#EFF4FE;--sem-border:#CBDEFB;
+  --prim-color:#541584;--prim-bg:#F8F2FD;--prim-border:#DAB8F4;
+  --nf-color:var(--c7);--nf-bg:var(--c3);--nf-border:var(--c4);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--font-ui);background:var(--bg-page);color:var(--text-primary);font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased;}
+
+/* ─── NAV ─── */
+.top-nav{position:sticky;top:0;z-index:100;background:rgba(243,243,240,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;height:48px;}
+.nav-left{display:flex;align-items:center;gap:14px;}
+.nav-back{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:500;color:var(--text-secondary);text-decoration:none;padding:4px 8px;border-radius:var(--radius);transition:background .15s,color .15s;}
+.nav-back:hover{background:var(--c3);color:var(--text-primary);}
+.nav-divider{width:1px;height:16px;background:var(--c4);}
+.nav-title{font-family:var(--font-display);font-size:14px;font-weight:400;letter-spacing:-0.2px;}
+.nav-pill{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--c8);background:var(--c3);border:1px solid var(--c4);border-radius:3px;padding:2px 7px;}
+.sync-label{font-size:11px;color:var(--text-tertiary);}
+
+/* ─── LAYOUT ─── */
+.wrap{max-width:1040px;margin:0 auto;padding:44px 28px 80px;}
+.eyebrow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--c8);margin-bottom:8px;}
+.heading{font-family:var(--font-display);font-size:28px;font-weight:400;letter-spacing:-0.6px;line-height:36px;margin-bottom:8px;}
+.subhead{font-size:13px;color:var(--text-secondary);margin-bottom:6px;max-width:560px;line-height:1.6;}
+.data-note{font-size:11px;color:var(--text-tertiary);margin-bottom:36px;line-height:1.6;max-width:600px;}
+.data-note em{font-style:normal;font-weight:600;color:var(--c8);}
+
+/* ─── 2×2 KPI GRID ─── */
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:40px;}
+.kpi-card{background:var(--c1);border:1px solid var(--border);border-radius:var(--radius-lg);padding:22px 24px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:0;}
+.kpi-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--text-tertiary);margin-bottom:10px;}
+.kpi-row{display:flex;align-items:baseline;gap:8px;margin-bottom:12px;}
+.kpi-value{font-family:var(--font-display);font-size:38px;font-weight:400;letter-spacing:-1.5px;line-height:1;}
+.kpi-value.green{color:var(--pass);}
+.kpi-value.blue{color:var(--sem-color);}
+.kpi-value.purple{color:var(--prim-color);}
+.kpi-sub{font-size:12px;font-weight:500;color:var(--text-secondary);}
+.kpi-rule{width:100%;height:1px;background:var(--c3);margin-bottom:12px;}
+.kpi-desc{font-size:11px;color:var(--text-tertiary);line-height:1.6;}
+.kpi-desc strong{font-weight:600;color:var(--c8);}
+
+/* ─── SECTION HEADS ─── */
+.section-head{display:flex;align-items:baseline;gap:10px;margin-bottom:16px;margin-top:40px;}
+.section-title{font-family:var(--font-display);font-size:17px;font-weight:400;letter-spacing:-0.3px;}
+.section-note{font-size:11px;color:var(--text-tertiary);}
+
+/* ─── TOKEN HEALTH GRID ─── */
+.health-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:0;}
+.health-card{background:var(--c1);border:1px solid var(--border);border-radius:var(--radius-lg);padding:22px 24px;box-shadow:var(--shadow);}
+.health-bar-track{height:10px;border-radius:10px;overflow:hidden;display:flex;background:var(--c3);margin-bottom:10px;}
+.health-bar-sem{height:100%;background:var(--sem-color);transition:width .6s cubic-bezier(.22,1,.36,1);}
+.health-bar-prim{height:100%;background:var(--prim-color);transition:width .6s cubic-bezier(.22,1,.36,1);}
+.health-legend{display:flex;gap:12px;flex-wrap:wrap;}
+.health-leg-item{font-size:11px;color:var(--text-tertiary);}
+.health-leg-item.sem::before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--sem-color);margin-right:4px;vertical-align:middle;}
+.health-leg-item.prim::before{content:'';display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--prim-color);margin-right:4px;vertical-align:middle;}
+
+/* ─── COLLECTIONS TABLE ─── */
+.col-table-wrap{background:var(--c1);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow);overflow:hidden;}
+.col-table{width:100%;border-collapse:collapse;font-size:12px;}
+.col-table th{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text-tertiary);padding:10px 16px;text-align:left;border-bottom:1px solid var(--border);background:var(--c2);}
+.col-table td{padding:9px 16px;border-bottom:1px solid var(--c3);vertical-align:middle;}
+.col-table tr:last-child td{border-bottom:none;}
+.col-table tr:hover td{background:var(--c2);}
+.tier-badge{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;padding:2px 6px;border-radius:3px;border:1px solid;display:inline-block;white-space:nowrap;}
+.tier-sem{background:var(--sem-bg);color:var(--sem-color);border-color:var(--sem-border);}
+.tier-prim{background:var(--prim-bg);color:var(--prim-color);border-color:var(--prim-border);}
+.tier-other{background:var(--c3);color:var(--c7);border-color:var(--c4);}
+
+/* ─── LEGEND ─── */
+.legend{display:flex;align-items:center;gap:18px;margin-bottom:20px;}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-secondary);}
+.legend-dot{width:8px;height:8px;border-radius:50%;}
+.dot-sem{background:var(--sem-color);}
+.dot-prim{background:var(--prim-color);}
+.dot-nf{background:var(--c5);}
+
+/* ─── TEAM CARDS ─── */
+.team-list{display:flex;flex-direction:column;gap:12px;}
+.team-card{background:var(--c1);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow);overflow:hidden;}
+.team-head{display:flex;align-items:center;justify-content:space-between;padding:16px 22px;cursor:pointer;user-select:none;transition:background .15s;}
+.team-head:hover{background:var(--c2);}
+.team-name{font-family:var(--font-display);font-size:15px;font-weight:400;letter-spacing:-0.2px;}
+.team-meta{display:flex;align-items:center;gap:12px;}
+.team-stat{font-size:12px;color:var(--text-secondary);}
+.team-stat .hi{color:var(--pass);font-weight:600;}
+.team-stat .lo{color:var(--text-tertiary);}
+.team-chevron{font-size:12px;color:var(--text-tertiary);transition:transform .2s;}
+.team-card.open .team-chevron{transform:rotate(180deg);}
+.team-body{display:none;padding:0 22px 20px;}
+.team-card.open .team-body{display:block;}
+
+/* ─── CATEGORY ROWS ─── */
+.cat-rows{display:flex;flex-direction:column;gap:18px;padding-top:18px;}
+.cat-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px;}
+.cat-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--text-tertiary);}
+.cat-counts{font-size:11px;color:var(--text-secondary);}
+.cat-counts strong{font-weight:600;color:var(--text-primary);}
+.cat-counts .fabric{color:var(--pass);}
+
+/* ─── STACKED BAR ─── */
+.stack-track{height:8px;background:var(--c3);border-radius:10px;overflow:hidden;display:flex;margin-bottom:8px;}
+.stack-seg{height:100%;transition:width .6s cubic-bezier(.22,1,.36,1);}
+.seg-sem{background:var(--sem-color);}
+.seg-prim{background:var(--prim-color);}
+.seg-nf{background:var(--c5);}
+
+/* ─── CHIPS ─── */
+.breakdown{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.bchip{font-size:11px;padding:2px 8px;border-radius:3px;border:1px solid;font-weight:500;}
+.bchip-sem{background:var(--sem-bg);color:var(--sem-color);border-color:var(--sem-border);}
+.bchip-prim{background:var(--prim-bg);color:var(--prim-color);border-color:var(--prim-border);}
+.bchip-nf{background:var(--nf-bg);color:var(--nf-color);border-color:var(--nf-border);}
+.bchip-none{background:var(--c3);color:var(--c6);border-color:var(--c4);font-style:italic;}
+
+/* ─── TEAM COLLECTIONS ─── */
+.team-cols{margin-top:18px;padding-top:16px;border-top:1px solid var(--c3);}
+.team-cols-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text-tertiary);margin-bottom:8px;}
+.team-cols-chips{display:flex;flex-wrap:wrap;gap:6px;}
+.col-chip{font-size:11px;padding:3px 9px;border-radius:4px;border:1px solid;display:inline-flex;align-items:center;gap:5px;}
+.col-chip-name{font-weight:500;}
+.col-chip-count{opacity:.6;font-size:10px;}
+.col-chip.is-sem{background:var(--sem-bg);color:var(--sem-color);border-color:var(--sem-border);}
+.col-chip.is-prim{background:var(--prim-bg);color:var(--prim-color);border-color:var(--prim-border);}
+.col-chip.is-other{background:var(--c3);color:var(--c7);border-color:var(--c4);}
+
+/* ─── TREND ─── */
+.trend-card{background:var(--c1);border:1px solid var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow);padding:24px;}
+.trend-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;}
+.trend-series-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;}
+.trend-series-label.sem{color:var(--sem-color);}
+.trend-series-label.prim{color:var(--prim-color);}
+.trend-num-row{display:flex;align-items:baseline;gap:6px;margin-bottom:8px;}
+.trend-big{font-family:var(--font-display);font-size:28px;letter-spacing:-0.8px;line-height:1;}
+.trend-arrow{font-size:15px;}
+.trend-arrow.up{color:var(--pass);}
+.trend-arrow.down{color:#B91C1C;}
+.trend-svg-wrap{height:72px;}
+.trend-svg-wrap svg{width:100%;height:100%;}
+.trend-dates{display:flex;justify-content:space-between;font-size:10px;color:var(--text-tertiary);margin-top:4px;}
+.trend-empty{height:72px;background:var(--c2);border:1px dashed var(--c4);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--text-tertiary);text-align:center;padding:0 20px;line-height:1.5;margin-top:8px;}
+
+/* ─── SYNC LOG ─── */
+.surface{background:var(--c1);border:1px solid var(--border);border-radius:var(--radius-lg);padding:22px;box-shadow:var(--shadow);}
+.sync-row{display:flex;align-items:center;justify-content:space-between;font-size:12px;padding:8px 0;border-bottom:1px solid var(--c3);}
+.sync-row:last-child{border-bottom:none;}
+.sync-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;padding:2px 7px;border-radius:3px;}
+.b-ok{background:var(--pass-bg);color:var(--pass);border:1px solid var(--pass-border);}
+.b-err{background:#FEF2F2;color:#B91C1C;border:1px solid #FECACA;}
+.loading-msg{font-size:12px;color:var(--text-tertiary);padding:20px 0;text-align:center;}
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <div class="nav-left">
+    <a class="nav-back" href="./index.html">← Tokens Northstar</a>
+    <div class="nav-divider"></div>
+    <span class="nav-title">Token Analytics</span>
+    <span class="nav-pill">Live</span>
+  </div>
+  <span class="sync-label" id="syncLabel">Loading…</span>
+</nav>
+
+<div class="wrap">
+  <div class="eyebrow">Fabric · Design Systems</div>
+  <h1 class="heading">Token Adoption</h1>
+  <p class="subhead">How much of Apollo's Figma work is powered by Fabric color, typography, and spacing tokens — and at which tier.</p>
+  <p class="data-note">A <em>token reference</em> is a unique Figma variable subscribed to across a team's files — not a per-instance count, but a signal that a file is connected to that token. Tracked Fabric collections: Semantics.Color, Primitives.Color (+ v2), Semantics.Typography, Primitives.Typography, Semantics.Spacing, Primitives.Spacing.</p>
+
+  <!-- ═══ 2×2 KPI GRID ═══ -->
+  <div class="kpi-grid">
+
+    <div class="kpi-card">
+      <div class="kpi-label">Total Token References</div>
+      <div class="kpi-row">
+        <span class="kpi-value" id="statTotal">—</span>
+      </div>
+      <div class="kpi-rule"></div>
+      <p class="kpi-desc">All distinct Figma variable subscriptions across every team — Fabric <em>and</em> non-Fabric combined. One reference = one file is subscribed to one token. This is the full denominator the adoption rate is measured against.</p>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-label">Fabric Adoption Rate</div>
+      <div class="kpi-row">
+        <span class="kpi-value green" id="statFabricPct">—</span>
+        <span class="kpi-sub" id="statFabricCount"></span>
+      </div>
+      <div class="kpi-rule"></div>
+      <p class="kpi-desc">Share of all token references that use a Fabric-defined collection (semantic or primitive tier). The remainder are local, custom, or third-party tokens that exist outside the shared system.</p>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-label">Semantic Tier</div>
+      <div class="kpi-row">
+        <span class="kpi-value blue" id="statSemantic">—</span>
+        <span class="kpi-sub" id="statSemanticPct"></span>
+      </div>
+      <div class="kpi-rule"></div>
+      <p class="kpi-desc">References to <strong>Semantics.*</strong> collections — the recommended, future-proof tier. Semantic tokens express design intent ("color.text.primary") not raw values, so a single system change cascades everywhere. <strong>Should trend up over time.</strong></p>
+    </div>
+
+    <div class="kpi-card">
+      <div class="kpi-label">Primitive Tier</div>
+      <div class="kpi-row">
+        <span class="kpi-value purple" id="statPrimitive">—</span>
+        <span class="kpi-sub" id="statPrimitivePct"></span>
+      </div>
+      <div class="kpi-rule"></div>
+      <p class="kpi-desc">References to <strong>Primitives.*</strong> collections — raw values like hex codes or pixel sizes. These are the building blocks of Fabric but not the recommended usage tier. <strong>Should trend down</strong> as teams migrate to semantic tokens.</p>
+    </div>
+
+  </div>
+
+  <!-- ═══ TOKEN HEALTH (per category) ═══ -->
+  <div class="section-head">
+    <span class="section-title">Token Health</span>
+    <span class="section-note">Fabric adoption rate by category · semantic % of Fabric refs</span>
+  </div>
+  <div class="health-grid">
+
+    <div class="health-card">
+      <div class="kpi-label">Color</div>
+      <div class="kpi-row">
+        <span class="kpi-value green" id="healthColorPct">—</span>
+        <span class="kpi-sub" id="healthColorSub"></span>
+      </div>
+      <div class="kpi-rule"></div>
+      <div class="health-bar-track">
+        <div class="health-bar-sem" id="healthColorBarSem"></div>
+        <div class="health-bar-prim" id="healthColorBarPrim"></div>
+      </div>
+      <div class="health-legend">
+        <span class="health-leg-item sem" id="healthColorLegSem"></span>
+        <span class="health-leg-item prim" id="healthColorLegPrim"></span>
+      </div>
+    </div>
+
+    <div class="health-card">
+      <div class="kpi-label">Typography</div>
+      <div class="kpi-row">
+        <span class="kpi-value green" id="healthTypoPct">—</span>
+        <span class="kpi-sub" id="healthTypoSub"></span>
+      </div>
+      <div class="kpi-rule"></div>
+      <div class="health-bar-track">
+        <div class="health-bar-sem" id="healthTypoBarSem"></div>
+        <div class="health-bar-prim" id="healthTypoBarPrim"></div>
+      </div>
+      <div class="health-legend">
+        <span class="health-leg-item sem" id="healthTypoLegSem"></span>
+        <span class="health-leg-item prim" id="healthTypoLegPrim"></span>
+      </div>
+    </div>
+
+    <div class="health-card">
+      <div class="kpi-label">Spacing</div>
+      <div class="kpi-row">
+        <span class="kpi-value green" id="healthSpacingPct">—</span>
+        <span class="kpi-sub" id="healthSpacingSub"></span>
+      </div>
+      <div class="kpi-rule"></div>
+      <div class="health-bar-track">
+        <div class="health-bar-sem" id="healthSpacingBarSem"></div>
+        <div class="health-bar-prim" id="healthSpacingBarPrim"></div>
+      </div>
+      <div class="health-legend">
+        <span class="health-leg-item sem" id="healthSpacingLegSem"></span>
+        <span class="health-leg-item prim" id="healthSpacingLegPrim"></span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══ COLLECTIONS IN USE ═══ -->
+  <div class="section-head">
+    <span class="section-title">Collections in Use</span>
+    <span class="section-note">all Figma variable collections referenced across the org · sorted by volume</span>
+  </div>
+  <div class="col-table-wrap">
+    <table class="col-table">
+      <thead>
+        <tr>
+          <th>Collection name</th>
+          <th>Category</th>
+          <th>Tier</th>
+          <th style="text-align:right">Token refs</th>
+          <th>Teams using</th>
+          <th style="width:160px">Share of all refs</th>
+        </tr>
+      </thead>
+      <tbody id="collectionsBody">
+        <tr><td colspan="6" class="loading-msg">Loading…</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ═══ BY TEAM ═══ -->
+  <div class="section-head" style="margin-top:44px;">
+    <span class="section-title">By Team</span>
+    <span class="section-note">click to expand · color · typography · spacing · active collections</span>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot dot-sem"></div>Semantic (Semantics.*)</div>
+    <div class="legend-item"><div class="legend-dot dot-prim"></div>Primitive (Primitives.*)</div>
+    <div class="legend-item"><div class="legend-dot dot-nf"></div>Non-Fabric (local / custom)</div>
+  </div>
+
+  <div class="team-list" id="teamList">
+    <div class="loading-msg">Loading team data…</div>
+  </div>
+
+  <!-- ═══ TIER TREND ═══ -->
+  <div class="section-head" style="margin-top:44px;">
+    <span class="section-title">Tier Trend</span>
+    <span class="section-note">semantic ↑ target · primitive ↓ target · updates after each extraction run</span>
+  </div>
+  <div class="trend-card">
+    <div id="trendContent"><div class="loading-msg">Loading…</div></div>
+  </div>
+
+  <!-- ═══ SYNC HISTORY ═══ -->
+  <div class="section-head" style="margin-top:44px;">
+    <span class="section-title">Sync History</span>
+  </div>
+  <div class="surface">
+    <div id="syncLog"><div class="loading-msg">Loading…</div></div>
+  </div>
+
+</div><!-- /wrap -->
+
+<script>
+const SUPA_URL = 'https://yrjefyjnzmglakjwumhh.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlyamVmeWpuem1nbGFrand1bWhoIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NjQ0ODk1NiwiZXhwIjoyMDkyMDI0OTU2fQ.YkahVFys1AaS04dtakf8Angjd8GZFQeOlTUi6CH0M78';
+
+const TEAMS = [
+  'Design Foundations','Growth','Extension','Sales Engagement Foundations',
+  'Conversation Intelligence','AI Platform','Workflows','Meetings',
+];
+const CATS       = ['color', 'typography', 'spacing'];
+const CAT_LABELS = { color: 'Color', typography: 'Typography', spacing: 'Spacing' };
+
+// Only these 9 collections are shown in the Collections table
+const FABRIC_COLLECTIONS = new Set([
+  'Primitives.Color',    'Semantics.Color',
+  'Primitives.Colorv2',  'Semantics.Colorv2',
+  'Primitives.Typography','Semantics.Typography','Semantics.Typographyv2',
+  'Primitives.Spacing',  'Semantics.Spacing',
+]);
+
+const h    = { apikey: SUPA_KEY, Authorization: `Bearer ${SUPA_KEY}` };
+const fmt  = n => Number(n).toLocaleString();
+const pct  = (n, d) => d ? Math.round(n / d * 100) : 0;
+const pctS = (n, d) => pct(n, d) + '%';
+
+async function get(path) {
+  const r = await fetch(`${SUPA_URL}/rest/v1/${path}`, { headers: h });
+  if (!r.ok) throw new Error(await r.text());
+  return r.json();
+}
+
+// ── Sparkline builder ─────────────────────────────────────────────────────────
+function makeSpark(points, color) {
+  const W = 320, H = 72;
+  if (!points || points.length < 2) return null;
+  const ys   = points.map(p => p.y);
+  const maxY = Math.max(...ys) * 1.15 || 1;
+  const px   = i => (i / (points.length - 1)) * (W - 20) + 10;
+  const py   = y => H - (y / maxY) * (H - 12) - 6;
+  const d    = points.map((p, i) => `${i === 0 ? 'M' : 'L'}${px(i).toFixed(1)},${py(p.y).toFixed(1)}`).join(' ');
+  const area = d + ` L${px(points.length - 1).toFixed(1)},${H} L${px(0).toFixed(1)},${H} Z`;
+  const gid  = 'g' + Math.abs(color.hashCode ? color.hashCode() : points.length);
+  const last = points[points.length - 1].y;
+  const prev = points[points.length - 2].y;
+  const dir  = last > prev ? 'up' : last < prev ? 'down' : 'flat';
+  return {
+    svg: `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="${color}" stop-opacity="0.2"/>
+        <stop offset="100%" stop-color="${color}" stop-opacity="0.02"/>
+      </linearGradient></defs>
+      <path d="${area}" fill="url(#${gid})"/>
+      <path d="${d}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="${px(points.length - 1).toFixed(1)}" cy="${py(last).toFixed(1)}" r="4" fill="${color}"/>
+    </svg>`,
+    dir, last,
+  };
+}
+
+// ── Main ──────────────────────────────────────────────────────────────────────
+async function load() {
+  try {
+
+    // 1. Fetch breakdown rows (includes collection_name)
+    const rows = await get(
+      'team_token_breakdown?select=team_name,category,tier,collection_name,token_count&limit=10000'
+    );
+
+    // Build data structures
+    const data     = {};  // team → cat → tier → count
+    const teamCols = {};  // team → collectionName → { category, tier, count }
+    const orgCols  = {};  // collectionName → { category, tier, count, teams: Set }
+    let orgTotal = 0, orgFabric = 0, orgSem = 0, orgPrim = 0;
+
+    rows.forEach(r => {
+      const n   = Number(r.token_count) || 0;
+      const col = r.collection_name || '(unnamed)';
+
+      // ALL rows go into org totals (honest denominator includes 'other' category)
+      orgTotal += n;
+      if (r.tier === 'semantic')  { orgFabric += n; orgSem  += n; }
+      if (r.tier === 'primitive') { orgFabric += n; orgPrim += n; }
+
+      if (!r.team_name) return;
+
+      // team/category/tier
+      if (!data[r.team_name])            data[r.team_name] = {};
+      if (!data[r.team_name][r.category]) data[r.team_name][r.category] = { semantic: 0, primitive: 0, 'non-fabric': 0 };
+      data[r.team_name][r.category][r.tier] = (data[r.team_name][r.category][r.tier] || 0) + n;
+
+      // per-team collection breakdown
+      if (!teamCols[r.team_name])    teamCols[r.team_name] = {};
+      if (!teamCols[r.team_name][col]) teamCols[r.team_name][col] = { category: r.category, tier: r.tier, count: 0 };
+      teamCols[r.team_name][col].count += n;
+
+      // org-wide collection totals
+      if (!orgCols[col]) orgCols[col] = { category: r.category, tier: r.tier, count: 0, teams: new Set() };
+      orgCols[col].count += n;
+      orgCols[col].teams.add(r.team_name);
+    });
+
+    // Per-category semantic/primitive totals for Token Health KPIs
+    const catOrg = {
+      color:      { sem: 0, prim: 0 },
+      typography: { sem: 0, prim: 0 },
+      spacing:    { sem: 0, prim: 0 },
+    };
+    rows.forEach(r => {
+      if (!catOrg[r.category]) return;
+      const n = Number(r.token_count) || 0;
+      if (r.tier === 'semantic')  catOrg[r.category].sem  += n;
+      if (r.tier === 'primitive') catOrg[r.category].prim += n;
+    });
+
+    // 2. KPI cards
+    document.getElementById('statTotal').textContent      = fmt(orgTotal);
+    document.getElementById('statFabricPct').textContent  = pctS(orgFabric, orgTotal);
+    document.getElementById('statFabricCount').textContent = fmt(orgFabric) + ' Fabric refs';
+    document.getElementById('statSemantic').textContent   = fmt(orgSem);
+    document.getElementById('statSemanticPct').textContent  = pctS(orgSem, orgFabric) + ' of Fabric';
+    document.getElementById('statPrimitive').textContent  = fmt(orgPrim);
+    document.getElementById('statPrimitivePct').textContent = pctS(orgPrim, orgFabric) + ' of Fabric';
+
+    // 2b. Token Health cards (per category)
+    ['color', 'typography', 'spacing'].forEach(cat => {
+      const id  = { color: 'Color', typography: 'Typo', spacing: 'Spacing' }[cat];
+      const { sem, prim } = catOrg[cat];
+      const total  = sem + prim;
+      const semPct = pct(sem, total);
+      const semW   = semPct;
+      const primW  = total ? pct(prim, total) : 0;
+
+      document.getElementById(`health${id}Pct`).textContent    = total ? semPct + '%' : '—';
+      document.getElementById(`health${id}Sub`).textContent    = total ? 'semantic of Fabric refs' : 'no data';
+      document.getElementById(`health${id}BarSem`).style.width  = semW + '%';
+      document.getElementById(`health${id}BarPrim`).style.width = primW + '%';
+      document.getElementById(`health${id}LegSem`).textContent  = `Semantic ${fmt(sem)}`;
+      document.getElementById(`health${id}LegPrim`).textContent = `Primitive ${fmt(prim)}`;
+    });
+
+    // 3. Collections table
+    const tierBadge = tier =>
+      tier === 'semantic'  ? '<span class="tier-badge tier-sem">Semantic</span>'  :
+      tier === 'primitive' ? '<span class="tier-badge tier-prim">Primitive</span>' :
+                             '<span class="tier-badge tier-other">Non-Fabric</span>';
+    const barColor = tier =>
+      tier === 'semantic'  ? 'var(--sem-color)'  :
+      tier === 'primitive' ? 'var(--prim-color)' : 'var(--c5)';
+    const catLabel = c => ({ color: 'Color', typography: 'Typography', spacing: 'Spacing', other: '—' }[c] || c);
+
+    const colsSorted  = Object.entries(orgCols)
+      .filter(([name]) => FABRIC_COLLECTIONS.has(name))
+      .sort((a, b) => b[1].count - a[1].count);
+    const colMaxCount = colsSorted.length ? colsSorted[0][1].count : 1;
+
+    document.getElementById('collectionsBody').innerHTML = colsSorted.map(([name, d]) => {
+      const barW = Math.max(2, Math.round(d.count / colMaxCount * 120));
+      return `<tr>
+        <td style="font-weight:500">${name}</td>
+        <td style="color:var(--text-secondary)">${catLabel(d.category)}</td>
+        <td>${tierBadge(d.tier)}</td>
+        <td style="text-align:right;font-variant-numeric:tabular-nums;font-weight:500">${fmt(d.count)}</td>
+        <td style="color:var(--text-secondary)">${d.teams ? d.teams.size : 0} / ${TEAMS.length}</td>
+        <td>
+          <div style="display:flex;align-items:center;gap:7px">
+            <div style="width:${barW}px;height:4px;border-radius:2px;background:${barColor(d.tier)};flex-shrink:0"></div>
+            <span style="font-size:10px;color:var(--text-tertiary)">${pctS(d.count, orgTotal)}</span>
+          </div>
+        </td>
+      </tr>`;
+    }).join('');
+
+    // 4. Team cards — sorted by Fabric token count desc
+    const sorted = TEAMS.slice().sort((a, b) => {
+      const fab = t => Object.values(data[t] || {})
+        .reduce((s, c) => s + (c.semantic || 0) + (c.primitive || 0), 0);
+      return fab(b) - fab(a);
+    });
+
+    document.getElementById('teamList').innerHTML = sorted.map((team, i) => {
+      const td = data[team] || {};
+
+      // ALL categories in denominator so we don't inflate adoption %
+      let tTotal = 0, tFabric = 0;
+      Object.values(td).forEach(cd => {
+        tTotal  += (cd.semantic || 0) + (cd.primitive || 0) + (cd['non-fabric'] || 0);
+        tFabric += (cd.semantic || 0) + (cd.primitive || 0);
+      });
+      const adoptPct = pct(tFabric, tTotal);
+      const isOpen   = i === 0;
+
+      // Color / Typography / Spacing breakdown rows
+      const catRows = CATS.map(cat => {
+        const cd     = td[cat] || {};
+        const sem    = cd.semantic      || 0;
+        const prim   = cd.primitive     || 0;
+        const nf     = cd['non-fabric'] || 0;
+        const total  = sem + prim + nf;
+        const fabric = sem + prim;
+
+        if (total === 0) return `
+          <div class="cat-row">
+            <div class="cat-header">
+              <span class="cat-label">${CAT_LABELS[cat]}</span>
+              <span style="font-size:11px;font-style:italic;color:var(--text-tertiary)">No data</span>
+            </div>
+          </div>`;
+
+        const semW      = +(sem  / total * 100).toFixed(1);
+        const primW     = +(prim / total * 100).toFixed(1);
+        const nfW       = +(nf   / total * 100).toFixed(1);
+        const semOfFab  = fabric ? Math.round(sem  / fabric * 100) : 0;
+        const primOfFab = fabric ? Math.round(prim / fabric * 100) : 0;
+
+        return `
+          <div class="cat-row">
+            <div class="cat-header">
+              <span class="cat-label">${CAT_LABELS[cat]}</span>
+              <span class="cat-counts">
+                <span class="fabric">${fmt(fabric)} Fabric</span>
+                &nbsp;/&nbsp;${fmt(total)} total
+                &nbsp;·&nbsp;<strong>${pctS(fabric, total)}</strong>
+              </span>
+            </div>
+            <div class="stack-track">
+              <div class="stack-seg seg-sem"  style="width:${semW}%"></div>
+              <div class="stack-seg seg-prim" style="width:${primW}%"></div>
+              <div class="stack-seg seg-nf"   style="width:${nfW}%"></div>
+            </div>
+            <div class="breakdown">
+              ${sem  > 0 ? `<span class="bchip bchip-sem">Semantic ${semOfFab}% · ${fmt(sem)}</span>`    : ''}
+              ${prim > 0 ? `<span class="bchip bchip-prim">Primitive ${primOfFab}% · ${fmt(prim)}</span>` : ''}
+              ${nf   > 0 ? `<span class="bchip bchip-nf">Non-Fabric · ${fmt(nf)}</span>`                : ''}
+              ${fabric === 0 ? `<span class="bchip bchip-none">No Fabric tokens</span>`                  : ''}
+            </div>
+          </div>`;
+      }).join('');
+
+      // Collections section inside team card
+      const colEntries = Object.entries(teamCols[team] || {}).sort((a, b) => b[1].count - a[1].count);
+      const colsHTML = colEntries.length ? `
+        <div class="team-cols">
+          <div class="team-cols-label">Variable collections referenced by this team</div>
+          <div class="team-cols-chips">
+            ${colEntries.map(([name, d]) => {
+              const cls = d.tier === 'semantic' ? 'is-sem' : d.tier === 'primitive' ? 'is-prim' : 'is-other';
+              return `<span class="col-chip ${cls}">
+                <span class="col-chip-name">${name}</span>
+                <span class="col-chip-count">${fmt(d.count)}</span>
+              </span>`;
+            }).join('')}
+          </div>
+        </div>` : '';
+
+      return `
+        <div class="team-card ${isOpen ? 'open' : ''}" id="team-${i}">
+          <div class="team-head" onclick="this.closest('.team-card').classList.toggle('open')">
+            <span class="team-name">${team}</span>
+            <div class="team-meta">
+              <span class="team-stat">
+                <span class="${tFabric > 0 ? 'hi' : 'lo'}">${fmt(tFabric)} Fabric refs</span>
+                &nbsp;·&nbsp;${adoptPct}% of all refs
+              </span>
+              <span class="team-chevron">▾</span>
+            </div>
+          </div>
+          <div class="team-body">
+            <div class="cat-rows">${catRows}</div>
+            ${colsHTML}
+          </div>
+        </div>`;
+    }).join('');
+
+    // 5. Tier trend
+    const trendEl = document.getElementById('trendContent');
+    try {
+      const snaps = await get(
+        'adoption_snapshots?select=snapped_at,tier,token_count&order=snapped_at.asc&limit=5000'
+      );
+
+      if (!snaps || snaps.length === 0) {
+        trendEl.innerHTML = `<div class="trend-grid">
+          <div>
+            <div class="trend-series-label sem">Semantic · target ↑</div>
+            <div class="trend-empty">Run another extraction after making changes to see trends appear here</div>
+          </div>
+          <div>
+            <div class="trend-series-label prim">Primitive · target ↓</div>
+            <div class="trend-empty">Run another extraction after making changes to see trends appear here</div>
+          </div>
+        </div>`;
+      } else {
+        // Aggregate by date
+        const byDate = {};
+        snaps.forEach(s => {
+          const date = s.snapped_at.slice(0, 10);
+          if (!byDate[date]) byDate[date] = { semantic: 0, primitive: 0 };
+          if (s.tier === 'semantic')  byDate[date].semantic  += Number(s.token_count);
+          if (s.tier === 'primitive') byDate[date].primitive += Number(s.token_count);
+        });
+        const dates = Object.keys(byDate).sort();
+
+        const semPts  = dates.map((d, i) => ({ x: i, y: byDate[d].semantic }));
+        const primPts = dates.map((d, i) => ({ x: i, y: byDate[d].primitive }));
+
+        const renderSeries = (pts, label, labelCls, color) => {
+          const spark = makeSpark(pts, color);
+          const last  = pts[pts.length - 1]?.y || 0;
+          const arrowHTML = spark
+            ? `<span class="trend-arrow ${spark.dir === 'flat' ? '' : spark.dir}">${spark.dir === 'up' ? '↑' : spark.dir === 'down' ? '↓' : '→'}</span>`
+            : '';
+          const chartHTML = spark && dates.length >= 2
+            ? `<div class="trend-svg-wrap">${spark.svg}</div>
+               <div class="trend-dates"><span>${dates[0]}</span><span>${dates[dates.length-1]}</span></div>`
+            : `<div class="trend-empty">Run another extraction to see the trend line</div>`;
+          return `
+            <div>
+              <div class="trend-series-label ${labelCls}">${label}</div>
+              <div class="trend-num-row">
+                <span class="trend-big">${fmt(last)}</span>
+                ${arrowHTML}
+              </div>
+              ${chartHTML}
+            </div>`;
+        };
+
+        trendEl.innerHTML = `<div class="trend-grid">
+          ${renderSeries(semPts,  'Semantic · target ↑',  'sem',  '#0E4BA7')}
+          ${renderSeries(primPts, 'Primitive · target ↓', 'prim', '#541584')}
+        </div>`;
+      }
+    } catch (e) {
+      // adoption_snapshots table doesn't exist yet — show setup prompt
+      trendEl.innerHTML = `<div class="trend-empty" style="height:80px">
+        Trend tracking not set up yet. Create the <code>adoption_snapshots</code> table in Supabase and re-run extraction to enable this section.
+      </div>`;
+    }
+
+    // 6. Sync log
+    const logs  = await get('sync_log?select=*&order=started_at.desc&limit=5');
+    const logEl = document.getElementById('syncLog');
+    if (!logs?.length) {
+      logEl.innerHTML = '<div class="loading-msg">No sync history yet.</div>';
+    } else {
+      logEl.innerHTML = logs.map(r => {
+        const d      = new Date(r.started_at).toLocaleString();
+        const cls    = r.status === 'success' ? 'b-ok' : 'b-err';
+        const label  = r.status === 'success' ? '✓ Success' : '✗ Error';
+        const detail = r.status === 'success'
+          ? `${fmt(r.files_synced || 0)} files · ${fmt(r.tokens_synced || 0)} tokens`
+          : r.error || '—';
+        return `<div class="sync-row">
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="sync-badge ${cls}">${label}</span>
+            <span style="color:var(--text-secondary)">${detail}</span>
+          </div>
+          <span style="color:var(--text-tertiary)">${d}</span>
+        </div>`;
+      }).join('');
+
+      const last = logs.find(l => l.status === 'success');
+      if (last) {
+        const d = new Date(last.finished_at);
+        document.getElementById('syncLabel').textContent =
+          `Last synced ${d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} at ${d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}`;
+      }
+    }
+
+  } catch (err) {
+    console.error(err);
+    document.getElementById('syncLabel').textContent = 'Error loading data';
+    document.getElementById('teamList').innerHTML =
+      `<div class="loading-msg" style="color:#B91C1C">Error: ${err.message}</div>`;
+  }
+}
+
+load();
+</script>
+</body>
+</html>
