@@ -70,25 +70,55 @@
     --alpha-iris-20: rgba(63, 43, 115, 0.20);
 
     /* Canvas bg — toggled by JS */
+
+    /* ── v2 Stone ramp ── */
+    --stone-00: #FFFFFF;
+    --stone-05: #F9F9F6;
+    --stone-10: #EFEFEB;
+    --stone-20: #E4E5D9;
+    --stone-30: #CCCDBF;
+    --stone-40: #ABAD99;
+    --stone-50: #767862;
+    --stone-60: #5F6151;
+    --stone-70: #4D4D41;
+    --stone-80: #3C3D33;
+    --stone-90: #2F2F27;
+    --stone-95: #252521;
+    --stone-100: #12120F;
     --canvas-bg: #F9F9F6;
   }
 
   [data-theme="dark"] {
-    --Human-0:   #1A1A1A;
-    --Human-10:  #3E3E33;
-    --Human-20:  #646459;
-    --Human-40:  #898A7F;
-    --Human-60:  #D4D5CB;
-    --Human-80:  #F3F3F0;
+    /* Stone ramp — inverted for dark mode */
+    --stone-00: #12120F;
+    --stone-05: #2F2F27;
+    --stone-10: #3C3D33;
+    --stone-20: #4D4D41;
+    --stone-30: #5F6151;
+    --stone-40: #767862;
+    --stone-50: #ABAD99;
+    --stone-60: #CCCDBF;
+    --stone-70: #E4E5D9;
+    --stone-80: #EFEFEB;
+    --stone-90: #F9F9F6;
+    --stone-95: #FAFAF8;
+    --stone-100: #FFFFFF;
+    /* Human aliases kept for structural chrome */
+    --Human-0:   #12120F;
+    --Human-10:  #2F2F27;
+    --Human-20:  #3C3D33;
+    --Human-40:  #5F6151;
+    --Human-60:  #CCCDBF;
+    --Human-80:  #E4E5D9;
     --Human-90:  #F9F9F6;
     --Human-100: #FFFFFF;
-    --canvas-bg: #1A1A1A;
+    --canvas-bg: #12120F;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   [data-theme="dark"] body, body.dark {
-    background-color: #1A1A1A;
+    background-color: #12120F;
     color: #F9F9F6;
   }
 
@@ -1163,6 +1193,236 @@
     pointer-events: none;
   }
 
+
+  /* ═══════════════════════════════════════════════════════════
+     DARK MODE COMPONENT OVERRIDES
+     All hardcoded hex values in component CSS need explicit
+     dark-mode rules since CSS vars only handle structural chrome.
+     Pattern: bg-70 fill + 40-border + 10-text for colored states;
+              stone-05/10 fill + stone-90 text for neutrals.
+     ═══════════════════════════════════════════════════════════ */
+
+  /* ── Buttons ── */
+  [data-theme="dark"] .btn-primary {
+    background: #F9F9F6;  /* stone-05 */
+    color: #2F2F27;       /* stone-90 */
+    box-shadow: 0 3px 3px 0 rgba(249, 249, 246, 0.08);
+  }
+  [data-theme="dark"] .btn-primary:hover  { background: #EFEFEB; color: #12120F; }
+  [data-theme="dark"] .btn-primary:active { background: #E4E5D9; color: #12120F; }
+
+  [data-theme="dark"] .btn-secondary {
+    background: transparent;
+    border-color: #5F6151; /* stone-60 */
+    color: #E4E5D9;        /* stone-20 */
+  }
+  [data-theme="dark"] .btn-secondary:hover  { background: #3C3D33; border-color: #767862; color: #F9F9F6; }
+  [data-theme="dark"] .btn-secondary:active { background: #4D4D41; border-color: #767862; color: #FFFFFF; }
+
+  [data-theme="dark"] .btn-tertiary {
+    background: transparent;
+    color: #CCCDBF; /* stone-30 */
+  }
+  [data-theme="dark"] .btn-tertiary:hover  { background: #3C3D33; border-color: #4D4D41; color: #F9F9F6; }
+  [data-theme="dark"] .btn-tertiary:active { background: #4D4D41; border-color: #5F6151; color: #FFFFFF; }
+
+  [data-theme="dark"] .btn-destructive-primary {
+    background: #940016;   /* red-70 */
+    border-color: #FF6B81; /* red-40 */
+    color: #FFE6EA;        /* red-10 */
+    box-shadow: 0 3px 3px 0 rgba(148, 0, 22, 0.25);
+  }
+  [data-theme="dark"] .btn-destructive-primary:hover  { background: #C2001D; border-color: #FFBDC7; }
+  [data-theme="dark"] .btn-destructive-primary:active { background: #FA0026; border-color: #FFD6DC; }
+
+  [data-theme="dark"] .btn-destructive-secondary {
+    background: transparent;
+    border-color: #FF6B81; /* red-40 */
+    color: #FFE6EA;        /* red-10 */
+  }
+  [data-theme="dark"] .btn-destructive-secondary:hover  { background: #940016; border-color: #FFBDC7; color: #FFE6EA; }
+  [data-theme="dark"] .btn-destructive-secondary:active { background: #C2001D; border-color: #FF6B81; color: #FFFFFF; }
+
+  [data-theme="dark"] .btn-ai-primary {
+    background: #541584;   /* purple-70 */
+    border-color: #BE83EC; /* purple-40 */
+    color: #F3E9FB;        /* purple-10 */
+    box-shadow: 0 3px 3px 0 rgba(84, 21, 132, 0.25);
+  }
+  [data-theme="dark"] .btn-ai-primary:hover  { background: #7540BE; border-color: #DAB8F4; }
+  [data-theme="dark"] .btn-ai-primary:active { background: #9A5ADE; border-color: #EAD7F9; }
+
+  [data-theme="dark"] .btn-ai-secondary {
+    background: transparent;
+    border-color: #BE83EC; /* purple-40 */
+    color: #F3E9FB;        /* purple-10 */
+  }
+  [data-theme="dark"] .btn-ai-secondary:hover  { background: #541584; border-color: #DAB8F4; color: #F3E9FB; }
+  [data-theme="dark"] .btn-ai-secondary:active { background: #7540BE; border-color: #BE83EC; color: #FFFFFF; }
+
+  /* ── Badges ── */
+  [data-theme="dark"] .badge-neutral  { background: #4D4D41; color: #F9F9F6; } /* stone-70 / stone-05 */
+  [data-theme="dark"] .badge-info     { background: #0A3576; color: #E3EDFD; } /* blue-70 / blue-10 */
+  [data-theme="dark"] .badge-positive { background: #0F691E; color: #E5FBE9; } /* green-70 / green-10 */
+  [data-theme="dark"] .badge-caution  { background: #8F3E00; color: #FFEDE0; } /* orange-70 / orange-10 */
+  [data-theme="dark"] .badge-negative { background: #940016; color: #FFE6EA; } /* red-70 / red-10 */
+  [data-theme="dark"] .badge-ai       { background: #541584; color: #F3E9FB; } /* purple-70 / purple-10 */
+
+  [data-theme="dark"] .badge-neutral .badge-dot  { background: #ABAD99; } /* stone-40 */
+  [data-theme="dark"] .badge-info .badge-dot     { background: #69A0F3; } /* blue-40 */
+  [data-theme="dark"] .badge-positive .badge-dot { background: #5FE876; } /* green-40 */
+  [data-theme="dark"] .badge-caution .badge-dot  { background: #FFA35C; } /* orange-40 */
+  [data-theme="dark"] .badge-negative .badge-dot { background: #FF6B81; } /* red-40 */
+  [data-theme="dark"] .badge-ai .badge-dot       { background: #BE83EC; } /* purple-40 */
+
+  /* ── Status Chips ── */
+  [data-theme="dark"] .chip-status-info {
+    background: #0A3576;   /* blue-70 */
+    border-color: #69A0F3; /* blue-40 */
+    color: #E3EDFD;        /* blue-10 */
+  }
+  [data-theme="dark"] .chip-status-info:hover  { background: #1953C2; border-color: #A1C3F7; }
+  [data-theme="dark"] .chip-status-info:active { background: #2E6CE6; border-color: #CBDEFB; color: #FFFFFF; }
+
+  [data-theme="dark"] .chip-status-positive {
+    background: #0F691E;   /* green-70 */
+    border-color: #5FE876; /* green-40 */
+    color: #E5FBE9;        /* green-10 */
+  }
+  [data-theme="dark"] .chip-status-positive:hover  { background: #18952D; border-color: #A6F2B2; }
+  [data-theme="dark"] .chip-status-positive:active { background: #28C740; border-color: #CEF8D5; color: #FFFFFF; }
+
+  [data-theme="dark"] .chip-status-caution {
+    background: #8F3E00;   /* orange-70 */
+    border-color: #FFA35C; /* orange-40 */
+    color: #FFEDE0;        /* orange-10 */
+  }
+  [data-theme="dark"] .chip-status-caution:hover  { background: #C55C00; border-color: #FFCBA3; }
+  [data-theme="dark"] .chip-status-caution:active { background: #F07020; border-color: #FFDFC7; color: #FFFFFF; }
+
+  [data-theme="dark"] .chip-status-negative {
+    background: #940016;   /* red-70 */
+    border-color: #FF6B81; /* red-40 */
+    color: #FFE6EA;        /* red-10 */
+  }
+  [data-theme="dark"] .chip-status-negative:hover  { background: #C2001D; border-color: #FFBDC7; }
+  [data-theme="dark"] .chip-status-negative:active { background: #FA0026; border-color: #FFD6DC; color: #FFFFFF; }
+
+  [data-theme="dark"] .chip-status-ai {
+    background: #541584;   /* purple-70 */
+    border-color: #BE83EC; /* purple-40 */
+    color: #F3E9FB;        /* purple-10 */
+  }
+  [data-theme="dark"] .chip-status-ai:hover  { background: #7540BE; border-color: #DAB8F4; }
+  [data-theme="dark"] .chip-status-ai:active { background: #9A5ADE; border-color: #EAD7F9; color: #FFFFFF; }
+
+  /* ── Radios ── */
+  [data-theme="dark"] .radio-input {
+    border-color: #ABAD99; /* stone-40 */
+    background: #2F2F27;   /* stone-90 */
+  }
+  [data-theme="dark"] .radio-input:not(.radio-checked):hover { border-color: #767862; background: #3C3D33; }
+  [data-theme="dark"] .radio-checked {
+    border-color: #F9F9F6; /* stone-05 */
+    background: #F9F9F6;
+  }
+  [data-theme="dark"] .radio-checked::after { background: #12120F; } /* dark dot on light fill */
+  [data-theme="dark"] .radio-checked:hover  { border-color: #FFFFFF; background: #FFFFFF; }
+  [data-theme="dark"] .radio-checked:active { border-color: #E4E5D9; background: #E4E5D9; }
+
+  [data-theme="dark"] .radio-text    { color: #E4E5D9; } /* stone-20 */
+  [data-theme="dark"] .radio-subtext { color: #767862; } /* stone-50 */
+
+  [data-theme="dark"] .radio-card {
+    border-color: #5F6151; /* stone-60 */
+    background: #252521;   /* stone-95 */
+  }
+  [data-theme="dark"] .radio-card:hover { border-color: #767862; }
+  [data-theme="dark"] .radio-card-selected { border-color: #F9F9F6; }
+  [data-theme="dark"] .radio-card-selected:hover { border-color: #FFFFFF; }
+
+  /* ── Checkboxes ── */
+  [data-theme="dark"] .checkbox-input {
+    border-color: #ABAD99; /* stone-40 */
+    background: #2F2F27;   /* stone-90 */
+  }
+  [data-theme="dark"] .checkbox-input:not(.checkbox-checked):hover { border-color: #767862; background: #3C3D33; }
+  [data-theme="dark"] .checkbox-checked {
+    border-color: #F9F9F6; /* stone-05 */
+    background: #F9F9F6;
+  }
+  [data-theme="dark"] .checkbox-checked::after {
+    border-left-color: #12120F;
+    border-bottom-color: #12120F;
+  }
+  [data-theme="dark"] .checkbox-checked:hover  { border-color: #FFFFFF; background: #FFFFFF; }
+  [data-theme="dark"] .checkbox-checked:active { border-color: #E4E5D9; background: #E4E5D9; }
+
+  /* ── Form Fields ── */
+  [data-theme="dark"] .field-input,
+  [data-theme="dark"] .field-select,
+  [data-theme="dark"] .field-textarea {
+    border-color: #5F6151; /* stone-60 */
+    background: #2F2F27;   /* stone-90 */
+    color: #E4E5D9;        /* stone-20 */
+  }
+  [data-theme="dark"] .field-input::placeholder,
+  [data-theme="dark"] .field-select.placeholder-text,
+  [data-theme="dark"] .field-textarea::placeholder { color: #767862; } /* stone-50 */
+
+  [data-theme="dark"] .field-input:hover,
+  [data-theme="dark"] .field-select:hover,
+  [data-theme="dark"] .field-textarea:hover {
+    background: #3C3D33; /* stone-80 */
+    border-color: #767862; /* stone-50 */
+  }
+  [data-theme="dark"] .field-input:focus,
+  [data-theme="dark"] .field-select:focus,
+  [data-theme="dark"] .field-textarea:focus {
+    background: #3C3D33;   /* stone-80 */
+    border-color: #ABAD99; /* stone-40 */
+    box-shadow: 0 0 0 2px rgba(95, 97, 81, 0.35);
+  }
+  [data-theme="dark"] .field-input.field-error,
+  [data-theme="dark"] .field-select.field-error,
+  [data-theme="dark"] .field-textarea.field-error {
+    border-color: #FF6B81; /* red-40 */
+    background: #2F2F27;
+    color: #E4E5D9;
+  }
+  [data-theme="dark"] .field-input.field-error:hover,
+  [data-theme="dark"] .field-select.field-error:hover,
+  [data-theme="dark"] .field-textarea.field-error:hover {
+    background: #3C3D33;
+    border-color: #FA0026;
+  }
+  [data-theme="dark"] .field-input.field-error:focus,
+  [data-theme="dark"] .field-select.field-error:focus,
+  [data-theme="dark"] .field-textarea.field-error:focus {
+    background: #3C3D33;
+    border-color: #FF6B81;
+    box-shadow: 0 0 0 2px rgba(255, 107, 129, 0.20);
+  }
+  [data-theme="dark"] .field-error-msg { color: #FF6B81; } /* red-40 */
+
+  [data-theme="dark"] .field-input.field-readonly,
+  [data-theme="dark"] .field-select.field-readonly,
+  [data-theme="dark"] .field-textarea.field-readonly {
+    border-color: #4D4D41; /* stone-70 */
+    background: #252521;   /* stone-95 */
+    color: #767862;        /* stone-50 */
+  }
+  [data-theme="dark"] .field-input:disabled,
+  [data-theme="dark"] .field-select:disabled,
+  [data-theme="dark"] .field-textarea:disabled {
+    border-color: #4D4D41; /* stone-70 */
+    background: #252521;   /* stone-95 */
+    color: #5F6151;        /* stone-60 */
+    opacity: 0.5;
+  }
+  [data-theme="dark"] .field-select-wrap::after {
+    border-top-color: #ABAD99; /* stone-40 */
+  }
 </style>
 </head>
 <body>
