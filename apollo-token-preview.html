@@ -155,7 +155,7 @@
     .hero p {
       font-size: 14px;
       color: var(--fg-subtle);
-      max-width: 480px;
+      max-width: 520px;
       line-height: 1.65;
     }
 
@@ -264,38 +264,25 @@
     .how-step h3 { font-size: 13px; font-weight: 600; color: var(--fg-default); margin-bottom: 4px; }
     .how-step p  { font-size: 12px; color: var(--fg-subtle); margin: 0; line-height: 1.5; }
 
-    /* ── Tab bar ─────────────────────────────────────────── */
-    .tabs {
-      display: flex; gap: 2px;
-      background: var(--stone-10);
-      border-radius: var(--radius-sm);
-      padding: 3px;
-      margin-bottom: 20px;
-      width: fit-content;
+    /* ── Feature grid ────────────────────────────────────── */
+    .feat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px; }
+    .feat {
+      display: flex; align-items: flex-start; gap: 10px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
     }
-    .tab {
-      font-size: 13px; font-weight: 500;
-      padding: 6px 14px;
-      border-radius: calc(var(--radius-sm) - 2px);
-      cursor: pointer;
-      color: var(--fg-subtle);
-      border: none;
-      background: transparent;
-      transition: background .15s, color .15s;
-    }
-    .tab.active {
-      background: var(--bg-card);
-      color: var(--fg-default);
-      box-shadow: var(--shadow-sm);
-    }
-    .tab-panel { display: none; }
-    .tab-panel.active { display: block; }
+    .feat-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+    .feat h4 { font-size: 13px; font-weight: 600; color: var(--fg-default); margin-bottom: 2px; }
+    .feat p  { font-size: 12px; color: var(--fg-subtle); margin: 0; line-height: 1.5; }
 
     /* ── Token table ─────────────────────────────────────── */
     .token-table {
       width: 100%;
       border-collapse: collapse;
       font-size: 13px;
+      margin-bottom: 4px;
     }
     .token-table th {
       text-align: left;
@@ -329,44 +316,121 @@
     .swatch-cell { display: flex; align-items: center; }
     .hex { font-family: monospace; font-size: 12px; color: var(--fg-muted); }
 
-    /* ── Feature grid ────────────────────────────────────── */
-    .feat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px; }
-    .feat {
-      display: flex; align-items: flex-start; gap: 10px;
+    /* ── Panel anatomy diagram ───────────────────────────── */
+    .anatomy {
       background: var(--bg-subtle);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-md);
-      padding: 12px 14px;
-    }
-    .feat-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
-    .feat h4 { font-size: 13px; font-weight: 600; color: var(--fg-default); margin-bottom: 2px; }
-    .feat p  { font-size: 12px; color: var(--fg-subtle); margin: 0; line-height: 1.5; }
-
-    /* ── Spacing scale visual ────────────────────────────── */
-    .spacing-scale { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
-    .sp-row { display: flex; align-items: center; gap: 12px; }
-    .sp-bar-wrap { flex: 1; }
-    .sp-bar {
-      background: var(--stone-20);
-      border-radius: 3px;
-      height: 20px;
       border: 1px solid var(--border-default);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      display: flex;
+      gap: 24px;
+      margin-bottom: 16px;
     }
-    .sp-label { font-size: 12px; color: var(--fg-subtle); width: 80px; flex-shrink: 0; font-family: monospace; }
-    .sp-val   { font-size: 12px; color: var(--fg-muted);  width: 36px; flex-shrink: 0; text-align: right; }
-
-    /* ── Type scale preview ──────────────────────────────── */
-    .type-scale { display: flex; flex-direction: column; gap: 0; }
-    .type-row {
-      display: flex; align-items: baseline; gap: 16px;
-      padding: 10px 0;
-      border-bottom: 1px solid var(--border-subtle);
+    .anatomy-panel {
+      width: 180px;
+      flex-shrink: 0;
+      background: var(--stone-00);
+      border: 1px solid var(--stone-20);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      font-size: 10px;
     }
-    .type-row:last-child { border-bottom: none; }
-    .type-meta { width: 120px; flex-shrink: 0; }
-    .type-token { font-size: 11px; font-family: monospace; color: var(--fg-muted); margin-bottom: 2px; }
-    .type-spec  { font-size: 11px; color: var(--fg-muted); }
-    .type-sample { flex: 1; color: var(--fg-default); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .anatomy-header {
+      background: var(--stone-90);
+      color: var(--sun-10);
+      padding: 6px 8px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .anatomy-body {
+      display: flex;
+      height: 100px;
+    }
+    .anatomy-sidebar {
+      width: 55px;
+      background: var(--stone-05);
+      border-right: 1px solid var(--stone-20);
+      padding: 5px;
+    }
+    .anatomy-cat {
+      font-size: 9px;
+      padding: 3px 4px;
+      border-radius: 3px;
+      margin-bottom: 2px;
+      color: var(--stone-60);
+    }
+    .anatomy-cat.active {
+      background: var(--stone-20);
+      color: var(--stone-90);
+      font-weight: 600;
+    }
+    .anatomy-list {
+      flex: 1;
+      padding: 5px;
+    }
+    .anatomy-row {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      padding: 2px 0;
+      border-bottom: 1px solid var(--stone-10);
+      font-size: 8px;
+      color: var(--stone-60);
+    }
+    .anatomy-dot {
+      width: 8px; height: 8px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+    .anatomy-arrow { color: var(--stone-30); }
+    .anatomy-footer {
+      border-top: 1px solid var(--stone-20);
+      padding: 4px 6px;
+      display: flex;
+      gap: 4px;
+    }
+    .anatomy-btn {
+      font-size: 8px;
+      padding: 2px 5px;
+      border-radius: 3px;
+      background: var(--stone-90);
+      color: var(--sun-10);
+      font-weight: 600;
+    }
+    .anatomy-btn.ghost {
+      background: transparent;
+      color: var(--stone-60);
+      border: 1px solid var(--stone-20);
+    }
+    .anatomy-labels {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 8px;
+    }
+    .anatomy-label {
+      font-size: 11px;
+      color: var(--fg-subtle);
+      line-height: 1.4;
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+    }
+    .anatomy-label::before {
+      content: "→";
+      color: var(--fg-muted);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .anatomy-label strong {
+      color: var(--fg-default);
+      font-weight: 500;
+      display: block;
+    }
 
     /* ── Section heading ─────────────────────────────────── */
     .section-head {
@@ -378,6 +442,25 @@
       margin-bottom: 10px;
       padding-bottom: 6px;
       border-bottom: 1px solid var(--border-default);
+    }
+
+    /* ── Share callout ───────────────────────────────────── */
+    .share-callout {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: var(--stone-90);
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      color: var(--stone-00);
+    }
+    .share-callout-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+    .share-callout h4 { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+    .share-callout p  { font-size: 12px; color: var(--stone-40); margin: 0; line-height: 1.55; }
+    .share-callout code {
+      background: rgba(255,255,255,.1);
+      border-color: rgba(255,255,255,.15);
+      color: var(--sun-10);
     }
 
     /* ── Footer ──────────────────────────────────────────── */
@@ -399,7 +482,7 @@
   <span class="nav-sep">/</span>
   <span class="nav-sub">Tokens Northstar Preview Tool</span>
   <div class="nav-spacer"></div>
-  <span class="nav-badge">v3 · 2026</span>
+  <span class="nav-badge">TNS · Color Phase</span>
 </nav>
 
 <!-- ── Page ─────────────────────────────────────────────── -->
@@ -408,19 +491,19 @@
   <!-- Hero -->
   <header class="hero">
     <div class="hero-eyebrow">
-      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.2"/><path d="M6 4v2.5L7.5 8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-      Bookmarklet · Live Token Inspection
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.2"/><path d="M4 6h4M6 4v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      Bookmarklet · Live Token Remapping
     </div>
-    <h1>Inspect <em>any token</em> on<br>live Apollo surfaces</h1>
-    <p>Install once. Hover any element in the Apollo app to see which Fabric semantic tokens are applied — color, spacing, and typography — without leaving your browser.</p>
+    <h1>Preview <em>Tokens Northstar</em><br>on live Apollo surfaces</h1>
+    <p>Install once. Open the panel on any <code>app.apollo.io</code> page to browse every color token, remap individual values to v2 primitives, or flip the Northstar toggle to preview all 475 changes at once.</p>
   </header>
 
   <!-- Stats -->
   <div class="stats">
-    <div class="stat"><div class="stat-num">482</div><div class="stat-label">Semantic tokens</div></div>
-    <div class="stat"><div class="stat-num">213</div><div class="stat-label">Primitive tokens</div></div>
-    <div class="stat"><div class="stat-num">16</div><div class="stat-label">Type styles</div></div>
-    <div class="stat"><div class="stat-num">3</div><div class="stat-label">Preview modes</div></div>
+    <div class="stat"><div class="stat-num">475</div><div class="stat-label">Mapped v1 → v2 tokens</div></div>
+    <div class="stat"><div class="stat-num">26</div><div class="stat-label">Token categories</div></div>
+    <div class="stat"><div class="stat-num">12</div><div class="stat-label">Primitive ramps</div></div>
+    <div class="stat"><div class="stat-num">1</div><div class="stat-label">Northstar toggle</div></div>
   </div>
 
   <!-- Step 1: Install -->
@@ -429,7 +512,7 @@
       <div class="step-n">1</div>
       <h2>Install the bookmarklet</h2>
     </div>
-    <p class="card-desc">Drag the button below to your browser's bookmarks bar. You only need to do this once.</p>
+    <p class="card-desc">Drag the button below to your browser's bookmarks bar. You only need to do this once — the entire tool is self-contained in the bookmark.</p>
 
     <div class="bm-zone">
       <div class="bm-arrow">⟵</div>
@@ -443,7 +526,7 @@
       </div>
     </div>
 
-    <p class="card-desc" style="margin-bottom:0;">Can't drag? Right-click the button and choose <strong>Bookmark This Link</strong>, or copy the <code>javascript:</code> URL manually.</p>
+    <p class="card-desc" style="margin-bottom:0;">Can't drag? Right-click the button and choose <strong>Bookmark This Link</strong>.</p>
   </div>
 
   <!-- Step 2: Use it -->
@@ -461,380 +544,628 @@
       <div class="how-step">
         <div class="how-icon">✦</div>
         <h3>Click the bookmark</h3>
-        <p>Click <strong>TNS Token Preview</strong> in your bookmarks bar to launch the panel.</p>
+        <p>Click <strong>TNS Token Preview</strong> in your bookmarks bar to open the panel. Click again to close.</p>
       </div>
       <div class="how-step">
-        <div class="how-icon">🔍</div>
-        <h3>Hover to inspect</h3>
-        <p>Move your cursor over any element — the panel shows matching tokens in real time.</p>
+        <div class="how-icon">🎨</div>
+        <h3>Remap or toggle</h3>
+        <p>Browse categories, click any token to override it, or hit <strong>Northstar</strong> to preview all 475 changes at once.</p>
       </div>
     </div>
   </div>
 
-  <!-- Step 3: Preview modes -->
+  <!-- Step 3: Features -->
   <div class="card">
     <div class="card-head">
       <div class="step-n">3</div>
-      <h2>What you can inspect</h2>
+      <h2>What's inside the panel</h2>
     </div>
 
-    <div class="tabs" role="tablist">
-      <button class="tab active" onclick="switchTab(this,'color')" role="tab">Color</button>
-      <button class="tab"        onclick="switchTab(this,'spacing')" role="tab">Spacing</button>
-      <button class="tab"        onclick="switchTab(this,'typography')" role="tab">Typography</button>
+    <div class="anatomy">
+      <div class="anatomy-panel">
+        <div class="anatomy-header">
+          <span style="background:#FBF500;color:#12120F;border-radius:2px;padding:1px 3px;font-size:9px;font-weight:700">F</span>
+          TNS Token Preview
+        </div>
+        <div class="anatomy-body">
+          <div class="anatomy-sidebar">
+            <div class="anatomy-cat">UI / BG</div>
+            <div class="anatomy-cat active">UI / Text</div>
+            <div class="anatomy-cat">Interactive</div>
+            <div class="anatomy-cat">Feedback</div>
+          </div>
+          <div class="anatomy-list">
+            <div class="anatomy-row">
+              <div class="anatomy-dot" style="background:#12120F"></div>
+              <span class="anatomy-arrow">→</span>
+              <div class="anatomy-dot" style="background:#2F2F27"></div>
+            </div>
+            <div class="anatomy-row">
+              <div class="anatomy-dot" style="background:#5F6151"></div>
+              <span class="anatomy-arrow">→</span>
+              <div class="anatomy-dot" style="background:#4D4D41"></div>
+            </div>
+            <div class="anatomy-row">
+              <div class="anatomy-dot" style="background:#ABAD99"></div>
+              <span class="anatomy-arrow">→</span>
+              <div class="anatomy-dot" style="background:#767862"></div>
+            </div>
+          </div>
+        </div>
+        <div class="anatomy-footer">
+          <div class="anatomy-btn">Share</div>
+          <div class="anatomy-btn ghost">CSS</div>
+          <div class="anatomy-btn ghost">Reset</div>
+        </div>
+      </div>
+      <div class="anatomy-labels">
+        <div class="anatomy-label"><div><strong>Category sidebar</strong>26 token groups. Shows per-category change counts as you remap.</div></div>
+        <div class="anatomy-label"><div><strong>Token rows</strong>CSS var name · current hex → v2 target · v2 token path. Click any row to override.</div></div>
+        <div class="anatomy-label"><div><strong>Footer actions</strong>Share encodes your overrides as a URL hash. CSS exports a ready-to-paste <code>:root</code> block.</div></div>
+      </div>
     </div>
 
-    <!-- Color tab -->
-    <div id="tab-color" class="tab-panel active">
-      <p class="section-head">Key semantic tokens (fg · bg · border)</p>
+    <div class="feat-grid">
+      <div class="feat">
+        <div class="feat-icon">☀️</div>
+        <div><h4>Northstar toggle</h4><p>One switch applies all 475 v1→v2 semantic mappings live on the page. Flip it back to restore.</p></div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">🎛</div>
+        <div><h4>Per-token override</h4><p>Click any token to open the primitive swatch picker. Choose from 12 color ramps to override individual values.</p></div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">🔗</div>
+        <div><h4>Share overrides</h4><p>The Share button encodes your current remapping to a URL hash — paste it to send teammates an exact preview state.</p></div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon">📋</div>
+        <div><h4>CSS export</h4><p>Export a <code>:root { }</code> block of all your overrides, ready to paste into any stylesheet.</p></div>
+      </div>
+    </div>
+
+    <div style="margin-top:20px">
+      <p class="section-head">v1 → v2 mapping sample</p>
       <table class="token-table">
         <thead>
           <tr>
-            <th>Token</th>
-            <th>Swatch</th>
-            <th>Primitive</th>
-            <th>Hex</th>
+            <th>v1 CSS var</th>
+            <th>v1 value</th>
+            <th></th>
+            <th>v2 token</th>
+            <th>v2 value</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td><code>fg/neutral/default</code></td><td><span class="swatch" style="background:#12120F"></span></td><td>stone-90</td><td class="hex">#12120F</td></tr>
-          <tr><td><code>fg/neutral/subtle</code></td><td><span class="swatch" style="background:#5F6151"></span></td><td>stone-60</td><td class="hex">#5F6151</td></tr>
-          <tr><td><code>fg/neutral/muted</code></td><td><span class="swatch" style="background:#ABAD99"></span></td><td>stone-40</td><td class="hex">#ABAD99</td></tr>
-          <tr><td><code>bg/neutral/background/default</code></td><td><span class="swatch" style="background:#EFEFEB"></span></td><td>stone-10</td><td class="hex">#EFEFEB</td></tr>
-          <tr><td><code>bg/neutral/surface/default</code></td><td><span class="swatch" style="background:#FFFFFF"></span></td><td>stone-00</td><td class="hex">#FFFFFF</td></tr>
-          <tr><td><code>bg/brand/strong/default</code></td><td><span class="swatch" style="background:#FBF500"></span></td><td>sun-10</td><td class="hex">#FBF500</td></tr>
-          <tr><td><code>border/neutral/default</code></td><td><span class="swatch" style="background:#E4E5D9"></span></td><td>stone-20</td><td class="hex">#E4E5D9</td></tr>
-          <tr><td><code>fg/danger/default</code></td><td><span class="swatch" style="background:#C2001D"></span></td><td>red-60</td><td class="hex">#C2001D</td></tr>
-          <tr><td><code>fg/info/default</code></td><td><span class="swatch" style="background:#0E4BA7"></span></td><td>blue-60</td><td class="hex">#0E4BA7</td></tr>
-          <tr><td><code>fg/success/default</code></td><td><span class="swatch" style="background:#0F691E"></span></td><td>green-60</td><td class="hex">#0F691E</td></tr>
-        </tbody>
-      </table>
-      <div class="feat-grid">
-        <div class="feat">
-          <div class="feat-icon">🎨</div>
-          <div><h4>Role-based semantics</h4><p>Tokens describe purpose (fg/neutral) not appearance. Theming changes semantics, not the token names.</p></div>
-        </div>
-        <div class="feat">
-          <div class="feat-icon">🌓</div>
-          <div><h4>Dark mode–ready</h4><p>All semantic tokens have light/dark assignments. Switch themes by remapping primitives, no rewrites.</p></div>
-        </div>
-        <div class="feat">
-          <div class="feat-icon">🔗</div>
-          <div><h4>Primitive traceability</h4><p>Every token traces back to a v3 stone or sun primitive — no orphaned hex values.</p></div>
-        </div>
-        <div class="feat">
-          <div class="feat-icon">⚠️</div>
-          <div><h4>Raw value detection</h4><p>The panel flags elements using hardcoded hex or rgba values instead of tokens — no token name found.</p></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Spacing tab -->
-    <div id="tab-spacing" class="tab-panel">
-      <p class="section-head">Primitive scale</p>
-      <div class="spacing-scale">
-        <div class="sp-row"><span class="sp-label">spacing-1</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:4px"></div></div><span class="sp-val">4px</span></div>
-        <div class="sp-row"><span class="sp-label">spacing-2</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:8px"></div></div><span class="sp-val">8px</span></div>
-        <div class="sp-row"><span class="sp-label">spacing-4</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:16px"></div></div><span class="sp-val">16px</span></div>
-        <div class="sp-row"><span class="sp-label">spacing-6</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:24px"></div></div><span class="sp-val">24px</span></div>
-        <div class="sp-row"><span class="sp-label">spacing-8</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:32px"></div></div><span class="sp-val">32px</span></div>
-        <div class="sp-row"><span class="sp-label">spacing-12</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:48px"></div></div><span class="sp-val">48px</span></div>
-        <div class="sp-row"><span class="sp-label">spacing-16</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:64px"></div></div><span class="sp-val">64px</span></div>
-      </div>
-
-      <p class="section-head">Semantic gap tokens</p>
-      <table class="token-table" style="margin-bottom:18px">
-        <thead><tr><th>Token</th><th>Value</th><th>Use</th></tr></thead>
-        <tbody>
-          <tr><td><code>gap/element</code></td><td>4px</td><td>Icon-to-label, tight inline pairs</td></tr>
-          <tr><td><code>gap/component</code></td><td>8px</td><td>Items within a component row</td></tr>
-          <tr><td><code>gap/zone</code></td><td>16px</td><td>Between component groups</td></tr>
-          <tr><td><code>gap/section</code></td><td>24px</td><td>Between layout sections</td></tr>
-          <tr><td><code>gap/region</code></td><td>32px</td><td>Between major page regions</td></tr>
-        </tbody>
-      </table>
-
-      <p class="section-head">Semantic padding tokens</p>
-      <table class="token-table">
-        <thead><tr><th>Token</th><th>Value</th><th>Use</th></tr></thead>
-        <tbody>
-          <tr><td><code>padding/element</code></td><td>4px</td><td>Badge, chip, icon-button inset</td></tr>
-          <tr><td><code>padding/component</code></td><td>8px</td><td>Button, input, select inset</td></tr>
-          <tr><td><code>padding/card-compact</code></td><td>16px</td><td>Dense cards, table cells</td></tr>
-          <tr><td><code>padding/card-default</code></td><td>24px</td><td>Standard cards, modal bodies</td></tr>
+          <tr>
+            <td><code>--color-ui-background-primary</code></td>
+            <td><span class="swatch" style="background:#FFFFFF;border:1px solid #E4E5D9"></span></td>
+            <td style="color:var(--fg-muted)">→</td>
+            <td><code>bg/neutral/muted/default</code></td>
+            <td><span class="swatch" style="background:#FFFFFF;border:1px solid #E4E5D9"></span><span class="hex">#FFFFFF</span></td>
+          </tr>
+          <tr>
+            <td><code>--color-ui-text-base-primary</code></td>
+            <td><span class="swatch" style="background:#12120F"></span></td>
+            <td style="color:var(--fg-muted)">→</td>
+            <td><code>fg/neutral/strong</code></td>
+            <td><span class="swatch" style="background:#2F2F27"></span><span class="hex">#2F2F27</span></td>
+          </tr>
+          <tr>
+            <td><code>--color-ui-feedback-info-cta</code></td>
+            <td><span class="swatch" style="background:#1368E7"></span></td>
+            <td style="color:var(--fg-muted)">→</td>
+            <td><code>bg/info/strong/default</code></td>
+            <td><span class="swatch" style="background:#1368E7"></span><span class="hex">#1368E7</span></td>
+          </tr>
+          <tr>
+            <td><code>--color-interactives-primary-default</code></td>
+            <td><span class="swatch" style="background:#12120F"></span></td>
+            <td style="color:var(--fg-muted)">→</td>
+            <td><code>bg/neutral/strong/default</code></td>
+            <td><span class="swatch" style="background:#12120F"></span><span class="hex">#12120F</span></td>
+          </tr>
+          <tr>
+            <td><code>--color-interactives-primary-hover</code></td>
+            <td><span class="swatch" style="background:#3C3D33"></span></td>
+            <td style="color:var(--fg-muted)">→</td>
+            <td><code>bg/neutral/strong/hover</code></td>
+            <td><span class="swatch" style="background:#3C3D33"></span><span class="hex">#3C3D33</span></td>
+          </tr>
         </tbody>
       </table>
     </div>
+  </div>
 
-    <!-- Typography tab -->
-    <div id="tab-typography" class="tab-panel">
-      <p class="section-head">Type scale — Founders Grotesk (display) · ABCDiatype (body)</p>
-      <div class="type-scale">
-        <div class="type-row">
-          <div class="type-meta"><div class="type-token">display-lg</div><div class="type-spec">32px · 40px · −0.5px</div></div>
-          <div class="type-sample" style="font-family:'FoundersGrotesk','Inter',system-ui;font-size:32px;line-height:1.25;letter-spacing:-0.5px;font-weight:400;">Apollo Sales</div>
-        </div>
-        <div class="type-row">
-          <div class="type-meta"><div class="type-token">display-sm</div><div class="type-spec">28px · 36px · −0.5px</div></div>
-          <div class="type-sample" style="font-family:'FoundersGrotesk','Inter',system-ui;font-size:28px;line-height:1.28;letter-spacing:-0.5px;font-weight:400;">Apollo Sales</div>
-        </div>
-        <div class="type-row">
-          <div class="type-meta"><div class="type-token">title-lg</div><div class="type-spec">24px · 32px · −0.3px</div></div>
-          <div class="type-sample" style="font-family:'FoundersGrotesk','Inter',system-ui;font-size:24px;line-height:1.33;letter-spacing:-0.3px;font-weight:400;">Sequences & Tasks</div>
-        </div>
-        <div class="type-row">
-          <div class="type-meta"><div class="type-token">title-md</div><div class="type-spec">20px · 28px · −0.2px</div></div>
-          <div class="type-sample" style="font-size:20px;line-height:1.4;letter-spacing:-0.2px;font-weight:500;">Sequences & Tasks</div>
-        </div>
-        <div class="type-row">
-          <div class="type-meta"><div class="type-token">title-sm</div><div class="type-spec">18px · 26px · −0.1px</div></div>
-          <div class="type-sample" style="font-size:18px;line-height:1.44;letter-spacing:-0.1px;font-weight:500;">People & Companies</div>
-        </div>
-        <div class="type-row">
-          <div class="type-meta"><div class="type-token">subtitle-lg</div><div class="type-spec">16px · 24px · 0px</div></div>
-          <div class="type-sample" style="font-size:16px;line-height:1.5;font-weight:600;">Email Sequences</div>
-        </div>
-        <div class="type-row">
-          <div class="type-meta"><div class="type-token">subtitle-sm</div><div class="type-spec">14px · 20px · 0px</div></div>
-          <div class="type-sample" style="font-size:14px;line-height:1.43;font-weight:600;">Email Sequences</div>
-        </div>
-        <div class="type-row">
-          <div class="type-meta"><div class="type-token">body-lg</div><div class="type-spec">16px · 24px · 0px</div></div>
-          <div class="type-sample" style="font-size:16px;line-height:1.5;font-weight:400;">Identify and reach your best prospects</div>
-        </div>
-        <div class="type-row">
-          <div class="type-meta"><div class="type-token">body-md</div><div class="type-spec">14px · 20px · 0px</div></div>
-          <div class="type-sample" style="font-size:14px;line-height:1.43;font-weight:400;">Identify and reach your best prospects</div>
-        </div>
-        <div class="type-row">
-          <div class="type-meta"><div class="type-token">body-sm</div><div class="type-spec">13px · 18px · 0px</div></div>
-          <div class="type-sample" style="font-size:13px;line-height:1.38;font-weight:400;">Identify and reach your best prospects with</div>
-        </div>
-        <div class="type-row">
-          <div class="type-meta"><div class="type-token">caption-lg</div><div class="type-spec">12px · 16px · +0.1px</div></div>
-          <div class="type-sample" style="font-size:12px;line-height:1.33;letter-spacing:0.1px;font-weight:400;">Last contacted · 3 days ago · via email</div>
-        </div>
-        <div class="type-row">
-          <div class="type-meta"><div class="type-token">caption-sm</div><div class="type-spec">11px · 16px · +0.2px</div></div>
-          <div class="type-sample" style="font-size:11px;line-height:1.45;letter-spacing:0.2px;font-weight:500;text-transform:uppercase;color:var(--fg-subtle);">Qualified · New · Outbound</div>
-        </div>
-      </div>
+  <!-- Share callout -->
+  <div class="share-callout">
+    <div class="share-callout-icon">🔗</div>
+    <div>
+      <h4>Sharing a preview state</h4>
+      <p>Hit <strong>Share</strong> in the panel footer — the URL updates to include a <code>#tnsp=…</code> hash encoding all your current overrides. Copy and paste the URL to send teammates an exact preview state. They'll see the same remapping when they open the panel on the same page.</p>
     </div>
-
-  </div><!-- /card -->
+  </div>
 
   <!-- Footer -->
-  <p class="footer">Fabric Design System · Tokens Northstar · <a href="#">TNS Sandbox</a> · <a href="#">Notion Changelog</a></p>
+  <p class="footer">Fabric Design System · Tokens Northstar · <a href="./">TNS Sandbox</a></p>
 
 </main>
 
 <script>
-/* ── Tab switcher ─────────────────────────────────── */
-function switchTab(btn, id) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('tab-' + id).classList.add('active');
+/* ── Bookmarklet source ──────────────────────────────────── */
+const BOOKMARKLET_SOURCE = `(function(){
+var ID='__tnsp__';
+var existing=document.getElementById(ID);
+if(existing){existing.remove();return;}
+
+/* ── Token data ─────────────────────────────── */
+var NS={"--color-ui-background-primary":["#FFFFFF","bg/neutral/muted/default"],"--color-ui-background-secondary":["#F9F9F6","bg/neutral/subtle/default"],"--color-ui-background-tertiary":["#EFEFEB","bg/neutral/base/default"],"--color-ui-text-base-primary":["#2F2F27","fg/neutral/strong"],"--color-ui-text-base-secondary":["#4D4D41","fg/neutral/base"],"--color-ui-text-base-tertiary":["#5F6151","fg/neutral/subtle"],"--color-ui-text-base-quaternary":["#767862","fg/neutral/muted"],"--color-ui-text-base-disabled":["#CCCDBF","fg/neutral/base-inverse"],"--color-ui-text-base-primary-inverse":["#FFFFFF","fg/neutral/heavy-inverse"],"--color-ui-text-base-links":["#0A3576","fg/info/base"],"--color-ui-text-feedback-info-dark":["#051B3D","fg/info/strong"],"--color-ui-text-feedback-positive-dark":["#083710","fg/positive/strong"],"--color-ui-text-feedback-caution-light":["#8F3E00","fg/caution/base"],"--color-ui-text-feedback-caution-dark":["#4D2100","fg/caution/strong"],"--color-ui-text-feedback-negative-light":["#940016","fg/negative/base"],"--color-ui-text-feedback-negative-dark":["#4C000B","fg/negative/strong"],"--color-ui-text-feedback-ai-dark":["#2D0B47","fg/ai/strong"],"--color-ui-feedback-info-background-1":["#F1F6FE","bg/info/muted/default"],"--color-ui-feedback-info-background-2":["#E3EDFD","bg/info/subtle/default"],"--color-ui-feedback-info-hover":["#E3EDFD","bg/info/muted/hover"],"--color-ui-feedback-info-pressed":["#69A0F3","bg/info/base/pressed"],"--color-ui-feedback-info-cta":["#1368E7","bg/info/strong/default"],"--color-ui-feedback-positive-background-1":["#F1FDF3","bg/positive/muted/default"],"--color-ui-feedback-positive-background-2":["#E5FBE9","bg/positive/subtle/default"],"--color-ui-feedback-positive-hover":["#A6F2B2","bg/positive/base/hover"],"--color-ui-feedback-positive-pressed":["#5FE876","bg/positive/base/pressed"],"--color-ui-feedback-positive-cta":["#1AB333","bg/positive/strong/default"],"--color-ui-feedback-caution-background-1":["#FFF6F0","bg/caution/muted/default"],"--color-ui-feedback-caution-background-2":["#FFEDE0","bg/caution/subtle/default"],"--color-ui-feedback-caution-hover":["#FFCBA3","bg/caution/base/hover"],"--color-ui-feedback-caution-pressed":["#FFA35C","bg/caution/base/pressed"],"--color-ui-feedback-caution-cta":["#F06800","bg/caution/strong/default"],"--color-ui-feedback-negative-background-1":["#FFF0F2","bg/negative/muted/default"],"--color-ui-feedback-negative-background-2":["#FFE6EA","bg/negative/subtle/default"],"--color-ui-feedback-negative-hover":["#FFBDC7","bg/negative/base/hover"],"--color-ui-feedback-negative-pressed":["#FF6B81","bg/negative/base/pressed"],"--color-ui-feedback-negative-cta":["#FA0026","bg/negative/strong/default"],"--color-ui-feedback-completion-completed":["#1AB333","bg/positive/strong/default"],"--color-ui-feedback-completion-completed-hover":["#138727","bg/positive/strong/hover"],"--color-ui-feedback-completion-incomplete":["#EFEFEB","bg/neutral/base/default"],"--color-ui-feedback-completion-incomplete-hover":["#E4E5D9","bg/neutral/base/hover"],"--color-ui-feedback-completion-incomplete-2":["#767862","bg/neutral/heavy/default"],"--color-ui-feedback-completion-error":["#FFE6EA","bg/negative/subtle/default"],"--color-ui-feedback-completion-error-hover":["#FFD6DC","bg/negative/subtle/hover"],"--color-ui-feedback-completion-error-2":["#C2001D","fg/negative/subtle"],"--color-ui-feedback-completion-in-progress":["#E3EDFD","bg/info/subtle/default"],"--color-ui-feedback-completion-in-progress-hover":["#CBDEFB","bg/info/subtle/hover"],"--color-ui-feedback-completion-in-progress-2":["#1368E7","bg/info/strong/default"],"--color-ui-border-white":["#EFEFEB","border/neutral/muted"],"--color-ui-border-light":["#E4E5D9","border/neutral/subtle"],"--color-ui-border-default":["#CCCDBF","border/neutral/base"],"--color-ui-border-dark":["#ABAD99","border/neutral/strong"],"--color-ui-border-black":["#2F2F27","border/neutral/muted-inverse"],"--color-ui-border-count-inverse":["#FFFFFF","overlay/highlight"],"--color-ui-brand-apollo":["#FBF500","bg/brand/default"],"--color-ui-brand-action":["#FBF500","bg/brand/default"],"--color-ui-icons-primary":["#2F2F27","fg/neutral/strong"],"--color-ui-icons-secondary":["#4D4D41","fg/neutral/base"],"--color-ui-icons-tertiary":["#5F6151","fg/neutral/subtle"],"--color-ui-icons-quaternary":["#767862","fg/neutral/muted"],"--color-ui-icons-disabled":["#767862","fg/neutral/muted"],"--color-ui-icons-primary-inverse":["#FFFFFF","fg/neutral/heavy-inverse"],"--color-ui-icons-links":["#0A3576","fg/info/base"],"--color-ui-icons-action":["#2F2F27","fg/neutral/strong"],"--color-ui-icons-info":["#0A3576","fg/info/base"],"--color-ui-icons-positive":["#0F691E","fg/positive/base"],"--color-ui-icons-caution":["#8F3E00","fg/caution/base"],"--color-ui-icons-negative-1":["#4C000B","fg/negative/strong"],"--color-ui-icons-negative-2":["#940016","fg/negative/base"],"--color-ui-icons-ai":["#541584","fg/ai/base"],"--color-interactives-badge-sand-default":["#EFEFEB","bg/neutral/base/default"],"--color-interactives-badge-sand-hover":["#E4E5D9","bg/neutral/base/hover"],"--color-interactives-badge-sand-pressed":["#CCCDBF","bg/neutral/base/pressed"],"--color-interactives-badge-sand-dot":["#5F6151","fg/neutral/subtle"],"--color-interactives-badge-sand-icon":["#2F2F27","fg/neutral/strong"],"--color-interactives-badge-sand-label":["#2F2F27","fg/neutral/strong"],"--color-interactives-badge-ocean-default":["#CBDEFB","bg/info/base/default"],"--color-interactives-badge-ocean-hover":["#A1C3F7","bg/info/base/hover"],"--color-interactives-badge-ocean-pressed":["#69A0F3","bg/info/base/pressed"],"--color-interactives-badge-ocean-dot":["#0E4BA7","fg/info/subtle"],"--color-interactives-badge-ocean-icon":["#051B3D","fg/info/strong"],"--color-interactives-badge-ocean-label":["#051B3D","fg/info/strong"],"--color-interactives-badge-evergreen-default":["#CEF8D5","bg/positive/base/default"],"--color-interactives-badge-evergreen-hover":["#A6F2B2","bg/positive/base/hover"],"--color-interactives-badge-evergreen-pressed":["#5FE876","bg/positive/base/pressed"],"--color-interactives-badge-evergreen-dot":["#138727","fg/positive/subtle"],"--color-interactives-badge-evergreen-icon":["#083710","fg/positive/strong"],"--color-interactives-badge-evergreen-label":["#083710","fg/positive/strong"],"--color-interactives-badge-ember-default":["#FFDFC7","bg/caution/base/default"],"--color-interactives-badge-ember-hover":["#FFCBA3","bg/caution/base/hover"],"--color-interactives-badge-ember-pressed":["#FFA35C","bg/caution/base/pressed"],"--color-interactives-badge-ember-dot":["#B24D00","fg/caution/subtle"],"--color-interactives-badge-ember-icon":["#4D2100","fg/caution/strong"],"--color-interactives-badge-ember-label":["#4D2100","fg/caution/strong"],"--color-interactives-badge-rust-default":["#FFD6DC","bg/negative/base/default"],"--color-interactives-badge-rust-hover":["#FFBDC7","bg/negative/base/hover"],"--color-interactives-badge-rust-pressed":["#FF6B81","bg/negative/base/pressed"],"--color-interactives-badge-rust-dot":["#C2001D","fg/negative/subtle"],"--color-interactives-badge-rust-icon":["#4C000B","fg/negative/strong"],"--color-interactives-badge-rust-label":["#4C000B","fg/negative/strong"],"--color-interactives-badge-tropic-default":["#D5F6FB","bg/color/aqua/base/default"],"--color-interactives-badge-tropic-hover":["#B8ECF5","bg/color/aqua/base/hover"],"--color-interactives-badge-tropic-pressed":["#98E3F1","bg/color/aqua/base/pressed"],"--color-interactives-badge-tropic-dot":["#189CB4","fg/color/aqua/subtle"],"--color-interactives-badge-tropic-icon":["#09373F","fg/color/aqua/strong"],"--color-interactives-badge-tropic-label":["#09373F","fg/color/aqua/strong"],"--color-interactives-badge-pebble-default":["#E8E2D8","bg/color/brown/base/default"],"--color-interactives-badge-pebble-hover":["#D9D0BF","bg/color/brown/base/hover"],"--color-interactives-badge-pebble-pressed":["#BAA88B","bg/color/brown/base/pressed"],"--color-interactives-badge-pebble-dot":["#65563C","fg/color/brown/subtle"],"--color-interactives-badge-pebble-icon":["#292319","fg/color/brown/strong"],"--color-interactives-badge-pebble-label":["#292319","fg/color/brown/strong"],"--color-interactives-badge-sakura-default":["#FFD1FF","bg/color/pink/base/default"],"--color-interactives-badge-sakura-hover":["#FFB3FF","bg/color/pink/base/hover"],"--color-interactives-badge-sakura-pressed":["#FF6EFF","bg/color/pink/base/pressed"],"--color-interactives-badge-sakura-dot":["#CC00CC","fg/color/pink/subtle"],"--color-interactives-badge-sakura-icon":["#480048","fg/color/pink/strong"],"--color-interactives-badge-sakura-label":["#480048","fg/color/pink/strong"],"--color-interactives-badge-iris-default":["#EAD7F9","bg/ai/base/default"],"--color-interactives-badge-iris-hover":["#DAB8F4","bg/ai/base/hover"],"--color-interactives-badge-iris-pressed":["#BE83EC","bg/ai/base/pressed"],"--color-interactives-badge-iris-dot":["#701CB0","fg/ai/subtle"],"--color-interactives-badge-iris-icon":["#2D0B47","fg/ai/strong"],"--color-interactives-badge-iris-label":["#2D0B47","fg/ai/strong"],"--color-interactives-badge-moss-default":["#E2FCC0","bg/color/lime/base/default"],"--color-interactives-badge-moss-hover":["#D7F9B3","bg/color/lime/base/hover"],"--color-interactives-badge-moss-pressed":["#C4F68D","bg/color/lime/base/pressed"],"--color-interactives-badge-moss-dot":["#254205","fg/color/lime/strong"],"--color-interactives-badge-moss-icon":["#254205","fg/color/lime/strong"],"--color-interactives-badge-moss-label":["#254205","fg/color/lime/strong"],"--color-interactives-badge-sand-inverse-default":["#3C3D33","bg/neutral/inverse/base/default"],"--color-interactives-badge-sand-inverse-hover":["#2F2F27","bg/neutral/inverse/base/hover"],"--color-interactives-badge-sand-inverse-pressed":["#252521","bg/neutral/inverse/base/pressed"],"--color-interactives-badge-sand-inverse-dot":["#EFEFEB","fg/neutral/strong-inverse"],"--color-interactives-badge-sand-inverse-icon":["#EFEFEB","fg/neutral/strong-inverse"],"--color-interactives-badge-sand-inverse-label":["#EFEFEB","fg/neutral/strong-inverse"],"--color-interactives-button-primary-active":["#2F2F27","bg/neutral/inverse/strong/default"],"--color-interactives-button-primary-hover":["#252521","bg/neutral/inverse/strong/hover"],"--color-interactives-button-primary-pressed":["#12120F","bg/neutral/inverse/strong/pressed"],"--color-interactives-button-primary-focus":["#2F2F27","bg/neutral/inverse/strong/default"],"--color-interactives-button-primary-disabled":["#F9F9F6","bg/neutral/base/disabled"],"--color-interactives-button-primary-loading":["#F9F9F6","bg/neutral/base/disabled"],"--color-interactives-button-primary-icon":["#FFFFFF","fg/neutral/heavy-inverse"],"--color-interactives-button-primary-label":["#FFFFFF","fg/neutral/heavy-inverse"],"--color-interactives-button-primary-split-divider":["#4D4D41","border/neutral/base-inverse"],"--color-interactives-button-primary-split-divider-disabled":["#EFEFEB","border/neutral/muted"],"--color-interactives-button-secondary-active":["#FFFFFF","bg/neutral/muted/default"],"--color-interactives-button-secondary-hover":["#F9F9F6","bg/neutral/muted/hover"],"--color-interactives-button-secondary-pressed":["#EFEFEB","bg/neutral/muted/pressed"],"--color-interactives-button-secondary-focus":["#FFFFFF","bg/neutral/muted/default"],"--color-interactives-button-secondary-disabled":["#FFFFFF","bg/neutral/muted/disabled"],"--color-interactives-button-secondary-loading":["#FFFFFF","bg/neutral/muted/default"],"--color-interactives-button-secondary-border":["#CCCDBF","border/neutral/base"],"--color-interactives-button-secondary-icon":["#2F2F27","fg/neutral/strong"],"--color-interactives-button-secondary-label":["#2F2F27","fg/neutral/strong"],"--color-interactives-button-secondary-split-divider":["#CCCDBF","border/neutral/base"],"--color-interactives-button-secondary-split-divider-disabled":["#EFEFEB","border/neutral/muted"],"--color-interactives-button-tertiary-active":["#FFFFFF","bg/neutral/muted/default"],"--color-interactives-button-tertiary-hover":["#F9F9F6","bg/neutral/muted/hover"],"--color-interactives-button-tertiary-pressed":["#EFEFEB","bg/neutral/muted/pressed"],"--color-interactives-button-tertiary-focus":["#FFFFFF","bg/neutral/muted/default"],"--color-interactives-button-tertiary-disabled":["#FFFFFF","bg/neutral/muted/disabled"],"--color-interactives-button-tertiary-loading":["#FFFFFF","bg/neutral/muted/default"],"--color-interactives-button-tertiary-icon":["#2F2F27","fg/neutral/strong"],"--color-interactives-button-tertiary-label":["#2F2F27","fg/neutral/strong"],"--color-interactives-button-tertiary-split-divider":["#CCCDBF","border/neutral/base"],"--color-interactives-button-tertiary-split-divider-disabled":["#EFEFEB","border/neutral/muted"],"--color-interactives-button-brand-active":["#FBF500","bg/brand/default"],"--color-interactives-button-brand-hover":["#F2EC00","bg/brand/hover"],"--color-interactives-button-brand-pressed":["#E1DC21","bg/brand/pressed"],"--color-interactives-button-brand-focus":["#FBF500","bg/brand/default"],"--color-interactives-button-brand-disabled":["#FFFFFF","bg/brand/disabled"],"--color-interactives-button-brand-loading":["#FBF500","bg/brand/default"],"--color-interactives-button-brand-icon":["#12120F","fg/neutral/heavy"],"--color-interactives-button-brand-label":["#12120F","fg/neutral/heavy"],"--color-interactives-button-brand-split-divider":["#E1DC21","border/apollo/base"],"--color-interactives-button-brand-split-divider-disabled":["#EFEFEB","border/neutral/muted"],"--color-interactives-button-growth-active":["#FBF500","bg/brand/default"],"--color-interactives-button-growth-hover":["#F2EC00","bg/brand/hover"],"--color-interactives-button-growth-pressed":["#E1DC21","bg/brand/pressed"],"--color-interactives-button-growth-focus":["#FBF500","bg/brand/default"],"--color-interactives-button-growth-disabled":["#FFFFFF","bg/brand/disabled"],"--color-interactives-button-growth-loading":["#FBF500","bg/brand/default"],"--color-interactives-button-growth-icon":["#EFEFEB","fg/neutral/strong-inverse"],"--color-interactives-button-growth-label":["#EFEFEB","fg/neutral/strong-inverse"],"--color-interactives-button-growth-split-divider":["#4D4D41","border/neutral/base-inverse"],"--color-interactives-button-growth-split-divider-disabled":["#2F2F27","border/neutral/muted-inverse"],"--color-interactives-button-destroy-primary-active":["#FA0026","bg/negative/strong/default"],"--color-interactives-button-destroy-primary-hover":["#C2001D","bg/negative/strong/hover"],"--color-interactives-button-destroy-primary-pressed":["#940016","bg/negative/strong/pressed"],"--color-interactives-button-destroy-primary-focus":["#FA0026","bg/negative/strong/default"],"--color-interactives-button-destroy-primary-disabled":["#FFF0F2","bg/negative/strong/disabled"],"--color-interactives-button-destroy-primary-loading":["#FA0026","bg/negative/strong/default"],"--color-interactives-button-destroy-primary-icon":["#FFFFFF","fg/neutral/heavy-inverse"],"--color-interactives-button-destroy-primary-label":["#FFFFFF","fg/neutral/heavy-inverse"],"--color-interactives-button-destroy-primary-split-divider":["#FF6B81","border/negative/strong"],"--color-interactives-button-destroy-primary-split-divider-disabled":["#EFEFEB","border/neutral/muted"],"--color-interactives-button-destroy-tertiary-active":["#FFF0F2","bg/negative/muted/default"],"--color-interactives-button-destroy-tertiary-hover":["#FFE6EA","bg/negative/muted/hover"],"--color-interactives-button-destroy-tertiary-pressed":["#FFD6DC","bg/negative/muted/pressed"],"--color-interactives-button-destroy-tertiary-focus":["#FFF0F2","bg/negative/muted/default"],"--color-interactives-button-destroy-tertiary-disabled":["#FFFFFF","bg/negative/muted/disabled"],"--color-interactives-button-destroy-tertiary-loading":["#FFF0F2","bg/negative/muted/default"],"--color-interactives-button-destroy-tertiary-icon":["#4C000B","fg/negative/strong"],"--color-interactives-button-destroy-tertiary-label":["#4C000B","fg/negative/strong"],"--color-interactives-button-destroy-tertiary-split-divider":["#FFBDC7","border/negative/base"],"--color-interactives-button-destroy-tertiary-split-divider-disabled":["#FFE6EA","border/negative/muted"],"--color-interactives-button-reversed-active":["#FFFFFF","bg/neutral/muted/default"],"--color-interactives-button-reversed-hover":["#F9F9F6","bg/neutral/muted/hover"],"--color-interactives-button-reversed-pressed":["#EFEFEB","bg/neutral/muted/pressed"],"--color-interactives-button-reversed-focus":["#FFFFFF","bg/neutral/muted/default"],"--color-interactives-button-reversed-disabled":["#FFFFFF","bg/neutral/muted/disabled"],"--color-interactives-button-reversed-loading":["#FFFFFF","bg/neutral/muted/disabled"],"--color-interactives-button-reversed-icon":["#12120F","fg/neutral/heavy"],"--color-interactives-button-reversed-label":["#12120F","fg/neutral/heavy"],"--color-interactives-button-reversed-split-divider":["#EFEFEB","border/neutral/muted"],"--color-interactives-button-reversed-split-divider-disabled":["#EFEFEB","border/neutral/muted"],"--color-interactives-button-focus-ring-focus":["#1368E7","border/focus/base"],"--color-interactives-button-ai-primary-bg-default":["#F3E9FB","bg/ai/subtle/default"],"--color-interactives-button-ai-primary-bg-hover":["#EAD7F9","bg/ai/subtle/hover"],"--color-interactives-button-ai-primary-bg-pressed":["#DAB8F4","bg/ai/subtle/pressed"],"--color-interactives-button-ai-primary-bg-focus":["#F3E9FB","bg/ai/subtle/default"],"--color-interactives-button-ai-primary-bg-disabled":["#F8F2FD","bg/ai/strong/disabled"],"--color-interactives-button-ai-primary-bg-loading":["#F8F2FD","bg/ai/strong/disabled"],"--color-interactives-button-ai-primary-border-default":["#DAB8F4","border/ai/base"],"--color-interactives-button-ai-primary-border-hover":["#BE83EC","border/ai/strong"],"--color-interactives-button-ai-primary-border-pressed":["#BE83EC","border/ai/strong"],"--color-interactives-button-ai-primary-icon":["#2D0B47","fg/ai/strong"],"--color-interactives-button-ai-primary-label":["#2D0B47","fg/ai/strong"],"--color-interactives-button-ai-primary-split-divider":["#DAB8F4","border/ai/base"],"--color-interactives-button-ai-primary-split-divider-disabled":["#F3E9FB","border/ai/muted"],"--color-interactives-button-ai-secondary-bg-default":["#F8F2FD","bg/ai/muted/default"],"--color-interactives-button-ai-secondary-bg-hover":["#F3E9FB","bg/ai/muted/hover"],"--color-interactives-button-ai-secondary-bg-pressed":["#EAD7F9","bg/ai/muted/pressed"],"--color-interactives-button-ai-secondary-bg-focus":["#F8F2FD","bg/ai/muted/default"],"--color-interactives-button-ai-secondary-bg-disabled":["#FFFFFF","bg/ai/muted/disabled"],"--color-interactives-button-ai-secondary-bg-loading":["#FFFFFF","bg/ai/muted/disabled"],"--color-interactives-button-ai-secondary-border-default":["#EAD7F9","border/ai/subtle"],"--color-interactives-button-ai-secondary-border-hover":["#DAB8F4","border/ai/base"],"--color-interactives-button-ai-secondary-border-pressed":["#BE83EC","border/ai/strong"],"--color-interactives-button-ai-secondary-icon":["#541584","fg/ai/base"],"--color-interactives-button-ai-secondary-label":["#541584","fg/ai/base"],"--color-interactives-button-ai-secondary-split-divider":["#EAD7F9","border/ai/subtle"],"--color-interactives-button-ai-secondary-split-divider-disabled":["#F3E9FB","border/ai/muted"],"--color-interactives-chip-background-default":["#FFFFFF","bg/neutral/muted/default"],"--color-interactives-chip-background-hover":["#F9F9F6","bg/neutral/muted/hover"],"--color-interactives-chip-background-pressed":["#EFEFEB","bg/neutral/muted/pressed"],"--color-interactives-chip-background-disabled":["#FFFFFF","bg/neutral/muted/disabled"],"--color-interactives-chip-background-loading":["#FFFFFF","bg/neutral/muted/disabled"],"--color-interactives-chip-background-selected":["#EFEFEB","bg/neutral/base/default"],"--color-interactives-chip-background-selected-hover":["#E4E5D9","bg/neutral/base/hover"],"--color-interactives-chip-background-selected-pressed":["#CCCDBF","bg/neutral/base/pressed"],"--color-interactives-chip-background-selected-disabled":["#F9F9F6","bg/neutral/base/disabled"],"--color-interactives-chip-background-active":["#EFEFEB","bg/neutral/base/default"],"--color-interactives-chip-background-active-hover":["#E4E5D9","bg/neutral/base/hover"],"--color-interactives-chip-background-active-pressed":["#CCCDBF","bg/neutral/base/pressed"],"--color-interactives-chip-border-default":["#E4E5D9","border/neutral/subtle"],"--color-interactives-chip-border-error":["#FA0026","border/negative/heavy"],"--color-interactives-chip-border-active":["#ABAD99","border/neutral/strong"],"--color-interactives-chip-text-default":["#2F2F27","fg/neutral/strong"],"--color-interactives-chip-text-disabled":["#767862","fg/neutral/muted"],"--color-interactives-chip-text-inverse":["#EFEFEB","fg/neutral/strong-inverse"],"--color-interactives-chip-text-active":["#2F2F27","fg/neutral/strong"],"--color-interactives-chip-icon-default":["#2F2F27","fg/neutral/strong"],"--color-interactives-chip-icon-active":["#2F2F27","fg/neutral/strong"],"--color-interactives-chip-icon-disabled":["#767862","fg/neutral/muted"],"--color-interactives-chip-icon-inverse":["#EFEFEB","fg/neutral/strong-inverse"],"--color-interactives-chip-icon-error":["#4C000B","fg/negative/strong"],"--color-interactives-field-background-default":["#FFFFFF","bg/neutral/muted/default"],"--color-interactives-field-background-disabled":["#EFEFEB","bg/neutral/heavy/disabled"],"--color-interactives-field-border-default":["#CCCDBF","border/neutral/base"],"--color-interactives-field-border-disabled":["#E4E5D9","border/neutral/subtle"],"--color-interactives-field-border-hover":["#ABAD99","border/neutral/strong"],"--color-interactives-field-border-pressed":["#767862","border/neutral/heavy"],"--color-interactives-field-border-focus":["#1368E7","border/focus/base"],"--color-interactives-field-border-error":["#FA0026","border/negative/heavy"],"--color-interactives-close-button-ocean-default":["#000000","bg/alpha/shadow/default"],"--color-interactives-close-button-ocean-hover":["#072655","bg/alpha/info/hover"],"--color-interactives-close-button-ocean-pressed":["#072655","bg/alpha/info/pressed"],"--color-interactives-close-button-sand-inverse-default":["#FFFFFF","bg/alpha/highlight/muted"],"--color-interactives-close-button-sand-inverse-hover":["#FFFFFF","bg/alpha/highlight/subtle"],"--color-interactives-close-button-sand-inverse-pressed":["#FFFFFF","bg/alpha/highlight/base"],"--color-interactives-close-button-sand-default":["#000000","bg/alpha/shadow/default"],"--color-interactives-close-button-sand-hover":["#252521","bg/alpha/shadow/hover"],"--color-interactives-close-button-sand-pressed":["#252521","bg/alpha/shadow/pressed"],"--color-interactives-close-button-pebble-default":["#000000","bg/alpha/shadow/default"],"--color-interactives-close-button-pebble-hover":["#382F21","bg/alpha/brown/hover"],"--color-interactives-close-button-pebble-pressed":["#382F21","bg/alpha/brown/pressed"],"--color-interactives-close-button-moss-default":["#000000","bg/alpha/shadow/default"],"--color-interactives-close-button-moss-hover":["#0B4A15","bg/alpha/lime/hover"],"--color-interactives-close-button-moss-pressed":["#0B4A15","bg/alpha/lime/pressed"],"--color-interactives-close-button-iris-default":["#000000","bg/alpha/shadow/default"],"--color-interactives-close-button-iris-hover":["#3E0F62","bg/alpha/ai/hover"],"--color-interactives-close-button-iris-pressed":["#3E0F62","bg/alpha/ai/pressed"],"--color-interactives-close-button-sakura-default":["#000000","bg/alpha/shadow/default"],"--color-interactives-close-button-sakura-hover":["#660066","bg/alpha/pink/hover"],"--color-interactives-close-button-sakura-pressed":["#660066","bg/alpha/pink/pressed"],"--color-interactives-close-button-tropic-default":["#000000","bg/alpha/shadow/default"],"--color-interactives-close-button-tropic-hover":["#0C4E5A","bg/alpha/aqua/hover"],"--color-interactives-close-button-tropic-pressed":["#0C4E5A","bg/alpha/aqua/pressed"],"--color-interactives-close-button-rust-default":["#000000","bg/alpha/shadow/default"],"--color-interactives-close-button-rust-hover":["#66000F","bg/alpha/negative/hover"],"--color-interactives-close-button-rust-pressed":["#66000F","bg/alpha/negative/pressed"],"--color-interactives-close-button-ember-default":["#000000","bg/alpha/shadow/default"],"--color-interactives-close-button-ember-hover":["#662C00","bg/alpha/caution/hover"],"--color-interactives-close-button-ember-pressed":["#662C00","bg/alpha/caution/pressed"],"--color-interactives-close-button-evergreen-default":["#000000","bg/alpha/shadow/default"],"--color-interactives-close-button-evergreen-hover":["#0B4A15","bg/alpha/positive/hover"],"--color-interactives-close-button-evergreen-pressed":["#0B4A15","bg/alpha/positive/pressed"],"--color-interactives-checkbox-radio-unselected-active":["#FFFFFF","bg/neutral/muted/default"],"--color-interactives-checkbox-radio-unselected-hover":["#F9F9F6","bg/neutral/muted/hover"],"--color-interactives-checkbox-radio-unselected-pressed":["#EFEFEB","bg/neutral/muted/pressed"],"--color-interactives-checkbox-radio-selected-active":["#3C3D33","bg/neutral/inverse/base/default"],"--color-interactives-checkbox-radio-selected-hover":["#2F2F27","bg/neutral/inverse/base/hover"],"--color-interactives-checkbox-radio-selected-pressed":["#252521","bg/neutral/inverse/base/pressed"],"--color-interactives-checkbox-radio-disabled-background":["#FFFFFF","bg/neutral/muted/disabled"],"--color-interactives-checkbox-radio-disabled-border":["#EFEFEB","border/neutral/muted"],"--color-interactives-checkbox-radio-background-primary":["#FFFFFF","bg/neutral/muted/default"],"--color-interactives-checkbox-radio-background-secondary":["#F9F9F6","bg/neutral/subtle/default"],"--color-interactives-utility-background-1":["#FFFFFF","bg/neutral/muted/default"],"--color-interactives-utility-background-2":["#F9F9F6","bg/neutral/subtle/default"],"--color-interactives-utility-background-3":["#EFEFEB","bg/neutral/base/default"],"--color-interactives-utility-background-4":["#E4E5D9","bg/neutral/strong/default"],"--color-interactives-utility-hover":["#EFEFEB","bg/neutral/subtle/hover"],"--color-interactives-utility-pressed":["#E4E5D9","bg/neutral/subtle/pressed"],"--color-interactives-utility-disabled":["#FFFFFF","bg/neutral/muted/disabled"],"--color-interactives-utility-selected-1":["#E4E5D9","bg/neutral/strong/default"],"--color-interactives-utility-selected-1-hover":["#CCCDBF","bg/neutral/strong/hover"],"--color-interactives-utility-selected-1-pressed":["#ABAD99","bg/neutral/strong/pressed"],"--color-interactives-utility-selected-1-disabled":["#EFEFEB","bg/neutral/strong/disabled"],"--color-interactives-utility-selected-2":["#2F2F27","bg/neutral/inverse/strong/default"],"--color-interactives-utility-selected-2-hover":["#252521","bg/neutral/inverse/strong/hover"],"--color-interactives-utility-selected-2-pressed":["#12120F","bg/neutral/inverse/strong/pressed"],"--color-interactives-utility-selected-2-disabled":["#3C3D33","bg/neutral/inverse/strong/disabled"],"--color-interactives-utility-hover-reversed":["#3C3D33","bg/neutral/inverse/subtle/hover"],"--color-interactives-utility-pressed-reversed":["#2F2F27","bg/neutral/inverse/subtle/pressed"],"--color-interactives-utility-focus-reversed":["#2F2F27","bg/neutral/inverse/strong/default"],"--color-interactives-utility-alpha-default":["#000000","bg/alpha/shadow/default"],"--color-interactives-utility-alpha-hover":["#252521","bg/alpha/shadow/hover"],"--color-interactives-utility-alpha-pressed":["#252521","bg/alpha/shadow/pressed"],"--color-interactives-utility-alpha-inverse-default":["#FFFFFF","bg/alpha/highlight/base"],"--color-interactives-utility-alpha-inverse-hover":["#FFFFFF","bg/alpha/highlight/subtle"],"--color-interactives-utility-alpha-inverse-pressed":["#FFFFFF","bg/alpha/highlight/muted"],"--color-interactives-utility-ai-bg-default":["#F8F2FD","bg/ai/muted/default"],"--color-interactives-utility-ai-bg-hover":["#F3E9FB","bg/ai/muted/hover"],"--color-interactives-utility-ai-bg-pressed":["#EAD7F9","bg/ai/muted/pressed"],"--color-interactives-utility-ai-border-1":["#EAD7F9","border/ai/subtle"],"--color-interactives-utility-ai-border-2":["#DAB8F4","border/ai/base"],"--color-interactives-links-default-text-default":["#4D4D41","fg/neutral/base"],"--color-interactives-links-default-text-disabled":["#CCCDBF","fg/neutral/base-inverse"],"--color-interactives-links-default-text-hover":["#2F2F27","fg/neutral/strong"],"--color-interactives-links-default-text-pressed":["#12120F","fg/neutral/heavy"],"--color-interactives-links-default-text-focus":["#4D4D41","fg/neutral/base"],"--color-interactives-links-default-underline-default":["#CCCDBF","border/neutral/base"],"--color-interactives-links-default-underline-disabled":["#EFEFEB","border/neutral/muted"],"--color-interactives-links-default-underline-hover":["#ABAD99","border/neutral/strong"],"--color-interactives-links-default-underline-pressed":["#767862","border/neutral/heavy"],"--color-interactives-links-default-underline-focus":["#CCCDBF","border/neutral/base"],"--color-interactives-links-inverse-text-default":["#FFFFFF","fg/neutral/heavy-inverse"],"--color-interactives-links-inverse-text-disabled":["#767862","fg/neutral/muted-inverse"],"--color-interactives-links-inverse-text-hover":["#EFEFEB","fg/neutral/strong-inverse"],"--color-interactives-links-inverse-text-pressed":["#CCCDBF","fg/neutral/base-inverse"],"--color-interactives-links-inverse-text-focus":["#FFFFFF","fg/neutral/heavy-inverse"],"--color-interactives-links-inverse-underline-default":["#4D4D41","border/neutral/base-inverse"],"--color-interactives-links-inverse-underline-disabled":["#2F2F27","border/neutral/muted-inverse"],"--color-interactives-links-inverse-underline-hover":["#5F6151","border/neutral/strong-inverse"],"--color-interactives-links-inverse-underline-pressed":["#5F6151","border/neutral/strong-inverse"],"--color-interactives-links-inverse-underline-focus":["#4D4D41","border/neutral/base-inverse"],"--color-interactives-links-hyperlink-text-default":["#0E4BA7","fg/info/subtle"],"--color-interactives-links-hyperlink-text-disabled":["#CCCDBF","fg/neutral/base-inverse"],"--color-interactives-links-hyperlink-text-hover":["#0A3576","fg/info/base"],"--color-interactives-links-hyperlink-text-pressed":["#051B3D","fg/info/strong"],"--color-interactives-links-hyperlink-text-focus":["#0E4BA7","fg/info/subtle"],"--color-interactives-links-hyperlink-underline-default":["#A1C3F7","border/info/base"],"--color-interactives-links-hyperlink-underline-disabled":["#EFEFEB","border/neutral/muted"],"--color-interactives-links-hyperlink-underline-hover":["#69A0F3","border/info/strong"],"--color-interactives-links-hyperlink-underline-pressed":["#1368E7","border/info/heavy"],"--color-interactives-links-hyperlink-underline-focus":["#A1C3F7","border/info/base"],"--color-interactives-list-default":["#FFFFFF","bg/neutral/muted/default"],"--color-interactives-list-hover":["#F9F9F6","bg/neutral/muted/hover"],"--color-interactives-list-pressed":["#EFEFEB","bg/neutral/muted/pressed"],"--color-interactives-list-disabled":["#FFFFFF","bg/neutral/muted/disabled"],"--color-interactives-list-selected-default":["#EFEFEB","bg/neutral/base/default"],"--color-interactives-list-selected-hover":["#E4E5D9","bg/neutral/base/hover"],"--color-interactives-list-selected-pressed":["#CCCDBF","bg/neutral/base/pressed"],"--color-interactives-list-selected-navigation":["#2F2F27","bg/neutral/inverse/strong/default"],"--color-interactives-list-icon":["#4D4D41","fg/neutral/base"],"--color-interactives-toggle-off-active":["#E4E5D9","bg/neutral/strong/default"],"--color-interactives-toggle-off-hover":["#CCCDBF","bg/neutral/strong/hover"],"--color-interactives-toggle-off-pressed":["#ABAD99","bg/neutral/strong/pressed"],"--color-interactives-toggle-on-active":["#2F2F27","bg/neutral/inverse/strong/default"],"--color-interactives-toggle-on-hover":["#252521","bg/neutral/inverse/strong/hover"],"--color-interactives-toggle-on-pressed":["#12120F","bg/neutral/inverse/strong/pressed"],"--color-interactives-toggle-knob":["#FFFFFF","bg/neutral/muted/default"],"--color-interactives-toggle-disabled-off":["#EFEFEB","bg/neutral/strong/disabled"],"--color-interactives-toggle-disabled-on":["#3C3D33","bg/neutral/inverse/strong/disabled"],"--color-interactives-pagination-default":["#E4E5D9","bg/neutral/strong/default"],"--color-interactives-pagination-hover":["#CCCDBF","bg/neutral/strong/hover"],"--color-interactives-pagination-pressed":["#ABAD99","bg/neutral/strong/pressed"],"--color-interactives-pagination-current":["#3C3D33","bg/neutral/inverse/base/default"],"--color-interactives-slider-default":["#2F2F27","bg/neutral/inverse/strong/default"],"--color-interactives-slider-default-disabled":["#FFFFFF","bg/neutral/subtle/disabled"],"--color-interactives-slider-background":["#F9F9F6","bg/neutral/subtle/default"],"--color-interactives-slider-background-disabled":["#FFFFFF","bg/neutral/subtle/disabled"],"--color-interactives-slider-hover":["#252521","bg/neutral/inverse/strong/hover"],"--color-interactives-slider-pressed":["#12120F","bg/neutral/inverse/strong/pressed"],"--color-interactives-slider-focus":["#2F2F27","bg/neutral/inverse/strong/default"],"--color-interactives-slider-error":["#FA0026","bg/negative/strong/default"],"--color-interactives-tooltip-default":["#2F2F27","bg/neutral/inverse/strong/default"],"--color-interactives-avatar-sand-default":["#EFEFEB","bg/neutral/base/default"],"--color-interactives-avatar-sand-icon":["#2F2F27","fg/neutral/strong"],"--color-interactives-avatar-ocean-default":["#CBDEFB","bg/info/base/default"],"--color-interactives-avatar-ocean-icon":["#051B3D","fg/info/strong"],"--color-interactives-avatar-evergreen-default":["#CEF8D5","bg/positive/base/default"],"--color-interactives-avatar-evergreen-icon":["#083710","fg/positive/strong"],"--color-interactives-avatar-ember-default":["#FFDFC7","bg/caution/base/default"],"--color-interactives-avatar-ember-icon":["#4D2100","fg/caution/strong"],"--color-interactives-avatar-rust-default":["#FFD6DC","bg/negative/base/default"],"--color-interactives-avatar-rust-icon":["#4C000B","fg/negative/strong"],"--color-interactives-avatar-tropic-default":["#D5F6FB","bg/color/aqua/base/default"],"--color-interactives-avatar-tropic-icon":["#09373F","fg/color/aqua/strong"],"--color-interactives-avatar-pebble-default":["#E8E2D8","bg/color/brown/base/default"],"--color-interactives-avatar-pebble-icon":["#292319","fg/color/brown/strong"],"--color-interactives-avatar-sakura-default":["#FFD1FF","bg/color/pink/base/default"],"--color-interactives-avatar-sakura-icon":["#480048","fg/color/pink/strong"],"--color-interactives-avatar-iris-default":["#EAD7F9","bg/ai/base/default"],"--color-interactives-avatar-iris-icon":["#2D0B47","fg/ai/strong"],"--color-interactives-avatar-moss-default":["#E2FCC0","bg/color/lime/base/default"],"--color-interactives-avatar-moss-icon":["#254205","fg/color/lime/strong"],"--color-interactives-avatar-sand-inverse-default":["#3C3D33","bg/neutral/inverse/base/default"],"--color-interactives-avatar-sand-inverse-icon":["#EFEFEB","fg/neutral/strong-inverse"],"--color-cards-border-white":["#EFEFEB","border/neutral/muted"],"--color-cards-border-light":["#E4E5D9","border/neutral/subtle"],"--color-cards-border-default":["#CCCDBF","border/neutral/base"],"--color-cards-border-hover":["#ABAD99","border/neutral/strong"],"--color-cards-border-pressed":["#ABAD99","border/neutral/strong"],"--color-cards-border-selected":["#3C3D33","border/neutral/subtle-inverse"],"--color-cards-background-default":["#FFFFFF","bg/neutral/muted/default"],"--color-cards-background-hover":["#F9F9F6","bg/neutral/muted/hover"],"--color-cards-background-pressed":["#EFEFEB","bg/neutral/muted/pressed"],"--color-cards-background-disabled":["#FFFFFF","bg/neutral/muted/disabled"],"--color-cards-background-selected":["#EFEFEB","bg/neutral/base/default"],"--color-cards-background-selected-hover":["#E4E5D9","bg/neutral/base/hover"],"--color-cards-background-selected-pressed":["#CCCDBF","bg/neutral/base/pressed"],"--color-modals-background-background-1":["#FFFFFF","bg/neutral/muted/default"],"--color-modals-background-background-2":["#EFEFEB","bg/neutral/base/default"],"--color-modals-border-default":["#CCCDBF","border/neutral/base"],"--color-modals-border-light":["#E4E5D9","border/neutral/subtle"],"--color-tables-background-default":["#FFFFFF","bg/neutral/muted/default"],"--color-tables-background-secondary":["#F9F9F6","bg/neutral/subtle/default"],"--color-tables-background-enrichment":["#F1F6FE","bg/info/muted/default"],"--color-tables-background-hover":["#F9F9F6","bg/neutral/muted/hover"],"--color-tables-background-hover-secondary":["#EFEFEB","bg/neutral/subtle/hover"],"--color-tables-background-hover-enrichment":["#E3EDFD","bg/info/muted/hover"],"--color-tables-background-pressed":["#EFEFEB","bg/neutral/muted/pressed"],"--color-tables-background-pressed-secondary":["#E4E5D9","bg/neutral/subtle/pressed"],"--color-tables-background-selected":["#EFEFEB","bg/neutral/base/default"],"--color-tables-background-error":["#FFF0F2","bg/negative/muted/default"],"--color-tables-background-caution":["#FFF6F0","bg/caution/muted/default"],"--color-tables-background-positive":["#F1FDF3","bg/positive/muted/default"],"--color-tables-background-ai":["#F8F2FD","bg/ai/muted/default"],"--color-tables-background-drag":["#F1F6FE","bg/info/muted/default"],"--color-tables-border-default":["#E4E5D9","border/neutral/subtle"],"--color-tables-border-selected":["#ABAD99","border/neutral/strong"],"--color-data-viz-engagement-graph-background":["#EFEFEB","bg/neutral/base/default"],"--color-data-viz-engagement-graph-dataset-1":["#767862","fg/neutral/muted"],"--color-data-viz-engagement-graph-dataset-2":["#12120F","fg/neutral/heavy"],"--color-data-viz-buying-intent-background":["#EFEFEB","bg/neutral/base/default"],"--color-data-viz-buying-intent-signal":["#12120F","fg/neutral/heavy"],"--color-data-viz-progress-indicators-remainder":["#EFEFEB","bg/neutral/base/default"],"--color-data-viz-progress-indicators-complete":["#1AB333","bg/positive/strong/default"],"--color-data-viz-progress-indicators-in-progress":["#12120F","fg/neutral/heavy"],"--color-data-viz-progress-indicators-caution":["#F06800","bg/caution/strong/default"],"--color-data-viz-progress-indicators-error":["#FA0026","bg/negative/strong/default"],"--color-skeleton-background-default":["#EFEFEB","bg/neutral/base/default"]};
+var PAL=[["stone",[["00","#FFFFFF"],["05","#F9F9F6"],["10","#EFEFEB"],["20","#E4E5D9"],["30","#CCCDBF"],["40","#ABAD99"],["50","#767862"],["60","#5F6151"],["70","#4D4D41"],["80","#3C3D33"],["90","#2F2F27"],["95","#252521"],["100","#12120F"]]],["sun",[["10","#FBF500"],["20","#F2EC00"],["30","#E1DC21"],["40","#CBC958"],["50","#9E9C51"],["60","#79773D"],["70","#58562F"],["80","#424124"]]],["blue",[["05","#F1F6FE"],["10","#E3EDFD"],["20","#CBDEFB"],["30","#A1C3F7"],["40","#69A0F3"],["50","#1368E7"],["60","#0E4BA7"],["70","#0A3576"],["80","#072655"],["90","#051B3D"],["95","#030F22"]]],["green",[["05","#F1FDF3"],["10","#E5FBE9"],["20","#CEF8D5"],["30","#A6F2B2"],["40","#5FE876"],["50","#1AB333"],["60","#138727"],["70","#0F691E"],["80","#0B4A15"],["90","#083710"],["95","#041C08"]]],["red",[["05","#FFF0F2"],["10","#FFE6EA"],["20","#FFD6DC"],["30","#FFBDC7"],["40","#FF6B81"],["50","#FA0026"],["60","#C2001D"],["70","#940016"],["80","#66000F"],["90","#4C000B"],["95","#240005"]]],["orange",[["05","#FFF6F0"],["10","#FFEDE0"],["20","#FFDFC7"],["30","#FFCBA3"],["40","#FFA35C"],["50","#F06800"],["60","#B24D00"],["70","#8F3E00"],["80","#662C00"],["90","#4D2100"],["95","#230F00"]]],["purple",[["05","#F8F2FD"],["10","#F3E9FB"],["20","#EAD7F9"],["30","#DAB8F4"],["40","#BE83EC"],["50","#9534DF"],["60","#701CB0"],["70","#541584"],["80","#3E0F62"],["90","#2D0B47"],["95","#14051F"]]],["pink",[["05","#FFF0FA"],["10","#FFE5F6"],["20","#FFD1F0"],["30","#FFB3E6"],["40","#FF6ECF"],["50","#FF14B1"],["60","#CC0088"],["70","#970065"],["80","#660044"],["90","#480030"],["95","#240018"]]],["brown",[["05","#F7F5F3"],["10","#EFEDE6"],["20","#E8E2D8"],["30","#D9D0BF"],["40","#BAA88B"],["50","#877250"],["60","#65563C"],["70","#4F432F"],["80","#382F21"],["90","#292319"],["95","#15120C"]]],["aqua",[["05","#F1FCFE"],["10","#E3F9FC"],["20","#D5F6FB"],["30","#B8ECF5"],["40","#98E3F1"],["50","#30C8E3"],["60","#189CB4"],["70","#127587"],["80","#0C4E5A"],["90","#09373F"],["95","#041C20"]]],["lime",[["05","#F7FEF0"],["10","#EBFCD9"],["20","#E2FCC0"],["30","#D7F9B3"],["40","#C4F68D"],["50","#8DED26"],["60","#69BD0F"],["70","#4F8E0B"],["80","#345E08"],["90","#254205"],["95","#132103"]]],["magenta",[["05","#FFF0FF"],["10","#FFE5FF"],["20","#FFD1FF"],["30","#FFB3FF"],["40","#FF6EFF"],["50","#FF14FF"],["60","#CC00CC"],["70","#970097"],["80","#660066"],["90","#480048"],["95","#240024"]]]];
+var CATS=[["--color-ui-background","UI / Background"],["--color-ui-text","UI / Text"],["--color-ui-feedback","UI / Feedback"],["--color-ui-border","UI / Border"],["--color-ui-brand","UI / Brand"],["--color-ui-icons","UI / Icons"],["--color-interactives-button","Interactives / Button"],["--color-interactives-badge","Interactives / Badge"],["--color-interactives-chip","Interactives / Chip"],["--color-interactives-field","Interactives / Field"],["--color-interactives-checkbox","Interactives / Checkbox"],["--color-interactives-close","Interactives / Close"],["--color-interactives-utility","Interactives / Utility"],["--color-interactives-links","Interactives / Links"],["--color-interactives-list","Interactives / List"],["--color-interactives-toggle","Interactives / Toggle"],["--color-interactives-pagination","Interactives / Pagination"],["--color-interactives-slider","Interactives / Slider"],["--color-interactives-tooltip","Interactives / Tooltip"],["--color-interactives-avatar","Interactives / Avatar"],["--color-interactives-announcement","Interactives / Banner"],["--color-cards","Cards"],["--color-modals","Modals"],["--color-tables","Tables"],["--color-data-viz","Data Viz"],["--color-skeleton","Skeleton"]];
+
+/* ── Helpers ─────────────────────────────────── */
+function cssVar(path){return '--'+path.replace(/\//g,'-');}
+
+function getVarValue(v){
+  var s=getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+  return s||null;
 }
 
-/* ══════════════════════════════════════════════════════════
-   BOOKMARKLET SOURCE
-   Paste the href below onto the #bm-link <a> tag.
-   The encodeURIComponent'd version is set programmatically
-   below so the source is readable in this file.
-   ══════════════════════════════════════════════════════════ */
-const BOOKMARKLET_SOURCE = `(function(){
-  const ID='__tns_panel__';
-  const existing=document.getElementById(ID);
-  if(existing){existing.remove();document.body.style.cursor='';return;}
+function resolveToHex(v){
+  try{
+    var el=document.createElement('div');
+    el.style.cssText='position:fixed;visibility:hidden;background:var('+v+')';
+    document.body.appendChild(el);
+    var c=getComputedStyle(el).backgroundColor;
+    el.remove();
+    var m=c.match(/\d+/g);
+    if(m&&m.length>=3){
+      return '#'+[m[0],m[1],m[2]].map(function(n){return (+n).toString(16).padStart(2,'0')}).join('').toUpperCase();
+    }
+  }catch(e){}
+  return null;
+}
 
-  /* ── Token maps ── */
-  const COLOR_MAP={
-    '#12120f':'fg/neutral/default (stone-90)',
-    '#ffffff':'bg/neutral/surface (stone-00)',
-    '#f9f9f6':'bg/neutral/subtle (stone-05)',
-    '#efefeb':'bg/neutral/background (stone-10)',
-    '#e4e5d9':'border/neutral/default (stone-20)',
-    '#cccdbf':'border/neutral/subtle (stone-30)',
-    '#abad99':'fg/neutral/muted (stone-40)',
-    '#767862':'fg/neutral/placeholder (stone-50)',
-    '#5f6151':'fg/neutral/subtle (stone-60)',
-    '#4d4d41':'fg/neutral/strong (stone-70)',
-    '#3c3d33':'fg/neutral/stronger (stone-80)',
-    '#fbf500':'bg/brand/strong/default (sun-10)',
-    '#f2ec00':'bg/brand/strong/hover (sun-20)',
-    '#e1dc21':'bg/brand/strong/pressed (sun-30)',
-    '#c2001d':'fg/danger/default (red-60)',
-    '#fa0026':'fg/danger/hover (red-50)',
-    '#940016':'fg/danger/strong (red-70)',
-    '#ffe6ea':'bg/danger/subtle (red-10)',
-    '#ffd6dc':'border/danger (red-20)',
-    '#0e4ba7':'fg/info/default (blue-60)',
-    '#e3edfd':'bg/info/subtle (blue-10)',
-    '#cbdefb':'border/info (blue-20)',
-    '#0f691e':'fg/success/default (green-60)',
-    '#e5fbe9':'bg/success/subtle (green-10)',
-    '#cef8d5':'border/success (green-20)',
-    '#541584':'fg/ai/default (purple-60)',
-    '#f3e9fb':'bg/ai/subtle (purple-10)',
-    '#8f3e00':'fg/warning/default (orange-60)',
-    '#ffede0':'bg/warning/subtle (orange-10)',
-    '#ffdfc7':'border/warning (orange-20)',
-  };
+function getCat(v){
+  for(var i=0;i<CATS.length;i++){if(v.startsWith(CATS[i][0]))return CATS[i][1];}
+  return 'Other';
+}
 
-  const SPACING_MAP={
-    '4px':'spacing-1 · gap/element · padding/element',
-    '8px':'spacing-2 · gap/component · padding/component',
-    '16px':'spacing-4 · gap/zone · padding/card-compact',
-    '24px':'spacing-6 · gap/section · padding/card-default',
-    '32px':'spacing-8 · gap/region',
-    '48px':'spacing-12',
-    '64px':'spacing-16',
-  };
+/* ── Discover page tokens ─────────────────────── */
+function discoverVars(){
+  var found={};
+  try{
+    for(var i=0;i<document.styleSheets.length;i++){
+      var sheet=document.styleSheets[i];
+      try{
+        var rules=sheet.cssRules||[];
+        for(var j=0;j<rules.length;j++){
+          var rule=rules[j];
+          collectFromRule(rule,found);
+          if(rule.cssRules){
+            for(var k=0;k<rule.cssRules.length;k++) collectFromRule(rule.cssRules[k],found);
+          }
+        }
+      }catch(e){}
+    }
+  }catch(e){}
+  return found;
+}
 
-  const TYPE_MAP={
-    '32px-400':'display-lg · FoundersGrotesk',
-    '28px-400':'display-sm · FoundersGrotesk',
-    '24px-400':'title-lg · FoundersGrotesk',
-    '20px-500':'title-md',
-    '18px-500':'title-sm',
-    '16px-600':'subtitle-lg',
-    '16px-400':'body-lg',
-    '14px-600':'subtitle-sm',
-    '14px-500':'label-md',
-    '14px-400':'body-md',
-    '13px-400':'body-sm',
-    '12px-400':'caption-lg',
-    '11px-500':'caption-sm',
-  };
-
-  function rgbToHex(rgb){
-    const m=rgb.match(/rgba?\\((\\d+),\\s*(\\d+),\\s*(\\d+)/);
-    if(!m)return rgb.toLowerCase();
-    return '#'+[m[1],m[2],m[3]].map(n=>parseInt(n).toString(16).padStart(2,'0')).join('');
+function collectFromRule(rule,found){
+  if(!rule.style)return;
+  for(var i=0;i<rule.style.length;i++){
+    var p=rule.style[i];
+    if(p.startsWith('--color-')&&NS[p]){
+      found[p]=rule.style.getPropertyValue(p).trim();
+    }
   }
+}
 
-  function lookupColor(hex){
-    return COLOR_MAP[hex.toLowerCase()]||null;
-  }
+/* ── State ─────────────────────────────────────── */
+var pageVars=discoverVars();
+var overrides={};  // cssVar -> hex
+var northstarActive=false;
+var activeCategory='__all__';
+var searchQuery='';
 
-  function lookupSpacing(px){
-    return SPACING_MAP[px]||null;
-  }
+/* ── Load state from URL hash ─────────────────── */
+(function(){
+  try{
+    var h=location.hash;
+    var m=h.match(/[#&]tnsp=([^&]+)/);
+    if(m){
+      var decoded=JSON.parse(decodeURIComponent(atob(m[1])));
+      Object.keys(decoded).forEach(function(k){
+        overrides[k]=decoded[k];
+        document.documentElement.style.setProperty(k,decoded[k]);
+      });
+    }
+  }catch(e){}
+})();
 
-  function lookupType(size,weight){
-    const key=size+'-'+weight;
-    return TYPE_MAP[key]||null;
-  }
+/* ── Build panel ───────────────────────────────── */
+var panel=document.createElement('div');
+panel.id=ID;
 
-  function rows(label,val,tok){
-    const bad=!tok;
-    const dot=bad?'🔴':'🟢';
-    return '<div style="display:flex;gap:6px;align-items:baseline;padding:3px 0;border-bottom:1px solid rgba(18,18,15,.06)">'+
-      '<span style="width:6px;flex-shrink:0;margin-top:4px">'+dot+'</span>'+
-      '<span style="font-size:11px;color:#5F6151;width:60px;flex-shrink:0">'+label+'</span>'+
-      '<span style="font-size:11px;font-family:monospace;color:'+(bad?'#C2001D':'#12120F')+';word-break:break-all">'+
-        (tok||('<span style="color:#C2001D">raw: '+val+'</span>'))+
-      '</span></div>';
-  }
+var style=document.createElement('style');
+style.textContent=[
+  '#__tnsp__{position:fixed;top:0;right:0;width:420px;height:100vh;background:#F9F9F6;border-left:1px solid #E4E5D9;',
+  'box-shadow:-4px 0 24px rgba(18,18,15,.12);z-index:2147483647;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;',
+  'font-size:13px;color:#12120F;display:flex;flex-direction:column;overflow:hidden;}',
+  '#__tnsp__ *{box-sizing:border-box;margin:0;padding:0;}',
+  /* Header */
+  '.__tnsp-hd{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#FFFFFF;border-bottom:1px solid #E4E5D9;flex-shrink:0;}',
+  '.__tnsp-logo{width:22px;height:22px;background:#12120F;border-radius:4px;display:flex;align-items:center;justify-content:center;',
+  'color:#FBF500;font-size:9px;font-weight:700;flex-shrink:0;}',
+  '.__tnsp-title{font-size:13px;font-weight:600;color:#12120F;}',
+  '.__tnsp-badge{font-size:10px;font-weight:600;background:#E4E5D9;color:#4D4D41;padding:1px 6px;border-radius:99px;white-space:nowrap;}',
+  '.__tnsp-badge-v2{font-size:10px;font-weight:600;background:#FBF500;color:#12120F;padding:1px 6px;border-radius:99px;white-space:nowrap;}',
+  '.__tnsp-spacer{flex:1;}',
+  /* Northstar toggle */
+  '.__tnsp-ns-wrap{display:flex;align-items:center;gap:5px;flex-shrink:0;}',
+  '.__tnsp-ns-label{font-size:11px;color:#5F6151;white-space:nowrap;}',
+  '.__tnsp-ns-toggle{position:relative;width:30px;height:17px;cursor:pointer;}',
+  '.__tnsp-ns-toggle input{opacity:0;width:0;height:0;position:absolute;}',
+  '.__tnsp-ns-track{position:absolute;inset:0;background:#CCCDBF;border-radius:99px;transition:background .15s;}',
+  '.__tnsp-ns-toggle input:checked+.__tnsp-ns-track{background:#12120F;}',
+  '.__tnsp-ns-thumb{position:absolute;top:2px;left:2px;width:13px;height:13px;background:#fff;border-radius:50%;transition:left .15s;}',
+  '.__tnsp-ns-toggle input:checked~.__tnsp-ns-thumb{left:15px;}',
+  /* Close */
+  '.__tnsp-close{background:none;border:none;cursor:pointer;color:#ABAD99;font-size:17px;line-height:1;padding:2px 4px;flex-shrink:0;}',
+  '.__tnsp-close:hover{color:#12120F;}',
+  /* Body */
+  '.__tnsp-body{display:flex;flex:1;overflow:hidden;}',
+  /* Sidebar */
+  '.__tnsp-sb{width:148px;flex-shrink:0;overflow-y:auto;border-right:1px solid #E4E5D9;background:#FFFFFF;padding:6px 0;}',
+  '.__tnsp-sb-label{font-size:9px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:#ABAD99;padding:10px 12px 4px;}',
+  '.__tnsp-cat{display:flex;align-items:center;justify-content:space-between;padding:5px 12px;cursor:pointer;color:#5F6151;font-size:11.5px;',
+  'border-radius:0;transition:background .1s,color .1s;white-space:nowrap;}',
+  '.__tnsp-cat:hover{background:#EFEFEB;color:#12120F;}',
+  '.__tnsp-cat.__tnsp-cat-active{background:#EFEFEB;color:#12120F;font-weight:600;}',
+  '.__tnsp-cat-count{font-size:10px;color:#ABAD99;margin-left:4px;flex-shrink:0;}',
+  '.__tnsp-cat-active .__tnsp-cat-count{color:#5F6151;}',
+  /* Main */
+  '.__tnsp-main{flex:1;display:flex;flex-direction:column;overflow:hidden;}',
+  '.__tnsp-search-wrap{padding:8px 10px;border-bottom:1px solid #E4E5D9;background:#FFFFFF;flex-shrink:0;}',
+  '.__tnsp-search{width:100%;border:1px solid #E4E5D9;border-radius:5px;padding:5px 9px;font-size:12px;color:#12120F;',
+  'background:#F9F9F6;outline:none;}',
+  '.__tnsp-search:focus{border-color:#ABAD99;}',
+  '.__tnsp-list{flex:1;overflow-y:auto;padding:4px 0;}',
+  /* Token rows */
+  '.__tnsp-row{padding:7px 10px;border-bottom:1px solid #F3F3EF;cursor:pointer;transition:background .1s;}',
+  '.__tnsp-row:hover{background:#EFEFEB;}',
+  '.__tnsp-row.__tnsp-row-active{background:#EFEFEB;}',
+  '.__tnsp-row-name{font-size:10.5px;font-family:monospace;color:#4D4D41;margin-bottom:5px;',
+  'overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}',
+  '.__tnsp-row-vals{display:flex;align-items:center;gap:6px;}',
+  '.__tnsp-swatch{width:18px;height:18px;border-radius:3px;border:1px solid rgba(18,18,15,.1);flex-shrink:0;display:inline-block;}',
+  '.__tnsp-val-hex{font-family:monospace;font-size:10.5px;color:#5F6151;}',
+  '.__tnsp-arrow{color:#CCCDBF;font-size:11px;flex-shrink:0;}',
+  '.__tnsp-v2-token{font-size:10px;color:#ABAD99;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;}',
+  '.__tnsp-override-dot{width:6px;height:6px;border-radius:50%;background:#FBF500;border:1px solid #E1DC21;flex-shrink:0;}',
+  /* Picker */
+  '.__tnsp-picker{background:#FFFFFF;border-top:1px solid #E4E5D9;padding:10px 12px;flex-shrink:0;max-height:220px;overflow-y:auto;}',
+  '.__tnsp-picker-title{font-size:10px;font-weight:600;color:#5F6151;letter-spacing:.3px;text-transform:uppercase;margin-bottom:8px;}',
+  '.__tnsp-ramp{display:flex;align-items:center;gap:4px;margin-bottom:6px;}',
+  '.__tnsp-ramp-label{font-size:10px;color:#ABAD99;width:44px;flex-shrink:0;}',
+  '.__tnsp-ramp-swatches{display:flex;gap:3px;flex-wrap:wrap;}',
+  '.__tnsp-ps{width:16px;height:16px;border-radius:2px;border:1px solid rgba(18,18,15,.1);cursor:pointer;flex-shrink:0;transition:transform .1s;}',
+  '.__tnsp-ps:hover{transform:scale(1.3);z-index:1;position:relative;}',
+  '.__tnsp-ps.__tnsp-ps-active{outline:2px solid #12120F;outline-offset:1px;}',
+  '.__tnsp-picker-actions{display:flex;gap:6px;margin-top:8px;}',
+  '.__tnsp-btn-sm{font-size:11px;font-weight:500;padding:4px 10px;border-radius:5px;border:1px solid #E4E5D9;',
+  'background:#FFFFFF;cursor:pointer;color:#4D4D41;transition:background .1s;}',
+  '.__tnsp-btn-sm:hover{background:#EFEFEB;}',
+  /* Footer */
+  '.__tnsp-ft{display:flex;align-items:center;gap:6px;padding:8px 12px;border-top:1px solid #E4E5D9;background:#FFFFFF;flex-shrink:0;}',
+  '.__tnsp-ft-btn{font-size:11.5px;font-weight:500;padding:5px 12px;border-radius:5px;border:1px solid #E4E5D9;',
+  'background:#FFFFFF;cursor:pointer;color:#4D4D41;transition:background .1s;}',
+  '.__tnsp-ft-btn:hover{background:#EFEFEB;}',
+  '.__tnsp-ft-btn-primary{background:#12120F;color:#FBF500;border-color:transparent;}',
+  '.__tnsp-ft-btn-primary:hover{background:#3C3D33;}',
+  '.__tnsp-ft-spacer{flex:1;}',
+  '.__tnsp-ft-meta{font-size:10.5px;color:#ABAD99;}',
+].join('');
+document.head.appendChild(style);
 
-  /* ── Build panel ── */
-  const panel=document.createElement('div');
-  panel.id=ID;
-  panel.style.cssText='position:fixed;bottom:16px;right:16px;width:340px;max-height:480px;overflow-y:auto;background:#FFFFFF;border:1px solid #E4E5D9;border-radius:14px;box-shadow:0 8px 32px rgba(18,18,15,.14);z-index:999999;font-family:system-ui,sans-serif;transition:opacity .15s';
+/* ── Category counts ─────────────────────────────── */
+var catCounts={'__all__':0};
+CATS.forEach(function(c){catCounts[c[1]]=0;});
+Object.keys(pageVars).forEach(function(v){
+  catCounts['__all__']++;
+  var cat=getCat(v);
+  if(catCounts[cat]!==undefined)catCounts[cat]++;
+  else catCounts[cat]=1;
+});
 
-  const header=document.createElement('div');
-  header.style.cssText='display:flex;align-items:center;justify-content:space-between;padding:12px 16px 10px;border-bottom:1px solid #EFEFEB;position:sticky;top:0;background:#FFFFFF;border-radius:14px 14px 0 0';
-  header.innerHTML='<div style="display:flex;align-items:center;gap:8px"><div style="width:20px;height:20px;background:#12120F;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#FBF500;font-size:9px;font-weight:700;flex-shrink:0">F</div><span style="font-size:13px;font-weight:600;color:#12120F">TNS Token Preview</span></div><button onclick="document.getElementById(\\''+ID+'\\').remove();document.body.style.cursor=\\'\\'" style="background:none;border:none;cursor:pointer;color:#ABAD99;font-size:16px;line-height:1;padding:2px 4px">×</button>';
-  panel.appendChild(header);
+/* ── Build panel HTML ─────────────────────────────── */
+panel.innerHTML=[
+  '<div class="__tnsp-hd">',
+    '<div class="__tnsp-logo">F</div>',
+    '<span class="__tnsp-title">Token Preview</span>',
+    '<span class="__tnsp-badge" id="__tnsp_chg__">0 changes</span>',
+    '<span class="__tnsp-badge-v2">v2 Preview</span>',
+    '<div class="__tnsp-spacer"></div>',
+    '<div class="__tnsp-ns-wrap">',
+      '<span class="__tnsp-ns-label">Northstar</span>',
+      '<label class="__tnsp-ns-toggle">',
+        '<input type="checkbox" id="__tnsp_ns_cb__">',
+        '<div class="__tnsp-ns-track"></div>',
+        '<div class="__tnsp-ns-thumb"></div>',
+      '</label>',
+    '</div>',
+    '<button class="__tnsp-close" id="__tnsp_x__">×</button>',
+  '</div>',
+  '<div class="__tnsp-body">',
+    '<div class="__tnsp-sb" id="__tnsp_sb__"></div>',
+    '<div class="__tnsp-main">',
+      '<div class="__tnsp-search-wrap">',
+        '<input class="__tnsp-search" id="__tnsp_q__" placeholder="Search tokens…" type="search">',
+      '</div>',
+      '<div class="__tnsp-list" id="__tnsp_list__"></div>',
+      '<div id="__tnsp_picker__" style="display:none"></div>',
+    '</div>',
+  '</div>',
+  '<div class="__tnsp-ft">',
+    '<button class="__tnsp-ft-btn __tnsp-ft-btn-primary" id="__tnsp_share__">Share</button>',
+    '<button class="__tnsp-ft-btn" id="__tnsp_css__">CSS</button>',
+    '<div class="__tnsp-ft-spacer"></div>',
+    '<span class="__tnsp-ft-meta" id="__tnsp_meta__"></span>',
+    '<button class="__tnsp-ft-btn" id="__tnsp_reset__">Reset</button>',
+  '</div>',
+].join('');
 
-  /* ── Mode tabs ── */
-  let activeMode='color';
-  const tabBar=document.createElement('div');
-  tabBar.style.cssText='display:flex;gap:2px;padding:8px 12px 0;background:#F9F9F6;';
-  ['color','spacing','type'].forEach(mode=>{
-    const t=document.createElement('button');
-    t.textContent={color:'Color',spacing:'Spacing',type:'Type'}[mode];
-    t.dataset.mode=mode;
-    t.style.cssText='font-size:11px;font-weight:500;padding:4px 10px;border-radius:6px;border:none;cursor:pointer;transition:background .1s,color .1s;background:transparent;color:#5F6151';
-    t.onclick=()=>{activeMode=mode;document.querySelectorAll('[data-mode]').forEach(b=>{b.style.background=b.dataset.mode===mode?'#FFFFFF':'transparent';b.style.color=b.dataset.mode===mode?'#12120F':'#5F6151';});};
-    tabBar.appendChild(t);
+document.body.appendChild(panel);
+
+/* ── Sidebar ─────────────────────────────────────── */
+function buildSidebar(){
+  var sb=document.getElementById('__tnsp_sb__');
+  var html='<div class="__tnsp-sb-label">Semantic</div>';
+  html+='<div class="__tnsp-cat'+(activeCategory==='__all__'?' __tnsp-cat-active':'')+'" data-cat="__all__">All Semantic<span class="__tnsp-cat-count">'+catCounts['__all__']+'</span></div>';
+  CATS.forEach(function(c){
+    var label=c[1];
+    var count=catCounts[label]||0;
+    if(!count)return;
+    var active=activeCategory===label?' __tnsp-cat-active':'';
+    html+='<div class="__tnsp-cat'+active+'" data-cat="'+label+'">'+label+'<span class="__tnsp-cat-count">'+count+'</span></div>';
   });
-  panel.appendChild(tabBar);
-  // activate default
-  tabBar.querySelector('[data-mode="color"]').style.background='#FFFFFF';
-  tabBar.querySelector('[data-mode="color"]').style.color='#12120F';
+  sb.innerHTML=html;
+  sb.querySelectorAll('.__tnsp-cat').forEach(function(el){
+    el.addEventListener('click',function(){
+      activeCategory=el.dataset.cat;
+      buildSidebar();
+      buildList();
+    });
+  });
+}
 
-  const body=document.createElement('div');
-  body.style.cssText='padding:12px 16px 16px';
-  const hint=document.createElement('div');
-  hint.style.cssText='font-size:12px;color:#ABAD99;padding:12px 0';
-  hint.textContent='Hover an element to inspect tokens…';
-  body.appendChild(hint);
-  panel.appendChild(body);
-  document.body.appendChild(panel);
+/* ── Token list ─────────────────────────────────── */
+var activeRow=null;
 
-  /* ── Hover inspection ── */
-  let lastEl=null;
-  function inspect(el){
-    if(el===lastEl||el===panel||panel.contains(el))return;
-    lastEl=el;
-    const cs=getComputedStyle(el);
-    let html='';
+function buildList(){
+  var list=document.getElementById('__tnsp_list__');
+  var tokens=Object.keys(pageVars).filter(function(v){
+    if(activeCategory!=='__all__'&&getCat(v)!==activeCategory)return false;
+    if(searchQuery&&v.indexOf(searchQuery)<0)return false;
+    return true;
+  });
+  document.getElementById('__tnsp_meta__').textContent=tokens.length+' tokens';
 
-    if(activeMode==='color'){
-      const checks=[
-        ['Color',cs.color],
-        ['Bg',cs.backgroundColor],
-        ['Border',cs.borderTopColor],
-        ['Outline',cs.outlineColor],
-      ];
-      checks.forEach(([label,val])=>{
-        if(!val||val==='rgba(0, 0, 0, 0)'||val==='transparent')return;
-        const hex=rgbToHex(val);
-        html+=rows(label,hex,lookupColor(hex));
-      });
-      if(!html)html='<div style="font-size:12px;color:#ABAD99;padding:6px 0">No color properties on this element.</div>';
-    }
-
-    else if(activeMode==='spacing'){
-      const checks=[
-        ['Pad T',cs.paddingTop],['Pad R',cs.paddingRight],
-        ['Pad B',cs.paddingBottom],['Pad L',cs.paddingLeft],
-        ['Mar T',cs.marginTop],['Mar R',cs.marginRight],
-        ['Mar B',cs.marginBottom],['Mar L',cs.marginLeft],
-        ['Gap',cs.gap],['Row Gap',cs.rowGap],['Col Gap',cs.columnGap],
-      ];
-      const seen=new Set();
-      checks.forEach(([label,val])=>{
-        if(!val||val==='0px'||val==='normal'||seen.has(label))return;
-        seen.add(label);
-        html+=rows(label,val,lookupSpacing(val));
-      });
-      if(!html)html='<div style="font-size:12px;color:#ABAD99;padding:6px 0">No spacing properties on this element.</div>';
-    }
-
-    else if(activeMode==='type'){
-      const size=cs.fontSize;
-      const weight=cs.fontWeight;
-      const key=size+'-'+weight;
-      const family=cs.fontFamily;
-      const leading=cs.lineHeight;
-      html+=rows('Size',size,lookupType(size,weight));
-      html+='<div style="font-size:11px;color:#5F6151;padding:3px 0"><span style="width:60px;display:inline-block">Family</span>'+family.split(',')[0].replace(/['"]/g,'')+'</div>';
-      html+='<div style="font-size:11px;color:#5F6151;padding:3px 0"><span style="width:60px;display:inline-block">Leading</span>'+leading+'</div>';
-      html+='<div style="font-size:11px;color:#5F6151;padding:3px 0"><span style="width:60px;display:inline-block">Weight</span>'+weight+'</div>';
-    }
-
-    body.innerHTML=html||'<div style="font-size:12px;color:#ABAD99;padding:6px 0">Nothing detected.</div>';
+  if(!tokens.length){
+    list.innerHTML='<div style="padding:20px 12px;font-size:12px;color:#ABAD99;">No tokens found.</div>';
+    return;
   }
 
-  document.addEventListener('mouseover',e=>inspect(e.target),{passive:true});
-  document.body.style.cursor='crosshair';
+  list.innerHTML=tokens.map(function(v){
+    var nsData=NS[v];
+    var v2Hex=overrides[v]||(nsData?nsData[0]:null);
+    var v2Token=nsData?nsData[1]:'';
+    var currentHex=resolveToHex(v)||'#???';
+    var isOverridden=!!overrides[v];
+    return [
+      '<div class="__tnsp-row'+(activeRow===v?' __tnsp-row-active':'')+'" data-var="'+v+'">',
+        '<div class="__tnsp-row-name">'+v+'</div>',
+        '<div class="__tnsp-row-vals">',
+          '<span class="__tnsp-swatch" style="background:'+currentHex+'"></span>',
+          '<span class="__tnsp-val-hex">'+currentHex+'</span>',
+          (nsData?[
+            '<span class="__tnsp-arrow">→</span>',
+            '<span class="__tnsp-swatch" style="background:'+(overrides[v]||nsData[0])+'"></span>',
+            '<span class="__tnsp-v2-token">'+v2Token+'</span>',
+          ].join(''):''),
+          (isOverridden?'<span class="__tnsp-override-dot" title="Overridden"></span>':''),
+        '</div>',
+      '</div>',
+    ].join('');
+  }).join('');
+
+  list.querySelectorAll('.__tnsp-row').forEach(function(el){
+    el.addEventListener('click',function(){
+      var v=el.dataset.var;
+      if(activeRow===v){activeRow=null;hidePicker();}
+      else{activeRow=v;showPicker(v);}
+      buildList();
+    });
+  });
+}
+
+/* ── Primitive swatch picker ─────────────────── */
+function showPicker(varName){
+  var picker=document.getElementById('__tnsp_picker__');
+  picker.style.display='block';
+  var currentOverride=overrides[varName]||null;
+  var nsHex=NS[varName]?NS[varName][0]:null;
+
+  var html='<div class="__tnsp-picker">';
+  html+='<div class="__tnsp-picker-title">'+varName.replace('--','')+'</div>';
+  PAL.forEach(function(ramp){
+    var name=ramp[0];
+    var swatches=ramp[1];
+    html+='<div class="__tnsp-ramp">';
+    html+='<span class="__tnsp-ramp-label">'+name+'</span>';
+    html+='<div class="__tnsp-ramp-swatches">';
+    swatches.forEach(function(s){
+      var step=s[0],hex=s[1];
+      var active=currentOverride&&currentOverride.toUpperCase()===hex.toUpperCase()?
+        ' __tnsp-ps-active':'';
+      html+='<div class="__tnsp-ps'+active+'" data-hex="'+hex+'" title="'+name+'/'+step+' · '+hex+'" style="background:'+hex+'"></div>';
+    });
+    html+='</div></div>';
+  });
+  html+='<div class="__tnsp-picker-actions">';
+  if(nsHex) html+='<button class="__tnsp-btn-sm" id="__tnsp_apply_ns__">Apply Northstar</button>';
+  html+='<button class="__tnsp-btn-sm" id="__tnsp_reset_token__">Reset token</button>';
+  html+='</div>';
+  html+='</div>';
+  picker.innerHTML=html;
+
+  picker.querySelectorAll('.__tnsp-ps').forEach(function(sw){
+    sw.addEventListener('click',function(){
+      applyOverride(varName, sw.dataset.hex);
+    });
+  });
+  var applyBtn=document.getElementById('__tnsp_apply_ns__');
+  if(applyBtn) applyBtn.addEventListener('click',function(){
+    if(nsHex) applyOverride(varName, nsHex);
+  });
+  document.getElementById('__tnsp_reset_token__').addEventListener('click',function(){
+    resetToken(varName);
+  });
+}
+
+function hidePicker(){
+  var picker=document.getElementById('__tnsp_picker__');
+  picker.style.display='none';
+  picker.innerHTML='';
+}
+
+/* ── Override helpers ─────────────────────────── */
+function applyOverride(varName, hex){
+  overrides[varName]=hex;
+  document.documentElement.style.setProperty(varName, hex);
+  updateChangeBadge();
+  buildList();
+  if(activeRow===varName) showPicker(varName);
+}
+
+function resetToken(varName){
+  delete overrides[varName];
+  document.documentElement.style.removeProperty(varName);
+  activeRow=null;
+  hidePicker();
+  updateChangeBadge();
+  buildList();
+}
+
+function updateChangeBadge(){
+  var n=Object.keys(overrides).length;
+  document.getElementById('__tnsp_chg__').textContent=n+' change'+(n===1?'':'s');
+}
+
+/* ── Northstar toggle ─────────────────────────── */
+document.getElementById('__tnsp_ns_cb__').addEventListener('change',function(){
+  northstarActive=this.checked;
+  if(northstarActive){
+    Object.keys(NS).forEach(function(v){
+      if(pageVars[v]){
+        overrides[v]=NS[v][0];
+        document.documentElement.style.setProperty(v,NS[v][0]);
+      }
+    });
+  } else {
+    Object.keys(overrides).forEach(function(v){
+      delete overrides[v];
+      document.documentElement.style.removeProperty(v);
+    });
+  }
+  updateChangeBadge();
+  buildList();
+  if(activeRow) showPicker(activeRow);
+});
+
+/* ── Share ───────────────────────────────────── */
+document.getElementById('__tnsp_share__').addEventListener('click',function(){
+  if(!Object.keys(overrides).length){
+    alert('No changes to share yet. Apply some token overrides first.');
+    return;
+  }
+  var encoded=btoa(encodeURIComponent(JSON.stringify(overrides)));
+  var url=location.href.replace(/#.*$/,'')+('#tnsp='+encoded);
+  try{navigator.clipboard.writeText(url).then(function(){
+    var btn=document.getElementById('__tnsp_share__');
+    var orig=btn.textContent;
+    btn.textContent='Copied!';
+    setTimeout(function(){btn.textContent=orig;},2000);
+  });}catch(e){prompt('Copy this URL:',url);}
+});
+
+/* ── CSS export ──────────────────────────────── */
+document.getElementById('__tnsp_css__').addEventListener('click',function(){
+  if(!Object.keys(overrides).length){
+    alert('No changes to export. Apply some token overrides first.');
+    return;
+  }
+  var css=':root {\n'+Object.keys(overrides).map(function(v){
+    return '  '+v+': '+overrides[v]+';';
+  }).join('\n')+'\n}';
+  try{navigator.clipboard.writeText(css).then(function(){
+    var btn=document.getElementById('__tnsp_css__');
+    var orig=btn.textContent;
+    btn.textContent='Copied!';
+    setTimeout(function(){btn.textContent=orig;},2000);
+  });}catch(e){prompt('Copy this CSS:',css);}
+});
+
+/* ── Reset all ──────────────────────────────── */
+document.getElementById('__tnsp_reset__').addEventListener('click',function(){
+  Object.keys(overrides).forEach(function(v){
+    document.documentElement.style.removeProperty(v);
+  });
+  overrides={};
+  northstarActive=false;
+  document.getElementById('__tnsp_ns_cb__').checked=false;
+  activeRow=null;
+  hidePicker();
+  updateChangeBadge();
+  buildList();
+});
+
+/* ── Close ───────────────────────────────────── */
+document.getElementById('__tnsp_x__').addEventListener('click',function(){
+  // Remove all overrides on close
+  Object.keys(overrides).forEach(function(v){
+    document.documentElement.style.removeProperty(v);
+  });
+  style.remove();
+  panel.remove();
+});
+
+/* ── Search ─────────────────────────────────── */
+document.getElementById('__tnsp_q__').addEventListener('input',function(){
+  searchQuery=this.value.trim().toLowerCase();
+  buildList();
+});
+
+/* ── Init ────────────────────────────────────── */
+buildSidebar();
+buildList();
+updateChangeBadge();
+if(Object.keys(overrides).length){
+  updateChangeBadge();
+}
 })();`;
 
-/* Set the bookmarklet href */
-document.getElementById('bm-link').href = 'javascript:' + encodeURIComponent(BOOKMARKLET_SOURCE);
+/* ── Wire up the drag link ──────────────────────────────── */
+(function() {
+  const el = document.getElementById('bm-link');
+  if (el) el.href = 'javascript:' + encodeURIComponent(BOOKMARKLET_SOURCE);
+
+  /* ── Restore from URL hash ─────────────────────────────── */
+  // If this page is opened with a #tnsp= hash, it's a shared preview URL.
+  // The panel itself handles restoration when activated on Apollo; nothing
+  // to restore on this installation page.
+})();
 </script>
 </body>
 </html>
