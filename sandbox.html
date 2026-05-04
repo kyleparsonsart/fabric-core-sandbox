@@ -158,9 +158,9 @@
     border-color: var(--Human-80);
     box-shadow: 0 0 0 1px var(--Human-80);
   }
-  .swatch[data-bg="#ffffff"] { background: #ffffff; box-shadow: inset 0 0 0 1px #D4D5CB; }
-  .swatch[data-bg="#F9F9F6"] { background: #F9F9F6; box-shadow: inset 0 0 0 1px #D4D5CB; }
-  .swatch[data-bg="#F3F3F0"] { background: #F3F3F0; box-shadow: inset 0 0 0 1px #D4D5CB; }
+  .swatch[data-bg="#FFFFFF"] { background: #ffffff; box-shadow: inset 0 0 0 1px #D4D5CB; }
+  .swatch[data-bg="#F9F9F6"] { background: #F9F9F6; box-shadow: inset 0 0 0 1px #CCCDBF; }
+  .swatch[data-bg="#EFEFEB"] { background: #F3F3F0; box-shadow: inset 0 0 0 1px #D4D5CB; }
   .swatch.active { box-shadow: 0 0 0 2px var(--Human-80) !important; }
 
   .swatch-name {
@@ -475,31 +475,35 @@
   .chip:active { transform: scale(0.98); }
 
   /* ── SELECTION CHIP ── */
-  /* Unselected: Human-10 hover, Human-20 pressed */
-  .chip-selection:hover  { background: #F3F3F0; border-color: var(--Human-40); }
-  .chip-selection:active { background: #E7E7E1; }
-
-  /* Selected: 2px human/70 border, no fill */
-  .chip-selection.is-selected {
-    background: transparent;
-    border: 2px solid #646459;
-    color: #1A1A1A;
+  /* Unselected: transparent → stone-05 → stone-10, border stone-30 → 40 → 50 */
+  .chip {
+    border-color: #CCCDBF; /* stone-30 */
+    color: #4D4D41;        /* stone-70 */
   }
-  .chip-selection.is-selected:hover  { background: #F3F3F0; border-color: #3E3E33; color: #1A1A1A; }
-  .chip-selection.is-selected:active { background: #E7E7E1; border-color: #3E3E33; color: #1A1A1A; }
+  .chip-selection:hover  { background: #F9F9F6; border-color: #ABAD99; } /* stone-05 / stone-40 */
+  .chip-selection:active { background: #EFEFEB; border-color: #767862; } /* stone-10 / stone-50 */
+
+  /* Selected: stone-10 fill, stone-50 border */
+  .chip-selection.is-selected {
+    background: #EFEFEB;       /* stone-10 */
+    border: 1px solid #767862; /* stone-50 */
+    color: #2F2F27;            /* stone-90 */
+  }
+  .chip-selection.is-selected:hover  { background: #E4E5D9; border-color: #5F6151; color: #2F2F27; } /* stone-20 / stone-60 */
+  .chip-selection.is-selected:active { background: #CCCDBF; border-color: #4D4D41; color: #2F2F27; } /* stone-30 / stone-70 */
 
   /* ── FILTER CHIP ── */
-  .chip-filter:hover  { background: #F3F3F0; }
-  .chip-filter:active { background: #E7E7E1; }
+  .chip-filter:hover  { background: #F9F9F6; border-color: #ABAD99; } /* stone-05 / stone-40 */
+  .chip-filter:active { background: #EFEFEB; border-color: #767862; } /* stone-10 / stone-50 */
 
-  /* Filter active (has active filters applied) */
+  /* Filter active */
   .chip-filter.is-active {
-    background: #E8E2D8;
-    border-color: #CDBEA8;
-    color: var(--Human-90);
+    background: #EFEFEB;       /* stone-10 */
+    border-color: #767862;     /* stone-50 */
+    color: #2F2F27;            /* stone-90 */
   }
-  .chip-filter.is-active:hover  { background: #CDBEA8; border-color: #A7906C; }
-  .chip-filter.is-active:active { background: #A7906C; border-color: #867250; }
+  .chip-filter.is-active:hover  { background: #E4E5D9; border-color: #5F6151; } /* stone-20 / stone-60 */
+  .chip-filter.is-active:active { background: #CCCDBF; border-color: #4D4D41; } /* stone-30 / stone-70 */
 
   /* Dismiss button — tertiary-style, inherits chip color context */
   .chip-dismiss {
@@ -659,34 +663,40 @@
     white-space: nowrap;
   }
 
-  /* Utility — Human */
-  .badge-utility {
-    background: #E7E7E1;
-    color: #3E3E33; /* Human-80 */
+  /* Neutral */
+  .badge-neutral {
+    background: #E4E5D9; /* stone-20 */
+    color: #4D4D41;      /* stone-70 */
   }
 
-  /* Info — Ocean */
+  /* Info */
   .badge-info {
-    background: #DAE5FC;
-    color: #2B5782; /* Ocean-80 */
+    background: #CBDEFB; /* blue-20 */
+    color: #0A3576;      /* blue-70 */
   }
 
-  /* Success — Evergreen */
-  .badge-success {
-    background: #D8E8DA;
-    color: #396039; /* Evergreen-80 */
+  /* Positive */
+  .badge-positive {
+    background: #CEF8D5; /* green-20 */
+    color: #0F691E;      /* green-70 */
   }
 
-  /* Warning — Ember */
-  .badge-warning {
-    background: #F3E2D3;
-    color: #884411; /* Ember-80 */
+  /* Caution */
+  .badge-caution {
+    background: #FFDFC7; /* orange-20 */
+    color: #8F3E00;      /* orange-70 */
   }
 
-  /* Error — Rust */
-  .badge-error {
-    background: #FEDBD7;
-    color: #9E3225; /* Rust-80 */
+  /* Negative */
+  .badge-negative {
+    background: #FFD6DC; /* red-20 */
+    color: #940016;      /* red-70 */
+  }
+
+  /* AI */
+  .badge-ai {
+    background: #EAD7F9; /* purple-20 */
+    color: #541584;      /* purple-70 */
   }
 
   /* Badge dot indicator */
@@ -696,49 +706,59 @@
     border-radius: 50%;
     flex-shrink: 0;
   }
-  .badge-utility .badge-dot  { background: #646459; } /* Human-70 */
-  .badge-info .badge-dot     { background: #1D3D58; } /* Ocean-70 */
-  .badge-success .badge-dot  { background: #274427; } /* Evergreen-70 */
-  .badge-warning .badge-dot  { background: #602F0C; } /* Ember-70 */
-  .badge-error .badge-dot    { background: #6A2419; } /* Rust-70 */
+  .badge-neutral .badge-dot  { background: #4D4D41; } /* stone-70 */
+  .badge-info .badge-dot     { background: #0A3576; } /* blue-70 */
+  .badge-positive .badge-dot { background: #0F691E; } /* green-70 */
+  .badge-caution .badge-dot  { background: #8F3E00; } /* orange-70 */
+  .badge-negative .badge-dot { background: #940016; } /* red-70 */
+  .badge-ai .badge-dot       { background: #541584; } /* purple-70 */
 
 
   /* ── STATUS CHIPS ── */
-  /* Info — Ocean */
+  /* Info — blue ramp */
   .chip-status-info {
-    background: #ECF3FE;
-    border-color: #A8C3EB;
-    color: #2B5782;
+    background: #F1F6FE;   /* blue-05 */
+    border-color: #CBDEFB; /* blue-20 */
+    color: #0A3576;        /* blue-70 */
   }
-  .chip-status-info:hover  { background: #DAE5FC; border-color: #A8C3EB; }
-  .chip-status-info:active { background: #A8C3EB; border-color: #6697C9; }
+  .chip-status-info:hover  { background: #E3EDFD; border-color: #A1C3F7; } /* blue-10 / blue-30 */
+  .chip-status-info:active { background: #CBDEFB; border-color: #69A0F3; } /* blue-20 / blue-40 */
 
-  /* Success — Evergreen */
-  .chip-status-success {
-    background: #EBF4EB;
-    border-color: #A5CAA9;
-    color: #396039;
+  /* Positive — green ramp */
+  .chip-status-positive {
+    background: #F1FDF3;   /* green-05 */
+    border-color: #CEF8D5; /* green-20 */
+    color: #0F691E;        /* green-70 */
   }
-  .chip-status-success:hover  { background: #D8E8DA; border-color: #A5CAA9; }
-  .chip-status-success:active { background: #A5CAA9; border-color: #62A265; }
+  .chip-status-positive:hover  { background: #E5FBE9; border-color: #A6F2B2; } /* green-10 / green-30 */
+  .chip-status-positive:active { background: #CEF8D5; border-color: #5FE876; } /* green-20 / green-40 */
 
-  /* Warning — Ember */
-  .chip-status-warning {
-    background: #F9F1ED;
-    border-color: #E4BC9B;
-    color: #884411;
+  /* Caution — orange ramp */
+  .chip-status-caution {
+    background: #FFF6F0;   /* orange-05 */
+    border-color: #FFDFC7; /* orange-20 */
+    color: #8F3E00;        /* orange-70 */
   }
-  .chip-status-warning:hover  { background: #F3E2D3; border-color: #E4BC9B; }
-  .chip-status-warning:active { background: #E4BC9B; border-color: #CE8345; }
+  .chip-status-caution:hover  { background: #FFEDE0; border-color: #FFCBA3; } /* orange-10 / orange-30 */
+  .chip-status-caution:active { background: #FFDFC7; border-color: #FFA35C; } /* orange-20 / orange-40 */
 
-  /* Error — Rust */
-  .chip-status-error {
-    background: #FFF1EE;
-    border-color: #FEA99F;
-    color: #9E3225;
+  /* Negative — red ramp */
+  .chip-status-negative {
+    background: #FFF0F2;   /* red-05 */
+    border-color: #FFD6DC; /* red-20 */
+    color: #940016;        /* red-70 */
   }
-  .chip-status-error:hover  { background: #FEDBD7; border-color: #FEA99F; }
-  .chip-status-error:active { background: #FEA99F; border-color: #E86F5F; }
+  .chip-status-negative:hover  { background: #FFE6EA; border-color: #FFBDC7; } /* red-10 / red-30 */
+  .chip-status-negative:active { background: #FFD6DC; border-color: #FF6B81; } /* red-20 / red-40 */
+
+  /* AI — purple ramp */
+  .chip-status-ai {
+    background: #F8F2FD;   /* purple-05 */
+    border-color: #EAD7F9; /* purple-20 */
+    color: #541584;        /* purple-70 */
+  }
+  .chip-status-ai:hover  { background: #F3E9FB; border-color: #DAB8F4; } /* purple-10 / purple-30 */
+  .chip-status-ai:active { background: #EAD7F9; border-color: #BE83EC; } /* purple-20 / purple-40 */
 
   /* ── DOT GRID ── */
   /* Theme toggle button */
@@ -830,23 +850,23 @@
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    border: 1.5px solid var(--Human-40);
+    border: 1.5px solid #CCCDBF; /* stone-30 */
     flex-shrink: 0;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: border-color 0.15s;
-    background: transparent;
+    transition: border-color 0.15s, background 0.15s;
+    background: #FFFFFF; /* stone-00 */
   }
 
   .radio-checked {
-    border: 2px solid #3E3E33;
-    background: #3E3E33;
+    border: 2px solid #2F2F27; /* stone-90 */
+    background: #2F2F27;       /* stone-90 */
   }
-  .radio-input:not(.radio-checked):hover { border-color: #3E3E33; }
-  .radio-checked:hover  { border-color: #1A1A1A; background: #1A1A1A; }
-  .radio-checked:active { border-color: #0D0D0D; background: #0D0D0D; }
+  .radio-input:not(.radio-checked):hover { border-color: #ABAD99; background: #FFFFFF; } /* stone-40 */
+  .radio-checked:hover  { border-color: #252521; background: #252521; } /* stone-95 */
+  .radio-checked:active { border-color: #12120F; background: #12120F; } /* stone-100 */
 
   .radio-checked::after {
     content: '';
@@ -876,7 +896,7 @@
     font-size: 14px;
     line-height: 20px;
     letter-spacing: 0;
-    color: var(--Human-90);
+    color: #2F2F27; /* stone-90 */
     font-weight: 400;
     display: block;
   }
@@ -885,7 +905,7 @@
     font-size: 12px;
     line-height: 18px;
     letter-spacing: 0;
-    color: var(--Human-60);
+    color: #4D4D41; /* stone-70 */
     display: block;
   }
 
@@ -905,16 +925,16 @@
     padding: 0 20px;
     height: 66px;
     border-radius: 12px;
-    border: 1px solid #D4D5CB;
-    background: var(--Human-0);
+    border: 1px solid #CCCDBF; /* stone-30 */
+    background: #FFFFFF;       /* stone-00 */
     cursor: pointer;
     transition: border-color 0.15s;
   }
-  .radio-card:hover { border-color: #AFAFA5; }
-  .radio-card-selected:hover { border-color: #3E3E33; }
+  .radio-card:hover { border-color: #ABAD99; } /* stone-40 */
+  .radio-card-selected:hover { border-color: #252521; } /* stone-95 */
 
   .radio-card-selected {
-    border: 2px solid #3E3E33;
+    border: 2px solid #2F2F27; /* stone-90 */
   }
 
   .radio-card .radio-input {
@@ -949,22 +969,22 @@
     width: 22px;
     height: 22px;
     border-radius: 7px;
-    border: 1.5px solid var(--Human-40);
+    border: 1.5px solid #CCCDBF; /* stone-30 */
     flex-shrink: 0;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: border-color 0.15s;
-    background: transparent;
+    transition: border-color 0.15s, background 0.15s;
+    background: #FFFFFF; /* stone-00 */
   }
   .checkbox-checked {
-    border: 2px solid #3E3E33;
-    background: #3E3E33;
+    border: 2px solid #2F2F27; /* stone-90 */
+    background: #2F2F27;       /* stone-90 */
   }
-  .checkbox-input:not(.checkbox-checked):hover { border-color: #3E3E33; }
-  .checkbox-checked:hover  { border-color: #1A1A1A; background: #1A1A1A; }
-  .checkbox-checked:active { border-color: #0D0D0D; background: #0D0D0D; }
+  .checkbox-input:not(.checkbox-checked):hover { border-color: #ABAD99; background: #FFFFFF; } /* stone-40 */
+  .checkbox-checked:hover  { border-color: #252521; background: #252521; } /* stone-95 */
+  .checkbox-checked:active { border-color: #12120F; background: #12120F; } /* stone-100 */
 
   .checkbox-checked::after {
     content: '';
@@ -975,36 +995,173 @@
     transform: rotate(-45deg) translate(1px, -1px);
     display: block;
   }
-  /* ── DARK MODE BUTTON OVERRIDES ── */
-  [data-theme="dark"] .btn-brand { color: #1A1A1A; }
+  /* Dark mode handled via CSS variable inversion in [data-theme="dark"] block */
 
-  [data-theme="dark"] .btn-primary { background: #F3F3F0; color: #1A1A1A; }
-  [data-theme="dark"] .btn-primary:hover  { background: #E7E7E1; }
-  [data-theme="dark"] .btn-primary:active { background: #D4D5CB; }
 
-  [data-theme="dark"] .btn-secondary { background: transparent; border-color: #898A7F; color: #F9F9F6; }
-  [data-theme="dark"] .btn-secondary:hover  { background: #3E3E33; border-color: #646459; }
-  [data-theme="dark"] .btn-secondary:active { background: #1A1A1A; border-color: #3E3E33; transform: none; }
+  /* ── FORM FIELDS (Input / Select / Textarea) ── */
+  .field-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1px;
+    background: var(--stone-30);
+    border: 1px solid var(--stone-30);
+    border-radius: 10px;
+    overflow: hidden;
+  }
 
-  [data-theme="dark"] .btn-tertiary { color: #F9F9F6; }
-  [data-theme="dark"] .btn-tertiary:hover  { background: #3E3E33; border-color: #646459; color: #F9F9F6; }
-  [data-theme="dark"] .btn-tertiary:active { background: #1A1A1A; border-color: #3E3E33; color: #F9F9F6; transform: none; }
+  .field-group .variant-col {
+    padding: 40px 24px 28px;
+    background: var(--canvas-bg, #F9F9F6);
+    justify-content: flex-start;
+    align-items: stretch;
+  }
 
-  [data-theme="dark"] .btn-destructive-primary { background: #6A2419; border-color: #E86F5F; color: #F9F9F6; }
-  [data-theme="dark"] .btn-destructive-primary:hover  { background: #451610; border-color: #D14532; }
-  [data-theme="dark"] .btn-destructive-primary:active { background: #1A1A1A; border-color: #9E3225; }
+  .field-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+  }
 
-  [data-theme="dark"] .btn-ai-primary { background: #3F2B73; border-color: #9D84DC; color: #F9F9F6; }
-  [data-theme="dark"] .btn-ai-primary:hover  { background: #291C4A; border-color: #7F63C5; }
-  [data-theme="dark"] .btn-ai-primary:active { background: #1A1A1A; border-color: #603FAB; }
+  .field-label {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: #2F2F27; /* stone-90 */
+    line-height: 16px;
+  }
 
-  [data-theme="dark"] .btn-destructive-secondary { background: transparent; border-color: #E86F5F; color: #F9F9F6; }
-  [data-theme="dark"] .btn-destructive-secondary:hover  { background: #6A2419; border-color: #D14532; }
-  [data-theme="dark"] .btn-destructive-secondary:active { background: #451610; border-color: #9E3225; transform: none; }
+  .field-sublabel {
+    font-size: 11px;
+    color: #4D4D41; /* stone-70 */
+    margin-top: -2px;
+    line-height: 16px;
+  }
 
-  [data-theme="dark"] .btn-ai-secondary { background: transparent; border-color: #9D84DC; color: #F9F9F6; }
-  [data-theme="dark"] .btn-ai-secondary:hover  { background: #3F2B73; border-color: #7F63C5; }
-  [data-theme="dark"] .btn-ai-secondary:active { background: #291C4A; border-color: #603FAB; transform: none; }
+  .field-input,
+  .field-select,
+  .field-textarea {
+    width: 100%;
+    font-family: 'ABC Diatype', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0;
+    outline: none;
+    border-radius: var(--radius-sm);
+    transition: background 0.15s, border-color 0.15s;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  /* ── Default ── */
+  .field-input,
+  .field-select {
+    height: 36px;
+    padding: 0 12px;
+    border: 1px solid #CCCDBF; /* stone-30 */
+    background: #FFFFFF;       /* stone-00 */
+    color: #2F2F27;            /* stone-90 */
+  }
+  .field-input::placeholder,
+  .field-select.placeholder-text { color: #4D4D41; } /* stone-70 */
+
+  .field-textarea {
+    padding: 8px 12px;
+    min-height: 80px;
+    resize: vertical;
+    border: 1px solid #CCCDBF; /* stone-30 */
+    background: #FFFFFF;       /* stone-00 */
+    color: #2F2F27;            /* stone-90 */
+  }
+  .field-textarea::placeholder { color: #4D4D41; } /* stone-70 */
+
+  .field-input:hover,
+  .field-select:hover,
+  .field-textarea:hover {
+    background: #F9F9F6; /* stone-05 */
+    border-color: #ABAD99; /* stone-40 */
+  }
+  .field-input:focus,
+  .field-select:focus,
+  .field-textarea:focus {
+    background: #EFEFEB; /* stone-10 */
+    border-color: #767862; /* stone-50 */
+    box-shadow: 0 0 0 2px rgba(204, 205, 191, 0.35);
+  }
+
+  /* ── Error ── */
+  .field-input.field-error,
+  .field-select.field-error,
+  .field-textarea.field-error {
+    border-color: #FA0026; /* red-50 */
+    background: #FFFFFF;
+    color: #2F2F27;
+  }
+  .field-input.field-error:hover,
+  .field-select.field-error:hover,
+  .field-textarea.field-error:hover {
+    background: #F9F9F6;
+    border-color: #C2001D; /* red-60 */
+  }
+  .field-input.field-error:focus,
+  .field-select.field-error:focus,
+  .field-textarea.field-error:focus {
+    background: #EFEFEB;
+    border-color: #940016; /* red-70 */
+    box-shadow: 0 0 0 2px rgba(250, 0, 38, 0.15);
+  }
+  .field-error-msg {
+    font-size: 11px;
+    color: #940016; /* red-70 */
+    line-height: 16px;
+    margin-top: -2px;
+  }
+
+  /* ── Read-only ── */
+  .field-input.field-readonly,
+  .field-select.field-readonly,
+  .field-textarea.field-readonly {
+    border-color: #E4E5D9; /* stone-20 */
+    background: #F9F9F6;   /* stone-05 */
+    color: #4D4D41;        /* stone-70 */
+    cursor: default;
+    pointer-events: none;
+  }
+
+  /* ── Disabled ── */
+  .field-input:disabled,
+  .field-select:disabled,
+  .field-textarea:disabled {
+    border-color: #E4E5D9; /* stone-20 */
+    background: #F9F9F6;   /* stone-05 */
+    color: #2F2F27;        /* stone-90 */
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* Custom select chevron */
+  .field-select-wrap {
+    position: relative;
+    width: 100%;
+  }
+  .field-select-wrap .field-select {
+    padding-right: 32px;
+    cursor: pointer;
+  }
+  .field-select-wrap::after {
+    content: '';
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 5px solid #4D4D41; /* stone-70 */
+    pointer-events: none;
+  }
 
 </style>
 </head>
@@ -1020,13 +1177,13 @@
     <div class="swatch-picker">
       <span class="swatch-label">Canvas</span>
       <div style="position:relative; margin-bottom: 0;">
-        <div class="swatch" data-bg="#ffffff" onclick="setBg(this)" title="Human-0 · #ffffff"></div>
+        <div class="swatch" data-bg="#FFFFFF" onclick="setBg(this)" title="stone/00 · #FFFFFF"></div>
       </div>
       <div style="position:relative;">
-        <div class="swatch" data-bg="#F9F9F6" onclick="setBg(this)" title="Human-10 · #F9F9F6"></div>
+        <div class="swatch" data-bg="#F9F9F6" onclick="setBg(this)" title="stone/05 · #F9F9F6"></div>
       </div>
       <div style="position:relative;">
-        <div class="swatch" data-bg="#F3F3F0" onclick="setBg(this)" title="Human-20 · #F3F3F0"></div>
+        <div class="swatch" data-bg="#EFEFEB" onclick="setBg(this)" title="stone/10 · #EFEFEB"></div>
       </div>
       <button class="grid-toggle theme-toggle" id="themeToggle" onclick="toggleTheme(this)" title="Toggle dark mode">
         ◐ Dark
@@ -1042,6 +1199,7 @@
   <button class="sb-tab" onclick="switchSbTab('badges', this)">Badges</button>
   <button class="sb-tab" onclick="switchSbTab('checkboxes', this)">Checkboxes</button>
   <button class="sb-tab" onclick="switchSbTab('radios', this)">Radios</button>
+  <button class="sb-tab" onclick="switchSbTab('forms', this)">Form Fields</button>
 </div>
 
 <div class="content" id="canvas">
@@ -1210,31 +1368,38 @@
       <div class="chip-row">
         <div class="variant-col">
           <div class="chip chip-status-info">
-            <span class="badge-dot" style="background:#2B5782; width:6px; height:6px; border-radius:50%; flex-shrink:0;"></span>
+            <span class="badge-dot" style="background:#0A3576; width:6px; height:6px; border-radius:50%; flex-shrink:0;"></span>
             In Progress
           </div>
           <span class="variant-name">Info</span>
         </div>
         <div class="variant-col">
-          <div class="chip chip-status-success">
-            <span class="badge-dot" style="background:#396039; width:6px; height:6px; border-radius:50%; flex-shrink:0;"></span>
+          <div class="chip chip-status-positive">
+            <span class="badge-dot" style="background:#0F691E; width:6px; height:6px; border-radius:50%; flex-shrink:0;"></span>
             Closed Won
           </div>
-          <span class="variant-name">Success</span>
+          <span class="variant-name">Positive</span>
         </div>
         <div class="variant-col">
-          <div class="chip chip-status-warning">
-            <span class="badge-dot" style="background:#884411; width:6px; height:6px; border-radius:50%; flex-shrink:0;"></span>
+          <div class="chip chip-status-caution">
+            <span class="badge-dot" style="background:#8F3E00; width:6px; height:6px; border-radius:50%; flex-shrink:0;"></span>
             At Risk
           </div>
-          <span class="variant-name">Warning</span>
+          <span class="variant-name">Caution</span>
         </div>
         <div class="variant-col">
-          <div class="chip chip-status-error">
-            <span class="badge-dot" style="background:#9E3225; width:6px; height:6px; border-radius:50%; flex-shrink:0;"></span>
+          <div class="chip chip-status-negative">
+            <span class="badge-dot" style="background:#940016; width:6px; height:6px; border-radius:50%; flex-shrink:0;"></span>
             Closed Lost
           </div>
-          <span class="variant-name">Error</span>
+          <span class="variant-name">Negative</span>
+        </div>
+        <div class="variant-col">
+          <div class="chip chip-status-ai">
+            <span class="badge-dot" style="background:#541584; width:6px; height:6px; border-radius:50%; flex-shrink:0;"></span>
+            AI Assist
+          </div>
+          <span class="variant-name">AI</span>
         </div>
       </div>
     </div>
@@ -1251,8 +1416,8 @@
     <div class="component-grid">
 
       <div class="variant-col">
-        <span class="badge badge-utility">
-          <span class="badge-label">Utility</span>
+        <span class="badge badge-neutral">
+          <span class="badge-label">Neutral</span>
         </span>
         <span class="variant-name">Utility</span>
       </div>
@@ -1265,21 +1430,21 @@
       </div>
 
       <div class="variant-col">
-        <span class="badge badge-success">
+        <span class="badge badge-positive">
           <span class="badge-label">Success</span>
         </span>
         <span class="variant-name">Success</span>
       </div>
 
       <div class="variant-col">
-        <span class="badge badge-warning">
+        <span class="badge badge-caution">
           <span class="badge-label">Warning</span>
         </span>
         <span class="variant-name">Warning</span>
       </div>
 
       <div class="variant-col">
-        <span class="badge badge-error">
+        <span class="badge badge-negative">
           <span class="badge-label">Error</span>
         </span>
         <span class="variant-name">Error</span>
@@ -1448,6 +1613,161 @@
   </div>
   </div><!-- /sbpanel-radios -->
 
+
+  <div class="sb-panel" id="sbpanel-forms" style="display:none">
+  <!-- FORM FIELDS -->
+
+  <!-- Default -->
+  <div class="section">
+    <div class="field-group" style="grid-template-columns: repeat(4, 1fr);">
+
+      <!-- Input Default -->
+      <div class="variant-col">
+        <div class="field-wrap">
+          <span class="field-label">Label</span>
+          <span class="field-sublabel">Helper text</span>
+          <input class="field-input" type="text" placeholder="Placeholder">
+        </div>
+        <span class="variant-name" style="margin-top:16px;">Input · Default</span>
+      </div>
+
+      <!-- Input Error -->
+      <div class="variant-col">
+        <div class="field-wrap">
+          <span class="field-label">Label</span>
+          <span class="field-sublabel">Helper text</span>
+          <input class="field-input field-error" type="text" value="Invalid value">
+          <span class="field-error-msg">This field has an error</span>
+        </div>
+        <span class="variant-name" style="margin-top:16px;">Input · Error</span>
+      </div>
+
+      <!-- Input Read-only -->
+      <div class="variant-col">
+        <div class="field-wrap">
+          <span class="field-label">Label</span>
+          <span class="field-sublabel">Read only</span>
+          <input class="field-input field-readonly" type="text" value="Read-only value">
+        </div>
+        <span class="variant-name" style="margin-top:16px;">Input · Read-only</span>
+      </div>
+
+      <!-- Input Disabled -->
+      <div class="variant-col">
+        <div class="field-wrap">
+          <span class="field-label">Label</span>
+          <span class="field-sublabel">Disabled</span>
+          <input class="field-input" type="text" placeholder="Placeholder" disabled>
+        </div>
+        <span class="variant-name" style="margin-top:16px;">Input · Disabled</span>
+      </div>
+
+      <!-- Select Default -->
+      <div class="variant-col">
+        <div class="field-wrap">
+          <span class="field-label">Label</span>
+          <span class="field-sublabel">Helper text</span>
+          <div class="field-select-wrap">
+            <select class="field-select">
+              <option value="" disabled selected>Placeholder</option>
+              <option>Option A</option>
+              <option>Option B</option>
+              <option>Option C</option>
+            </select>
+          </div>
+        </div>
+        <span class="variant-name" style="margin-top:16px;">Select · Default</span>
+      </div>
+
+      <!-- Select Error -->
+      <div class="variant-col">
+        <div class="field-wrap">
+          <span class="field-label">Label</span>
+          <span class="field-sublabel">Helper text</span>
+          <div class="field-select-wrap">
+            <select class="field-select field-error">
+              <option>Invalid selection</option>
+            </select>
+          </div>
+          <span class="field-error-msg">Please choose a valid option</span>
+        </div>
+        <span class="variant-name" style="margin-top:16px;">Select · Error</span>
+      </div>
+
+      <!-- Select Read-only -->
+      <div class="variant-col">
+        <div class="field-wrap">
+          <span class="field-label">Label</span>
+          <span class="field-sublabel">Read only</span>
+          <div class="field-select-wrap">
+            <select class="field-select field-readonly">
+              <option>Read-only value</option>
+            </select>
+          </div>
+        </div>
+        <span class="variant-name" style="margin-top:16px;">Select · Read-only</span>
+      </div>
+
+      <!-- Select Disabled -->
+      <div class="variant-col">
+        <div class="field-wrap">
+          <span class="field-label">Label</span>
+          <span class="field-sublabel">Disabled</span>
+          <div class="field-select-wrap">
+            <select class="field-select" disabled>
+              <option value="" disabled selected>Placeholder</option>
+            </select>
+          </div>
+        </div>
+        <span class="variant-name" style="margin-top:16px;">Select · Disabled</span>
+      </div>
+
+      <!-- Textarea Default -->
+      <div class="variant-col" style="grid-column: span 2;">
+        <div class="field-wrap">
+          <span class="field-label">Label</span>
+          <span class="field-sublabel">Helper text</span>
+          <textarea class="field-textarea" placeholder="Placeholder text goes here..."></textarea>
+        </div>
+        <span class="variant-name" style="margin-top:16px;">Textarea · Default</span>
+      </div>
+
+      <!-- Textarea Error -->
+      <div class="variant-col" style="grid-column: span 2;">
+        <div class="field-wrap">
+          <span class="field-label">Label</span>
+          <span class="field-sublabel">Helper text</span>
+          <textarea class="field-textarea field-error">Invalid content here</textarea>
+          <span class="field-error-msg">This field has an error</span>
+        </div>
+        <span class="variant-name" style="margin-top:16px;">Textarea · Error</span>
+      </div>
+
+      <!-- Textarea Read-only -->
+      <div class="variant-col" style="grid-column: span 2;">
+        <div class="field-wrap">
+          <span class="field-label">Label</span>
+          <span class="field-sublabel">Read only</span>
+          <textarea class="field-textarea field-readonly">This content is read-only and cannot be edited by the user.</textarea>
+        </div>
+        <span class="variant-name" style="margin-top:16px;">Textarea · Read-only</span>
+      </div>
+
+      <!-- Textarea Disabled -->
+      <div class="variant-col" style="grid-column: span 2;">
+        <div class="field-wrap">
+          <span class="field-label">Label</span>
+          <span class="field-sublabel">Disabled</span>
+          <textarea class="field-textarea" placeholder="Placeholder text..." disabled></textarea>
+        </div>
+        <span class="variant-name" style="margin-top:16px;">Textarea · Disabled</span>
+      </div>
+
+    </div>
+  </div>
+
+  </div><!-- /sbpanel-forms -->
+
 </div>
 
 <script>
@@ -1455,13 +1775,13 @@
 
 
   // Set white as default active
-  document.querySelectorAll('.swatch[data-bg="#F9F9F6"]')[0].classList.remove('active');
-  document.querySelectorAll('.swatch[data-bg="#ffffff"]')[0].classList.add('active');
-  document.body.style.backgroundColor = '#ffffff';
-  document.documentElement.style.setProperty('--canvas-bg', '#ffffff');
+  
+  document.querySelectorAll('.swatch[data-bg="#FFFFFF"]')[0].classList.add('active');
+  document.body.style.backgroundColor = '#FFFFFF';
+  document.documentElement.style.setProperty('--canvas-bg', '#FFFFFF');
 
-  const lightSwatches = ['#ffffff', '#F9F9F6', '#F3F3F0'];
-  const darkSwatches  = ['#1A1A1A', '#3E3E33', '#646459'];
+  const lightSwatches = ['#FFFFFF', '#F9F9F6', '#EFEFEB'];
+  const darkSwatches  = ['#12120F', '#2F2F27', '#3C3D33'];
 
   function toggleTheme(btn) {
     const isDark = document.documentElement.dataset.theme === 'dark';
@@ -1475,8 +1795,8 @@
     });
     if (isDark) {
       delete document.documentElement.dataset.theme;
-      document.body.style.backgroundColor = '#ffffff';
-      document.documentElement.style.setProperty('--canvas-bg', '#ffffff');
+      document.body.style.backgroundColor = '#FFFFFF';
+      document.documentElement.style.setProperty('--canvas-bg', '#FFFFFF');
       btn.textContent = '◐ Dark';
       btn.classList.remove('is-active');
     } else {
