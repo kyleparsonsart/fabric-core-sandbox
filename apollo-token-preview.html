@@ -735,20 +735,30 @@ function getCat(v){
 function discoverVars(){
   var found={};
   try{
-    for(var i=0;i<document.styleSheets.length;i++){
-      var sheet=document.styleSheets[i];
-      try{
-        var rules=sheet.cssRules||[];
-        for(var j=0;j<rules.length;j++){
-          var rule=rules[j];
-          collectFromRule(rule,found);
-          if(rule.cssRules){
-            for(var k=0;k<rule.cssRules.length;k++) collectFromRule(rule.cssRules[k],found);
-          }
-        }
-      }catch(e){}
-    }
+    var cs=getComputedStyle(document.documentElement);
+    Object.keys(NS).forEach(function(v){
+      var val=cs.getPropertyValue(v).trim();
+      if(val) found[v]=val;
+    });
   }catch(e){}
+  /* fallback: stylesheet scan for any vars missed above */
+  if(!Object.keys(found).length){
+    try{
+      for(var i=0;i<document.styleSheets.length;i++){
+        var sheet=document.styleSheets[i];
+        try{
+          var rules=sheet.cssRules||[];
+          for(var j=0;j<rules.length;j++){
+            var rule=rules[j];
+            collectFromRule(rule,found);
+            if(rule.cssRules){
+              for(var k=0;k<rule.cssRules.length;k++) collectFromRule(rule.cssRules[k],found);
+            }
+          }
+        }catch(e){}
+      }
+    }catch(e){}
+  }
   return found;
 }
 
