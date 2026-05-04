@@ -934,30 +934,20 @@
     height: 180px;
     position: relative;
     overflow: hidden;
-    /* Image + vivid gradient fallback using the abstract's palette */
-    background-image:
-      url('hero-abstract.png');
+    background-image: url('hero-abstract.png');
     background-size: cover;
     background-position: center 40%;
     background-color: #FFF900;
-    /* Fallback gradient that echoes the image colors */
-    background-image:
-      url('hero-abstract.png'),
-      radial-gradient(ellipse at 30% 60%, #FFF900 0%, transparent 55%),
-      radial-gradient(ellipse at 75% 20%, #5EFFDE 0%, transparent 50%),
-      radial-gradient(ellipse at 60% 80%, #FFB3D9 0%, transparent 50%),
-      radial-gradient(ellipse at 10% 10%, #AAFF44 0%, transparent 40%);
   }
-  /* Dark scrim for text legibility */
+  /* Subtle bottom gradient so text sits cleanly at the bottom edge */
   .hero-banner::after {
     content: '';
     position: absolute;
     inset: 0;
     background: linear-gradient(
       to bottom,
-      rgba(12, 12, 10, 0.52) 0%,
-      rgba(12, 12, 10, 0.38) 60%,
-      rgba(12, 12, 10, 0.55) 100%
+      transparent 30%,
+      rgba(255, 249, 230, 0.22) 100%
     );
   }
   .hero-inner {
@@ -967,7 +957,13 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    padding: 0 40px 24px;
+    /* Align with the 900px page content grid */
+    max-width: 900px;
+    width: 100%;
+    margin: 0 auto;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0 28px 22px;
   }
   .hero-eyebrow {
     font-family: var(--font-ui);
@@ -975,9 +971,8 @@
     font-weight: 700;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: rgba(255,255,255,0.70);
+    color: rgba(12, 12, 10, 0.55); /* stone-100 at 55% */
     margin-bottom: 4px;
-    text-shadow: 0 1px 6px rgba(0,0,0,0.4);
   }
   .hero-heading {
     font-family: var(--font-display);
@@ -985,14 +980,13 @@
     font-weight: 400;
     letter-spacing: -0.6px;
     line-height: 1.15;
-    color: #FFFFFF;
+    color: #12120F; /* stone-100 */
     margin: 0;
-    text-shadow: 0 1px 8px rgba(0,0,0,0.45), 0 2px 20px rgba(0,0,0,0.25);
   }
   .hero-heading .hero-wip {
     font-size: 0.48em;
     font-weight: 500;
-    opacity: 0.5;
+    opacity: 0.4;
     letter-spacing: 0;
     vertical-align: middle;
   }
