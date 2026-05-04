@@ -96,7 +96,7 @@
   .page.active { display: block; }
 
   /* ══ HOME ══ */
-  .home-wrap { max-width: 900px; margin: 0 auto; padding: 72px 28px 80px; }
+  .home-wrap { max-width: 900px; margin: 0 auto; padding: 40px 28px 80px; }
 
   .home-eyebrow {
     font-family: var(--font-ui); font-size: 11px; font-weight: 700;
@@ -759,7 +759,7 @@
   .sp-table { border:1px solid var(--border); border-radius:var(--radius-lg); overflow:hidden; }
   .sp-thead { display:grid; grid-template-columns:1fr 1fr 1fr; background:var(--c1); border-bottom:1px solid var(--border); }
   .sp-thead.gap-head { grid-template-columns:240px 180px 70px 1fr; }
-  .sp-thead.scale-head { grid-template-columns:70px 1fr 1fr; }
+  .sp-thead.scale-head { grid-template-columns:120px 64px 1fr 1fr; }
   .sp-thead.hier-head { grid-template-columns:130px 1fr 1fr; }
   .sp-thead.radius-prim-head { grid-template-columns:240px 80px 1fr 100px; }
   .sp-thead.radius-sem-head { grid-template-columns:240px 180px 1fr 100px; }
@@ -767,7 +767,7 @@
   .sp-tr { display:grid; grid-template-columns:1fr 1fr 1fr; border-bottom:1px solid var(--border); align-items:start; background:#fff; }
   .sp-tr:last-child { border-bottom:none; }
   .sp-tr.gap-tr { grid-template-columns:240px 180px 70px 1fr; }
-  .sp-tr.scale-tr { grid-template-columns:70px 1fr 1fr; }
+  .sp-tr.scale-tr { grid-template-columns:120px 64px 1fr 1fr; }
   .sp-tr.hier-tr { grid-template-columns:130px 1fr 1fr; }
   .sp-tr.radius-prim-tr { grid-template-columns:240px 80px 1fr 100px; }
   .sp-tr.radius-sem-tr { grid-template-columns:240px 180px 1fr 100px; }
@@ -927,15 +927,88 @@
   .contrast-badge.pass-lg  { background: var(--advisory-bg); color: var(--advisory); border: 1px solid var(--advisory-border); }
   .contrast-badge.fail     { background: var(--fail-bg);     color: var(--fail);     border: 1px solid var(--fail-border); }
   .contrast-same-dash { color: var(--text-tertiary); font-size: 20px; line-height: 1; }
+
+  /* ══ HERO BANNER ══ */
+  .hero-banner {
+    width: 100%;
+    height: 180px;
+    position: relative;
+    overflow: hidden;
+    /* Image + vivid gradient fallback using the abstract's palette */
+    background-image:
+      url('hero-abstract.png');
+    background-size: cover;
+    background-position: center 40%;
+    background-color: #FFF900;
+    /* Fallback gradient that echoes the image colors */
+    background-image:
+      url('hero-abstract.png'),
+      radial-gradient(ellipse at 30% 60%, #FFF900 0%, transparent 55%),
+      radial-gradient(ellipse at 75% 20%, #5EFFDE 0%, transparent 50%),
+      radial-gradient(ellipse at 60% 80%, #FFB3D9 0%, transparent 50%),
+      radial-gradient(ellipse at 10% 10%, #AAFF44 0%, transparent 40%);
+  }
+  /* Dark scrim for text legibility */
+  .hero-banner::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(12, 12, 10, 0.52) 0%,
+      rgba(12, 12, 10, 0.38) 60%,
+      rgba(12, 12, 10, 0.55) 100%
+    );
+  }
+  .hero-inner {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 40px 24px;
+  }
+  .hero-eyebrow {
+    font-family: var(--font-ui);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.70);
+    margin-bottom: 4px;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.4);
+  }
+  .hero-heading {
+    font-family: var(--font-display);
+    font-size: 30px;
+    font-weight: 400;
+    letter-spacing: -0.6px;
+    line-height: 1.15;
+    color: #FFFFFF;
+    margin: 0;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.45), 0 2px 20px rgba(0,0,0,0.25);
+  }
+  .hero-heading .hero-wip {
+    font-size: 0.48em;
+    font-weight: 500;
+    opacity: 0.5;
+    letter-spacing: 0;
+    vertical-align: middle;
+  }
 </style>
 </head>
 <body>
 
 <!-- HOME -->
 <div class="page active" id="page-home">
+  <div class="hero-banner">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">Fabric Foundations</div>
+      <h1 class="hero-heading">Tokens Northstar <span class="hero-wip">(WIP)</span></h1>
+    </div>
+  </div>
   <div class="home-wrap">
-    <div class="home-eyebrow">Fabric Foundations</div>
-    <h1 class="home-heading">Tokens Northstar <span style="font-size:0.55em;font-weight:500;opacity:0.45;letter-spacing:0;vertical-align:middle;">(WIP)</span></h1>
     <p class="home-sub">A systematic overhaul of Apollo's visual foundation — typography, spacing, and color aligned toward a more human direction.</p>
     <div class="phase-cards">
       <div class="phase-card" onclick="goPage('typography')">
@@ -1147,7 +1220,7 @@
     </div>
     <div class="typo-header">
       <h1>Spacing System</h1>
-      <p>A four-step scale with semantic tokens for gap and padding roles — primitives, layout guidance, and corner radius.</p>
+      <p>A seven-step semantic scale with tokens for gap, padding, and stroke-width roles — primitives, layout guidance, and corner radius.</p>
     </div>
     <div class="sp-tab-bar">
       <button class="sp-tab active" onclick="switchSpTab('tokens', this)">Tokens</button>
@@ -1160,7 +1233,7 @@
       <div class="ed-section">
         <div class="ed-eyebrow">Primitives · Spacing</div>
         <h2 class="ed-h2">The raw scale</h2>
-        <p class="ed-body">The full primitive collection. Do not consume primitives directly in components — always reach for a semantic token. Values without a semantic mapping (<code>xxs</code>, <code>md</code>, <code>xl</code>, <code>xxxl</code>) are available for component-level optical adjustments only.</p>
+        <p class="ed-body">The full primitive collection. Do not consume primitives directly in components — always reach for a semantic token. Primitive values without a semantic alias (size/20, size/32, size/100) may be used only for one-off structural needs and must be documented in redlines.</p>
         <div class="sp-table" style="margin-top:24px;">
           <div class="sp-thead"><div class="sp-th">Token</div><div class="sp-th">Base</div><div class="sp-th">Mobile</div></div>
           <div class="sp-tbody" id="prim-rows"></div>
@@ -1175,13 +1248,22 @@
           <div class="sp-tbody" id="gap-rows"></div>
         </div>
       </div>
-      <div class="ed-section" style="border-bottom:none; padding-bottom:0;">
+      <div class="ed-section">
         <div class="ed-eyebrow">Semantics · Padding</div>
         <h2 class="ed-h2">Space inside a container</h2>
         <p class="ed-body">Padding tokens encode container context. Reference these in <code>padding</code> properties. Directional padding — applying to one or two sides only — is specified at the component level in redlines, not tokenized at this layer.</p>
         <div class="sp-table" style="margin-top:24px;">
           <div class="sp-thead gap-head"><div class="sp-th">Token</div><div class="sp-th">References</div><div class="sp-th">Base</div><div class="sp-th">Description</div></div>
           <div class="sp-tbody" id="pad-rows"></div>
+        </div>
+      </div>
+      <div class="ed-section" style="border-bottom:none; padding-bottom:0;">
+        <div class="ed-eyebrow">Semantics · Border</div>
+        <h2 class="ed-h2">Stroke widths</h2>
+        <p class="ed-body">Two semantic border-width tokens cover all border use cases in Fabric. The <code>border/1</code> token resolves to <code>size/1</code> which is currently set to <code>0px</code> in the Figma variable collection — this appears to be an authoring discrepancy and should be treated as <code>1px</code> until resolved. Use <code>border/2</code> for focus rings and emphasis strokes.</p>
+        <div class="sp-table" style="margin-top:24px;">
+          <div class="sp-thead gap-head"><div class="sp-th">Token</div><div class="sp-th">References</div><div class="sp-th">Base</div><div class="sp-th">Description</div></div>
+          <div class="sp-tbody" id="border-rows"></div>
         </div>
       </div>
     </div>
@@ -1191,7 +1273,7 @@
       <div class="ed-section">
         <div class="ed-eyebrow">Overview</div>
         <h2 class="ed-h2">Why spacing matters in Apollo</h2>
-        <p class="ed-body">Apollo is a data-dense sales platform — users are scanning hundreds of records, switching between workflows, and making time-sensitive decisions in a single session. Spacing is the primary signal that tells users where one thing ends and another begins. Each value in the four-step scale serves a distinct structural role — from separating major page regions down to binding sub-elements within a single component. Spacing decisions should be based on the <em>relationship</em> between elements, not visual preference.</p>
+        <p class="ed-body">Apollo is a data-dense sales platform — users are scanning hundreds of records, switching between workflows, and making time-sensitive decisions in a single session. Spacing is the primary signal that tells users where one thing ends and another begins. Each value in the seven-step scale serves a distinct structural role — from separating major page regions down to binding sub-elements within a single component. Spacing decisions should be based on the <em>relationship</em> between elements, not visual preference.</p>
         <div class="guid-principles-list">
           <div class="guid-principle-row guid-plain-row"><div class="guid-principle-row-body"><div class="guid-principle-row-title">Scannability</div><div class="guid-principle-row-desc">Predictable rhythm lets users parse tables and lists faster.</div></div></div>
           <div class="guid-principle-row guid-plain-row"><div class="guid-principle-row-body"><div class="guid-principle-row-title">Clarity</div><div class="guid-principle-row-desc">Consistent gaps communicate which elements belong together and which don't.</div></div></div>
@@ -1201,8 +1283,8 @@
       </div>
       <div class="ed-section">
         <div class="ed-eyebrow">Spacing Scale</div>
-        <h2 class="ed-h2">Four values, two roles</h2>
-        <p class="ed-body">Spacing values serve two distinct roles: <strong>gap</strong> (space between elements) and <strong>padding</strong> (space inside a container). The same value can serve both roles depending on context.</p>
+        <h2 class="ed-h2">Seven values, two roles</h2>
+        <p class="ed-body">Spacing values serve two distinct roles: <strong>gap</strong> (space between elements) and <strong>padding</strong> (space inside a container). The same value can serve both roles depending on context. The v2 semantic scale tightens component-level spacing while preserving layout-level values at 24px.</p>
         <div class="diag-viewer" id="diag-spacing">
           <div class="diag-img-frame" id="diag-spacing-frame">
             <img src="Frame 1618870580.png" alt="Gaps between regions" class="diag-active" data-diag="spacing" data-idx="0">
@@ -1222,18 +1304,21 @@
             </div>
             <div class="diag-toggle-card diag-card-green" onclick="switchDiag('spacing',2,this)" onmouseenter="switchDiag('spacing',2,this)">
               <div class="diag-card-name">Gaps between zones</div>
-              <div class="diag-card-token">gap/zone · 16px</div>
+              <div class="diag-card-token">gap/zone · 12px</div>
               <div class="diag-card-desc">The tab bar, toolbar, and table are each zones within a section. A 16px gap separates them.</div>
             </div>
           </div>
         </div>
         <div class="sp-table" style="margin-top:24px;">
-          <div class="sp-thead scale-head"><div class="sp-th">Value</div><div class="sp-th">As Gap</div><div class="sp-th">As Padding</div></div>
+          <div class="sp-thead scale-head"><div class="sp-th">Token</div><div class="sp-th">Value</div><div class="sp-th">As Gap</div><div class="sp-th">As Padding</div></div>
           <div class="sp-tbody">
-            <div class="sp-tr scale-tr"><div class="sp-td"><span class="sp-val-tag">24px</span></div><div class="sp-td-desc">Between top-level sections</div><div class="sp-td-desc">Default padding for standalone page-level cards</div></div>
-            <div class="sp-tr scale-tr"><div class="sp-td"><span class="sp-val-tag">16px</span></div><div class="sp-td-desc">Between zones within a section</div><div class="sp-td-desc">Padding for compact or nested cards</div></div>
-            <div class="sp-tr scale-tr"><div class="sp-td"><span class="sp-val-tag">8px</span></div><div class="sp-td-desc">Between elements within a component</div><div class="sp-td-desc">Padding inside small, dense components (chips, tags)</div></div>
-            <div class="sp-tr scale-tr"><div class="sp-td"><span class="sp-val-tag">4px</span></div><div class="sp-td-desc">Between sub-elements within a component</div><div class="sp-td-desc">Padding inside the tightest components (icon buttons, inline labels)</div></div>
+            <div class="sp-tr scale-tr"><div class="sp-td"><span class="sp-token-name">spacing/xxl</span></div><div class="sp-td"><span class="sp-val-tag">24px</span></div><div class="sp-td-desc">Between top-level regions and sections</div><div class="sp-td-desc">Default padding for standalone page-level cards</div></div>
+            <div class="sp-tr scale-tr"><div class="sp-td"><span class="sp-token-name">spacing/xl</span></div><div class="sp-td"><span class="sp-val-tag">16px</span></div><div class="sp-td-desc">—</div><div class="sp-td-desc">Compact or nested card padding</div></div>
+            <div class="sp-tr scale-tr"><div class="sp-td"><span class="sp-token-name">spacing/lg</span></div><div class="sp-td"><span class="sp-val-tag">12px</span></div><div class="sp-td-desc">Between functional zones within a section</div><div class="sp-td-desc">—</div></div>
+            <div class="sp-tr scale-tr"><div class="sp-td"><span class="sp-token-name">spacing/md</span></div><div class="sp-td"><span class="sp-val-tag">8px</span></div><div class="sp-td-desc">Between related elements within a component</div><div class="sp-td-desc">Standard component interior padding</div></div>
+            <div class="sp-tr scale-tr"><div class="sp-td"><span class="sp-token-name">spacing/sm</span></div><div class="sp-td"><span class="sp-val-tag">4px</span></div><div class="sp-td-desc">Between sub-elements within a component</div><div class="sp-td-desc">Dense component padding (chips, tags)</div></div>
+            <div class="sp-tr scale-tr"><div class="sp-td"><span class="sp-token-name">spacing/xs</span></div><div class="sp-td"><span class="sp-val-tag">2px</span></div><div class="sp-td-desc">Tightest sub-element gaps</div><div class="sp-td-desc">Padding inside the most compact elements</div></div>
+            <div class="sp-tr scale-tr"><div class="sp-td"><span class="sp-token-name">spacing/xxs</span></div><div class="sp-td"><span class="sp-val-tag">0px</span></div><div class="sp-td-desc">Collapsed / no gap</div><div class="sp-td-desc">No-padding override</div></div>
           </div>
         </div>
       </div>
@@ -1260,7 +1345,7 @@
             </div>
             <div class="diag-toggle-card diag-card-red" onclick="switchDiag('hierarchy',2,this)" onmouseenter="switchDiag('hierarchy',2,this)">
               <div class="diag-card-kicker">03</div><div class="diag-card-name">Zone</div>
-              <div class="diag-card-token">gap/zone · 16px</div>
+              <div class="diag-card-token">gap/zone · 12px</div>
               <div class="diag-card-desc">A functional subdivision within a section, separated by a 16px gap.</div>
             </div>
           </div>
@@ -1270,7 +1355,7 @@
           <div class="sp-tbody">
             <div class="sp-tr hier-tr"><div class="sp-td-label">Region</div><div class="sp-td"><span class="sp-token-name">24px</span></div><div class="sp-td" style="color:var(--text-tertiary);">—</div></div>
             <div class="sp-tr hier-tr"><div class="sp-td-label">Section</div><div class="sp-td"><span class="sp-token-name">24px</span></div><div class="sp-td"><span class="sp-token-name">24px</span> standalone · <span class="sp-token-name">16px</span> nested</div></div>
-            <div class="sp-tr hier-tr"><div class="sp-td-label">Zone</div><div class="sp-td"><span class="sp-token-name">16px</span></div><div class="sp-td" style="color:var(--text-tertiary);">—</div></div>
+            <div class="sp-tr hier-tr"><div class="sp-td-label">Zone</div><div class="sp-td"><span class="sp-token-name">12px</span></div><div class="sp-td" style="color:var(--text-tertiary);">—</div></div>
             <div class="sp-tr hier-tr"><div class="sp-td-label">Component</div><div class="sp-td"><span class="sp-token-name">8px · 4px</span></div><div class="sp-td"><span class="sp-token-name">8px · 4px</span></div></div>
           </div>
         </div>
@@ -1629,28 +1714,27 @@ function switchDiag(groupId, idx, cardEl) {
 
 function buildSpacingTables() {
   const prims = [
-    { token:'spacing/xxxl', base:32, mobile:40 },
-    { token:'spacing/xxl',  base:24, mobile:32 },
-    { token:'spacing/xl',   base:20, mobile:24 },
-    { token:'spacing/lg',   base:16, mobile:20 },
-    { token:'spacing/md',   base:12, mobile:16 },
-    { token:'spacing/sm',   base:8,  mobile:12 },
-    { token:'spacing/xs',   base:4,  mobile:8  },
-    { token:'spacing/xxs',  base:2,  mobile:4  },
-    { token:'spacing/none', base:0,  mobile:0  },
+    // Semantic spacing — from spacing.semantics.json
+    { token:'spacing/xxl', base:24, mobile:32 },
+    { token:'spacing/xl',  base:16, mobile:20 },
+    { token:'spacing/lg',  base:12, mobile:16 },
+    { token:'spacing/md',  base:8,  mobile:12 },
+    { token:'spacing/sm',  base:4,  mobile:8  },
+    { token:'spacing/xs',  base:2,  mobile:4  },
+    { token:'spacing/xxs', base:0,  mobile:0  },
   ];
   const gaps = [
     { token:'gap/region',    ref:'spacing/xxl', base:'24px', desc:'Between the app sidebar and content area, and between nested regions.' },
     { token:'gap/section',   ref:'spacing/xxl', base:'24px', desc:'Between top-level sections within a region, whether stacked vertically or side by side.' },
-    { token:'gap/zone',      ref:'spacing/lg',  base:'16px', desc:'Between functional zones within a section — tab bar, toolbar, data table.' },
-    { token:'gap/component', ref:'spacing/sm',  base:'8px',  desc:'Between related elements within a component — name and subtitle, icon clusters, grouped tags.' },
-    { token:'gap/element',   ref:'spacing/xs',  base:'4px',  desc:'Between sub-elements within a component — icon and label, tightly paired metadata.' },
+    { token:'gap/zone',      ref:'spacing/lg',  base:'12px', desc:'Between functional zones within a section — tab bar, toolbar, data table.' },
+    { token:'gap/component', ref:'spacing/md',  base:'8px',  desc:'Between related elements within a component — name and subtitle, icon clusters, grouped tags.' },
+    { token:'gap/element',   ref:'spacing/sm',  base:'4px',  desc:'Between sub-elements within a component — icon and label, tightly paired metadata.' },
   ];
   const pads = [
     { token:'padding/card-default', ref:'spacing/xxl', base:'24px', desc:'Interior padding for standalone page-level section cards.' },
-    { token:'padding/card-compact', ref:'spacing/lg',  base:'16px', desc:'Interior padding for nested or secondary cards that coexist with adjacent content.' },
-    { token:'padding/component',    ref:'spacing/sm',  base:'8px',  desc:'Interior padding for small dense components — chips, badges, filter tags.' },
-    { token:'padding/element',      ref:'spacing/xs',  base:'4px',  desc:'Interior padding for the tightest components — icon buttons, inline labels.' },
+    { token:'padding/card-compact', ref:'spacing/xl',  base:'16px', desc:'Interior padding for nested or secondary cards that coexist with adjacent content.' },
+    { token:'padding/component',    ref:'spacing/md',  base:'8px',  desc:'Interior padding for small dense components — chips, badges, filter tags.' },
+    { token:'padding/element',      ref:'spacing/sm',  base:'4px',  desc:'Interior padding for the tightest components — icon buttons, inline labels.' },
   ];
   const primRows = document.getElementById('prim-rows');
   prims.forEach(p => { primRows.innerHTML += `<div class="sp-tr"><div class="sp-td"><span class="sp-token-name">${p.token}</span></div><div class="sp-td"><span class="sp-val-tag">${p.base}px</span></div><div class="sp-td"><span class="sp-mobile-tag">${p.mobile}px</span></div></div>`; });
@@ -1658,6 +1742,17 @@ function buildSpacingTables() {
   gaps.forEach(g => { gapRows.innerHTML += `<div class="sp-tr gap-tr"><div class="sp-td"><span class="sp-token-name">${g.token}</span></div><div class="sp-td"><span class="sp-ref-tag">${g.ref}</span></div><div class="sp-td"><span class="sp-val-tag">${g.base}</span></div><div class="sp-td-desc">${g.desc}</div></div>`; });
   const padRows = document.getElementById('pad-rows');
   pads.forEach(p => { padRows.innerHTML += `<div class="sp-tr gap-tr"><div class="sp-td"><span class="sp-token-name">${p.token}</span></div><div class="sp-td"><span class="sp-ref-tag">${p.ref}</span></div><div class="sp-td"><span class="sp-val-tag">${p.base}</span></div><div class="sp-td-desc">${p.desc}</div></div>`; });
+  const borders = [
+    { token:'border/1', ref:'size/1', base:'1px', note:'⚠', desc:'Standard 1px stroke — dividers, inputs, cards. Note: Figma source currently stores size/1 = 0; treat as 1px until corrected.' },
+    { token:'border/2', ref:'size/2', base:'2px', desc:'Emphasis stroke — focus rings, selected states, active borders.' },
+  ];
+  const borderRows = document.getElementById('border-rows');
+  if (borderRows) {
+    borders.forEach(b => {
+      const noteHtml = b.note ? `<span style="color:#F07020;margin-right:4px;" title="Potential source discrepancy">${b.note}</span>` : '';
+      borderRows.innerHTML += `<div class="sp-tr gap-tr"><div class="sp-td"><span class="sp-token-name">${b.token}</span></div><div class="sp-td"><span class="sp-ref-tag">${b.ref}</span></div><div class="sp-td">${noteHtml}<span class="sp-val-tag">${b.base}</span></div><div class="sp-td-desc">${b.desc}</div></div>`;
+    });
+  }
 }
 
 function buildRadiusTables() {
