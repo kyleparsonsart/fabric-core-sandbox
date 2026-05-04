@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tokens Northstar — Preview Tool · Fabric</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+    /* ── v3 Stone + Sun palette ──────────────────────────── */
+    :root {
+      --stone-00: #FFFFFF;
+      --stone-05: #F9F9F6;
+      --stone-10: #EFEFEB;
+      --stone-20: #E4E5D9;
+      --stone-30: #CCCDBF;
+      --stone-40: #ABAD99;
+      --stone-50: #767862;
+      --stone-60: #5F6151;
+      --stone-70: #4D4D41;
+      --stone-80: #3C3D33;
+      --stone-90: #12120F;
+      --sun-10:   #FBF500;
+      --sun-20:   #F2EC00;
+      --sun-30:   #E1DC21;
+
+      --red-10:  #FFE6EA;
+      --red-20:  #FFD6DC;
+      --red-50:  #FA0026;
+      --red-60:  #C2001D;
+      --red-70:  #940016;
+
+      --blue-10: #E3EDFD;
+      --blue-60: #0E4BA7;
+
+      --green-10: #E5FBE9;
+      --green-60: #0F691E;
+
+      --purple-10: #F3E9FB;
+      --purple-60: #541584;
+
+      /* Semantic aliases */
+      --bg-page:        var(--stone-10);
+      --bg-card:        var(--stone-00);
+      --bg-subtle:      var(--stone-05);
+      --border-default: var(--stone-20);
+      --border-subtle:  var(--stone-10);
+      --fg-default:     var(--stone-90);
+      --fg-subtle:      var(--stone-60);
+      --fg-muted:       var(--stone-40);
+      --radius-sm:  6px;
+      --radius-md:  10px;
+      --radius-lg:  14px;
+      --radius-xl:  18px;
+      --shadow-sm:  0 1px 2px rgba(18,18,15,.06);
+      --shadow-md:  0 2px 8px rgba(18,18,15,.08), 0 0 0 1px var(--border-default);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'ABCDiatype', 'Inter', system-ui, sans-serif;
+      background: var(--bg-page);
+      color: var(--fg-default);
+      min-height: 100vh;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    code {
+      font-family: 'SFMono-Regular', Consolas, 'Cascadia Code', monospace;
+      font-size: .85em;
+      background: var(--stone-10);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--stone-70);
+      border: 1px solid var(--stone-20);
+    }
+
+    /* ── Nav ─────────────────────────────────────────────── */
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 32px;
+      height: 52px;
+      border-bottom: 1px solid var(--border-default);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(249,249,246,.92);
+      backdrop-filter: blur(12px);
+    }
+    .nav-logo {
+      width: 28px; height: 28px;
+      background: var(--stone-90);
+      border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--sun-10);
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: -.5px;
+      flex-shrink: 0;
+    }
+    .nav-brand { font-size: 13px; font-weight: 600; color: var(--fg-default); }
+    .nav-sep   { color: var(--border-default); font-size: 18px; font-weight: 200; }
+    .nav-sub   { font-size: 13px; color: var(--fg-subtle); }
+    .nav-spacer { flex: 1; }
+    .nav-badge {
+      font-size: 11px;
+      font-weight: 600;
+      background: var(--sun-10);
+      color: var(--stone-90);
+      padding: 2px 8px;
+      border-radius: 99px;
+      letter-spacing: .2px;
+    }
+
+    /* ── Page layout ─────────────────────────────────────── */
+    .page {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 40px 24px 96px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* ── Hero ────────────────────────────────────────────── */
+    .hero { padding: 8px 0 4px; }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 11px; font-weight: 600; letter-spacing: .6px;
+      text-transform: uppercase;
+      color: var(--fg-subtle);
+      margin-bottom: 10px;
+    }
+    .hero h1 {
+      font-family: 'FoundersGrotesk', 'Inter', system-ui, sans-serif;
+      font-size: 30px;
+      font-weight: 400;
+      color: var(--fg-default);
+      letter-spacing: -.5px;
+      line-height: 1.15;
+      margin-bottom: 10px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      background: var(--sun-10);
+      padding: 0 4px 2px;
+      border-radius: 4px;
+    }
+    .hero p {
+      font-size: 14px;
+      color: var(--fg-subtle);
+      max-width: 480px;
+      line-height: 1.65;
+    }
+
+    /* ── Stats row ───────────────────────────────────────── */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    .stat {
+      background: var(--bg-card);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      box-shadow: var(--shadow-sm);
+    }
+    .stat-num {
+      font-family: 'FoundersGrotesk', 'Inter', system-ui, sans-serif;
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--fg-default);
+      letter-spacing: -.5px;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .stat-label { font-size: 11px; color: var(--fg-muted); letter-spacing: .2px; }
+
+    /* ── Cards ───────────────────────────────────────────── */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+    .card-head {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 16px;
+    }
+    .step-n {
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      background: var(--stone-10);
+      border: 1px solid var(--border-default);
+      color: var(--fg-subtle);
+      font-size: 11px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .card h2 { font-size: 14px; font-weight: 600; color: var(--fg-default); }
+    .card-desc { font-size: 13px; color: var(--fg-subtle); margin-bottom: 16px; line-height: 1.55; }
+
+    /* ── Bookmarklet drag zone ───────────────────────────── */
+    .bm-zone {
+      display: flex; align-items: center; gap: 16px;
+      background: var(--bg-subtle);
+      border: 1.5px dashed var(--border-default);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      margin-bottom: 16px;
+    }
+    .bm-arrow { font-size: 20px; flex-shrink: 0; color: var(--fg-muted); }
+    #bm-link {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--stone-90);
+      color: var(--sun-10);
+      font-weight: 600;
+      font-size: 13px;
+      padding: 9px 16px;
+      border-radius: var(--radius-sm);
+      cursor: grab;
+      user-select: none;
+      flex-shrink: 0;
+      transition: background .15s, transform .1s, box-shadow .15s;
+      box-shadow: 0 1px 3px rgba(18,18,15,.15);
+      white-space: nowrap;
+    }
+    #bm-link:hover  { background: var(--stone-80); box-shadow: 0 2px 6px rgba(18,18,15,.2); transform: translateY(-1px); }
+    #bm-link:active { cursor: grabbing; transform: translateY(0); }
+    .bm-info { font-size: 13px; color: var(--fg-subtle); line-height: 1.55; }
+    .bm-info strong { color: var(--fg-default); font-weight: 500; display: block; margin-bottom: 2px; }
+
+    kbd {
+      background: var(--stone-10);
+      border: 1px solid var(--border-default);
+      border-radius: 4px;
+      padding: 1px 5px;
+      font-size: 11px;
+      font-family: monospace;
+      color: var(--fg-subtle);
+    }
+
+    /* ── How-to grid ─────────────────────────────────────── */
+    .how-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .how-step {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 14px;
+    }
+    .how-icon { font-size: 18px; margin-bottom: 8px; }
+    .how-step h3 { font-size: 13px; font-weight: 600; color: var(--fg-default); margin-bottom: 4px; }
+    .how-step p  { font-size: 12px; color: var(--fg-subtle); margin: 0; line-height: 1.5; }
+
+    /* ── Tab bar ─────────────────────────────────────────── */
+    .tabs {
+      display: flex; gap: 2px;
+      background: var(--stone-10);
+      border-radius: var(--radius-sm);
+      padding: 3px;
+      margin-bottom: 20px;
+      width: fit-content;
+    }
+    .tab {
+      font-size: 13px; font-weight: 500;
+      padding: 6px 14px;
+      border-radius: calc(var(--radius-sm) - 2px);
+      cursor: pointer;
+      color: var(--fg-subtle);
+      border: none;
+      background: transparent;
+      transition: background .15s, color .15s;
+    }
+    .tab.active {
+      background: var(--bg-card);
+      color: var(--fg-default);
+      box-shadow: var(--shadow-sm);
+    }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ── Token table ─────────────────────────────────────── */
+    .token-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .token-table th {
+      text-align: left;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .4px;
+      text-transform: uppercase;
+      color: var(--fg-muted);
+      padding: 0 12px 8px;
+      border-bottom: 1px solid var(--border-default);
+    }
+    .token-table th:first-child { padding-left: 0; }
+    .token-table td {
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--border-subtle);
+      vertical-align: middle;
+      color: var(--fg-default);
+    }
+    .token-table td:first-child { padding-left: 0; }
+    .token-table tr:last-child td { border-bottom: none; }
+
+    .swatch {
+      display: inline-block;
+      width: 20px; height: 20px;
+      border-radius: 4px;
+      border: 1px solid rgba(18,18,15,.1);
+      vertical-align: middle;
+      margin-right: 8px;
+      flex-shrink: 0;
+    }
+    .swatch-cell { display: flex; align-items: center; }
+    .hex { font-family: monospace; font-size: 12px; color: var(--fg-muted); }
+
+    /* ── Feature grid ────────────────────────────────────── */
+    .feat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px; }
+    .feat {
+      display: flex; align-items: flex-start; gap: 10px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+    }
+    .feat-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+    .feat h4 { font-size: 13px; font-weight: 600; color: var(--fg-default); margin-bottom: 2px; }
+    .feat p  { font-size: 12px; color: var(--fg-subtle); margin: 0; line-height: 1.5; }
+
+    /* ── Spacing scale visual ────────────────────────────── */
+    .spacing-scale { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+    .sp-row { display: flex; align-items: center; gap: 12px; }
+    .sp-bar-wrap { flex: 1; }
+    .sp-bar {
+      background: var(--stone-20);
+      border-radius: 3px;
+      height: 20px;
+      border: 1px solid var(--border-default);
+    }
+    .sp-label { font-size: 12px; color: var(--fg-subtle); width: 80px; flex-shrink: 0; font-family: monospace; }
+    .sp-val   { font-size: 12px; color: var(--fg-muted);  width: 36px; flex-shrink: 0; text-align: right; }
+
+    /* ── Type scale preview ──────────────────────────────── */
+    .type-scale { display: flex; flex-direction: column; gap: 0; }
+    .type-row {
+      display: flex; align-items: baseline; gap: 16px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .type-row:last-child { border-bottom: none; }
+    .type-meta { width: 120px; flex-shrink: 0; }
+    .type-token { font-size: 11px; font-family: monospace; color: var(--fg-muted); margin-bottom: 2px; }
+    .type-spec  { font-size: 11px; color: var(--fg-muted); }
+    .type-sample { flex: 1; color: var(--fg-default); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    /* ── Section heading ─────────────────────────────────── */
+    .section-head {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      color: var(--fg-muted);
+      margin-bottom: 10px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border-default);
+    }
+
+    /* ── Footer ──────────────────────────────────────────── */
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      color: var(--fg-muted);
+      padding-top: 8px;
+    }
+    .footer a { color: var(--fg-subtle); text-decoration: underline; text-underline-offset: 2px; }
+  </style>
+</head>
+<body>
+
+<!-- ── Nav ─────────────────────────────────────────────── -->
+<nav class="nav">
+  <div class="nav-logo">F</div>
+  <span class="nav-brand">Fabric</span>
+  <span class="nav-sep">/</span>
+  <span class="nav-sub">Tokens Northstar Preview Tool</span>
+  <div class="nav-spacer"></div>
+  <span class="nav-badge">v3 · 2026</span>
+</nav>
+
+<!-- ── Page ─────────────────────────────────────────────── -->
+<main class="page">
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="hero-eyebrow">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.2"/><path d="M6 4v2.5L7.5 8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      Bookmarklet · Live Token Inspection
+    </div>
+    <h1>Inspect <em>any token</em> on<br>live Apollo surfaces</h1>
+    <p>Install once. Hover any element in the Apollo app to see which Fabric semantic tokens are applied — color, spacing, and typography — without leaving your browser.</p>
+  </header>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat"><div class="stat-num">482</div><div class="stat-label">Semantic tokens</div></div>
+    <div class="stat"><div class="stat-num">213</div><div class="stat-label">Primitive tokens</div></div>
+    <div class="stat"><div class="stat-num">16</div><div class="stat-label">Type styles</div></div>
+    <div class="stat"><div class="stat-num">3</div><div class="stat-label">Preview modes</div></div>
+  </div>
+
+  <!-- Step 1: Install -->
+  <div class="card">
+    <div class="card-head">
+      <div class="step-n">1</div>
+      <h2>Install the bookmarklet</h2>
+    </div>
+    <p class="card-desc">Drag the button below to your browser's bookmarks bar. You only need to do this once.</p>
+
+    <div class="bm-zone">
+      <div class="bm-arrow">⟵</div>
+      <a id="bm-link" href="#" title="Drag me to your bookmarks bar">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="flex-shrink:0"><rect x="1" y="2" width="12" height="9" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M1 5h12" stroke="currentColor" stroke-width="1.3"/><circle cx="3.5" cy="3.5" r=".7" fill="currentColor"/><circle cx="5.5" cy="3.5" r=".7" fill="currentColor"/></svg>
+        TNS Token Preview
+      </a>
+      <div class="bm-info">
+        <strong>Drag to bookmarks bar</strong>
+        Show the bar with <kbd>⌘⇧B</kbd> (Mac) or <kbd>Ctrl+Shift+B</kbd> (Windows)
+      </div>
+    </div>
+
+    <p class="card-desc" style="margin-bottom:0;">Can't drag? Right-click the button and choose <strong>Bookmark This Link</strong>, or copy the <code>javascript:</code> URL manually.</p>
+  </div>
+
+  <!-- Step 2: Use it -->
+  <div class="card">
+    <div class="card-head">
+      <div class="step-n">2</div>
+      <h2>Use it on live Apollo</h2>
+    </div>
+    <div class="how-grid">
+      <div class="how-step">
+        <div class="how-icon">🔖</div>
+        <h3>Open Apollo</h3>
+        <p>Navigate to <code>app.apollo.io</code> in your browser while logged in.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-icon">✦</div>
+        <h3>Click the bookmark</h3>
+        <p>Click <strong>TNS Token Preview</strong> in your bookmarks bar to launch the panel.</p>
+      </div>
+      <div class="how-step">
+        <div class="how-icon">🔍</div>
+        <h3>Hover to inspect</h3>
+        <p>Move your cursor over any element — the panel shows matching tokens in real time.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 3: Preview modes -->
+  <div class="card">
+    <div class="card-head">
+      <div class="step-n">3</div>
+      <h2>What you can inspect</h2>
+    </div>
+
+    <div class="tabs" role="tablist">
+      <button class="tab active" onclick="switchTab(this,'color')" role="tab">Color</button>
+      <button class="tab"        onclick="switchTab(this,'spacing')" role="tab">Spacing</button>
+      <button class="tab"        onclick="switchTab(this,'typography')" role="tab">Typography</button>
+    </div>
+
+    <!-- Color tab -->
+    <div id="tab-color" class="tab-panel active">
+      <p class="section-head">Key semantic tokens (fg · bg · border)</p>
+      <table class="token-table">
+        <thead>
+          <tr>
+            <th>Token</th>
+            <th>Swatch</th>
+            <th>Primitive</th>
+            <th>Hex</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code>fg/neutral/default</code></td><td><span class="swatch" style="background:#12120F"></span></td><td>stone-90</td><td class="hex">#12120F</td></tr>
+          <tr><td><code>fg/neutral/subtle</code></td><td><span class="swatch" style="background:#5F6151"></span></td><td>stone-60</td><td class="hex">#5F6151</td></tr>
+          <tr><td><code>fg/neutral/muted</code></td><td><span class="swatch" style="background:#ABAD99"></span></td><td>stone-40</td><td class="hex">#ABAD99</td></tr>
+          <tr><td><code>bg/neutral/background/default</code></td><td><span class="swatch" style="background:#EFEFEB"></span></td><td>stone-10</td><td class="hex">#EFEFEB</td></tr>
+          <tr><td><code>bg/neutral/surface/default</code></td><td><span class="swatch" style="background:#FFFFFF"></span></td><td>stone-00</td><td class="hex">#FFFFFF</td></tr>
+          <tr><td><code>bg/brand/strong/default</code></td><td><span class="swatch" style="background:#FBF500"></span></td><td>sun-10</td><td class="hex">#FBF500</td></tr>
+          <tr><td><code>border/neutral/default</code></td><td><span class="swatch" style="background:#E4E5D9"></span></td><td>stone-20</td><td class="hex">#E4E5D9</td></tr>
+          <tr><td><code>fg/danger/default</code></td><td><span class="swatch" style="background:#C2001D"></span></td><td>red-60</td><td class="hex">#C2001D</td></tr>
+          <tr><td><code>fg/info/default</code></td><td><span class="swatch" style="background:#0E4BA7"></span></td><td>blue-60</td><td class="hex">#0E4BA7</td></tr>
+          <tr><td><code>fg/success/default</code></td><td><span class="swatch" style="background:#0F691E"></span></td><td>green-60</td><td class="hex">#0F691E</td></tr>
+        </tbody>
+      </table>
+      <div class="feat-grid">
+        <div class="feat">
+          <div class="feat-icon">🎨</div>
+          <div><h4>Role-based semantics</h4><p>Tokens describe purpose (fg/neutral) not appearance. Theming changes semantics, not the token names.</p></div>
+        </div>
+        <div class="feat">
+          <div class="feat-icon">🌓</div>
+          <div><h4>Dark mode–ready</h4><p>All semantic tokens have light/dark assignments. Switch themes by remapping primitives, no rewrites.</p></div>
+        </div>
+        <div class="feat">
+          <div class="feat-icon">🔗</div>
+          <div><h4>Primitive traceability</h4><p>Every token traces back to a v3 stone or sun primitive — no orphaned hex values.</p></div>
+        </div>
+        <div class="feat">
+          <div class="feat-icon">⚠️</div>
+          <div><h4>Raw value detection</h4><p>The panel flags elements using hardcoded hex or rgba values instead of tokens — no token name found.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Spacing tab -->
+    <div id="tab-spacing" class="tab-panel">
+      <p class="section-head">Primitive scale</p>
+      <div class="spacing-scale">
+        <div class="sp-row"><span class="sp-label">spacing-1</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:4px"></div></div><span class="sp-val">4px</span></div>
+        <div class="sp-row"><span class="sp-label">spacing-2</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:8px"></div></div><span class="sp-val">8px</span></div>
+        <div class="sp-row"><span class="sp-label">spacing-4</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:16px"></div></div><span class="sp-val">16px</span></div>
+        <div class="sp-row"><span class="sp-label">spacing-6</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:24px"></div></div><span class="sp-val">24px</span></div>
+        <div class="sp-row"><span class="sp-label">spacing-8</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:32px"></div></div><span class="sp-val">32px</span></div>
+        <div class="sp-row"><span class="sp-label">spacing-12</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:48px"></div></div><span class="sp-val">48px</span></div>
+        <div class="sp-row"><span class="sp-label">spacing-16</span><div class="sp-bar-wrap"><div class="sp-bar" style="width:64px"></div></div><span class="sp-val">64px</span></div>
+      </div>
+
+      <p class="section-head">Semantic gap tokens</p>
+      <table class="token-table" style="margin-bottom:18px">
+        <thead><tr><th>Token</th><th>Value</th><th>Use</th></tr></thead>
+        <tbody>
+          <tr><td><code>gap/element</code></td><td>4px</td><td>Icon-to-label, tight inline pairs</td></tr>
+          <tr><td><code>gap/component</code></td><td>8px</td><td>Items within a component row</td></tr>
+          <tr><td><code>gap/zone</code></td><td>16px</td><td>Between component groups</td></tr>
+          <tr><td><code>gap/section</code></td><td>24px</td><td>Between layout sections</td></tr>
+          <tr><td><code>gap/region</code></td><td>32px</td><td>Between major page regions</td></tr>
+        </tbody>
+      </table>
+
+      <p class="section-head">Semantic padding tokens</p>
+      <table class="token-table">
+        <thead><tr><th>Token</th><th>Value</th><th>Use</th></tr></thead>
+        <tbody>
+          <tr><td><code>padding/element</code></td><td>4px</td><td>Badge, chip, icon-button inset</td></tr>
+          <tr><td><code>padding/component</code></td><td>8px</td><td>Button, input, select inset</td></tr>
+          <tr><td><code>padding/card-compact</code></td><td>16px</td><td>Dense cards, table cells</td></tr>
+          <tr><td><code>padding/card-default</code></td><td>24px</td><td>Standard cards, modal bodies</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Typography tab -->
+    <div id="tab-typography" class="tab-panel">
+      <p class="section-head">Type scale — Founders Grotesk (display) · ABCDiatype (body)</p>
+      <div class="type-scale">
+        <div class="type-row">
+          <div class="type-meta"><div class="type-token">display-lg</div><div class="type-spec">32px · 40px · −0.5px</div></div>
+          <div class="type-sample" style="font-family:'FoundersGrotesk','Inter',system-ui;font-size:32px;line-height:1.25;letter-spacing:-0.5px;font-weight:400;">Apollo Sales</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><div class="type-token">display-sm</div><div class="type-spec">28px · 36px · −0.5px</div></div>
+          <div class="type-sample" style="font-family:'FoundersGrotesk','Inter',system-ui;font-size:28px;line-height:1.28;letter-spacing:-0.5px;font-weight:400;">Apollo Sales</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><div class="type-token">title-lg</div><div class="type-spec">24px · 32px · −0.3px</div></div>
+          <div class="type-sample" style="font-family:'FoundersGrotesk','Inter',system-ui;font-size:24px;line-height:1.33;letter-spacing:-0.3px;font-weight:400;">Sequences & Tasks</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><div class="type-token">title-md</div><div class="type-spec">20px · 28px · −0.2px</div></div>
+          <div class="type-sample" style="font-size:20px;line-height:1.4;letter-spacing:-0.2px;font-weight:500;">Sequences & Tasks</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><div class="type-token">title-sm</div><div class="type-spec">18px · 26px · −0.1px</div></div>
+          <div class="type-sample" style="font-size:18px;line-height:1.44;letter-spacing:-0.1px;font-weight:500;">People & Companies</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><div class="type-token">subtitle-lg</div><div class="type-spec">16px · 24px · 0px</div></div>
+          <div class="type-sample" style="font-size:16px;line-height:1.5;font-weight:600;">Email Sequences</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><div class="type-token">subtitle-sm</div><div class="type-spec">14px · 20px · 0px</div></div>
+          <div class="type-sample" style="font-size:14px;line-height:1.43;font-weight:600;">Email Sequences</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><div class="type-token">body-lg</div><div class="type-spec">16px · 24px · 0px</div></div>
+          <div class="type-sample" style="font-size:16px;line-height:1.5;font-weight:400;">Identify and reach your best prospects</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><div class="type-token">body-md</div><div class="type-spec">14px · 20px · 0px</div></div>
+          <div class="type-sample" style="font-size:14px;line-height:1.43;font-weight:400;">Identify and reach your best prospects</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><div class="type-token">body-sm</div><div class="type-spec">13px · 18px · 0px</div></div>
+          <div class="type-sample" style="font-size:13px;line-height:1.38;font-weight:400;">Identify and reach your best prospects with</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><div class="type-token">caption-lg</div><div class="type-spec">12px · 16px · +0.1px</div></div>
+          <div class="type-sample" style="font-size:12px;line-height:1.33;letter-spacing:0.1px;font-weight:400;">Last contacted · 3 days ago · via email</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><div class="type-token">caption-sm</div><div class="type-spec">11px · 16px · +0.2px</div></div>
+          <div class="type-sample" style="font-size:11px;line-height:1.45;letter-spacing:0.2px;font-weight:500;text-transform:uppercase;color:var(--fg-subtle);">Qualified · New · Outbound</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /card -->
+
+  <!-- Footer -->
+  <p class="footer">Fabric Design System · Tokens Northstar · <a href="#">TNS Sandbox</a> · <a href="#">Notion Changelog</a></p>
+
+</main>
+
+<script>
+/* ── Tab switcher ─────────────────────────────────── */
+function switchTab(btn, id) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-' + id).classList.add('active');
+}
+
+/* ══════════════════════════════════════════════════════════
+   BOOKMARKLET SOURCE
+   Paste the href below onto the #bm-link <a> tag.
+   The encodeURIComponent'd version is set programmatically
+   below so the source is readable in this file.
+   ══════════════════════════════════════════════════════════ */
+const BOOKMARKLET_SOURCE = `(function(){
+  const ID='__tns_panel__';
+  const existing=document.getElementById(ID);
+  if(existing){existing.remove();document.body.style.cursor='';return;}
+
+  /* ── Token maps ── */
+  const COLOR_MAP={
+    '#12120f':'fg/neutral/default (stone-90)',
+    '#ffffff':'bg/neutral/surface (stone-00)',
+    '#f9f9f6':'bg/neutral/subtle (stone-05)',
+    '#efefeb':'bg/neutral/background (stone-10)',
+    '#e4e5d9':'border/neutral/default (stone-20)',
+    '#cccdbf':'border/neutral/subtle (stone-30)',
+    '#abad99':'fg/neutral/muted (stone-40)',
+    '#767862':'fg/neutral/placeholder (stone-50)',
+    '#5f6151':'fg/neutral/subtle (stone-60)',
+    '#4d4d41':'fg/neutral/strong (stone-70)',
+    '#3c3d33':'fg/neutral/stronger (stone-80)',
+    '#fbf500':'bg/brand/strong/default (sun-10)',
+    '#f2ec00':'bg/brand/strong/hover (sun-20)',
+    '#e1dc21':'bg/brand/strong/pressed (sun-30)',
+    '#c2001d':'fg/danger/default (red-60)',
+    '#fa0026':'fg/danger/hover (red-50)',
+    '#940016':'fg/danger/strong (red-70)',
+    '#ffe6ea':'bg/danger/subtle (red-10)',
+    '#ffd6dc':'border/danger (red-20)',
+    '#0e4ba7':'fg/info/default (blue-60)',
+    '#e3edfd':'bg/info/subtle (blue-10)',
+    '#cbdefb':'border/info (blue-20)',
+    '#0f691e':'fg/success/default (green-60)',
+    '#e5fbe9':'bg/success/subtle (green-10)',
+    '#cef8d5':'border/success (green-20)',
+    '#541584':'fg/ai/default (purple-60)',
+    '#f3e9fb':'bg/ai/subtle (purple-10)',
+    '#8f3e00':'fg/warning/default (orange-60)',
+    '#ffede0':'bg/warning/subtle (orange-10)',
+    '#ffdfc7':'border/warning (orange-20)',
+  };
+
+  const SPACING_MAP={
+    '4px':'spacing-1 · gap/element · padding/element',
+    '8px':'spacing-2 · gap/component · padding/component',
+    '16px':'spacing-4 · gap/zone · padding/card-compact',
+    '24px':'spacing-6 · gap/section · padding/card-default',
+    '32px':'spacing-8 · gap/region',
+    '48px':'spacing-12',
+    '64px':'spacing-16',
+  };
+
+  const TYPE_MAP={
+    '32px-400':'display-lg · FoundersGrotesk',
+    '28px-400':'display-sm · FoundersGrotesk',
+    '24px-400':'title-lg · FoundersGrotesk',
+    '20px-500':'title-md',
+    '18px-500':'title-sm',
+    '16px-600':'subtitle-lg',
+    '16px-400':'body-lg',
+    '14px-600':'subtitle-sm',
+    '14px-500':'label-md',
+    '14px-400':'body-md',
+    '13px-400':'body-sm',
+    '12px-400':'caption-lg',
+    '11px-500':'caption-sm',
+  };
+
+  function rgbToHex(rgb){
+    const m=rgb.match(/rgba?\\((\\d+),\\s*(\\d+),\\s*(\\d+)/);
+    if(!m)return rgb.toLowerCase();
+    return '#'+[m[1],m[2],m[3]].map(n=>parseInt(n).toString(16).padStart(2,'0')).join('');
+  }
+
+  function lookupColor(hex){
+    return COLOR_MAP[hex.toLowerCase()]||null;
+  }
+
+  function lookupSpacing(px){
+    return SPACING_MAP[px]||null;
+  }
+
+  function lookupType(size,weight){
+    const key=size+'-'+weight;
+    return TYPE_MAP[key]||null;
+  }
+
+  function rows(label,val,tok){
+    const bad=!tok;
+    const dot=bad?'🔴':'🟢';
+    return '<div style="display:flex;gap:6px;align-items:baseline;padding:3px 0;border-bottom:1px solid rgba(18,18,15,.06)">'+
+      '<span style="width:6px;flex-shrink:0;margin-top:4px">'+dot+'</span>'+
+      '<span style="font-size:11px;color:#5F6151;width:60px;flex-shrink:0">'+label+'</span>'+
+      '<span style="font-size:11px;font-family:monospace;color:'+(bad?'#C2001D':'#12120F')+';word-break:break-all">'+
+        (tok||('<span style="color:#C2001D">raw: '+val+'</span>'))+
+      '</span></div>';
+  }
+
+  /* ── Build panel ── */
+  const panel=document.createElement('div');
+  panel.id=ID;
+  panel.style.cssText='position:fixed;bottom:16px;right:16px;width:340px;max-height:480px;overflow-y:auto;background:#FFFFFF;border:1px solid #E4E5D9;border-radius:14px;box-shadow:0 8px 32px rgba(18,18,15,.14);z-index:999999;font-family:system-ui,sans-serif;transition:opacity .15s';
+
+  const header=document.createElement('div');
+  header.style.cssText='display:flex;align-items:center;justify-content:space-between;padding:12px 16px 10px;border-bottom:1px solid #EFEFEB;position:sticky;top:0;background:#FFFFFF;border-radius:14px 14px 0 0';
+  header.innerHTML='<div style="display:flex;align-items:center;gap:8px"><div style="width:20px;height:20px;background:#12120F;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#FBF500;font-size:9px;font-weight:700;flex-shrink:0">F</div><span style="font-size:13px;font-weight:600;color:#12120F">TNS Token Preview</span></div><button onclick="document.getElementById(\\''+ID+'\\').remove();document.body.style.cursor=\\'\\'" style="background:none;border:none;cursor:pointer;color:#ABAD99;font-size:16px;line-height:1;padding:2px 4px">×</button>';
+  panel.appendChild(header);
+
+  /* ── Mode tabs ── */
+  let activeMode='color';
+  const tabBar=document.createElement('div');
+  tabBar.style.cssText='display:flex;gap:2px;padding:8px 12px 0;background:#F9F9F6;';
+  ['color','spacing','type'].forEach(mode=>{
+    const t=document.createElement('button');
+    t.textContent={color:'Color',spacing:'Spacing',type:'Type'}[mode];
+    t.dataset.mode=mode;
+    t.style.cssText='font-size:11px;font-weight:500;padding:4px 10px;border-radius:6px;border:none;cursor:pointer;transition:background .1s,color .1s;background:transparent;color:#5F6151';
+    t.onclick=()=>{activeMode=mode;document.querySelectorAll('[data-mode]').forEach(b=>{b.style.background=b.dataset.mode===mode?'#FFFFFF':'transparent';b.style.color=b.dataset.mode===mode?'#12120F':'#5F6151';});};
+    tabBar.appendChild(t);
+  });
+  panel.appendChild(tabBar);
+  // activate default
+  tabBar.querySelector('[data-mode="color"]').style.background='#FFFFFF';
+  tabBar.querySelector('[data-mode="color"]').style.color='#12120F';
+
+  const body=document.createElement('div');
+  body.style.cssText='padding:12px 16px 16px';
+  const hint=document.createElement('div');
+  hint.style.cssText='font-size:12px;color:#ABAD99;padding:12px 0';
+  hint.textContent='Hover an element to inspect tokens…';
+  body.appendChild(hint);
+  panel.appendChild(body);
+  document.body.appendChild(panel);
+
+  /* ── Hover inspection ── */
+  let lastEl=null;
+  function inspect(el){
+    if(el===lastEl||el===panel||panel.contains(el))return;
+    lastEl=el;
+    const cs=getComputedStyle(el);
+    let html='';
+
+    if(activeMode==='color'){
+      const checks=[
+        ['Color',cs.color],
+        ['Bg',cs.backgroundColor],
+        ['Border',cs.borderTopColor],
+        ['Outline',cs.outlineColor],
+      ];
+      checks.forEach(([label,val])=>{
+        if(!val||val==='rgba(0, 0, 0, 0)'||val==='transparent')return;
+        const hex=rgbToHex(val);
+        html+=rows(label,hex,lookupColor(hex));
+      });
+      if(!html)html='<div style="font-size:12px;color:#ABAD99;padding:6px 0">No color properties on this element.</div>';
+    }
+
+    else if(activeMode==='spacing'){
+      const checks=[
+        ['Pad T',cs.paddingTop],['Pad R',cs.paddingRight],
+        ['Pad B',cs.paddingBottom],['Pad L',cs.paddingLeft],
+        ['Mar T',cs.marginTop],['Mar R',cs.marginRight],
+        ['Mar B',cs.marginBottom],['Mar L',cs.marginLeft],
+        ['Gap',cs.gap],['Row Gap',cs.rowGap],['Col Gap',cs.columnGap],
+      ];
+      const seen=new Set();
+      checks.forEach(([label,val])=>{
+        if(!val||val==='0px'||val==='normal'||seen.has(label))return;
+        seen.add(label);
+        html+=rows(label,val,lookupSpacing(val));
+      });
+      if(!html)html='<div style="font-size:12px;color:#ABAD99;padding:6px 0">No spacing properties on this element.</div>';
+    }
+
+    else if(activeMode==='type'){
+      const size=cs.fontSize;
+      const weight=cs.fontWeight;
+      const key=size+'-'+weight;
+      const family=cs.fontFamily;
+      const leading=cs.lineHeight;
+      html+=rows('Size',size,lookupType(size,weight));
+      html+='<div style="font-size:11px;color:#5F6151;padding:3px 0"><span style="width:60px;display:inline-block">Family</span>'+family.split(',')[0].replace(/['"]/g,'')+'</div>';
+      html+='<div style="font-size:11px;color:#5F6151;padding:3px 0"><span style="width:60px;display:inline-block">Leading</span>'+leading+'</div>';
+      html+='<div style="font-size:11px;color:#5F6151;padding:3px 0"><span style="width:60px;display:inline-block">Weight</span>'+weight+'</div>';
+    }
+
+    body.innerHTML=html||'<div style="font-size:12px;color:#ABAD99;padding:6px 0">Nothing detected.</div>';
+  }
+
+  document.addEventListener('mouseover',e=>inspect(e.target),{passive:true});
+  document.body.style.cursor='crosshair';
+})();`;
+
+/* Set the bookmarklet href */
+document.getElementById('bm-link').href = 'javascript:' + encodeURIComponent(BOOKMARKLET_SOURCE);
+</script>
+</body>
+</html>

@@ -455,3 +455,121 @@
 |---|---|
 | `overlay/shadow` | `#2E2B29` 20% |
 | `overlay/highlight` | `#FFFFFF` 20% |
+
+---
+
+# Typography Tokens
+
+Typography tokens follow a three-tier naming convention: **display** (hero/editorial), **title** (heading hierarchy), **subtitle**, **body**, and **caption**. All tokens map to one of two font families: Founders Grotesk (display/editorial) or ABC Diatype (UI/functional).
+
+## Display
+
+| Token | Font Family | Size | Line Height | Tracking | Weight | WCAG Class | Notes |
+|---|---|---|---|---|---|---|---|
+| `display-lg` | Founders Grotesk | 32px | 40px | -0.5px | 400 | Large text · 3:1 | v2 uses regular weight — original heading-1 was bold (700) |
+| `display-sm` | Founders Grotesk | 28px | 36px | -0.5px | 400 | Large text · 3:1 | 🆕 Net new — sits between heading-1 (32) and heading-2 (24) |
+
+## Title
+
+| Token | Font Family | Size | Line Height | Tracking | Weight | WCAG Class | Notes |
+|---|---|---|---|---|---|---|---|
+| `title-lg` | Founders Grotesk | 24px | 32px | 0 | 400 | Large text · 3:1 | v2 uses regular weight — original heading-2 was bold (700) |
+| `title-md` | Founders Grotesk | 20px | 28px | 0 | 400 | Large text · 3:1 | v2 uses regular weight — original heading-3 was bold (700) |
+| `title-sm` | Founders Grotesk | 18px | 24px | 0 | 400 | Large text · 3:1 | Updated from 16px → 18px; now qualifies as large text |
+
+## Subtitle
+
+| Token | Font Family | Size | Line Height | Tracking | Weight | WCAG Class | Notes |
+|---|---|---|---|---|---|---|---|
+| `subtitle-lg` | ABC Diatype | 14px | 22px | +0.5px | 500 | Standard · 4.5:1 | Line height updated to 22px (1.57×) — meets WCAG 1.5× minimum |
+| `subtitle-sm` | ABC Diatype | 12px | 18px | +0.5px | 500 | Standard · 4.5:1 | ⚠️ Advisory — 12px is the legibility floor; evaluate consolidation with `caption-medium` |
+
+## Body
+
+| Token | Font Family | Size | Line Height | Tracking | Weight | WCAG Class | Notes |
+|---|---|---|---|---|---|---|---|
+| `body-lg-regular` | ABC Diatype | 16px | 24px | 0 | 400 | Standard · 4.5:1 | Line height 1.5× — meets WCAG spacing recommendation |
+| `body-lg-medium` | ABC Diatype | 16px | 24px | 0 | 500 | Standard · 4.5:1 | Line height 1.5× — meets WCAG spacing recommendation |
+| `body-lg-bold` | ABC Diatype | 16px | 24px | 0 | 700 | Standard · 4.5:1 | 16px/700 is near but does not qualify as large text |
+| `body-sm-regular` | ABC Diatype | 14px | 20px | 0 | 400 | Standard · 4.5:1 | Highest-volume legacy token — maps to body-2 (43.7% of codebase) |
+| `body-sm-medium` | ABC Diatype | 14px | 20px | 0 | 500 | Standard · 4.5:1 | ⚠️ Advisory — 14px/500 does NOT qualify as large text; requires 4.5:1 |
+| `body-sm-bold` | ABC Diatype | 14px | 20px | 0 | 700 | Large text · 3:1 | 14px/700 qualifies as large text (≥14pt bold threshold) |
+
+## Caption
+
+| Token | Font Family | Size | Line Height | Tracking | Weight | WCAG Class | Notes |
+|---|---|---|---|---|---|---|---|
+| `caption-regular` | ABC Diatype | 12px | 18px | 0 | 400 | Standard · 4.5:1 | ⚠️ Advisory — must never be used for critical or actionable content |
+| `caption-medium` | ABC Diatype | 12px | 18px | 0 | 500 | Standard · 4.5:1 | ⚠️ Advisory — near-identical to `subtitle-sm`; evaluate consolidation |
+| `caption-bold` | ABC Diatype | 12px | 18px | 0 | 700 | Standard · 4.5:1 | ⚠️ Advisory — 12px/700 does NOT qualify as large text; requires 4.5:1 |
+
+---
+
+# Spacing Tokens
+
+Spacing tokens follow a two-layer architecture: **primitives** (raw scale) → **semantics** (gap, padding, radius roles). Components must consume semantic tokens exclusively — never reference primitives directly.
+
+## Primitive Scale
+
+| Token | Base | Mobile |
+|---|---|---|
+| `spacing/xxxl` | 32px | 40px |
+| `spacing/xxl` | 24px | 32px |
+| `spacing/xl` | 20px | 24px |
+| `spacing/lg` | 16px | 20px |
+| `spacing/md` | 12px | 16px |
+| `spacing/sm` | 8px | 12px |
+| `spacing/xs` | 4px | 8px |
+| `spacing/xxs` | 2px | 4px |
+| `spacing/none` | 0px | 0px |
+
+> Values without a semantic mapping (`xxs`, `md`, `xl`, `xxxl`) are available for component-level optical adjustments only.
+
+## Semantic · Gap
+
+Use in `gap`, `margin`, or `column-gap` properties. Encodes the structural relationship between elements.
+
+| Token | References | Base | Description |
+|---|---|---|---|
+| `gap/region` | `spacing/xxl` | 24px | Between the app sidebar and content area, and between nested regions |
+| `gap/section` | `spacing/xxl` | 24px | Between top-level sections within a region |
+| `gap/zone` | `spacing/lg` | 16px | Between functional zones within a section (tab bar, toolbar, data table) |
+| `gap/component` | `spacing/sm` | 8px | Between related elements within a component (name + subtitle, icon clusters) |
+| `gap/element` | `spacing/xs` | 4px | Between sub-elements within a component (icon + label, tightly paired metadata) |
+
+> `gap/region` and `gap/section` intentionally resolve to the same primitive — the semantic layer keeps them independently updatable.
+
+## Semantic · Padding
+
+Use in `padding` properties. Encodes container context.
+
+| Token | References | Base | Description |
+|---|---|---|---|
+| `padding/card-default` | `spacing/xxl` | 24px | Interior padding for standalone page-level section cards |
+| `padding/card-compact` | `spacing/lg` | 16px | Interior padding for nested or secondary cards |
+| `padding/component` | `spacing/sm` | 8px | Interior padding for small dense components (chips, badges, filter tags) |
+| `padding/element` | `spacing/xs` | 4px | Interior padding for the tightest components (icon buttons, inline labels) |
+
+## Semantic · Radius
+
+Corner radius encodes surface hierarchy — smaller radii for nested elements, larger for elevated floating surfaces.
+
+| Token | References | Description |
+|---|---|---|
+| `radius/component` | `radius/md` · 8px | Default for all interactive and container components |
+| `radius/surface` | `radius/lg` · 12px | Large elevated surfaces that float above the UI |
+| `radius/element` | `radius/sm` · 4px | Sub-elements nested inside a rounded component |
+| `radius/pill` | `radius/pill` · 9999px | Fully rounded elements — toggles, status badges, avatar chips |
+| `radius/none` | `radius/none` · 0px | Flush elements that meet a container or viewport edge |
+
+### Radius Primitives
+
+| Token | Value | Use |
+|---|---|---|
+| `radius/none` | 0px | Flush elements — table cells, inline inputs, elements meeting a container edge |
+| `radius/sm` | 4px | Sub-components — inner elements nested inside a rounded container |
+| `radius/md` | 8px | Standard components — buttons, chips, inputs, cards, popovers, dropdowns |
+| `radius/lg` | 12px | Large floating surfaces — modals, dialogs, sheets |
+| `radius/pill` | 9999px | Pill-shaped elements — toggle switches, avatar chips, status badges |
+
+> Always use `9999px` for pill shapes, not `50%` — this ensures correct rendering at any component height.

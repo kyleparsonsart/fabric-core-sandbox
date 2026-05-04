@@ -42,9 +42,10 @@
   src: url('fonts/FoundersGrotesk-700-normal.otf') format('opentype');
 }
   :root {
-    --c0:  #FFFFFF; --c1:  #F9F9F6; --c2:  #F3F3F0; --c3:  #E7E7E1;
-    --c4:  #D4D5CB; --c5:  #C3C3B3; --c6:  #878675; --c7:  #6B6758;
-    --c8:  #504E41; --c9:  #3E3E33; --c10: #1A1A1A; --c11: #FBF500;
+    /* v3 Stone primitive ramp (stone-00 → stone-100) + Sun accent */
+    --c0:  #FFFFFF; --c1:  #F9F9F6; --c2:  #EFEFEB; --c3:  #E4E5D9;
+    --c4:  #CCCDBF; --c5:  #ABAD99; --c6:  #767862; --c7:  #5F6151;
+    --c8:  #4D4D41; --c9:  #3C3D33; --c10: #12120F; --c11: #FBF500;
 
     --bg-page:         var(--c2);
     --bg-surface:      var(--c1);
@@ -219,6 +220,54 @@
     transition: color .15s, transform .15s;
   }
 
+  /* ══ TOOL CARD (bookmarklet) ══ */
+  .tool-card {
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 24px;
+    background: var(--c1); border: 2px solid var(--c0);
+    border-radius: 10px; padding: 24px 28px;
+    box-shadow: 0 2px 12px rgba(26,26,26,0.07);
+    opacity: 0; animation: cardUp 0.5s cubic-bezier(0.22,1,0.36,1) 0.45s forwards;
+  }
+  .tool-card-left { display: flex; align-items: flex-start; gap: 20px; }
+  .tool-symbol-wrap {
+    width: 44px; height: 44px; border-radius: 8px; flex-shrink: 0;
+    background: var(--c10); display: flex; align-items: center; justify-content: center;
+    color: var(--c11);
+  }
+  .tool-card-text { display: flex; flex-direction: column; gap: 4px; }
+  .tool-card-title {
+    font-family: var(--font-display); font-size: 20px; font-weight: 400;
+    letter-spacing: -0.3px; color: var(--text-primary);
+  }
+  .tool-card-desc { font-size: 12.5px; color: var(--text-secondary); line-height: 1.5; max-width: 280px; }
+  .tool-card-right { display: flex; flex-direction: column; align-items: flex-end; gap: 12px; flex-shrink: 0; }
+  .tool-bm-zone {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--c2); border: 1.5px dashed var(--c3);
+    border-radius: 8px; padding: 12px 16px;
+  }
+  .tool-bm-hint { font-size: 12px; color: var(--text-tertiary); white-space: nowrap; }
+  #tns-bm-link {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: var(--c10); color: var(--c11);
+    font-family: var(--font-ui); font-size: 13px; font-weight: 500;
+    padding: 8px 14px; border-radius: 6px;
+    cursor: grab; user-select: none; flex-shrink: 0;
+    transition: background .15s, transform .1s, box-shadow .15s;
+    box-shadow: 0 1px 3px rgba(18,18,15,.18);
+    white-space: nowrap; text-decoration: none;
+  }
+  #tns-bm-link:hover  { background: var(--c9); transform: translateY(-1px); box-shadow: 0 2px 6px rgba(18,18,15,.22); }
+  #tns-bm-link:active { cursor: grabbing; transform: translateY(0); }
+  .tool-card-meta { display: flex; align-items: center; gap: 12px; }
+  .tool-card-meta-modes { font-size: 11px; color: var(--text-tertiary); }
+  .tool-card-guide-link {
+    font-size: 12px; color: var(--text-secondary);
+    text-decoration: none; border-bottom: 1px solid var(--c4);
+    transition: color .15s, border-color .15s;
+  }
+  .tool-card-guide-link:hover { color: var(--text-primary); border-color: var(--text-primary); }
+
   /* ══ SANDBOX BUTTON ══ */
   .sandbox-btn-wrap {
     display: flex; justify-content: center;
@@ -300,59 +349,59 @@
     font-size: 12px; padding: 6px 12px; border-radius: 6px;
   }
 
-  /* Primary — Apollo Yellow */
+  /* Primary — Apollo Yellow (bg/brand/strong · sun ramp) */
   .sb-btn-primary {
-    background: #EBF212; color: #1A1A1A; border-color: transparent;
+    background: #FBF500; color: #12120F; border-color: transparent;
   }
-  .sb-btn-primary:hover   { background: #FAFF5C; }
+  .sb-btn-primary:hover   { background: #F2EC00; }
   .sb-btn-primary:active,
-  .sb-btn-primary.pressed { background: #D8E003; }
+  .sb-btn-primary.pressed { background: #E1DC21; }
   .sb-btn-primary:focus-visible {
-    box-shadow: 0 0 0 2px #fff, 0 0 0 4px #1A1A1A;
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px #12120F;
   }
 
-  /* Secondary — white + border */
+  /* Secondary — white + border (border/neutral/base · stone-20) */
   .sb-btn-secondary {
-    background: #FFFFFF; color: #1A1A1A;
-    border-color: #D4D4CC;
+    background: #FFFFFF; color: #12120F;
+    border-color: #E4E5D9;
   }
-  .sb-btn-secondary:hover   { background: #F3F3F0; }
+  .sb-btn-secondary:hover   { background: #EFEFEB; }
   .sb-btn-secondary:active,
-  .sb-btn-secondary.pressed { background: #E7E7E1; }
+  .sb-btn-secondary.pressed { background: #E4E5D9; }
   .sb-btn-secondary:focus-visible {
-    box-shadow: 0 0 0 2px #fff, 0 0 0 4px #1A1A1A;
-    border-color: #1A1A1A;
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px #12120F;
+    border-color: #12120F;
   }
 
   /* Tertiary — no bg, no border at rest */
   .sb-btn-tertiary {
-    background: transparent; color: #1A1A1A; border-color: transparent;
+    background: transparent; color: #12120F; border-color: transparent;
   }
-  .sb-btn-tertiary:hover   { background: #F3F3F0; }
+  .sb-btn-tertiary:hover   { background: #EFEFEB; }
   .sb-btn-tertiary:active,
-  .sb-btn-tertiary.pressed { background: #E7E7E1; }
+  .sb-btn-tertiary.pressed { background: #E4E5D9; }
   .sb-btn-tertiary:focus-visible {
-    box-shadow: 0 0 0 2px #fff, 0 0 0 4px #1A1A1A;
-    border-color: #1A1A1A;
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px #12120F;
+    border-color: #12120F;
   }
 
-  /* Disabled — shared across all variants */
+  /* Disabled — shared across all variants (stone-10 bg · stone-40 text) */
   .sb-btn:disabled,
   .sb-btn.disabled {
-    background: #F3F3F0; color: #AFAFA5;
+    background: #EFEFEB; color: #ABAD99;
     border-color: transparent; cursor: not-allowed;
     pointer-events: none;
   }
 
   /* Loading — grayed, spinner icon */
   .sb-btn.loading {
-    background: #F3F3F0; color: #AFAFA5;
+    background: #EFEFEB; color: #ABAD99;
     border-color: transparent; cursor: not-allowed;
     pointer-events: none;
   }
   .sb-spinner {
     width: 13px; height: 13px; flex-shrink: 0;
-    border: 1.5px solid #AFAFA5; border-top-color: #646459;
+    border: 1.5px solid #ABAD99; border-top-color: #5F6151;
     border-radius: 50%; animation: spin 0.7s linear infinite;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
@@ -406,37 +455,37 @@
   }
 
   /* simulated interactive states for demo */
-  .sb-btn.hover-demo.sb-btn-primary     { background: #FAFF5C; }
-  .sb-btn.hover-demo.sb-btn-secondary   { background: #F3F3F0; }
-  .sb-btn.hover-demo.sb-btn-tertiary    { background: #F3F3F0; }
-  .sb-btn.pressed.sb-btn-primary        { background: #D8E003; }
-  .sb-btn.pressed.sb-btn-secondary      { background: #E7E7E1; }
-  .sb-btn.pressed.sb-btn-tertiary       { background: #E7E7E1; }
-  .sb-btn.focus-visible-demo.sb-btn-primary  { box-shadow: 0 0 0 2px #fff, 0 0 0 4px #1A1A1A; }
-  .sb-btn.focus-visible-demo.sb-btn-secondary{ box-shadow: 0 0 0 2px #fff, 0 0 0 4px #1A1A1A; border-color: #1A1A1A; }
-  .sb-btn.focus-visible-demo.sb-btn-tertiary { box-shadow: 0 0 0 2px #fff, 0 0 0 4px #1A1A1A; }
+  .sb-btn.hover-demo.sb-btn-primary     { background: #F2EC00; }
+  .sb-btn.hover-demo.sb-btn-secondary   { background: #EFEFEB; }
+  .sb-btn.hover-demo.sb-btn-tertiary    { background: #EFEFEB; }
+  .sb-btn.pressed.sb-btn-primary        { background: #E1DC21; }
+  .sb-btn.pressed.sb-btn-secondary      { background: #E4E5D9; }
+  .sb-btn.pressed.sb-btn-tertiary       { background: #E4E5D9; }
+  .sb-btn.focus-visible-demo.sb-btn-primary  { box-shadow: 0 0 0 2px #fff, 0 0 0 4px #12120F; }
+  .sb-btn.focus-visible-demo.sb-btn-secondary{ box-shadow: 0 0 0 2px #fff, 0 0 0 4px #12120F; border-color: #12120F; }
+  .sb-btn.focus-visible-demo.sb-btn-tertiary { box-shadow: 0 0 0 2px #fff, 0 0 0 4px #12120F; }
 
-  /* Destroy */
+  /* Destroy (bg/feedback/destructive · red ramp) */
   .sb-btn-destroy {
-    background: #C94B35; color: #FFFFFF; border-color: transparent;
+    background: #C2001D; color: #FFFFFF; border-color: transparent;
   }
-  .sb-btn-destroy.hover-demo  { background: #D95F48; }
-  .sb-btn-destroy.pressed     { background: #9E3222; }
+  .sb-btn-destroy.hover-demo  { background: #FA0026; }
+  .sb-btn-destroy.pressed     { background: #940016; }
   .sb-btn-destroy:focus-visible,
-  .sb-btn-destroy.focus-visible-demo { box-shadow: 0 0 0 2px #fff, 0 0 0 4px #C94B35; }
-  .sb-btn-destroy:hover       { background: #D95F48; }
-  .sb-btn-destroy:active      { background: #9E3222; }
+  .sb-btn-destroy.focus-visible-demo { box-shadow: 0 0 0 2px #fff, 0 0 0 4px #940016; }
+  .sb-btn-destroy:hover       { background: #FA0026; }
+  .sb-btn-destroy:active      { background: #940016; }
 
   /* Destroy-tertiary */
   .sb-btn-destroy-tertiary {
-    background: transparent; color: #C94B35; border-color: transparent;
+    background: transparent; color: #C2001D; border-color: transparent;
   }
-  .sb-btn-destroy-tertiary.hover-demo  { background: #FBEDEB; }
-  .sb-btn-destroy-tertiary.pressed     { background: #F5D0CC; }
-  .sb-btn-destroy-tertiary:hover       { background: #FBEDEB; }
-  .sb-btn-destroy-tertiary:active      { background: #F5D0CC; }
+  .sb-btn-destroy-tertiary.hover-demo  { background: #FFE6EA; }
+  .sb-btn-destroy-tertiary.pressed     { background: #FFD6DC; }
+  .sb-btn-destroy-tertiary:hover       { background: #FFE6EA; }
+  .sb-btn-destroy-tertiary:active      { background: #FFD6DC; }
   .sb-btn-destroy-tertiary:focus-visible,
-  .sb-btn-destroy-tertiary.focus-visible-demo { box-shadow: 0 0 0 2px #fff, 0 0 0 4px #C94B35; border-color: #C94B35; }
+  .sb-btn-destroy-tertiary.focus-visible-demo { box-shadow: 0 0 0 2px #fff, 0 0 0 4px #C2001D; border-color: #C2001D; }
 
   /* AI-primary — gradient fill */
   .sb-btn-ai-primary {
@@ -496,10 +545,10 @@
   .sb-chip-selected:hover { background: var(--c9); border-color: var(--c9); }
   .sb-chip-subtle   { background: var(--c2); color: var(--text-secondary); border-color: var(--c3); }
   .sb-chip-subtle:hover { background: var(--c3); }
-  .sb-chip-info     { background: #EAF0FC; color: #1D3D58; border-color: #C2D4F0; }
-  .sb-chip-success  { background: #E5F0E8; color: #274427; border-color: #B8D4BC; }
-  .sb-chip-warning  { background: #FDF0E4; color: #602F0C; border-color: #F0D0B0; }
-  .sb-chip-danger   { background: #FBECEB; color: #6A2419; border-color: #F0C4C0; }
+  .sb-chip-info     { background: #E3EDFD; color: #0A3576; border-color: #CBDEFB; }
+  .sb-chip-success  { background: #E5FBE9; color: #0F691E; border-color: #CEF8D5; }
+  .sb-chip-warning  { background: #FFEDE0; color: #8F3E00; border-color: #FFDFC7; }
+  .sb-chip-danger   { background: #FFE6EA; color: #940016; border-color: #FFD6DC; }
   .sb-chip-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
   .sb-chip-x { font-size: 13px; line-height: 1; color: currentColor; opacity: 0.6; margin-left: 2px; }
   .sb-chip-x:hover { opacity: 1; }
@@ -512,11 +561,11 @@
     white-space: nowrap; letter-spacing: 0.1px;
   }
   .sb-badge-neutral  { background: var(--c2); color: var(--text-secondary); }
-  .sb-badge-info     { background: #EAF0FC; color: #1D3D58; }
-  .sb-badge-success  { background: #E5F0E8; color: #274427; }
-  .sb-badge-warning  { background: #FDF0E4; color: #602F0C; }
-  .sb-badge-danger   { background: #FBECEB; color: #6A2419; }
-  .sb-badge-ai       { background: #EEE8FA; color: #3F2B73; }
+  .sb-badge-info     { background: #E3EDFD; color: #0A3576; }
+  .sb-badge-success  { background: #E5FBE9; color: #0F691E; }
+  .sb-badge-warning  { background: #FFEDE0; color: #8F3E00; }
+  .sb-badge-danger   { background: #FFE6EA; color: #940016; }
+  .sb-badge-ai       { background: #F3E9FB; color: #541584; }
   .sb-badge-strong   { background: var(--c10); color: var(--c0); }
   .sb-badge-outline  { background: transparent; color: var(--text-secondary); border: 1.5px solid var(--border); }
   .sb-badge-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
@@ -941,6 +990,41 @@
       </div>
     </a>
 
+    <div class="home-section-divider">
+      <span class="home-section-divider-label">Tools</span>
+      <div class="home-section-divider-line"></div>
+    </div>
+
+    <div class="tool-card">
+      <div class="tool-card-left">
+        <div class="tool-symbol-wrap">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="3" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M2 7h16" stroke="currentColor" stroke-width="1.5"/>
+            <circle cx="4.5" cy="5" r=".8" fill="currentColor"/>
+            <circle cx="7" cy="5" r=".8" fill="currentColor"/>
+          </svg>
+        </div>
+        <div class="tool-card-text">
+          <span class="tool-card-title">TNS Token Preview</span>
+          <span class="tool-card-desc">Hover any element on live Apollo to see its semantic tokens — color, spacing, and typography — without leaving your browser.</span>
+        </div>
+      </div>
+      <div class="tool-card-right">
+        <div class="tool-bm-zone">
+          <span class="tool-bm-hint">Drag ⟶</span>
+          <a id="tns-bm-link" href="#" title="Drag to your bookmarks bar to install">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" style="flex-shrink:0"><rect x="1" y="1.5" width="11" height="9" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M1 4.5h11" stroke="currentColor" stroke-width="1.2"/></svg>
+            TNS Token Preview
+          </a>
+        </div>
+        <div class="tool-card-meta">
+          <span class="tool-card-meta-modes">Color · Spacing · Typography</span>
+          <a class="tool-card-guide-link" href="./apollo-token-preview.html" target="_blank">Full guide ↗</a>
+        </div>
+      </div>
+    </div>
+
     <div class="sandbox-btn-wrap">
       <button class="sandbox-btn" onclick="window.location.href='./sandbox.html'">
         Enter Sandbox
@@ -997,36 +1081,36 @@
       <div class="ctrl-group">
         <span class="ctrl-label">BG</span>
         <div class="swatch-picker" id="bgSwatches">
-          <div class="swatch" style="background:#FFFFFF" data-color="#FFFFFF" title="#FFFFFF" onclick="setBg(this)"></div>
-          <div class="swatch" style="background:#F9F9F6" data-color="#F9F9F6" title="#F9F9F6" onclick="setBg(this)"></div>
-          <div class="swatch" style="background:#F3F3F0" data-color="#F3F3F0" title="#F3F3F0" onclick="setBg(this)"></div>
-          <div class="swatch" style="background:#E7E7E1" data-color="#E7E7E1" title="#E7E7E1" onclick="setBg(this)"></div>
-          <div class="swatch" style="background:#D4D5CB" data-color="#D4D5CB" title="#D4D5CB" onclick="setBg(this)"></div>
-          <div class="swatch" style="background:#C3C3B3" data-color="#C3C3B3" title="#C3C3B3" onclick="setBg(this)"></div>
-          <div class="swatch" style="background:#878675" data-color="#878675" title="#878675" onclick="setBg(this)"></div>
-          <div class="swatch" style="background:#6B6758" data-color="#6B6758" title="#6B6758" onclick="setBg(this)"></div>
-          <div class="swatch" style="background:#504E41" data-color="#504E41" title="#504E41" onclick="setBg(this)"></div>
-          <div class="swatch" style="background:#3E3E33" data-color="#3E3E33" title="#3E3E33" onclick="setBg(this)"></div>
-          <div class="swatch" style="background:#1A1A1A" data-color="#1A1A1A" title="#1A1A1A" onclick="setBg(this)"></div>
-          <div class="swatch" style="background:#FBF500" data-color="#FBF500" title="#FBF500" onclick="setBg(this)"></div>
+          <div class="swatch" style="background:#FFFFFF" data-color="#FFFFFF" title="stone-00 · #FFFFFF" onclick="setBg(this)"></div>
+          <div class="swatch" style="background:#F9F9F6" data-color="#F9F9F6" title="stone-05 · #F9F9F6" onclick="setBg(this)"></div>
+          <div class="swatch" style="background:#EFEFEB" data-color="#EFEFEB" title="stone-10 · #EFEFEB" onclick="setBg(this)"></div>
+          <div class="swatch" style="background:#E4E5D9" data-color="#E4E5D9" title="stone-20 · #E4E5D9" onclick="setBg(this)"></div>
+          <div class="swatch" style="background:#CCCDBF" data-color="#CCCDBF" title="stone-30 · #CCCDBF" onclick="setBg(this)"></div>
+          <div class="swatch" style="background:#ABAD99" data-color="#ABAD99" title="stone-40 · #ABAD99" onclick="setBg(this)"></div>
+          <div class="swatch" style="background:#767862" data-color="#767862" title="stone-50 · #767862" onclick="setBg(this)"></div>
+          <div class="swatch" style="background:#5F6151" data-color="#5F6151" title="stone-60 · #5F6151" onclick="setBg(this)"></div>
+          <div class="swatch" style="background:#4D4D41" data-color="#4D4D41" title="stone-70 · #4D4D41" onclick="setBg(this)"></div>
+          <div class="swatch" style="background:#3C3D33" data-color="#3C3D33" title="stone-80 · #3C3D33" onclick="setBg(this)"></div>
+          <div class="swatch" style="background:#12120F" data-color="#12120F" title="stone-100 · #12120F" onclick="setBg(this)"></div>
+          <div class="swatch" style="background:#FBF500" data-color="#FBF500" title="sun-10 · #FBF500" onclick="setBg(this)"></div>
         </div>
       </div>
       <div class="ctrl-div"></div>
       <div class="ctrl-group">
         <span class="ctrl-label">Text</span>
         <div class="swatch-picker" id="fgSwatches">
-          <div class="swatch" style="background:#FFFFFF" data-color="#FFFFFF" title="#FFFFFF" onclick="setFg(this)"></div>
-          <div class="swatch" style="background:#F9F9F6" data-color="#F9F9F6" title="#F9F9F6" onclick="setFg(this)"></div>
-          <div class="swatch" style="background:#F3F3F0" data-color="#F3F3F0" title="#F3F3F0" onclick="setFg(this)"></div>
-          <div class="swatch" style="background:#E7E7E1" data-color="#E7E7E1" title="#E7E7E1" onclick="setFg(this)"></div>
-          <div class="swatch" style="background:#D4D5CB" data-color="#D4D5CB" title="#D4D5CB" onclick="setFg(this)"></div>
-          <div class="swatch" style="background:#C3C3B3" data-color="#C3C3B3" title="#C3C3B3" onclick="setFg(this)"></div>
-          <div class="swatch" style="background:#878675" data-color="#878675" title="#878675" onclick="setFg(this)"></div>
-          <div class="swatch" style="background:#6B6758" data-color="#6B6758" title="#6B6758" onclick="setFg(this)"></div>
-          <div class="swatch" style="background:#504E41" data-color="#504E41" title="#504E41" onclick="setFg(this)"></div>
-          <div class="swatch" style="background:#3E3E33" data-color="#3E3E33" title="#3E3E33" onclick="setFg(this)"></div>
-          <div class="swatch" style="background:#1A1A1A" data-color="#1A1A1A" title="#1A1A1A" onclick="setFg(this)"></div>
-          <div class="swatch" style="background:#FBF500" data-color="#FBF500" title="#FBF500" onclick="setFg(this)"></div>
+          <div class="swatch" style="background:#FFFFFF" data-color="#FFFFFF" title="stone-00 · #FFFFFF" onclick="setFg(this)"></div>
+          <div class="swatch" style="background:#F9F9F6" data-color="#F9F9F6" title="stone-05 · #F9F9F6" onclick="setFg(this)"></div>
+          <div class="swatch" style="background:#EFEFEB" data-color="#EFEFEB" title="stone-10 · #EFEFEB" onclick="setFg(this)"></div>
+          <div class="swatch" style="background:#E4E5D9" data-color="#E4E5D9" title="stone-20 · #E4E5D9" onclick="setFg(this)"></div>
+          <div class="swatch" style="background:#CCCDBF" data-color="#CCCDBF" title="stone-30 · #CCCDBF" onclick="setFg(this)"></div>
+          <div class="swatch" style="background:#ABAD99" data-color="#ABAD99" title="stone-40 · #ABAD99" onclick="setFg(this)"></div>
+          <div class="swatch" style="background:#767862" data-color="#767862" title="stone-50 · #767862" onclick="setFg(this)"></div>
+          <div class="swatch" style="background:#5F6151" data-color="#5F6151" title="stone-60 · #5F6151" onclick="setFg(this)"></div>
+          <div class="swatch" style="background:#4D4D41" data-color="#4D4D41" title="stone-70 · #4D4D41" onclick="setFg(this)"></div>
+          <div class="swatch" style="background:#3C3D33" data-color="#3C3D33" title="stone-80 · #3C3D33" onclick="setFg(this)"></div>
+          <div class="swatch" style="background:#12120F" data-color="#12120F" title="stone-100 · #12120F" onclick="setFg(this)"></div>
+          <div class="swatch" style="background:#FBF500" data-color="#FBF500" title="sun-10 · #FBF500" onclick="setFg(this)"></div>
         </div>
       </div>
     </div>
@@ -1312,7 +1396,7 @@
         <div class="ed-eyebrow">Overview</div>
         <h2 class="ed-h2">A deliberate palette</h2>
         <p class="ed-body">Apollo's color system is built around a single warm neutral scale — not a traditional multi-hue design system palette. This is intentional. Apollo is a data-dense platform where color competes with user-generated content: names, company logos, status chips, email threads. A neutral foundation ensures the interface recedes when it should, and the user's data takes center stage.</p>
-        <p class="ed-body">Apollo Yellow (the <code>apollo</code> ramp, default <code>#EBF212</code>) is the sole expressive accent. Its use is reserved for brand-anchored moments — not status colors, not interactive states.</p>
+        <p class="ed-body">Apollo Yellow (the <code>sun</code> ramp, default <code>#FBF500</code> · <code>sun-10</code>) is the sole expressive accent. Its use is reserved for brand-anchored moments — not status colors, not interactive states.</p>
         <div class="guid-principles-list">
           <div class="guid-principle-row guid-plain-row"><div class="guid-principle-row-body"><div class="guid-principle-row-title">Scannability</div><div class="guid-principle-row-desc">Neutral backgrounds and high-contrast text let users scan dense tables and lead lists without visual fatigue.</div></div></div>
           <div class="guid-principle-row guid-plain-row"><div class="guid-principle-row-body"><div class="guid-principle-row-title">Content first</div><div class="guid-principle-row-desc">The interface shouldn't compete with user data. Warm neutrals subordinate the chrome so leads, contacts, and metrics stand out.</div></div></div>
@@ -1326,7 +1410,7 @@
         <div class="sp-table" style="margin-top:24px;">
           <div class="sp-thead col-surface-head"><div class="sp-th">Token</div><div class="sp-th">Value</div><div class="sp-th">Use</div></div>
           <div class="sp-tbody">
-            <div class="sp-tr col-surface-tr"><div class="sp-td"><span class="sp-token-name">bg/neutral/background/default</span></div><div class="sp-td col-val-with-swatch"><span class="col-swatch-inline" style="background:#F3F3F0;"></span><span class="sp-val-tag">#F3F3F0</span></div><div class="sp-td-desc">Base layer — the page background behind all cards and panels</div></div>
+            <div class="sp-tr col-surface-tr"><div class="sp-td"><span class="sp-token-name">bg/neutral/background/default</span></div><div class="sp-td col-val-with-swatch"><span class="col-swatch-inline" style="background:#EFEFEB;"></span><span class="sp-val-tag">#EFEFEB</span></div><div class="sp-td-desc">Base layer — the page background behind all cards and panels</div></div>
             <div class="sp-tr col-surface-tr"><div class="sp-td"><span class="sp-token-name">bg/neutral/middleground/default</span></div><div class="sp-td col-val-with-swatch"><span class="col-swatch-inline" style="background:#F9F9F6;"></span><span class="sp-val-tag">#F9F9F6</span></div><div class="sp-td-desc">Sidebars, panels, nav — sit between page and foreground</div></div>
             <div class="sp-tr col-surface-tr"><div class="sp-td"><span class="sp-token-name">bg/neutral/foreground/default</span></div><div class="sp-td col-val-with-swatch"><span class="col-swatch-inline" style="background:#FFFFFF;"></span><span class="sp-val-tag">#FFFFFF</span></div><div class="sp-td-desc">Cards, modals, drawers — the primary elevated surface</div></div>
           </div>
@@ -1403,7 +1487,7 @@ window.addEventListener('popstate', function(e) {
   showPage(e.state && e.state.page ? e.state.page : null);
 });
 
-let customBg = '#FFFFFF', customFg = '#1A1A1A';
+let customBg = '#FFFFFF', customFg = '#12120F';
 
 function lum(hex) {
   hex = hex.replace('#','');
@@ -1423,7 +1507,7 @@ function setActiveSwatch(containerId, color) {
 function setBg(el) { customBg = el.dataset.color; setActiveSwatch('bgSwatches', customBg); refreshAll(); }
 function setFg(el) { customFg = el.dataset.color; setActiveSwatch('fgSwatches', customFg); refreshAll(); }
 
-const DARK_BG = new Set(['#504E41','#3E3E33','#1A1A1A']);
+const DARK_BG = new Set(['#4D4D41','#3C3D33','#12120F']);
 
 function buildCards() {
   const grid = document.getElementById('tokensGrid');
@@ -1491,7 +1575,7 @@ function buildCards() {
     grid.appendChild(card);
   });
   setActiveSwatch('bgSwatches','#FFFFFF');
-  setActiveSwatch('fgSwatches','#1A1A1A');
+  setActiveSwatch('fgSwatches','#12120F');
   refreshAll();
 }
 
@@ -2024,10 +2108,10 @@ function buildSandbox() {
     { cls:'sb-chip-selected', label:'Owner' },
     { cls:'sb-chip-default',  label:'Company', x:true },
     { cls:'sb-chip-subtle',   label:'Inactive' },
-    { cls:'sb-chip-info',     label:'In progress', dot:'#447AAF' },
-    { cls:'sb-chip-success',  label:'Qualified',   dot:'#4E5C33' },
-    { cls:'sb-chip-warning',  label:'Needs review',dot:'#602F0C' },
-    { cls:'sb-chip-danger',   label:'Blocked',     dot:'#6A2419' },
+    { cls:'sb-chip-info',     label:'In progress', dot:'#0E4BA7' },
+    { cls:'sb-chip-success',  label:'Qualified',   dot:'#0F691E' },
+    { cls:'sb-chip-warning',  label:'Needs review',dot:'#8F3E00' },
+    { cls:'sb-chip-danger',   label:'Blocked',     dot:'#940016' },
   ];
   chipEl.innerHTML = chips.map(c =>
     `<span class="sb-chip ${c.cls}">
@@ -2041,10 +2125,10 @@ function buildSandbox() {
   const badgeEl = document.getElementById('sb-badges');
   const badges = [
     { cls:'sb-badge-neutral', label:'Draft' },
-    { cls:'sb-badge-info',    label:'New',      dot:'#447AAF' },
-    { cls:'sb-badge-success', label:'Active',   dot:'#4E5C33' },
-    { cls:'sb-badge-warning', label:'Pending',  dot:'#602F0C' },
-    { cls:'sb-badge-danger',  label:'Overdue',  dot:'#6A2419' },
+    { cls:'sb-badge-info',    label:'New',      dot:'#0E4BA7' },
+    { cls:'sb-badge-success', label:'Active',   dot:'#0F691E' },
+    { cls:'sb-badge-warning', label:'Pending',  dot:'#8F3E00' },
+    { cls:'sb-badge-danger',  label:'Overdue',  dot:'#940016' },
     { cls:'sb-badge-ai',      label:'✦ AI' },
     { cls:'sb-badge-strong',  label:'Pro' },
     { cls:'sb-badge-outline', label:'Beta' },
@@ -2058,6 +2142,148 @@ function buildSandbox() {
     </span>`
   ).join('');
 }
+
+// ── TNS Token Preview bookmarklet ──────────────────────────────────
+(function() {
+  const BOOKMARKLET_SOURCE = `(function(){
+  const ID='__tns_panel__';
+  const existing=document.getElementById(ID);
+  if(existing){existing.remove();document.body.style.cursor='';return;}
+  const COLOR_MAP={
+    '#12120f':'fg/neutral/default (stone-90)',
+    '#ffffff':'bg/neutral/surface (stone-00)',
+    '#f9f9f6':'bg/neutral/subtle (stone-05)',
+    '#efefeb':'bg/neutral/background (stone-10)',
+    '#e4e5d9':'border/neutral/default (stone-20)',
+    '#cccdbf':'border/neutral/subtle (stone-30)',
+    '#abad99':'fg/neutral/muted (stone-40)',
+    '#767862':'fg/neutral/placeholder (stone-50)',
+    '#5f6151':'fg/neutral/subtle (stone-60)',
+    '#4d4d41':'fg/neutral/strong (stone-70)',
+    '#3c3d33':'fg/neutral/stronger (stone-80)',
+    '#fbf500':'bg/brand/strong/default (sun-10)',
+    '#f2ec00':'bg/brand/strong/hover (sun-20)',
+    '#e1dc21':'bg/brand/strong/pressed (sun-30)',
+    '#c2001d':'fg/danger/default (red-60)',
+    '#fa0026':'fg/danger/hover (red-50)',
+    '#940016':'fg/danger/strong (red-70)',
+    '#ffe6ea':'bg/danger/subtle (red-10)',
+    '#ffd6dc':'border/danger (red-20)',
+    '#0e4ba7':'fg/info/default (blue-60)',
+    '#e3edfd':'bg/info/subtle (blue-10)',
+    '#cbdefb':'border/info (blue-20)',
+    '#0f691e':'fg/success/default (green-60)',
+    '#e5fbe9':'bg/success/subtle (green-10)',
+    '#cef8d5':'border/success (green-20)',
+    '#541584':'fg/ai/default (purple-60)',
+    '#f3e9fb':'bg/ai/subtle (purple-10)',
+    '#8f3e00':'fg/warning/default (orange-60)',
+    '#ffede0':'bg/warning/subtle (orange-10)',
+    '#ffdfc7':'border/warning (orange-20)',
+  };
+  const SPACING_MAP={
+    '4px':'spacing-1 · gap/element · padding/element',
+    '8px':'spacing-2 · gap/component · padding/component',
+    '16px':'spacing-4 · gap/zone · padding/card-compact',
+    '24px':'spacing-6 · gap/section · padding/card-default',
+    '32px':'spacing-8 · gap/region',
+    '48px':'spacing-12',
+    '64px':'spacing-16',
+  };
+  const TYPE_MAP={
+    '32px-400':'display-lg · FoundersGrotesk',
+    '28px-400':'display-sm · FoundersGrotesk',
+    '24px-400':'title-lg · FoundersGrotesk',
+    '20px-500':'title-md',
+    '18px-500':'title-sm',
+    '16px-600':'subtitle-lg',
+    '16px-400':'body-lg',
+    '14px-600':'subtitle-sm',
+    '14px-500':'label-md',
+    '14px-400':'body-md',
+    '13px-400':'body-sm',
+    '12px-400':'caption-lg',
+    '11px-500':'caption-sm',
+  };
+  function rgbToHex(rgb){
+    const m=rgb.match(/rgba?\\\\((\\\\d+),\\\\s*(\\\\d+),\\\\s*(\\\\d+)/);
+    if(!m)return rgb.toLowerCase();
+    return '#'+[m[1],m[2],m[3]].map(n=>parseInt(n).toString(16).padStart(2,'0')).join('');
+  }
+  function rows(label,val,tok){
+    const dot=tok?'🟢':'🔴';
+    return '<div style="display:flex;gap:6px;align-items:baseline;padding:3px 0;border-bottom:1px solid rgba(18,18,15,.06)">'+
+      '<span style="width:6px;flex-shrink:0;margin-top:4px">'+dot+'</span>'+
+      '<span style="font-size:11px;color:#5F6151;width:60px;flex-shrink:0">'+label+'</span>'+
+      '<span style="font-size:11px;font-family:monospace;color:'+(tok?'#12120F':'#C2001D')+';word-break:break-all">'+
+        (tok||('<span style=\\'color:#C2001D\\'>raw: '+val+'</span>'))+
+      '</span></div>';
+  }
+  const panel=document.createElement('div');
+  panel.id=ID;
+  panel.style.cssText='position:fixed;bottom:16px;right:16px;width:340px;max-height:480px;overflow-y:auto;background:#FFFFFF;border:1px solid #E4E5D9;border-radius:14px;box-shadow:0 8px 32px rgba(18,18,15,.14);z-index:999999;font-family:system-ui,sans-serif';
+  const header=document.createElement('div');
+  header.style.cssText='display:flex;align-items:center;justify-content:space-between;padding:12px 16px 10px;border-bottom:1px solid #EFEFEB;position:sticky;top:0;background:#FFFFFF;border-radius:14px 14px 0 0';
+  header.innerHTML='<div style="display:flex;align-items:center;gap:8px"><div style="width:20px;height:20px;background:#12120F;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#FBF500;font-size:9px;font-weight:700">F</div><span style="font-size:13px;font-weight:600;color:#12120F">TNS Token Preview</span></div><button onclick="document.getElementById(\\''+ID+'\\').remove();document.body.style.cursor=\\'\\'" style="background:none;border:none;cursor:pointer;color:#ABAD99;font-size:16px;line-height:1;padding:2px 4px">×</button>';
+  panel.appendChild(header);
+  let activeMode='color';
+  const tabBar=document.createElement('div');
+  tabBar.style.cssText='display:flex;gap:2px;padding:8px 12px 0;background:#F9F9F6;';
+  ['color','spacing','type'].forEach(mode=>{
+    const t=document.createElement('button');
+    t.textContent={color:'Color',spacing:'Spacing',type:'Type'}[mode];
+    t.dataset.mode=mode;
+    t.style.cssText='font-size:11px;font-weight:500;padding:4px 10px;border-radius:6px;border:none;cursor:pointer;background:transparent;color:#5F6151';
+    t.onclick=()=>{activeMode=mode;document.querySelectorAll(\\'[data-mode]\\').forEach(b=>{b.style.background=b.dataset.mode===mode?\\'#FFFFFF\\':\\'transparent\\';b.style.color=b.dataset.mode===mode?\\'#12120F\\':\\'#5F6151\\';});};
+    tabBar.appendChild(t);
+  });
+  panel.appendChild(tabBar);
+  tabBar.querySelector(\\'[data-mode="color"]\\').style.background=\\'#FFFFFF\\';
+  tabBar.querySelector(\\'[data-mode="color"]\\').style.color=\\'#12120F\\';
+  const body=document.createElement('div');
+  body.style.cssText='padding:12px 16px 16px';
+  const hint=document.createElement('div');
+  hint.style.cssText='font-size:12px;color:#ABAD99;padding:12px 0';
+  hint.textContent='Hover an element to inspect tokens…';
+  body.appendChild(hint);
+  panel.appendChild(body);
+  document.body.appendChild(panel);
+  let lastEl=null;
+  function inspect(el){
+    if(el===lastEl||el===panel||panel.contains(el))return;
+    lastEl=el;
+    const cs=getComputedStyle(el);
+    let html='';
+    if(activeMode==='color'){
+      [['Color',cs.color],['Bg',cs.backgroundColor],['Border',cs.borderTopColor]].forEach(([label,val])=>{
+        if(!val||val==='rgba(0, 0, 0, 0)'||val==='transparent')return;
+        const hex=rgbToHex(val);
+        html+=rows(label,hex,COLOR_MAP[hex.toLowerCase()]||null);
+      });
+      if(!html)html='<div style="font-size:12px;color:#ABAD99;padding:6px 0">No color properties on this element.</div>';
+    } else if(activeMode==='spacing'){
+      const seen=new Set();
+      [['Pad T',cs.paddingTop],['Pad R',cs.paddingRight],['Pad B',cs.paddingBottom],['Pad L',cs.paddingLeft],['Mar T',cs.marginTop],['Gap',cs.gap]].forEach(([label,val])=>{
+        if(!val||val==='0px'||val==='normal'||seen.has(label))return;
+        seen.add(label);
+        html+=rows(label,val,SPACING_MAP[val]||null);
+      });
+      if(!html)html='<div style="font-size:12px;color:#ABAD99;padding:6px 0">No spacing on this element.</div>';
+    } else if(activeMode==='type'){
+      const size=cs.fontSize,weight=cs.fontWeight;
+      html+=rows(\\'Size\\',size,TYPE_MAP[size+\\'-\\'+weight]||null);
+      html+=\\'<div style="font-size:11px;color:#5F6151;padding:3px 0"><span style="width:60px;display:inline-block">Family</span>\\'+cs.fontFamily.split(\\',\\')[0].replace(/[\\'"]/g,\\'\\')+'</div>';
+      html+=\\'<div style="font-size:11px;color:#5F6151;padding:3px 0"><span style="width:60px;display:inline-block">Weight</span>\\'+weight+\\'</div>\\';
+    }
+    body.innerHTML=html||'<div style="font-size:12px;color:#ABAD99;padding:6px 0">Nothing detected.</div>';
+  }
+  document.addEventListener('mouseover',e=>inspect(e.target),{passive:true});
+  document.body.style.cursor='crosshair';
+})();`;
+
+  const el = document.getElementById('tns-bm-link');
+  if (el) el.href = 'javascript:' + encodeURIComponent(BOOKMARKLET_SOURCE);
+})();
 
 // On direct load, check URL for a page slug (must run after all data consts are initialized)
 (function() {
