@@ -995,44 +995,46 @@
       <div class="home-section-divider-line"></div>
     </div>
 
-    <div class="tool-card">
-      <div class="tool-card-left">
-        <div class="tool-symbol-wrap">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="2" y="3" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/>
-            <path d="M2 7h16" stroke="currentColor" stroke-width="1.5"/>
-            <circle cx="4.5" cy="5" r=".8" fill="currentColor"/>
-            <circle cx="7" cy="5" r=".8" fill="currentColor"/>
+    <a class="analytics-card" href="./apollo-token-preview.html" style="animation-delay:0.45s">
+      <div class="analytics-card-left">
+        <div class="analytics-symbol-wrap">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="2" width="8" height="8" rx="1.5" fill="var(--c5)"/>
+            <rect x="12" y="2" width="8" height="8" rx="1.5" fill="var(--c7)"/>
+            <rect x="2" y="12" width="8" height="8" rx="1.5" fill="var(--c8)"/>
+            <rect x="12" y="12" width="8" height="8" rx="1.5" fill="var(--c6)"/>
           </svg>
         </div>
-        <div class="tool-card-text">
-          <span class="tool-card-title">TNS Token Preview <span style="font-size:0.7em;font-weight:500;opacity:0.4;letter-spacing:0;">(WIP)</span></span>
-          <span class="tool-card-desc">Hover any element on live Apollo to see its semantic tokens — color, spacing, and typography — without leaving your browser.</span>
+        <div class="analytics-card-text">
+          <span class="analytics-card-title">Fabric Token Previewer <span style="font-size:0.55em;font-weight:500;opacity:0.4;letter-spacing:0;vertical-align:middle;">(WIP)</span></span>
+          <span class="analytics-card-desc">Inspect and remap live semantic tokens directly on app.apollo.io — see how every color token translates to its v2 Northstar equivalent without leaving your browser.</span>
         </div>
       </div>
-      <div class="tool-card-right">
-        <div class="tool-bm-zone">
-          <span class="tool-bm-hint">Drag ⟶</span>
-          <a id="tns-bm-link" href="#" title="Drag to your bookmarks bar to install">
-            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" style="flex-shrink:0"><rect x="1" y="1.5" width="11" height="9" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M1 4.5h11" stroke="currentColor" stroke-width="1.2"/></svg>
-            TNS Token Preview
-          </a>
-        </div>
-        <div class="tool-card-meta">
-          <span class="tool-card-meta-modes">Color · Spacing · Typography</span>
-          <a class="tool-card-guide-link" href="./apollo-token-preview.html" target="_blank">Full guide ↗</a>
-        </div>
+      <div class="analytics-card-right">
+        <span class="card-arrow-inline">↗</span>
       </div>
-    </div>
+    </a>
 
-    <div class="sandbox-btn-wrap">
-      <button class="sandbox-btn" onclick="window.location.href='./sandbox.html'">
-        Enter Sandbox
-        <svg class="sandbox-btn-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </button>
-    </div>
+    <a class="analytics-card" href="./sandbox.html" style="animation-delay:0.55s">
+      <div class="analytics-card-left">
+        <div class="analytics-symbol-wrap">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="2" width="18" height="7" rx="1.5" fill="var(--c5)"/>
+            <rect x="2" y="13" width="8" height="7" rx="1.5" fill="var(--c7)"/>
+            <rect x="12" y="13" width="8" height="7" rx="1.5" fill="var(--c8)"/>
+          </svg>
+        </div>
+        <div class="analytics-card-text">
+          <span class="analytics-card-title">Component Sandbox</span>
+          <span class="analytics-card-desc">Hands-on explorations of existing Apollo components redesigned with the Northstar token system — refining visual quality, consistency, and interaction feel at the component level.</span>
+        </div>
+      </div>
+      <div class="analytics-card-right">
+        <span class="card-arrow-inline">↗</span>
+      </div>
+    </a>
+
+    <a id="tns-bm-link" href="#" style="display:none"></a>
   </div>
 </div>
 
