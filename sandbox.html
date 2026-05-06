@@ -518,16 +518,16 @@
     align-items: center;
     gap: 2px;
     border-radius: 16px;
-    background: #F6F2EF;
-    color: var(--Human-70);
+    background: #E4E5D9; /* stone-20 */
+    color: #2F2F27;      /* stone-90 — 7:1 contrast on stone-20 */
     font-size: 11px;
     font-weight: 500;
     line-height: 1;
     flex-shrink: 0;
   }
   .chip-filter.is-active .chip-badge {
-    background: #F6F2EF;
-    color: var(--Human-80);
+    background: #CCCDBF; /* stone-30 — darker on active stone-10 chip */
+    color: #12120F;      /* stone-100 */
   }
 
   /* ── ACTION CHIP ── */
@@ -590,7 +590,7 @@
   /* Chip groups layout — single flat grid, display:contents flattens wrappers */
   .chip-groups {
     display: grid;
-    grid-template-columns: 88px repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 1px;
     background: var(--Human-40);
     border: 1px solid var(--Human-40);
@@ -1018,10 +1018,10 @@
   }
 
   .field-hint {
-    /* caption-medium: 12px / 500 / 18px */
+    /* subtext-regular: 12px / 400 / 18px */
     font-family: 'ABC Diatype', sans-serif;
     font-size: 12px;
-    font-weight: 500;
+    font-weight: 400;
     letter-spacing: 0;
     color: #4D4D41; /* stone-70 */
     line-height: 18px;
@@ -1225,6 +1225,10 @@
   [data-theme="dark"] .btn-ai-secondary:hover  { background: #541584; border-color: #DAB8F4; color: #F3E9FB; }
   [data-theme="dark"] .btn-ai-secondary:active { background: #7540BE; border-color: #BE83EC; color: #FFFFFF; }
 
+  [data-theme="dark"] .btn-brand {
+    color: #12120F; /* stone-100 — yellow bg stays yellow; keep dark label + icon */
+  }
+
   /* ── Badges ── */
   [data-theme="dark"] .badge-neutral  { background: #4D4D41; color: #F9F9F6; } /* stone-70 / stone-05 */
   [data-theme="dark"] .badge-info     { background: #0A3576; color: #E3EDFD; } /* blue-70 / blue-10 */
@@ -1239,6 +1243,13 @@
   [data-theme="dark"] .badge-caution .badge-dot  { background: #FFA35C; } /* orange-40 */
   [data-theme="dark"] .badge-negative .badge-dot { background: #FF6B81; } /* red-40 */
   [data-theme="dark"] .badge-ai .badge-dot       { background: #BE83EC; } /* purple-40 */
+
+  /* Status chip dot dark mode — inline styles need explicit overrides */
+  [data-theme="dark"] .chip-status-info .badge-dot     { background: #69A0F3 !important; } /* blue-40 */
+  [data-theme="dark"] .chip-status-positive .badge-dot { background: #5FE876 !important; } /* green-40 */
+  [data-theme="dark"] .chip-status-caution .badge-dot  { background: #FFA35C !important; } /* orange-40 */
+  [data-theme="dark"] .chip-status-negative .badge-dot { background: #FF6B81 !important; } /* red-40 */
+  [data-theme="dark"] .chip-status-ai .badge-dot       { background: #BE83EC !important; } /* purple-40 */
 
   /* ── Status Chips ── */
   [data-theme="dark"] .chip-status-info {
@@ -1280,6 +1291,23 @@
   }
   [data-theme="dark"] .chip-status-ai:hover  { background: #7540BE; border-color: #DAB8F4; }
   [data-theme="dark"] .chip-status-ai:active { background: #9A5ADE; border-color: #EAD7F9; color: #FFFFFF; }
+
+  /* ── Chips ── */
+  /* Dismiss button — light tint on dark bg */
+  [data-theme="dark"] .chip-dismiss:hover  { background: rgba(255, 255, 255, 0.10); }
+  [data-theme="dark"] .chip-dismiss:active { background: rgba(255, 255, 255, 0.18); transform: scale(0.98); }
+  [data-theme="dark"] .chip-filter.is-active .chip-dismiss:hover  { background: rgba(255, 255, 255, 0.12); }
+  [data-theme="dark"] .chip-filter.is-active .chip-dismiss:active { background: rgba(255, 255, 255, 0.20); }
+
+  /* Count badge */
+  [data-theme="dark"] .chip-badge {
+    background: #4D4D41; /* stone-70 */
+    color: #F9F9F6;      /* stone-05 */
+  }
+  [data-theme="dark"] .chip-filter.is-active .chip-badge {
+    background: #5F6151; /* stone-60 */
+    color: #EFEFEB;      /* stone-10 */
+  }
 
   /* ── Radios ── */
   [data-theme="dark"] .radio-input {
@@ -1471,7 +1499,7 @@
   <div class="section">
     <div class="component-grid" style="grid-template-columns: repeat(4, 1fr);">
       <div class="variant-col">
-        <button class="btn btn-brand"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10.8549 1.29169L10.8577 7.65867C10.8581 8.66454 9.7879 9.30946 8.89873 8.83915L2.51572 5.46321C3.00253 4.66201 3.6147 3.94563 4.32441 3.34027L9.33057 7.96698C9.59584 8.21207 10.014 7.94633 9.90473 7.60215L7.96331 1.4886C8.61679 1.33289 9.29838 1.25 9.99936 1.25C10.2881 1.25 10.5733 1.26435 10.8549 1.29169Z" fill="#2B2826"/><path d="M9.12285 18.7064L9.12004 12.3715C9.11965 11.3656 10.1898 10.7207 11.079 11.191L17.4643 14.5682C16.9742 15.3673 16.3593 16.0813 15.6467 16.6839L10.6472 12.0632C10.3819 11.8181 9.96374 12.0838 10.073 12.428L12.0071 18.5185C11.3627 18.6697 10.6909 18.75 10.0003 18.75C9.70419 18.75 9.41138 18.7352 9.12285 18.7064Z" fill="#2B2826"/><path d="M12.0369 9.3572L16.6731 4.34114C16.0682 3.62864 15.3517 3.01397 14.55 2.52495L11.1646 8.92538C10.6942 9.81452 11.3393 10.8848 12.3452 10.8843L18.706 10.8815C18.735 10.5916 18.75 10.2975 18.75 9.99999C18.75 9.30805 18.6693 8.63501 18.5175 7.98941L12.4017 9.93135C12.0575 10.0406 11.7918 9.62246 12.0369 9.3572Z" fill="#2B2826"/><path d="M1.2913 9.14867L7.63282 9.14585C8.63883 9.14547 9.28377 10.2156 8.81344 11.1048L5.44543 17.4722C4.64681 16.9844 3.93274 16.3719 3.32968 15.6622L7.94124 10.6729C8.18634 10.4077 7.92049 9.98952 7.5763 10.0988L1.48773 12.0321C1.33261 11.38 1.25 10.6997 1.25 9.99999C1.25 9.71273 1.26425 9.42876 1.2913 9.14867Z" fill="#2B2826"/></svg>Button</button>
+        <button class="btn btn-brand"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10.8549 1.29169L10.8577 7.65867C10.8581 8.66454 9.7879 9.30946 8.89873 8.83915L2.51572 5.46321C3.00253 4.66201 3.6147 3.94563 4.32441 3.34027L9.33057 7.96698C9.59584 8.21207 10.014 7.94633 9.90473 7.60215L7.96331 1.4886C8.61679 1.33289 9.29838 1.25 9.99936 1.25C10.2881 1.25 10.5733 1.26435 10.8549 1.29169Z" fill="currentColor"/><path d="M9.12285 18.7064L9.12004 12.3715C9.11965 11.3656 10.1898 10.7207 11.079 11.191L17.4643 14.5682C16.9742 15.3673 16.3593 16.0813 15.6467 16.6839L10.6472 12.0632C10.3819 11.8181 9.96374 12.0838 10.073 12.428L12.0071 18.5185C11.3627 18.6697 10.6909 18.75 10.0003 18.75C9.70419 18.75 9.41138 18.7352 9.12285 18.7064Z" fill="currentColor"/><path d="M12.0369 9.3572L16.6731 4.34114C16.0682 3.62864 15.3517 3.01397 14.55 2.52495L11.1646 8.92538C10.6942 9.81452 11.3393 10.8848 12.3452 10.8843L18.706 10.8815C18.735 10.5916 18.75 10.2975 18.75 9.99999C18.75 9.30805 18.6693 8.63501 18.5175 7.98941L12.4017 9.93135C12.0575 10.0406 11.7918 9.62246 12.0369 9.3572Z" fill="currentColor"/><path d="M1.2913 9.14867L7.63282 9.14585C8.63883 9.14547 9.28377 10.2156 8.81344 11.1048L5.44543 17.4722C4.64681 16.9844 3.93274 16.3719 3.32968 15.6622L7.94124 10.6729C8.18634 10.4077 7.92049 9.98952 7.5763 10.0988L1.48773 12.0321C1.33261 11.38 1.25 10.6997 1.25 9.99999C1.25 9.71273 1.26425 9.42876 1.2913 9.14867Z" fill="currentColor"/></svg>Button</button>
         <span class="variant-name">Brand</span>
       </div>
       <div class="variant-col">
@@ -1515,7 +1543,6 @@
 
     <!-- Selection -->
     <div class="chip-group">
-      <div class="chip-group-label">Selection</div>
       <div class="chip-row">
         <div class="variant-col">
           <div class="chip chip-selection" onclick="this.classList.toggle('is-selected')">Label</div>
@@ -1546,12 +1573,11 @@
 
     <!-- Filter -->
     <div class="chip-group">
-      <div class="chip-group-label">Filter</div>
       <div class="chip-row">
         <div class="variant-col">
           <div class="chip chip-filter">
             Owner
-            <span class="chip-dismiss" onclick="(function(el){var chip=el.closest('.chip');chip.classList.add('is-dismissing');setTimeout(function(){chip.closest('.variant-col').style.display='none';},260);})(this)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex-shrink:0;"><path d="M8.00037 8.78555L12.052 12.8372L12.8376 12.0515L8.78604 7.99988L12.8376 3.94827L12.052 3.1626L8.00037 7.21421L3.94876 3.1626L3.16309 3.94827L7.21469 7.99988L3.16309 12.0515L3.94876 12.8372L8.00037 8.78555Z" fill="#2B2926"/></svg></span>
+            <span class="chip-dismiss" onclick="(function(el){var chip=el.closest('.chip');chip.classList.add('is-dismissing');setTimeout(function(){chip.closest('.variant-col').style.display='none';},260);})(this)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex-shrink:0;"><path d="M8.00037 8.78555L12.052 12.8372L12.8376 12.0515L8.78604 7.99988L12.8376 3.94827L12.052 3.1626L8.00037 7.21421L3.94876 3.1626L3.16309 3.94827L7.21469 7.99988L3.16309 12.0515L3.94876 12.8372L8.00037 8.78555Z" fill="currentColor"/></svg></span>
           </div>
           <span class="variant-name">Default</span>
         </div>
@@ -1559,7 +1585,7 @@
           <div class="chip chip-filter is-active">
             Owner
             <span class="chip-badge">3</span>
-            <span class="chip-dismiss" onclick="(function(el){var chip=el.closest('.chip');chip.classList.add('is-dismissing');setTimeout(function(){chip.closest('.variant-col').style.display='none';},260);})(this)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex-shrink:0;"><path d="M8.00037 8.78555L12.052 12.8372L12.8376 12.0515L8.78604 7.99988L12.8376 3.94827L12.052 3.1626L8.00037 7.21421L3.94876 3.1626L3.16309 3.94827L7.21469 7.99988L3.16309 12.0515L3.94876 12.8372L8.00037 8.78555Z" fill="#2B2926"/></svg></span>
+            <span class="chip-dismiss" onclick="(function(el){var chip=el.closest('.chip');chip.classList.add('is-dismissing');setTimeout(function(){chip.closest('.variant-col').style.display='none';},260);})(this)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex-shrink:0;"><path d="M8.00037 8.78555L12.052 12.8372L12.8376 12.0515L8.78604 7.99988L12.8376 3.94827L12.052 3.1626L8.00037 7.21421L3.94876 3.1626L3.16309 3.94827L7.21469 7.99988L3.16309 12.0515L3.94876 12.8372L8.00037 8.78555Z" fill="currentColor"/></svg></span>
           </div>
           <span class="variant-name">Active + Count</span>
         </div>
@@ -1567,48 +1593,16 @@
           <div class="chip chip-filter is-active">
             Stage
             <span class="chip-badge">1</span>
-            <span class="chip-dismiss" onclick="(function(el){var chip=el.closest('.chip');chip.classList.add('is-dismissing');setTimeout(function(){chip.closest('.variant-col').style.display='none';},260);})(this)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex-shrink:0;"><path d="M8.00037 8.78555L12.052 12.8372L12.8376 12.0515L8.78604 7.99988L12.8376 3.94827L12.052 3.1626L8.00037 7.21421L3.94876 3.1626L3.16309 3.94827L7.21469 7.99988L3.16309 12.0515L3.94876 12.8372L8.00037 8.78555Z" fill="#2B2926"/></svg></span>
+            <span class="chip-dismiss" onclick="(function(el){var chip=el.closest('.chip');chip.classList.add('is-dismissing');setTimeout(function(){chip.closest('.variant-col').style.display='none';},260);})(this)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex-shrink:0;"><path d="M8.00037 8.78555L12.052 12.8372L12.8376 12.0515L8.78604 7.99988L12.8376 3.94827L12.052 3.1626L8.00037 7.21421L3.94876 3.1626L3.16309 3.94827L7.21469 7.99988L3.16309 12.0515L3.94876 12.8372L8.00037 8.78555Z" fill="currentColor"/></svg></span>
           </div>
           <span class="variant-name">Active + Count</span>
         </div>
         <div class="variant-col">
           <div class="chip chip-filter">
             Date Range
-            <span class="chip-dismiss" onclick="(function(el){var chip=el.closest('.chip');chip.classList.add('is-dismissing');setTimeout(function(){chip.closest('.variant-col').style.display='none';},260);})(this)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex-shrink:0;"><path d="M8.00037 8.78555L12.052 12.8372L12.8376 12.0515L8.78604 7.99988L12.8376 3.94827L12.052 3.1626L8.00037 7.21421L3.94876 3.1626L3.16309 3.94827L7.21469 7.99988L3.16309 12.0515L3.94876 12.8372L8.00037 8.78555Z" fill="#2B2926"/></svg></span>
+            <span class="chip-dismiss" onclick="(function(el){var chip=el.closest('.chip');chip.classList.add('is-dismissing');setTimeout(function(){chip.closest('.variant-col').style.display='none';},260);})(this)"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none" style="flex-shrink:0;"><path d="M8.00037 8.78555L12.052 12.8372L12.8376 12.0515L8.78604 7.99988L12.8376 3.94827L12.052 3.1626L8.00037 7.21421L3.94876 3.1626L3.16309 3.94827L7.21469 7.99988L3.16309 12.0515L3.94876 12.8372L8.00037 8.78555Z" fill="currentColor"/></svg></span>
           </div>
           <span class="variant-name">Default</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Action -->
-    <div class="chip-group">
-      <div class="chip-group-label">Action</div>
-      <div class="chip-row">
-        <div class="variant-col">
-          <div class="chip chip-action">Edit</div>
-          <span class="variant-name">Label only</span>
-        </div>
-        <div class="variant-col">
-          <div class="chip chip-action">
-            <svg class="chip-icon" width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-            Add
-          </div>
-          <span class="variant-name">Icon + Label</span>
-        </div>
-        <div class="variant-col">
-          <div class="chip chip-action">
-            <svg class="chip-icon" width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2 8C2 4.686 4.686 2 8 2s6 2.686 6 6-2.686 6-6 6-6-2.686-6-6z" stroke="currentColor" stroke-width="1.5"/><path d="M8 5v3l2 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-            Schedule
-          </div>
-          <span class="variant-name">Icon + Label</span>
-        </div>
-        <div class="variant-col">
-          <div class="chip chip-action">
-            Export
-            <svg class="chip-icon" width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8v5h10V8M8 2v8M5 5l3-3 3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-          <span class="variant-name">Label + Icon</span>
         </div>
       </div>
     </div>
@@ -1616,7 +1610,6 @@
 
     <!-- Status -->
     <div class="chip-group">
-      <div class="chip-group-label">Status</div>
       <div class="chip-row">
         <div class="variant-col">
           <div class="chip chip-status-info">
