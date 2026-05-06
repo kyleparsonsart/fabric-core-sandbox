@@ -1002,28 +1002,36 @@
   .field-wrap {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 0;
     width: 100%;
   }
 
   .field-label {
+    /* caption-medium: 12px / 500 / 18px */
+    font-family: 'ABC Diatype', sans-serif;
     font-size: 12px;
     font-weight: 500;
     letter-spacing: 0;
     color: #2F2F27; /* stone-90 */
-    line-height: 16px;
+    line-height: 18px;
+    margin-bottom: 6px; /* label → field gap */
   }
 
-  .field-sublabel {
-    font-size: 11px;
+  .field-hint {
+    /* caption-medium: 12px / 500 / 18px */
+    font-family: 'ABC Diatype', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0;
     color: #4D4D41; /* stone-70 */
-    margin-top: 4px;
-    line-height: 16px;
+    line-height: 18px;
+    margin-top: 4px; /* 4px field → hint gap */
   }
 
   .field-input,
   .field-select,
   .field-textarea {
+    /* body-sm-regular: 14px / 400 / 20px */
     width: 100%;
     font-family: 'ABC Diatype', sans-serif;
     font-size: 14px;
@@ -1095,10 +1103,14 @@
     box-shadow: 0 0 0 3px rgba(250, 0, 38, 0.12); /* red focus ring */
   }
   .field-error-msg {
-    font-size: 11px;
+    /* caption-medium: 12px / 500 / 18px */
+    font-family: 'ABC Diatype', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0;
     color: #940016; /* red-70 */
-    line-height: 16px;
-    margin-top: 4px;
+    line-height: 18px;
+    margin-top: 4px; /* 4px field → error msg gap */
   }
 
   /* ── Read-only ── */
@@ -1379,7 +1391,7 @@
 
   /* ── Dark mode: field labels ── */
   [data-theme="dark"] .field-label  { color: #CCCDBF; } /* stone-30 */
-  [data-theme="dark"] .field-sublabel { color: #767862; } /* stone-50 */
+  [data-theme="dark"] .field-hint { color: #767862; } /* stone-50 */
   [data-theme="dark"] .field-error-msg { color: #FF6B81; } /* already set, no change */
 
   /* ── Dark mode: field borders — bump to stone-50 for more contrast ── */
@@ -1866,7 +1878,7 @@
         <div class="field-wrap">
           <span class="field-label">Label</span>
           <input class="field-input" type="text" placeholder="Placeholder">
-          <span class="field-sublabel">Helper text</span>
+          <span class="field-hint">Hint text</span>
         </div>
         <span class="variant-name" style="margin-top:16px;">Input · Default</span>
       </div>
@@ -1886,7 +1898,7 @@
         <div class="field-wrap">
           <span class="field-label">Label</span>
           <input class="field-input field-readonly" type="text" value="Read-only value">
-          <span class="field-sublabel">Read only</span>
+          <span class="field-hint">Read only</span>
         </div>
         <span class="variant-name" style="margin-top:16px;">Input · Read-only</span>
       </div>
@@ -1896,7 +1908,7 @@
         <div class="field-wrap">
           <span class="field-label">Label</span>
           <input class="field-input" type="text" placeholder="Placeholder" disabled>
-          <span class="field-sublabel">Disabled</span>
+          <span class="field-hint">Disabled</span>
         </div>
         <span class="variant-name" style="margin-top:16px;">Input · Disabled</span>
       </div>
@@ -1913,7 +1925,7 @@
               <option>Option C</option>
             </select>
           </div>
-          <span class="field-sublabel">Helper text</span>
+          <span class="field-hint">Hint text</span>
         </div>
         <span class="variant-name" style="margin-top:16px;">Select · Default</span>
       </div>
@@ -1941,7 +1953,7 @@
               <option>Read-only value</option>
             </select>
           </div>
-          <span class="field-sublabel">Read only</span>
+          <span class="field-hint">Read only</span>
         </div>
         <span class="variant-name" style="margin-top:16px;">Select · Read-only</span>
       </div>
@@ -1955,7 +1967,7 @@
               <option value="" disabled selected>Placeholder</option>
             </select>
           </div>
-          <span class="field-sublabel">Disabled</span>
+          <span class="field-hint">Disabled</span>
         </div>
         <span class="variant-name" style="margin-top:16px;">Select · Disabled</span>
       </div>
@@ -1965,7 +1977,7 @@
         <div class="field-wrap">
           <span class="field-label">Label</span>
           <textarea class="field-textarea" placeholder="Placeholder text goes here..."></textarea>
-          <span class="field-sublabel">Helper text</span>
+          <span class="field-hint">Hint text</span>
         </div>
         <span class="variant-name" style="margin-top:16px;">Textarea · Default</span>
       </div>
@@ -1985,7 +1997,7 @@
         <div class="field-wrap">
           <span class="field-label">Label</span>
           <textarea class="field-textarea field-readonly">This content is read-only and cannot be edited by the user.</textarea>
-          <span class="field-sublabel">Read only</span>
+          <span class="field-hint">Read only</span>
         </div>
         <span class="variant-name" style="margin-top:16px;">Textarea · Read-only</span>
       </div>
@@ -1995,7 +2007,7 @@
         <div class="field-wrap">
           <span class="field-label">Label</span>
           <textarea class="field-textarea" placeholder="Placeholder text..." disabled></textarea>
-          <span class="field-sublabel">Disabled</span>
+          <span class="field-hint">Disabled</span>
         </div>
         <span class="variant-name" style="margin-top:16px;">Textarea · Disabled</span>
       </div>
