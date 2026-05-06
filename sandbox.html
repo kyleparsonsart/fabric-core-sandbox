@@ -310,46 +310,6 @@
   .btn-brand:hover  { background: #F2EC00; border-color: #C4CC00; }
   .btn-brand:active { background: #E2DC00; border-color: #B0B800; }
 
-  /* Option 3 — Primary bg one shade lighter (human/70) */
-  .btn-option3 {
-    padding: 12px var(--spacing-md);
-    background: #646459;
-    box-shadow: 0 3px 3px 0 rgba(62, 62, 51, 0.10);
-    color: #fff;
-  }
-  .btn-option3:hover  { background: #3E3E33; }
-  .btn-option3:active { background: #1A1A1A; }
-
-  /* Option 4 — ocean */
-  .btn-option4 {
-    padding: 12px var(--spacing-md);
-    background: #2B5782;
-    box-shadow: 0 3px 3px 0 rgba(29, 61, 88, 0.15);
-    color: #fff;
-  }
-  .btn-option4:hover  { background: #1D3D58; }
-  .btn-option4:active { background: #122536; }
-
-  /* Control — brand colors, no border/shadow/scale */
-  .btn-control {
-    padding: 12px var(--spacing-md);
-    border: none;
-    background: #EBF212;
-    box-shadow: none;
-    color: var(--Human-100);
-  }
-  .btn-control:hover  { background: #D8E003; }
-  .btn-control:active { background: #C4CC00; transform: none; }
-
-  /* Black */
-  .btn-black {
-    padding: 12px var(--spacing-md);
-    background: #000000;
-    box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.15);
-    color: #fff;
-  }
-  .btn-black:hover  { background: #1A1A1A; }
-  .btn-black:active { background: #3E3E33; }
 
   /* Primary — Human-80 → Human-90 → ~#0D0D0D */
   .btn-primary {
@@ -445,13 +405,6 @@
     gap: 8px;
   }
 
-  .sb-experiment-title {
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--Human-60);
-  }
 
   .variant-name {
     font-size: 10px;
@@ -1064,7 +1017,7 @@
   .field-sublabel {
     font-size: 11px;
     color: #4D4D41; /* stone-70 */
-    margin-top: -2px;
+    margin-top: 4px;
     line-height: 16px;
   }
 
@@ -1115,9 +1068,9 @@
   .field-input:focus,
   .field-select:focus,
   .field-textarea:focus {
-    background: #EFEFEB; /* stone-10 */
+    background: #F9F9F6; /* stone-05 */
     border-color: #767862; /* stone-50 */
-    box-shadow: 0 0 0 2px rgba(204, 205, 191, 0.35);
+    box-shadow: 0 0 0 3px #E3EDFD; /* blue-10 focus ring */
   }
 
   /* ── Error ── */
@@ -1137,15 +1090,15 @@
   .field-input.field-error:focus,
   .field-select.field-error:focus,
   .field-textarea.field-error:focus {
-    background: #EFEFEB;
+    background: #F9F9F6; /* stone-05 */
     border-color: #940016; /* red-70 */
-    box-shadow: 0 0 0 2px rgba(250, 0, 38, 0.15);
+    box-shadow: 0 0 0 3px rgba(250, 0, 38, 0.12); /* red focus ring */
   }
   .field-error-msg {
     font-size: 11px;
     color: #940016; /* red-70 */
     line-height: 16px;
-    margin-top: -2px;
+    margin-top: 4px;
   }
 
   /* ── Read-only ── */
@@ -1379,9 +1332,9 @@
   [data-theme="dark"] .field-input:focus,
   [data-theme="dark"] .field-select:focus,
   [data-theme="dark"] .field-textarea:focus {
-    background: #3C3D33;   /* stone-80 */
-    border-color: #ABAD99; /* stone-40 */
-    box-shadow: 0 0 0 2px rgba(95, 97, 81, 0.35);
+    background: #2F2F27;   /* stone-90 — same as default, just border + ring signals focus */
+    border-color: #69A0F3; /* blue-40 */
+    box-shadow: 0 0 0 3px rgba(105, 160, 243, 0.22); /* blue-40 focus ring */
   }
   [data-theme="dark"] .field-input.field-error,
   [data-theme="dark"] .field-select.field-error,
@@ -1423,6 +1376,43 @@
   [data-theme="dark"] .field-select-wrap::after {
     border-top-color: #ABAD99; /* stone-40 */
   }
+
+  /* ── Dark mode: field labels ── */
+  [data-theme="dark"] .field-label  { color: #CCCDBF; } /* stone-30 */
+  [data-theme="dark"] .field-sublabel { color: #767862; } /* stone-50 */
+  [data-theme="dark"] .field-error-msg { color: #FF6B81; } /* already set, no change */
+
+  /* ── Dark mode: field borders — bump to stone-50 for more contrast ── */
+  [data-theme="dark"] .field-input,
+  [data-theme="dark"] .field-select,
+  [data-theme="dark"] .field-textarea {
+    border-color: #767862; /* stone-50 — was stone-60, more visible now */
+  }
+
+  /* ── Dark mode: selection & filter chips ── */
+  [data-theme="dark"] .chip {
+    border-color: #767862; /* stone-50 — was stone-30 in light, need contrast on dark */
+    color: #CCCDBF;        /* stone-30 — readable without being harsh */
+  }
+  [data-theme="dark"] .chip-selection:hover  { background: #3C3D33; border-color: #ABAD99; }
+  [data-theme="dark"] .chip-selection:active { background: #4D4D41; border-color: #ABAD99; }
+  [data-theme="dark"] .chip-selection.is-selected {
+    background: #4D4D41;   /* stone-70 */
+    border-color: #ABAD99; /* stone-40 */
+    color: #F9F9F6;        /* stone-05 */
+  }
+  [data-theme="dark"] .chip-selection.is-selected:hover  { background: #5F6151; border-color: #CCCDBF; color: #F9F9F6; }
+  [data-theme="dark"] .chip-selection.is-selected:active { background: #767862; border-color: #E4E5D9; color: #FFFFFF; }
+
+  [data-theme="dark"] .chip-filter:hover  { background: #3C3D33; border-color: #ABAD99; }
+  [data-theme="dark"] .chip-filter:active { background: #4D4D41; border-color: #ABAD99; }
+  [data-theme="dark"] .chip-filter.is-active {
+    background: #4D4D41;   /* stone-70 */
+    border-color: #ABAD99; /* stone-40 */
+    color: #F9F9F6;        /* stone-05 */
+  }
+  [data-theme="dark"] .chip-filter.is-active:hover  { background: #5F6151; border-color: #CCCDBF; }
+  [data-theme="dark"] .chip-filter.is-active:active { background: #767862; border-color: #E4E5D9; }
 </style>
 </head>
 <body>
@@ -1503,16 +1493,6 @@
     </div>
   </div>
 
-
-  <div class="section" style="margin-top: 32px;">
-    <div class="sb-experiment-title">Primary Button Experiment</div>
-    <div class="component-grid" style="grid-template-columns: repeat(4, 1fr); margin-top: 12px;">
-      <div class="variant-col"><button class="btn btn-control">Button</button><span class="variant-name">Control</span></div>
-      <div class="variant-col"><button class="btn btn-primary">Button</button><span class="variant-name">Option 1</span></div>
-      <div class="variant-col"><button class="btn btn-option3">Button</button><span class="variant-name">Option 2</span></div>
-      <div class="variant-col"><button class="btn btn-option4">Button</button><span class="variant-name">Option 3</span></div>
-    </div>
-  </div>
 
   </div><!-- /sbpanel-buttons -->
 
@@ -1885,8 +1865,8 @@
       <div class="variant-col">
         <div class="field-wrap">
           <span class="field-label">Label</span>
-          <span class="field-sublabel">Helper text</span>
           <input class="field-input" type="text" placeholder="Placeholder">
+          <span class="field-sublabel">Helper text</span>
         </div>
         <span class="variant-name" style="margin-top:16px;">Input · Default</span>
       </div>
@@ -1895,7 +1875,6 @@
       <div class="variant-col">
         <div class="field-wrap">
           <span class="field-label">Label</span>
-          <span class="field-sublabel">Helper text</span>
           <input class="field-input field-error" type="text" value="Invalid value">
           <span class="field-error-msg">This field has an error</span>
         </div>
@@ -1906,8 +1885,8 @@
       <div class="variant-col">
         <div class="field-wrap">
           <span class="field-label">Label</span>
-          <span class="field-sublabel">Read only</span>
           <input class="field-input field-readonly" type="text" value="Read-only value">
+          <span class="field-sublabel">Read only</span>
         </div>
         <span class="variant-name" style="margin-top:16px;">Input · Read-only</span>
       </div>
@@ -1916,8 +1895,8 @@
       <div class="variant-col">
         <div class="field-wrap">
           <span class="field-label">Label</span>
-          <span class="field-sublabel">Disabled</span>
           <input class="field-input" type="text" placeholder="Placeholder" disabled>
+          <span class="field-sublabel">Disabled</span>
         </div>
         <span class="variant-name" style="margin-top:16px;">Input · Disabled</span>
       </div>
@@ -1926,7 +1905,6 @@
       <div class="variant-col">
         <div class="field-wrap">
           <span class="field-label">Label</span>
-          <span class="field-sublabel">Helper text</span>
           <div class="field-select-wrap">
             <select class="field-select">
               <option value="" disabled selected>Placeholder</option>
@@ -1935,6 +1913,7 @@
               <option>Option C</option>
             </select>
           </div>
+          <span class="field-sublabel">Helper text</span>
         </div>
         <span class="variant-name" style="margin-top:16px;">Select · Default</span>
       </div>
@@ -1943,7 +1922,6 @@
       <div class="variant-col">
         <div class="field-wrap">
           <span class="field-label">Label</span>
-          <span class="field-sublabel">Helper text</span>
           <div class="field-select-wrap">
             <select class="field-select field-error">
               <option>Invalid selection</option>
@@ -1958,12 +1936,12 @@
       <div class="variant-col">
         <div class="field-wrap">
           <span class="field-label">Label</span>
-          <span class="field-sublabel">Read only</span>
           <div class="field-select-wrap">
             <select class="field-select field-readonly">
               <option>Read-only value</option>
             </select>
           </div>
+          <span class="field-sublabel">Read only</span>
         </div>
         <span class="variant-name" style="margin-top:16px;">Select · Read-only</span>
       </div>
@@ -1972,12 +1950,12 @@
       <div class="variant-col">
         <div class="field-wrap">
           <span class="field-label">Label</span>
-          <span class="field-sublabel">Disabled</span>
           <div class="field-select-wrap">
             <select class="field-select" disabled>
               <option value="" disabled selected>Placeholder</option>
             </select>
           </div>
+          <span class="field-sublabel">Disabled</span>
         </div>
         <span class="variant-name" style="margin-top:16px;">Select · Disabled</span>
       </div>
@@ -1986,8 +1964,8 @@
       <div class="variant-col" style="grid-column: span 2;">
         <div class="field-wrap">
           <span class="field-label">Label</span>
-          <span class="field-sublabel">Helper text</span>
           <textarea class="field-textarea" placeholder="Placeholder text goes here..."></textarea>
+          <span class="field-sublabel">Helper text</span>
         </div>
         <span class="variant-name" style="margin-top:16px;">Textarea · Default</span>
       </div>
@@ -1996,7 +1974,6 @@
       <div class="variant-col" style="grid-column: span 2;">
         <div class="field-wrap">
           <span class="field-label">Label</span>
-          <span class="field-sublabel">Helper text</span>
           <textarea class="field-textarea field-error">Invalid content here</textarea>
           <span class="field-error-msg">This field has an error</span>
         </div>
@@ -2007,8 +1984,8 @@
       <div class="variant-col" style="grid-column: span 2;">
         <div class="field-wrap">
           <span class="field-label">Label</span>
-          <span class="field-sublabel">Read only</span>
           <textarea class="field-textarea field-readonly">This content is read-only and cannot be edited by the user.</textarea>
+          <span class="field-sublabel">Read only</span>
         </div>
         <span class="variant-name" style="margin-top:16px;">Textarea · Read-only</span>
       </div>
@@ -2017,8 +1994,8 @@
       <div class="variant-col" style="grid-column: span 2;">
         <div class="field-wrap">
           <span class="field-label">Label</span>
-          <span class="field-sublabel">Disabled</span>
           <textarea class="field-textarea" placeholder="Placeholder text..." disabled></textarea>
+          <span class="field-sublabel">Disabled</span>
         </div>
         <span class="variant-name" style="margin-top:16px;">Textarea · Disabled</span>
       </div>
